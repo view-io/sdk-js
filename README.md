@@ -60,7 +60,7 @@ To Generate the documentation, run the following command:
 npm run build:docs
 ```
 
-[View Documentation](doc.json)
+[View Documentation](docs/docs.md)
 
 ## Development
 

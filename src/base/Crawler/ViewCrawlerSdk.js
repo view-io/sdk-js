@@ -1,4 +1,4 @@
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import ApiErrorResponse from '../../models/ApiErrorResponse';
 import CrawlFilter from '../../models/CrawlFilter';
 import CrawlOperation from '../../models/CrawlOperation';

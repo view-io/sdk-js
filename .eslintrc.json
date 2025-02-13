@@ -26,37 +26,25 @@
         "semi": true // Enforce semicolons in Prettier
       }
     ],
-    "import/no-unresolved": 0,
-    "node/no-missing-import": 0,
-    "semi": [
-      "error",
-      "always"
-    ], // Enforce semicolons in ESLint
+    "import/no-unresolved": 1,
+    "node/no-missing-import": 2,
+    "semi": ["error", "always"], // Enforce semicolons in ESLint
     "no-console": "warn",
     "no-unused-vars": "warn",
     "array-callback-return": "warn",
     "node/no-unsupported-features/es-syntax": [
       "error",
       {
-        "ignores": [
-          "modules"
-        ]
+        "ignores": ["modules"]
       }
     ],
     "import/order": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal"
-        ]
+        "groups": ["builtin", "external", "internal"]
       }
     ]
   },
-  "plugins": [
-    "prettier",
-    "import"
-  ],
+  "plugins": ["prettier", "import"],
   "parser": "@babel/eslint-parser"
 }

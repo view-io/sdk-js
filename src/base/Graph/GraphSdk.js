@@ -1,5 +1,5 @@
 import { LoggerInstance } from '../../utils/Logger';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import { GraphRepositoryTypeEnum } from '../../enums/GraphRepositoryTypeEnum';
 import { GraphNodeTypeEnum } from '../../enums/GraphNodeTypeEnum';
 import GraphRepository from '../../models/GraphRepository';

@@ -1,4 +1,4 @@
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import ViewSdkBase from '../ViewSDKBase';
 import DataFlow from '../../models/DataFlow';
 import DataFlowLog from '../../models/DataFlowLog';

@@ -3,7 +3,7 @@ import { SeverityEnum } from '../../enums/SeverityEnum';
 import TypeResult from '../../models/TypeResult';
 import { DocumentTypeEnum } from '../../enums/DocumentTypeEnum';
 import { LoggerInstance } from '../../utils/Logger';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 /**
  * View Type Detector SDK.
  * @module base/ViewTypeDetectorSdk

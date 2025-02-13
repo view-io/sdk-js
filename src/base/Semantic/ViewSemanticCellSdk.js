@@ -1,4 +1,4 @@
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import SemanticCellResponse from '../../models/SemanticCellResponse';
 import ViewSdkBase from '../ViewSDKBase';
 

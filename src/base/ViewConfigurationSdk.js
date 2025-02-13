@@ -1,4 +1,4 @@
-import { GenExceptionHandlersInstance } from '../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../exception/GenericExceptionHandlers';
 import Credential from '../models/Credential';
 import NodeModal from '../models/NodeModal';
 import TenantMetadata from '../models/TenantMetadata';

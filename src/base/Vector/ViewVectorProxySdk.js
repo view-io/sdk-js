@@ -1,4 +1,4 @@
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import ViewSdkBase from '../ViewSDKBase';
 import EmbeddingsDocument from '../../models/EmbeddingsDocument';
 import EnumerationResult from '../../models/EnumerationResult';

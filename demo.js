@@ -10,7 +10,7 @@ var guid = 'default'; // {String}
 // region Nodes
 const getNodeById = async () => {
   try {
-    const data = await api.retrieveNode(guid);
+    const data = await api.retrieveNodes();
     console.log(data, 'chk data');
   } catch (err) {
     console.log('err:', JSON.stringify(err));

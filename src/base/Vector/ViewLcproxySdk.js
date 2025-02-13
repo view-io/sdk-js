@@ -4,7 +4,7 @@ import { SeverityEnum } from '../../enums/SeverityEnum';
 import LcproxyEmbeddingsResult from '../../models/LcproxyEmbeddingsResult';
 import EmbeddingsResult from '../../models/EmbeddingsResult';
 import Serializer from '../../utils/Serializer';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import Semaphore from '../../utils/Semaphore';
 import { LoggerInstance } from '../../utils/Logger';
 /**

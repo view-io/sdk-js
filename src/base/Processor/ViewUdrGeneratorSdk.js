@@ -3,7 +3,7 @@ import { SeverityEnum } from '../../enums/SeverityEnum';
 import UdrDocument from '../../models/UdrDocument';
 import { ApiErrorEnum } from '../../enums/ApiErrorEnum';
 import { LoggerInstance } from '../../utils/Logger';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 
 export default class ViewUdrGeneratorSdk extends ViewSdkBase {
   /**

@@ -5,7 +5,7 @@ import SourceDocument from '../../models/SourceDocument';
 import ViewSdkBase from '../ViewSDKBase';
 import EnumerationResult from '../../models/EnumerationResult';
 import SearchResult from '../../models/SearchResult';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import IngestQueue from '../../models/IngestQueue';
 
 /**

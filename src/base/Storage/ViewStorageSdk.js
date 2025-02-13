@@ -1,5 +1,5 @@
 import BucketMetadata from '../../models/BucketMetadata';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import ViewSdkBase from '../ViewSDKBase';
 import TagMetaData from '../../models/TagMetadata';
 import ObjectMetadata from '../../models/ObjectMetadata';

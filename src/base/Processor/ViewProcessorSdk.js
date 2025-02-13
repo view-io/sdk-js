@@ -4,7 +4,7 @@ import { ApiErrorEnum } from '../../enums/ApiErrorEnum';
 import { SeverityEnum } from '../../enums/SeverityEnum';
 import { LoggerInstance } from '../../utils/Logger';
 import SemanticCellResponse from '../../models/SemanticCellResponse';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 
 export default class ViewProcessorSdk extends ViewSdkBase {
   /**

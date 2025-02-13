@@ -1,6 +1,6 @@
 import { Writable } from 'stream';
 import superagent from 'superagent';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import ViewSdkBase from '../ViewSDKBase';
 import { LoggerInstance } from '../../utils/Logger';
 import { SeverityEnum } from '../../enums/SeverityEnum';

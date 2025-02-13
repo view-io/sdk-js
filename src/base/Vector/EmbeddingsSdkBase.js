@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import { GenExceptionHandlersInstance } from '../../exception/GenericExcerptionHandelrs';
+import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import { LoggerInstance } from '../../utils/Logger';
 import { SeverityEnum } from '../../enums/SeverityEnum';
 import ApiErrorResponse from '../../models/ApiErrorResponse';
