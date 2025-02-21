@@ -273,6 +273,19 @@ const getAllGraphRepositories = async () => {
 getAllGraphRepositories();
 ```
 
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## Support
+
+For support, please:
+1. Check the [documentation](docs/)
+2. Open an issue on GitHub
+3. Contact View AI support
+
+
 ## Development
 
 ### Setting up Pre-commit Hooks
@@ -377,17 +390,6 @@ npm run build:docs
 
 [View Documentation](docs/docs.md)
 
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-## Support
-
-For support, please:
-1. Check the [documentation](docs/)
-2. Open an issue on GitHub
-3. Contact View AI support
 
 ## Feedback and Issues
 
