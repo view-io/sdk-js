@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "scripts": {
+    "prepare": "husky",
     "build": "npm run lint && npm run build:types && babel src -d dist ",
     "test": "jest",
     "test:update": "jest -u",
@@ -58,6 +59,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "expect.js": "^0.3.1",
+    "husky": "^9.1.7",
     "jsdoc-to-markdown": "^9.1.1",
     "prettier": "^3.3.3",
     "sinon": "^7.2.0",

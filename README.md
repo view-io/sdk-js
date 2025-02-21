@@ -273,32 +273,9 @@ const getAllGraphRepositories = async () => {
 getAllGraphRepositories();
 ```
 
-## Documentation for API Endpoints
-
-To Generate the documentation, run the following command:
-
-```bash
-npm run build:docs
-```
-
-[View Documentation](docs/docs.md)
-
 ## Development
 
 ### Setting up Pre-commit Hooks
-
-This project uses pre-commit hooks to ensure code quality. To set up pre-commit:
-
-```bash
-# Install pre-commit
-pip install pre-commit
-
-# Install the pre-commit hooks
-pre-commit install
-
-# (Optional) Run pre-commit on all files
-pre-commit run --all-files
-```
 
 The pre-commit hooks will run automatically on `git commit`. They help maintain:
 
@@ -324,13 +301,6 @@ npm run build
 ```
 
 ### Development Installation
-
-- Node.js v18.20.4
-- npm
-
-Use the command `npm i` to install dependencies and then `npm run build` to build the project.
-
-### Linking the project locally (for development and testing)
 
 #### Building and Installing LiteGraph SDK
 
@@ -396,6 +366,17 @@ import sdk from 'view-sdk';
 //or
 var sdk = require('view-sdk');
 ```
+
+### Viewing Documentation
+
+To Generate the documentation, run the following command:
+
+```bash
+npm run build:docs
+```
+
+[View Documentation](docs/docs.md)
+
 
 ## Contributing
 
