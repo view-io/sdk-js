@@ -16,7 +16,7 @@
     "lint:fix": "eslint src/**/*.js --fix",
     "format": "prettier --write 'src/**/*.js'",
     "build:docs": "jsdoc2md src/base/**/*.js > docs/docs.md",
-    "build:types": "tsc src/index.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "build:types": "tsc src/index.js --skipLibCheck --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "browser": {
     "fs": false

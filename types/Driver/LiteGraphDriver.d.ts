@@ -14,7 +14,7 @@ export default class LiteGraphDriver {
     _Endpoint: string;
     _TenantGuid: string;
     _AccessKey: string;
-    _Sdk: any;
+    _Sdk: LiteGraphSdk;
     _TimeoutMs: number;
     /**
      * Gets the LiteGraph endpoint URL.
@@ -228,3 +228,4 @@ export default class LiteGraphDriver {
     dispose(): void;
     _Serializer: any;
 }
+import { LiteGraphSdk } from 'litegraph';

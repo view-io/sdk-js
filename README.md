@@ -41,6 +41,7 @@ var api = new ViewConfigurationSdk(
 );
 var guid = 'default'; // {String}
 ```
+
 ## Available Services
 
 The SDK provides access to the following services:
@@ -64,7 +65,6 @@ The SDK provides access to the following services:
 - **Vector**: Vector operations and similarity search
 - **IngestQueue**: Manage ingest queue operations
 
-
 ### Example Usage
 
 ```javascript
@@ -79,6 +79,7 @@ const getNodeById = async () => {
 };
 getNodeById();
 ```
+
 ### Example Usage with Tenant
 
 ```javascript
@@ -89,7 +90,7 @@ const writeTenantMetadata = async () => {
       Name: 'Example Tenant',
       S3BaseDomain: 's3.example.com',
       RestBaseDomain: 'api.example.com',
-      DefaultPoolGUID: 'pool-7890-xyz'
+      DefaultPoolGUID: 'pool-7890-xyz',
     };
 
     const xtoken = 'your-x-token-here';
@@ -111,7 +112,7 @@ writeTenantMetadata();
 const createNewCredential = async () => {
   try {
     const credential = {
-      GUID: null, 
+      GUID: null,
       tenantGuid: 'your-tenant-guid-here',
       UserGUID: 'user-1234-xyz',
       AccessKey: 'your-access-key-here',
@@ -142,7 +143,6 @@ const getAllCredentials = async () => {
 };
 
 getAllCredentials();
-
 ```
 
 ### Example Usage with User
@@ -214,12 +214,12 @@ createNewVectorRepository();
 const createNewGraphRepository = async () => {
   try {
     const graphRepository = {
-    Name: "name",
-    RepositoryType: "your-repo-name",
-    EndpointUrl: "end-point-url",
-    Port: 0,
-    GraphIdentifier: "graph-identifier"
-};
+      Name: 'name',
+      RepositoryType: 'your-repo-name',
+      EndpointUrl: 'end-point-url',
+      Port: 0,
+      GraphIdentifier: 'graph-identifier',
+    };
 
     const data = await api.createGraphRepository(graphRepository);
     console.log(data, 'chk created graph repository');
@@ -229,7 +229,6 @@ const createNewGraphRepository = async () => {
 };
 
 createNewGraphRepository();
-
 ```
 
 ```javascript
@@ -273,7 +272,6 @@ const getAllGraphRepositories = async () => {
 getAllGraphRepositories();
 ```
 
-
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
@@ -281,10 +279,10 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 ## Support
 
 For support, please:
+
 1. Check the [documentation](docs/)
 2. Open an issue on GitHub
 3. Contact View AI support
-
 
 ## Development
 
@@ -317,34 +315,34 @@ npm run build
 
 #### Building and Installing LiteGraph SDK
 
-Since view-sdk depends on `lite-graph` which is not published on npm, you'll need to link it locally. Follow these steps:
+Since view-sdk depends on `litegraph` which is not published on npm, you'll need to link it locally. Follow these steps:
 
-1. Clone the lite-graph repository
-2. Install lite-graph dependencies:
+1. Clone the litegraph repository
+2. Install litegraph dependencies:
 
    ```shell
    npm install
    ```
 
-3. Build lite-graph:
+3. Build litegraph:
 
    ```shell
    npm run build
    ```
 
-4. Create a global link for lite-graph:
+4. Create a global link for litegraph:
 
    ```shell
    npm link
    ```
 
-5. Go back to view-sdk directory and link to lite-graph:
+5. Go back to view-sdk directory and link to litegraph:
    ```shell
    cd path/to/view-sdk
-   npm link lite-graph
+   npm link litegraph
    ```
 
-This will create the necessary local links between view-sdk and lite-graph for development.
+This will create the necessary local links between view-sdk and litegraph for development.
 
 #### Linking view-sdk dependency locally
 
@@ -389,7 +387,6 @@ npm run build:docs
 ```
 
 [View Documentation](docs/docs.md)
-
 
 ## Feedback and Issues
 
