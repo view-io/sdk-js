@@ -1,5 +1,5 @@
 //eslint-disable-next-line node/no-extraneous-import, node/no-missing-import
-import { LiteGraphSdk } from 'litegraph';
+import { LiteGraphSdk } from 'litegraphdb';
 import GraphConverters from '../models/GraphConverters';
 
 /**

@@ -228,4 +228,4 @@ export default class LiteGraphDriver {
     dispose(): void;
     _Serializer: any;
 }
-import { LiteGraphSdk } from 'litegraph';
+import { LiteGraphSdk } from 'litegraphdb';

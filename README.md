@@ -313,37 +313,6 @@ npm run build
 
 ### Development Installation
 
-#### Building and Installing LiteGraph SDK
-
-Since view-sdk depends on `litegraph` which is not published on npm, you'll need to link it locally. Follow these steps:
-
-1. Clone the litegraph repository
-2. Install litegraph dependencies:
-
-   ```shell
-   npm install
-   ```
-
-3. Build litegraph:
-
-   ```shell
-   npm run build
-   ```
-
-4. Create a global link for litegraph:
-
-   ```shell
-   npm link
-   ```
-
-5. Go back to view-sdk directory and link to litegraph:
-   ```shell
-   cd path/to/view-sdk
-   npm link litegraph
-   ```
-
-This will create the necessary local links between view-sdk and litegraph for development.
-
 #### Linking view-sdk dependency locally
 
 To use the library locally without publishing to a remote npm registry, first install the dependencies with the command:
