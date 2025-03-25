@@ -64,7 +64,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
 
   /**
    * Retrieve All Nodes.
-   *
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the Node object or null if not found.
    * @throws {Error} If the guid is null or empty.
@@ -158,6 +157,18 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     return await this.exists(url, cancelToken);
   };
 
+  /**
+   * Enumerate Nodes.
+   * @param {number} [maxKeys] - The maximum number of nodes to return. Default is 5.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
+   * @throws {Error} If the trigger is null or invalid.
+   */
+  enumerateNodes = async (maxKeys = 5, cancelToken) => {
+    const url = `${this.endpoint}/v2.0/nodes/?max-keys=${maxKeys}`;
+    return await this.retrieve(url, EnumerationResult, cancelToken);
+  };
+
   //region Tenants
 
   /**
@@ -177,37 +188,29 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
 
   /**
    * Retrieve all tenants.
-   *
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
    */
-  retrieveTenants = async (cancelToken, xtoken) => {
-    if (!xtoken) {
-      GenExceptionHandlersInstance.ArgumentNullException('xtoken');
-    }
+  retrieveTenants = async (cancelToken) => {
     const url = this.endpoint + '/v1.0/tenants/';
     // Use the `retrieveMany` method for fetching the list of tenants
-    return await this.retrieveMany(url, TenantMetadata, cancelToken, { 'x-token': xtoken });
+    return await this.retrieveMany(url, TenantMetadata, cancelToken);
   };
 
   /**
    * Delete tenant metadata.
    * @param {string} guid - The GUID of the tenant to delete.
-   * @param {string} [xtoken] - X-Token header
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
    * @throws {Error} If the GUID is null or empty.
    */
-  deleteTenant = async (guid, xtoken, cancelToken) => {
+  deleteTenant = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
-    if (!xtoken) {
-      GenExceptionHandlersInstance.ArgumentNullException('xtoken');
-    }
     const url = this.endpoint + '/v1.0/tenants/' + guid;
     // Use the `retrieveMany` method for fetching the list of tenants
-    return await this.deleteRaw(url, cancelToken, { 'x-token': xtoken });
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
@@ -237,20 +240,16 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
    * @param {string} tenant.RestBaseDomain - REST base domain for the tenant.
    * @param {string} tenant.DefaultPoolGUID - Default pool's unique identifier for the tenant.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @param {string} [xtoken] - X-Token header
    * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the updated TenantMetadata object or null.
    * @throws {Error} If the tenant object is null.
    */
-  writeTenant = async (tenant, cancelToken, xtoken) => {
+  writeTenant = async (tenant, cancelToken) => {
     if (!tenant) {
       GenExceptionHandlersInstance.ArgumentNullException('tenant');
     }
-    if (!xtoken) {
-      GenExceptionHandlersInstance.ArgumentNullException('xtoken');
-    }
     const url = this.endpoint + '/v1.0/tenants';
     // Use the `update` method to write the tenant metadata
-    return await this.update(url, tenant, TenantMetadata, cancelToken, { 'x-token': xtoken });
+    return await this.update(url, tenant, TenantMetadata, cancelToken);
   };
 
   /**
@@ -404,7 +403,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/credentials/' + guid;
     // Use the `delete` method to remove the credential
-    return await this.delete(url, Credential, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
@@ -424,7 +423,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
    * Create a user.
    *
    * @param {Object} user Information about the credential.
-   * @param {string} user.GUID - User's unique identifier (automatically generated if not provided).
    * @param {string} user.tenantGuid - Tenant's unique identifier (automatically generated if not provided).
    * @param {string} user.FirstName - User's first name.
    * @param {string} user.LastName - User's last name.
@@ -494,9 +492,8 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
 
   /**
    * Update a user.
-   *
+   *@param {string} guid - The GUID of the user to update.
    * @param {Object} user Information about the credential.
-   * @param {string} user.GUID - User's unique identifier (automatically generated if not provided).
    * @param {string} user.tenantGuid - Tenant's unique identifier (automatically generated if not provided).
    * @param {string} user.FirstName - User's first name.
    * @param {string} user.LastName - User's last name.
@@ -509,7 +506,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
    * @returns {Promise<UserMaster|null|ApiErrorResponse>} A promise resolving to the updated UserMaster object or null.
    * @throws {Error} If the user object is null.
    */
-  updateUser = async (user, cancelToken) => {
+  updateUser = async (guid, user, cancelToken) => {
     if (!user) {
       GenExceptionHandlersInstance.ArgumentNullException('user');
     }
@@ -532,7 +529,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/users/' + guid;
     // Use the `delete` method to remove the user
-    return await this.delete(url, UserMaster, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
@@ -1550,7 +1547,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/metadatarules/' + guid;
-    return await this.delete(url, MetadataRule, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**

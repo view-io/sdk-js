@@ -20,7 +20,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     retrieveNode: (guid: string, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
     /**
      * Retrieve All Nodes.
-     *
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the Node object or null if not found.
      * @throws {Error} If the guid is null or empty.
@@ -95,6 +94,14 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      */
     existsNode: (guid: string, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
     /**
+     * Enumerate Nodes.
+     * @param {number} [maxKeys] - The maximum number of nodes to return. Default is 5.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
+     * @throws {Error} If the trigger is null or invalid.
+     */
+    enumerateNodes: (maxKeys?: number, cancelToken?: object) => Promise<EnumerationResult | null | ApiErrorResponse>;
+    /**
      * Retrieve tenant metadata.
      *
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
@@ -103,20 +110,18 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     retrieveTenant: (guid: any, cancelToken?: object) => Promise<TenantMetadata | null | ApiErrorResponse>;
     /**
      * Retrieve all tenants.
-     *
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
      */
-    retrieveTenants: (cancelToken?: object, xtoken: any) => Promise<TenantMetadata | null | ApiErrorResponse>;
+    retrieveTenants: (cancelToken?: object) => Promise<TenantMetadata | null | ApiErrorResponse>;
     /**
      * Delete tenant metadata.
      * @param {string} guid - The GUID of the tenant to delete.
-     * @param {string} [xtoken] - X-Token header
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
      * @throws {Error} If the GUID is null or empty.
      */
-    deleteTenant: (guid: string, xtoken?: string, cancelToken?: object) => Promise<TenantMetadata | null | ApiErrorResponse>;
+    deleteTenant: (guid: string, cancelToken?: object) => Promise<TenantMetadata | null | ApiErrorResponse>;
     /**
      * Check if a tenant exists by its GUID.
      *
@@ -136,7 +141,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * @param {string} tenant.RestBaseDomain - REST base domain for the tenant.
      * @param {string} tenant.DefaultPoolGUID - Default pool's unique identifier for the tenant.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @param {string} [xtoken] - X-Token header
      * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the updated TenantMetadata object or null.
      * @throws {Error} If the tenant object is null.
      */
@@ -146,7 +150,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
         S3BaseDomain: string;
         RestBaseDomain: string;
         DefaultPoolGUID: string;
-    }, cancelToken?: object, xtoken?: string) => Promise<TenantMetadata | null | ApiErrorResponse>;
+    }, cancelToken?: object) => Promise<TenantMetadata | null | ApiErrorResponse>;
     /**
      * Update tenant metadata.
      *
@@ -277,7 +281,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * Create a user.
      *
      * @param {Object} user Information about the credential.
-     * @param {string} user.GUID - User's unique identifier (automatically generated if not provided).
      * @param {string} user.tenantGuid - Tenant's unique identifier (automatically generated if not provided).
      * @param {string} user.FirstName - User's first name.
      * @param {string} user.LastName - User's last name.
@@ -291,7 +294,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * @throws {Error} If the user object is null.
      */
     createUser: (user: {
-        GUID: string;
         tenantGuid: string;
         FirstName: string;
         LastName: string;
@@ -328,9 +330,8 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     retrieveUsers: (cancelToken?: object) => Promise<Array<UserMaster> | null | ApiErrorResponse>;
     /**
      * Update a user.
-     *
+     *@param {string} guid - The GUID of the user to update.
      * @param {Object} user Information about the credential.
-     * @param {string} user.GUID - User's unique identifier (automatically generated if not provided).
      * @param {string} user.tenantGuid - Tenant's unique identifier (automatically generated if not provided).
      * @param {string} user.FirstName - User's first name.
      * @param {string} user.LastName - User's last name.
@@ -343,8 +344,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * @returns {Promise<UserMaster|null|ApiErrorResponse>} A promise resolving to the updated UserMaster object or null.
      * @throws {Error} If the user object is null.
      */
-    updateUser: (user: {
-        GUID: string;
+    updateUser: (guid: string, user: {
         tenantGuid: string;
         FirstName: string;
         LastName: string;
@@ -2200,8 +2200,8 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     } | ApiErrorResponse>;
 }
 import ViewSdkBase from './ViewSDKBase';
-import TenantMetadata from '../models/TenantMetadata';
 import EnumerationResult from '../models/EnumerationResult';
+import TenantMetadata from '../models/TenantMetadata';
 import Credential from '../models/Credential';
 import UserMaster from '../models/UserMaster';
 import EncryptionKey from '../models/EncryptionKey';

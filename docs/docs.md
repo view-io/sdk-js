@@ -5151,6 +5151,7 @@ Configuration service.
     * [.updateNode](#module_base/ViewConfigurationSdk+updateNode) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteNode](#module_base/ViewConfigurationSdk+deleteNode) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
     * [.existsNode](#module_base/ViewConfigurationSdk+existsNode) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
+    * [.enumerateNodes](#module_base/ViewConfigurationSdk+enumerateNodes) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveTenant](#module_base/ViewConfigurationSdk+retrieveTenant) ⇒ <code>Promise.&lt;(TenantMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveTenants](#module_base/ViewConfigurationSdk+retrieveTenants) ⇒ <code>Promise.&lt;(TenantMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteTenant](#module_base/ViewConfigurationSdk+deleteTenant) ⇒ <code>Promise.&lt;(TenantMetadata\|null\|ApiErrorResponse)&gt;</code>
@@ -5397,6 +5398,23 @@ Check if a Node exists by its GUID.
 | guid | <code>string</code> | The GUID of the node to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
+<a name="module_base/ViewConfigurationSdk+enumerateNodes"></a>
+
+### base/ViewConfigurationSdk.enumerateNodes ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
+Enumerate Nodes.
+
+**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
+**Returns**: <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Trigger object or null if creation fails.  
+**Throws**:
+
+- <code>Error</code> If the trigger is null or invalid.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [maxKeys] | <code>number</code> | The maximum number of nodes to return. Default is 5. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
 <a name="module_base/ViewConfigurationSdk+retrieveTenant"></a>
 
 ### base/ViewConfigurationSdk.retrieveTenant ⇒ <code>Promise.&lt;(TenantMetadata\|null\|ApiErrorResponse)&gt;</code>
@@ -5436,7 +5454,6 @@ Delete tenant metadata.
 | Param | Type | Description |
 | --- | --- | --- |
 | guid | <code>string</code> | The GUID of the tenant to delete. |
-| [xtoken] | <code>string</code> | X-Token header |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+existsTenant"></a>
@@ -5477,7 +5494,6 @@ Write tenant metadata.
 | tenant.RestBaseDomain | <code>string</code> | REST base domain for the tenant. |
 | tenant.DefaultPoolGUID | <code>string</code> | Default pool's unique identifier for the tenant. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-| [xtoken] | <code>string</code> | X-Token header |
 
 <a name="module_base/ViewConfigurationSdk+updateTenant"></a>
 
@@ -5664,7 +5680,6 @@ Create a user.
 | Param | Type | Description |
 | --- | --- | --- |
 | user | <code>Object</code> | Information about the credential. |
-| user.GUID | <code>string</code> | User's unique identifier (automatically generated if not provided). |
 | user.tenantGuid | <code>string</code> | Tenant's unique identifier (automatically generated if not provided). |
 | user.FirstName | <code>string</code> | User's first name. |
 | user.LastName | <code>string</code> | User's last name. |
@@ -5735,8 +5750,8 @@ Update a user.
 
 | Param | Type | Description |
 | --- | --- | --- |
+| guid | <code>string</code> | The GUID of the user to update. |
 | user | <code>Object</code> | Information about the credential. |
-| user.GUID | <code>string</code> | User's unique identifier (automatically generated if not provided). |
 | user.tenantGuid | <code>string</code> | Tenant's unique identifier (automatically generated if not provided). |
 | user.FirstName | <code>string</code> | User's first name. |
 | user.LastName | <code>string</code> | User's last name. |
@@ -7946,6 +7961,9 @@ ViewSdk Base service.
         * [.endpoint](#module_base/ViewSdkBase--module.exports+endpoint) : <code>String</code>
         * [.defaultHeaders](#module_base/ViewSdkBase--module.exports+defaultHeaders) : <code>Array.&lt;String&gt;</code>
         * [.timeout](#module_base/ViewSdkBase--module.exports+timeout) : <code>Number</code>
+        * [.accessKey](#module_base/ViewSdkBase--module.exports+accessKey)
+        * [.accessToken](#module_base/ViewSdkBase--module.exports+accessToken) ⇒ <code>string</code>
+        * [.accessToken](#module_base/ViewSdkBase--module.exports+accessToken)
         * [.create](#module_base/ViewSdkBase--module.exports+create) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
         * [.exists](#module_base/ViewSdkBase--module.exports+exists) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
         * [.update](#module_base/ViewSdkBase--module.exports+update) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
@@ -7993,6 +8011,43 @@ The default HTTP timeout for all API calls.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewSdkBase--module.exports)  
 **Default**: <code>60000</code>  
+<a name="module_base/ViewSdkBase--module.exports+accessKey"></a>
+
+#### module.exports.accessKey
+Setter for the access key.
+
+**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewSdkBase--module.exports)  
+**Throws**:
+
+- <code>Error</code> Throws an error if the access key is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | The access key. |
+
+<a name="module_base/ViewSdkBase--module.exports+accessToken"></a>
+
+#### module.exports.accessToken ⇒ <code>string</code>
+Getter for the access token.
+
+**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewSdkBase--module.exports)  
+**Returns**: <code>string</code> - The access token.  
+<a name="module_base/ViewSdkBase--module.exports+accessToken"></a>
+
+#### module.exports.accessToken
+Setter for the access token.
+
+**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewSdkBase--module.exports)  
+**Throws**:
+
+- <code>Error</code> Throws an error if the access token is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | The access token. |
+
 <a name="module_base/ViewSdkBase--module.exports+create"></a>
 
 #### module.exports.create ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
@@ -8047,6 +8102,10 @@ Update an object via PUT request to the specified URL.
 | obj | <code>T</code> | The object to send in the request body. |
 | Model | <code>Class</code> | Modal to deserialize on |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+| [headers] | <code>Object</code> | Additional headers for the request. |
+| [headers.token] | <code>string</code> | headers token for authorization. |
+| [headers.Range] | <code>string</code> | headers range for the request. |
+| [headers.email] | <code>string</code> | headers email for the request. |
 
 <a name="module_base/ViewSdkBase--module.exports+retrieve"></a>
 
@@ -8087,6 +8146,8 @@ Retrieve all data from the given URL with optional cancellation support using su
 | url | <code>string</code> | The URL to request data from. |
 | Model | <code>Class</code> | Modal to deserialize on |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
+| [headers] | <code>object</code> | Optional object with an `abort` method to cancel the request |
+| [headers.token] | <code>string</code> | headers token for authorization. |
 
 <a name="module_base/ViewSdkBase--module.exports+delete"></a>
 
@@ -8105,6 +8166,8 @@ Delete single data from the given URL with optional cancellation support using s
 | url | <code>string</code> | The URL to delete data from. |
 | Model | <code>Class</code> | Modal to deserialize on |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+| [headers] | <code>object</code> | Optional object with an `abort` method to cancel the request |
+| [headers.token] | <code>string</code> | headers token for authorization. |
 
 <a name="module_base/ViewSdkBase--module.exports+deleteRaw"></a>
 
@@ -8122,7 +8185,8 @@ Delete single data from the given URL with optional cancellation support using s
 | --- | --- | --- |
 | url | <code>string</code> | The URL to delete data from. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-| [token] | <code>string</code> | Optional object with an `abort` method to cancel the request. |
+| [headers] | <code>object</code> | Optional object with an `abort` method to cancel the request |
+| [headers.token] | <code>string</code> | headers token for authorization. |
 
 <a name="module_base/ViewSdkBase--module.exports+deleteWithPayload"></a>
 

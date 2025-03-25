@@ -1,18 +1,17 @@
-/**
- * Represents the result of an enumeration against a table.
- *
- * @property {boolean} success - Indicates if the statistics operation was successful.
- * @property {Object} timestamp - Start and end timestamps for the enumeration.
- * @property {number} maxResults - Maximum number of results retrieved.
- * @property {number} iterationsRequired - Iterations required for the enumeration.
- * @property {Array<any>} objects - Metadata for the retrieved objects.
- * @property {boolean} endOfResults - Indicates if the end of results has been reached.
- * @property {number} recordsRemaining - Number of candidate records remaining in the enumeration.
- * @property {number} totalRecords - Total number of records in the enumeration.
- * @property {Array<any>} sharedPrefixes - Shared prefixes for the enumeration.
- * @property {Object} statistics- Statistics for the enumeration.
- */
 export default class EnumerationResult {
+  /**
+   * @param {Object} data - The data to be used to create the EnumerationResult object.
+   * @param {boolean} data.Success - Indicates if the statistics operation was successful.
+   * @param {Object} data.Timestamp - Start and end timestamps for the enumeration.
+   * @param {number} data.MaxResults - Maximum number of results retrieved.
+   * @param {number} data.IterationsRequired - Iterations required for the enumeration.
+   * @param {boolean} data.EndOfResults - Indicates if the end of results has been reached.
+   * @param {number} data.TotalRecords - Total number of records in the enumeration.
+   * @param {number} data.RecordsRemaining - Number of candidate records remaining in the enumeration.
+   * @param {Array<any>} data.Objects - Metadata for the retrieved objects.
+   * @param {Array<any>} data.SharedPrefixes - Shared prefixes for the enumeration.
+   * @param {Object} data.Statistics - Statistics for the enumeration.
+   */
   constructor(data = {}) {
     const {
       Success = true,
@@ -26,42 +25,19 @@ export default class EnumerationResult {
       SharedPrefixes = [],
       Statistics = {},
     } = data;
-
-    /** @type {boolean} */
     this.success = Success;
-
-    /** @type {Object} */
     this.timestamp = {
       start: Timestamp.Start || new Date().toISOString(),
       totalMs: Timestamp.TotalMs || 0,
       messages: Timestamp.Messages || {},
     };
-
-    /** @type {number} */
     this.maxResults = MaxResults;
-
-    /** @type {number} */
     this.iterationsRequired = IterationsRequired;
-
-    /** @type {Array<any>} */
     this.objects = Objects;
-
-    /** @type {boolean} */
     this.endOfResults = EndOfResults;
-
-    /** @type {number} */
     this.recordsRemaining = RecordsRemaining;
-
-    /** @type {number} */
     this.totalRecords = TotalRecords;
-
-    /** @type {Array<any>} */
     this.sharedPrefixes = SharedPrefixes;
-
-    /** @type {Object} */
-    this.statistics = {
-      objects: Statistics.Objects,
-      bytes: Statistics.Bytes,
-    };
+    this.statistics = Statistics;
   }
 }

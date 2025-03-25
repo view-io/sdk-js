@@ -1,34 +1,38 @@
 import { v4 as uuidV4 } from 'uuid';
 
+/**
+ * Class representing a Metadata Rule configuration.
+ */
 export default class MetadataRule {
   /**
-   * @param {Object} metadataRule Information about the metadata rule.
-   * @param {string} metadataRule.GUID - Metadata rule GUID (automatically generated if not provided).
-   * @param {string} metadataRule.TenantGUID - Tenant GUID (default is null).
-   * @param {string} metadataRule.BucketGUID - Bucket GUID (default is null).
-   * @param {string} metadataRule.OwnerGUID - Owner GUID (automatically generated if not provided).
-   * @param {string} metadataRule.Name - Name of the rule (default is null).
-   * @param {string} metadataRule.ContentType - Content type (default is "text/plain").
-   * @param {string} metadataRule.Prefix - Prefix (default is null).
-   * @param {string} metadataRule.Suffix - Suffix (default is null).
-   * @param {string} metadataRule.ProcessingEndpoint - Processing endpoint (default is localhost).
-   * @param {string} metadataRule.CleanupEndpoint - Cleanup endpoint (default is localhost).
-   * @param {string} metadataRule.TypeDetectorEndpoint - Type detector endpoint (default is localhost).
-   * @param {string} metadataRule.SemanticCellEndpoint - Semantic cell endpoint (default is localhost).
-   * @param {number} metadataRule.MaxChunkContentLength - Maximum chunk content length (default is 512).
-   * @param {number} metadataRule.ShiftSize - Shift size (default is 512).
-   * @param {string} metadataRule.UdrEndpoint - UDR endpoint (default is localhost).
-   * @param {string} metadataRule.DataCatalogType - Data catalog type (default is DataCatalogTypeEnum.Lexi).
-   * @param {string} metadataRule.DataCatalogEndpoint - Data catalog endpoint (default is localhost).
-   * @param {string} metadataRule.DataCatalogCollection - Data catalog collection identifier (default is null).
-   * @param {string} metadataRule.GraphRepositoryGUID - Graph repository GUID (default is null).
-   * @param {number} metadataRule.TopTerms - Number of top terms to request (default is 25).
-   * @param {boolean} metadataRule.CaseInsensitive - Enable case insensitive processing (default is true).
-   * @param {boolean} metadataRule.IncludeFlattened - Enable inclusion of flattened representation (default is true).
-   * @param {string} metadataRule.TargetBucketGUID - Target bucket GUID (default is null).
-   * @param {number} metadataRule.MaxContentLength - Maximum content length (default is 16 * 1024 * 1024).
-   * @param {number|null} metadataRule.RetentionMinutes - Minutes to retain generated document (default is null).
-   * @param {Date} metadataRule.CreatedUtc - Creation timestamp (default is current UTC time).
+   * Create a new MetadataRule instance.
+   *
+   * @param {Object} metadataRule - Metadata rule configuration.
+   * @param {string} [metadataRule.GUID] - Unique identifier for the metadata rule.
+   * @param {string} [metadataRule.TenantGUID] - Tenant identifier.
+   * @param {string} [metadataRule.BucketGUID] - Bucket identifier.
+   * @param {string} [metadataRule.OwnerGUID] - Owner identifier.
+   * @param {string} [metadataRule.Name] - Name of the rule.
+   * @param {string} [metadataRule.ContentType] - Content type to match (e.g., '*', 'text/plain').
+   * @param {string} [metadataRule.ProcessingEndpoint] - URL to processing endpoint.
+   * @param {string} [metadataRule.ProcessingAccessKey] - Access key for processing endpoint.
+   * @param {string} [metadataRule.CleanupEndpoint] - URL to cleanup endpoint.
+   * @param {string} [metadataRule.CleanupAccessKey] - Access key for cleanup endpoint.
+   * @param {number} [metadataRule.MinChunkContentLength] - Minimum length of chunk content.
+   * @param {number} [metadataRule.MaxChunkContentLength] - Maximum length of chunk content.
+   * @param {number} [metadataRule.MaxTokensPerChunk] - Maximum number of tokens per chunk.
+   * @param {number} [metadataRule.ShiftSize] - Number of bytes to shift window when chunking.
+   * @param {boolean} [metadataRule.ImageTextExtraction] - Enable image text extraction.
+   * @param {string} [metadataRule.DataCatalogType] - Data catalog type (e.g., 'Lexi').
+   * @param {string} [metadataRule.DataCatalogEndpoint] - Endpoint URL for data catalog.
+   * @param {string} [metadataRule.DataCatalogAccessKey] - Access key for data catalog.
+   * @param {string} [metadataRule.DataCatalogCollection] - Data catalog collection ID.
+   * @param {string} [metadataRule.GraphRepositoryGUID] - Identifier for the graph repository.
+   * @param {number} [metadataRule.TopTerms] - Number of top terms to extract.
+   * @param {boolean} [metadataRule.CaseInsensitive] - Enable case-insensitive processing.
+   * @param {boolean} [metadataRule.IncludeFlattened] - Include flattened document representation.
+   * @param {number} [metadataRule.MaxContentLength] - Maximum size (in bytes) of content to process.
+   * @param {string|Date} [metadataRule.CreatedUtc] - UTC timestamp when the rule was created.
    */
   constructor(metadataRule) {
     const {
@@ -38,25 +42,24 @@ export default class MetadataRule {
       OwnerGUID = uuidV4(),
       Name = null,
       ContentType = 'text/plain',
-      Prefix = null,
-      Suffix = null,
-      ProcessingEndpoint = 'http://localhost:8501/processor',
-      CleanupEndpoint = 'http://localhost:8501/processor/cleanup',
-      TypeDetectorEndpoint = 'http://localhost:8501/processor/typedetector',
-      SemanticCellEndpoint = 'http://localhost:8341/',
+      ProcessingEndpoint = 'http://localhost:8000/v1.0/tenants/default/processing',
+      ProcessingAccessKey = 'default',
+      CleanupEndpoint = 'http://localhost:8000/v1.0/tenants/default/processing/cleanup',
+      CleanupAccessKey = 'default',
+      MinChunkContentLength = 2,
       MaxChunkContentLength = 512,
+      MaxTokensPerChunk = 1920,
       ShiftSize = 512,
-      UdrEndpoint = 'http://localhost:8321/',
-      DataCatalogType = 'Lexi', // Default enum value as a string for simplicity
-      DataCatalogEndpoint = 'http://localhost:8201/',
+      ImageTextExtraction = false,
+      DataCatalogType = 'Lexi',
+      DataCatalogEndpoint = 'http://localhost:8000/',
+      DataCatalogAccessKey = 'default',
       DataCatalogCollection = null,
       GraphRepositoryGUID = null,
       TopTerms = 25,
       CaseInsensitive = true,
       IncludeFlattened = true,
-      TargetBucketGUID = null,
       MaxContentLength = 16 * 1024 * 1024,
-      RetentionMinutes = null,
       CreatedUtc = new Date(),
     } = metadataRule;
 
@@ -66,28 +69,30 @@ export default class MetadataRule {
     this.OwnerGUID = OwnerGUID;
     this.Name = Name;
     this.ContentType = ContentType;
-    this.Prefix = Prefix;
-    this.Suffix = Suffix;
-    this.ProcessingEndpoint = ProcessingEndpoint;
-    this.CleanupEndpoint = CleanupEndpoint;
-    this.TypeDetectorEndpoint = TypeDetectorEndpoint;
-    this.SemanticCellEndpoint = SemanticCellEndpoint;
 
+    this.ProcessingEndpoint = ProcessingEndpoint;
+    this.ProcessingAccessKey = ProcessingAccessKey;
+    this.CleanupEndpoint = CleanupEndpoint;
+    this.CleanupAccessKey = CleanupAccessKey;
+
+    this.MinChunkContentLength = MinChunkContentLength;
     this.MaxChunkContentLength = this.validateMaxChunkContentLength(MaxChunkContentLength);
     this.ShiftSize = this.validateShiftSize(ShiftSize, this.MaxChunkContentLength);
+    this.MaxTokensPerChunk = MaxTokensPerChunk;
 
-    this.UdrEndpoint = UdrEndpoint;
+    this.ImageTextExtraction = ImageTextExtraction;
+
     this.DataCatalogType = DataCatalogType;
     this.DataCatalogEndpoint = DataCatalogEndpoint;
+    this.DataCatalogAccessKey = DataCatalogAccessKey;
     this.DataCatalogCollection = DataCatalogCollection;
     this.GraphRepositoryGUID = GraphRepositoryGUID;
+
     this.TopTerms = this.validateTopTerms(TopTerms);
     this.CaseInsensitive = CaseInsensitive;
     this.IncludeFlattened = IncludeFlattened;
-    this.TargetBucketGUID = TargetBucketGUID;
     this.MaxContentLength = this.validateMaxContentLength(MaxContentLength);
-    this.RetentionMinutes = this.validateRetentionMinutes(RetentionMinutes);
-    this.CreatedUtc = CreatedUtc;
+    this.CreatedUtc = new Date(CreatedUtc);
   }
 
   validateMaxChunkContentLength(value) {
@@ -114,13 +119,6 @@ export default class MetadataRule {
   validateMaxContentLength(value) {
     if (value < 1) {
       throw new RangeError('MaxContentLength must be greater than 0.');
-    }
-    return value;
-  }
-
-  validateRetentionMinutes(value) {
-    if (value !== null && value < 1) {
-      throw new RangeError('RetentionMinutes must be greater than 0 if specified.');
     }
     return value;
   }

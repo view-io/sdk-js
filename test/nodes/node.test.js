@@ -34,7 +34,7 @@ describe('View.IO SDK', () => {
     it('retrieves a Node with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveNode(mockNodeGuid, cancelToken);
+      await api.retrieveNode(mockNodeGuid, 'default', cancelToken);
       cancelToken.abort();
     });
 

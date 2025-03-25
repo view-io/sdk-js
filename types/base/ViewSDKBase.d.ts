@@ -13,7 +13,13 @@ export default class ViewSdkBase {
     constructor(tenantGuid: string, accessKey: string, endpoint: string);
     logResponses: boolean;
     tenantGuid: string;
-    accessKey: string;
+    /**
+     * Setter for the access key.
+     * @param {string} value - The access key.
+     * @throws {Error} Throws an error if the access key is null or empty.
+     */
+    set accessKey(value: string);
+    get accessKey(): string;
     /**
      * The base URL against which to resolve every API call's (relative) path.
      * @type {String}
@@ -33,6 +39,19 @@ export default class ViewSdkBase {
      */
     timeout: number;
     agent: any;
+    _accessKey: string;
+    /**
+     * Setter for the access token.
+     * @param {string} value - The access token.
+     * @throws {Error} Throws an error if the access token is null or empty.
+     */
+    set accessToken(value: string);
+    /**
+     * Getter for the access token.
+     * @return {string} The access token.
+     */
+    get accessToken(): string;
+    _accessToken: string;
     /**
      * Create an object via PUT request to the specified URL.
      *
@@ -63,10 +82,18 @@ export default class ViewSdkBase {
      * @param {T} obj - The object to send in the request body.
      * @param {Class} Model - Modal to deserialize on
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @param {Object} [headers] - Additional headers for the request.
+     * @param {string} [headers.token] - headers token for authorization.
+     * @param {string} [headers.Range] - headers range for the request.
+     * @param {string} [headers.email] - headers email for the request.
      * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
      * @throws {Error} If the URL or object is null or empty.
      */
-    update: <T>(url: string, obj: T, Model: Class, cancelToken?: object, token: any) => Promise<T | null | ApiErrorResponse>;
+    update: <T>(url: string, obj: T, Model: Class, cancelToken?: object, headers?: {
+        token?: string;
+        Range?: string;
+        email?: string;
+    }) => Promise<T | null | ApiErrorResponse>;
     /**
      * Retrieve single data from the given URL with optional cancellation support using superagent's abort method.
      *
@@ -94,10 +121,14 @@ export default class ViewSdkBase {
      * @param {string} url - The URL to request data from.
      * @param {Class} Model - Modal to deserialize on
      * @param {{}} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+     * @param {string} [headers.token] - headers token for authorization.
      * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
      * @throws {Error} If the URL is null or empty.
      */
-    retrieveMany: <T>(url: string, Model: Class, cancelToken?: {}, token: any) => Promise<T | null | ApiErrorResponse>;
+    retrieveMany: <T>(url: string, Model: Class, cancelToken?: {}, headers?: {
+        token?: string;
+    }) => Promise<T | null | ApiErrorResponse>;
     /**
      * Delete single data from the given URL with optional cancellation support using superagent's abort method.
      *
@@ -105,21 +136,28 @@ export default class ViewSdkBase {
      * @param {string} url - The URL to delete data from.
      * @param {Class} Model - Modal to deserialize on
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+     * @param {string} [headers.token] - headers token for authorization.
      * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
      * @throws {Error} If the URL is null or empty.
      */
-    delete: <T>(url: string, Model: Class, cancelToken?: object) => Promise<T | null | ApiErrorResponse>;
+    delete: <T>(url: string, Model: Class, cancelToken?: object, headers?: {
+        token?: string;
+    }) => Promise<T | null | ApiErrorResponse>;
     /**
      * Delete single data from the given URL with optional cancellation support using superagent's abort method.
      *
      * @template T
      * @param {string} url - The URL to delete data from.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @param {string} [token] - Optional object with an `abort` method to cancel the request.
+     * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+     * @param {string} [headers.token] - headers token for authorization.
      * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
      * @throws {Error} If the URL is null or empty.
      */
-    deleteRaw: <T>(url: string, cancelToken?: object, token?: string) => Promise<T | null | ApiErrorResponse>;
+    deleteRaw: <T>(url: string, cancelToken?: object, headers?: {
+        token?: string;
+    }) => Promise<T | null | ApiErrorResponse>;
     /**
      * Delete single data from the given URL with optional cancellation support using superagent's abort method.
      *

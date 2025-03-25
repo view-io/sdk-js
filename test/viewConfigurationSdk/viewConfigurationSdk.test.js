@@ -41,7 +41,7 @@ describe('ViewConfigurationSdk', () => {
 
   describe('Tenant Methods', () => {
     it('get All Tenants', async () => {
-      const data = await api.retrieveTenants(null, mockXToken);
+      const data = await api.retrieveTenants(mockXToken);
       expect(
         data.forEach((tenant) => {
           expect(tenant instanceof TenantMetadata).toBe(true);
@@ -66,7 +66,7 @@ describe('ViewConfigurationSdk', () => {
     });
 
     it('create a Tenant', async () => {
-      const data = await api.writeTenant(createTenantMockData, null, mockXToken);
+      const data = await api.writeTenant(createTenantMockData, mockXToken);
       expect(data instanceof TenantMetadata).toBe(true);
     });
 

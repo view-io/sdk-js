@@ -58,6 +58,49 @@ export default class ViewSdkBase {
     }
   }
 
+  get accessKey() {
+    return this._accessKey;
+  }
+
+  /**
+   * Setter for the access key.
+   * @param {string} value - The access key.
+   * @throws {Error} Throws an error if the access key is null or empty.
+   */
+  set accessKey(value) {
+    if (!value) {
+      GenExceptionHandlersInstance.ArgumentNullException('AccessKey');
+    }
+    this.defaultHeaders = Object.assign({}, this.defaultHeaders, {
+      Authorization: `Bearer ${value}`,
+    });
+    this._accessKey = value;
+  }
+
+  /**
+   * Getter for the access token.
+   * @return {string} The access token.
+   */
+  get accessToken() {
+    return this._accessToken;
+  }
+
+  /**
+   * Setter for the access token.
+   * @param {string} value - The access token.
+   * @throws {Error} Throws an error if the access token is null or empty.
+   */
+  set accessToken(value) {
+    if (!value) {
+      GenExceptionHandlersInstance.ArgumentNullException('AccessToken');
+    }
+
+    this.defaultHeaders = Object.assign({}, this.defaultHeaders, {
+      'x-token': value,
+    });
+    this._accessToken = value;
+  }
+
   /**
    * Create an object via PUT request to the specified URL.
    *
@@ -192,7 +235,7 @@ export default class ViewSdkBase {
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
             // reject(null);
-            resolve('false');
+            reject(new Error('Something went wrong.'));
           }
         })
         .catch((error) => {
@@ -202,17 +245,17 @@ export default class ViewSdkBase {
             LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
+
           if (errorResponse && errorResponse?.Error) {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
               errorResponse?.Message
             );
-            resolve('false');
-            // reject(apiErrorResponse);
+            reject(apiErrorResponse);
           } else {
             // reject(null);
-            resolve('false');
+            reject(error?.message ? error?.message : 'Something went wrong.');
           }
         });
     });
@@ -226,10 +269,14 @@ export default class ViewSdkBase {
    * @param {T} obj - The object to send in the request body.
    * @param {Class} Model - Modal to deserialize on
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @param {Object} [headers] - Additional headers for the request.
+   * @param {string} [headers.token] - headers token for authorization.
+   * @param {string} [headers.Range] - headers range for the request.
+   * @param {string} [headers.email] - headers email for the request.
    * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
    * @throws {Error} If the URL or object is null or empty.
    */
-  update = (url, obj, Model, cancelToken, token) => {
+  update = (url, obj, Model, cancelToken, headers) => {
     if (!url) {
       GenExceptionHandlersInstance.ArgumentNullException('url');
     }
@@ -242,7 +289,7 @@ export default class ViewSdkBase {
       const jsonPayload = JSON.stringify(obj);
       // Prepare the PUT request using superagent
       const request = superagent('PUT', url)
-        .set(this.defaultHeaders)
+        .set(Object.assign({}, this.defaultHeaders, headers || {}))
         .set('Content-Type', 'application/json')
         .timeout(this.timeout)
         .send(jsonPayload); // Send JSON data in the request body
@@ -253,10 +300,6 @@ export default class ViewSdkBase {
           request.abort();
           LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
-      }
-
-      if (token) {
-        request.set('x-token', token);
       }
 
       // Send the request and handle the promise chain
@@ -460,10 +503,12 @@ export default class ViewSdkBase {
    * @param {string} url - The URL to request data from.
    * @param {Class} Model - Modal to deserialize on
    * @param {{}} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+   * @param {string} [headers.token] - headers token for authorization.
    * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
    * @throws {Error} If the URL is null or empty.
    */
-  retrieveMany = (url, Model, cancelToken, token) => {
+  retrieveMany = (url, Model, cancelToken, headers) => {
     if (!url) {
       GenExceptionHandlersInstance.ArgumentNullException('url');
     }
@@ -472,17 +517,15 @@ export default class ViewSdkBase {
     }
 
     return new Promise((resolve, reject) => {
-      const request = superagent('GET', url).set(this.defaultHeaders).timeout(this.timeout);
+      const request = superagent('GET', url)
+        .set(Object.assign({}, this.defaultHeaders, headers || {}))
+        .timeout(this.timeout);
 
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
           LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
-      }
-
-      if (token) {
-        request.set('x-token', token);
       }
 
       request
@@ -622,17 +665,21 @@ export default class ViewSdkBase {
    * @param {string} url - The URL to delete data from.
    * @param {Class} Model - Modal to deserialize on
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+   * @param {string} [headers.token] - headers token for authorization.
    * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
    * @throws {Error} If the URL is null or empty.
    */
-  delete = (url, Model, cancelToken) => {
+  delete = (url, Model, cancelToken, headers) => {
     if (!url) {
       GenExceptionHandlersInstance.ArgumentNullException('url');
     }
 
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
-      const request = superagent('DELETE', url).set(this.defaultHeaders).timeout(this.timeout);
+      const request = superagent('DELETE', url)
+        .set(Object.assign({}, this.defaultHeaders, headers || {}))
+        .timeout(this.timeout);
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
@@ -695,18 +742,21 @@ export default class ViewSdkBase {
    * @template T
    * @param {string} url - The URL to delete data from.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @param {string} [token] - Optional object with an `abort` method to cancel the request.
+   * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+   * @param {string} [headers.token] - headers token for authorization.
    * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
    * @throws {Error} If the URL is null or empty.
    */
-  deleteRaw = (url, cancelToken, token) => {
+  deleteRaw = (url, cancelToken, headers) => {
     if (!url) {
       GenExceptionHandlersInstance.ArgumentNullException('url');
     }
 
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
-      const request = superagent('DELETE', url).set(this.defaultHeaders).timeout(this.timeout);
+      const request = superagent('DELETE', url)
+        .set(Object.assign({}, this.defaultHeaders, headers || {}))
+        .timeout(this.timeout);
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
@@ -716,9 +766,6 @@ export default class ViewSdkBase {
         };
       }
 
-      if (token) {
-        request.set('x-token', token);
-      }
       // Send the request and handle the promise chain
       request
         .then((response) => {
