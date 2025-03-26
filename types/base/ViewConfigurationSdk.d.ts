@@ -998,25 +998,19 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * Create a new collection.
      *
      * @param {Object} collection Information about the collection.
-     * @param {number} collection.id - Collection ID.
-     * @param {string} collection.GUID - Collection GUID (automatically generated if not provided).
      * @param {string} collection.TenantGUID - Tenant GUID (automatically generated if not provided).
      * @param {string} collection.Name - Name of the collection.
      * @param {boolean} collection.AllowOverwrites - Indicates whether source documents can be overwritten (default is true).
      * @param {string} collection.AdditionalData - Additional data (optional).
-     * @param {Date} collection.CreatedUtc - Creation timestamp in UTC.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<Collection|null|ApiErrorResponse>} A promise resolving to the created Collection object or null.
      * @throws {Error} If the collection is null.
      */
     createCollection: (collection: {
-        id: number;
-        GUID: string;
         TenantGUID: string;
         Name: string;
         AllowOverwrites: boolean;
         AdditionalData: string;
-        CreatedUtc: Date;
     }, cancelToken?: object) => Promise<Collection | null | ApiErrorResponse>;
     /**
      * Delete a collection by its GUID.
@@ -1034,6 +1028,15 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * @throws {Error} If the trigger is null or invalid.
      */
     enumerateCollections: (cancelToken?: object) => Promise<Trigger | null | ApiErrorResponse>;
+    /**
+     * Check if a collection exists by its GUID.
+     *
+     * @param {string} collectionGuid - The GUID of the collection to check.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the collection exists, otherwise false.
+     * @throws {Error} If the collectionGuid is null or empty.
+     */
+    existsCollection: (collectionGuid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
     /**
      * Create a new object lock.
      *

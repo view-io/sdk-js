@@ -795,7 +795,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/vectorrepositories/' + guid;
-    return await this.delete(url, VectorRepository, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   }
 
   /**
@@ -923,7 +923,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/graphrepositories/' + guid;
-    return await this.delete(url, GraphRepository, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   }
 
   /**
@@ -1244,13 +1244,10 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
    * Create a new collection.
    *
    * @param {Object} collection Information about the collection.
-   * @param {number} collection.id - Collection ID.
-   * @param {string} collection.GUID - Collection GUID (automatically generated if not provided).
    * @param {string} collection.TenantGUID - Tenant GUID (automatically generated if not provided).
    * @param {string} collection.Name - Name of the collection.
    * @param {boolean} collection.AllowOverwrites - Indicates whether source documents can be overwritten (default is true).
    * @param {string} collection.AdditionalData - Additional data (optional).
-   * @param {Date} collection.CreatedUtc - Creation timestamp in UTC.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Collection|null|ApiErrorResponse>} A promise resolving to the created Collection object or null.
    * @throws {Error} If the collection is null.
@@ -1276,7 +1273,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/collections/' + collectionGuid;
-    return await this.delete(url, Collection, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
@@ -1288,6 +1285,22 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
   enumerateCollections = async (cancelToken) => {
     const url = `${this.endpoint}/v2.0/tenants/${this.tenantGuid}/collections`;
     return await this.retrieve(url, EnumerationResult, cancelToken);
+  };
+
+  /**
+   * Check if a collection exists by its GUID.
+   *
+   * @param {string} collectionGuid - The GUID of the collection to check.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the collection exists, otherwise false.
+   * @throws {Error} If the collectionGuid is null or empty.
+   */
+  existsCollection = async (collectionGuid, cancelToken) => {
+    if (!collectionGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
+    }
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/collections/' + collectionGuid;
+    return await this.exists(url, cancelToken);
   };
 
   //region Object-Locks
@@ -1697,7 +1710,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/embeddingsrules/' + guid;
-    return await this.delete(url, EmbeddingsRule, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**

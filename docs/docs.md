@@ -5200,6 +5200,7 @@ Configuration service.
     * [.createCollection](#module_base/ViewConfigurationSdk+createCollection) ⇒ <code>Promise.&lt;(Collection\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteCollection](#module_base/ViewConfigurationSdk+deleteCollection) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.enumerateCollections](#module_base/ViewConfigurationSdk+enumerateCollections) ⇒ <code>Promise.&lt;(Trigger\|null\|ApiErrorResponse)&gt;</code>
+    * [.existsCollection](#module_base/ViewConfigurationSdk+existsCollection) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.createObjectLock](#module_base/ViewConfigurationSdk+createObjectLock) ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
     * [.existsObjectLock](#module_base/ViewConfigurationSdk+existsObjectLock) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.retrieveObjectLock](#module_base/ViewConfigurationSdk+retrieveObjectLock) ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
@@ -6291,13 +6292,10 @@ Create a new collection.
 | Param | Type | Description |
 | --- | --- | --- |
 | collection | <code>Object</code> | Information about the collection. |
-| collection.id | <code>number</code> | Collection ID. |
-| collection.GUID | <code>string</code> | Collection GUID (automatically generated if not provided). |
 | collection.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
 | collection.Name | <code>string</code> | Name of the collection. |
 | collection.AllowOverwrites | <code>boolean</code> | Indicates whether source documents can be overwritten (default is true). |
 | collection.AdditionalData | <code>string</code> | Additional data (optional). |
-| collection.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+deleteCollection"></a>
@@ -6331,6 +6329,23 @@ Enumerate Collections.
 
 | Param | Type | Description |
 | --- | --- | --- |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewConfigurationSdk+existsCollection"></a>
+
+### base/ViewConfigurationSdk.existsCollection ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+Check if a collection exists by its GUID.
+
+**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
+**Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise resolving to true if the collection exists, otherwise false.  
+**Throws**:
+
+- <code>Error</code> If the collectionGuid is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collectionGuid | <code>string</code> | The GUID of the collection to check. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+createObjectLock"></a>

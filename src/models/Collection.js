@@ -3,7 +3,6 @@ import { v4 as uuidV4 } from 'uuid';
 export default class Collection {
   /**
    * @param {Object} collection Information about the collection.
-   * @param {number} collection.id - Collection ID.
    * @param {string} collection.GUID - Collection GUID (automatically generated if not provided).
    * @param {string} collection.TenantGUID - Tenant GUID (automatically generated if not provided).
    * @param {string} collection.Name - Name of the collection.
@@ -12,14 +11,7 @@ export default class Collection {
    * @param {Date} collection.CreatedUtc - Creation timestamp in UTC.
    */
   constructor(collection) {
-    const {
-      GUID = uuidV4(),
-      TenantGUID = uuidV4(),
-      Name = null,
-      AllowOverwrites = true,
-      AdditionalData = null,
-      CreatedUtc = new Date(),
-    } = collection;
+    const { GUID, TenantGUID, Name, AllowOverwrites, AdditionalData, CreatedUtc } = collection;
 
     this.GUID = GUID;
     this.TenantGUID = TenantGUID;
