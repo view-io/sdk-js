@@ -66,9 +66,9 @@ export default class DataRepository {
         CifsIncludeSubdirectories: boolean;
         NfsIncludeSubdirectories: boolean;
     });
-    GUID: any;
-    TenantGUID: any;
-    OwnerGUID: any;
+    GUID: string;
+    TenantGUID: string;
+    OwnerGUID: string;
     Name: string;
     RepositoryType: string;
     UseSsl: boolean;

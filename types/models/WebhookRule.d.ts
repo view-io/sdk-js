@@ -12,6 +12,7 @@ export default class WebhookRule {
      * @param {number} [options.MaxAttempts] - Maximum number of attempts (defaults to 10).
      * @param {number} [options.RetryIntervalMs] - Retry interval in milliseconds (defaults to 30 seconds).
      * @param {number} [options.TimeoutMs] - Timeout in milliseconds (defaults to 1 minute).
+     * @param {string} [options.CreatedUtc] - Created timestamp (default is current UTC time).
      */
     constructor({ GUID, TenantGUID, TargetGUID, Name, EventType, MaxAttempts, RetryIntervalMs, TimeoutMs, CreatedUtc, }?: {
         GUID?: string;
@@ -22,6 +23,7 @@ export default class WebhookRule {
         MaxAttempts?: number;
         RetryIntervalMs?: number;
         TimeoutMs?: number;
+        CreatedUtc?: string;
     });
     GUID: string;
     TenantGUID: string;
@@ -31,6 +33,6 @@ export default class WebhookRule {
     MaxAttempts: number;
     RetryIntervalMs: number;
     TimeoutMs: number;
-    CreatedUtc: any;
+    CreatedUtc: string;
 }
 import { WebhookEventTypeEnum } from '../enums/WebhookEventTypeEnum';

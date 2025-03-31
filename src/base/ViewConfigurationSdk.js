@@ -549,18 +549,14 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
    * Create an encryption key.
    *
    * @param {Object} key Information about the encryption key.
-   * @param {string} key.GUID - GUID of the encryption key (automatically generated if not provided).
-   * @param {string} key.tenantGuid - Tenant GUID (automatically generated if not provided).
-   * @param {string} key.OwnerGUID - Owner GUID (automatically generated if not provided).
-   * @param {string} key.KeyBase64 - Key in base64 form.
-   * @param {string} key.KeyHex - Key in hexadecimal form.
-   * @param {string} key.IvBase64 - Initialization vector in base64 form.
+   * @param {string} key.KeyBase64 - Encryption key in base64 format.
+   * @param {string} key.KeyHex - Encryption key in hexadecimal format.
+   * @param {string} key.IvBase64 - Initialization vector in base64 format.
    * @param {string} key.IvHex - Initialization vector in hexadecimal form.
    * @param {string} key.SaltBase64 - Salt in base64 form.
    * @param {string} key.SaltHex - Salt in hexadecimal form.
    * @param {string} key.Name - Name of the encryption key.
    * @param {string} key.Description - Description of the encryption key.
-   * @param {Date} key.CreatedUtc - Creation timestamp in UTC.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<EncryptionKey|null|ApiErrorResponse>} A promise resolving to the created EncryptionKey object.
    * @throws {Error} If the key is null.
@@ -657,7 +653,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/encryptionkeys/' + guid;
-    return await this.delete(url, EncryptionKey, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
@@ -2136,7 +2132,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/webhookrules/' + guid;
-    return await this.delete(url, WebhookRule, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
@@ -2439,6 +2435,29 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('blob');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/blobs';
+    return await this.update(url, blob, Blob, cancelToken);
+  };
+
+  /**
+   * Update a BLOB.
+   *
+   * @param {Object} blob - Information about the blob to update.
+   * @param {string} blob.GUID - GUID of the BLOB to update.
+   * @param {string} [blob.ContentType] - Content type of the BLOB.
+   * @param {string} [blob.Name] - Name of the BLOB.
+   * @param {string} [blob.Description] - Description of the BLOB.
+   * @param {string} [blob.RefObjType] - Object type to which this BLOB refers.
+   * @param {string} [blob.RefObjGUID] - Globally-unique identifier of the object to which this BLOB refers.
+   * @param {Uint8Array} [blob.Data] - BLOB data.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<Blob|null|ApiErrorResponse>} A promise resolving to the updated Blob object or null if update fails.
+   * @throws {Error} If the blob is null or empty.
+   */
+  updateBlob = async (blob, cancelToken) => {
+    if (!blob) {
+      GenExceptionHandlersInstance.ArgumentNullException('blob');
+    }
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/blobs/' + blob.GUID;
     return await this.update(url, blob, Blob, cancelToken);
   };
 

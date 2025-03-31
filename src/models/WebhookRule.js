@@ -15,17 +15,18 @@ export default class WebhookRule {
    * @param {number} [options.MaxAttempts] - Maximum number of attempts (defaults to 10).
    * @param {number} [options.RetryIntervalMs] - Retry interval in milliseconds (defaults to 30 seconds).
    * @param {number} [options.TimeoutMs] - Timeout in milliseconds (defaults to 1 minute).
+   * @param {string} [options.CreatedUtc] - Created timestamp (default is current UTC time).
    */
   constructor({
-    GUID = uuidV4(),
-    TenantGUID = uuidV4(),
-    TargetGUID = uuidV4(),
-    Name = '',
-    EventType = WebhookEventTypeEnum.Unknown,
-    MaxAttempts = 10,
-    RetryIntervalMs = 30 * 1000, // 30 seconds
-    TimeoutMs = 60 * 1000, // 1 minute
-    CreatedUtc = new Date(),
+    GUID,
+    TenantGUID,
+    TargetGUID,
+    Name,
+    EventType,
+    MaxAttempts,
+    RetryIntervalMs,
+    TimeoutMs,
+    CreatedUtc,
   } = {}) {
     this.GUID = GUID;
     this.TenantGUID = TenantGUID;
@@ -35,8 +36,7 @@ export default class WebhookRule {
     this.MaxAttempts = MaxAttempts;
     this.RetryIntervalMs = RetryIntervalMs;
     this.TimeoutMs = TimeoutMs;
-    this.CreatedUtc = CreatedUtc; // Default to current UTC time
+    this.CreatedUtc = CreatedUtc;
   }
-
   // Additional methods can be added here
 }

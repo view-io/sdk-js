@@ -28,27 +28,27 @@ export default class WebhookEvent {
    */
   constructor(webhookEvent) {
     const {
-      GUID = uuidV4(),
-      TenantGUID = uuidV4(),
-      TargetGUID = uuidV4(),
-      RuleGUID = uuidV4(),
-      EventType = 'Unknown', // Assuming enum value is passed as a string
-      ContentLength = 0,
-      TimeoutMs = 60000, // Default to 1 minute
-      Url = null,
-      ContentType = 'application/json',
-      ExpectStatus = 200,
-      RetryIntervalMs = 10000,
-      Attempt = 0,
-      MaxAttempts = 5,
-      HttpStatus = 0,
-      CreatedUtc = new Date(),
-      AddedUtc = new Date(),
-      LastAttemptUtc = null,
-      NextAttemptUtc = null,
-      LastFailureUtc = null,
-      SuccessUtc = null,
-      FailedUtc = null,
+      GUID,
+      TenantGUID,
+      TargetGUID,
+      RuleGUID,
+      EventType,
+      ContentLength,
+      TimeoutMs,
+      Url,
+      ContentType,
+      ExpectStatus,
+      RetryIntervalMs,
+      Attempt,
+      MaxAttempts,
+      HttpStatus,
+      CreatedUtc,
+      AddedUtc,
+      LastAttemptUtc,
+      NextAttemptUtc,
+      LastFailureUtc,
+      SuccessUtc,
+      FailedUtc,
     } = webhookEvent;
 
     this.GUID = GUID;
