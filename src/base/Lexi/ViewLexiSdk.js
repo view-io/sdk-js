@@ -106,7 +106,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/collections/' + collectionGuid;
-    return await this.delete(url, Collection, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
   /**
    * Retrieve top terms.
@@ -117,11 +117,11 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<Object|ApiErrorResponse>} A promise resolving to collection statistics.
    * @throws {Error} If the collectionGuid is null or empty.
    */
-  retrieveTopTerms = async (collectionGuid, maxKeys = 10, cancelToken) => {
+  retrieveCollectionTopTerms = async (collectionGuid, maxKeys = 10, cancelToken) => {
     if (!collectionGuid) {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/collections/${collectionGuid}/topterms?max-keys=10?max-keys=10`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/collections/${collectionGuid}/topterms?max-keys=${maxKeys}`;
     return await this.retrieve(url, cancelToken);
   };
   /**
@@ -155,6 +155,52 @@ export default class ViewLexiSdk extends ViewSdkBase {
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/collections/' + collectionGuid + '/documents';
     return await this.retrieveMany(url, SourceDocument, cancelToken);
+  };
+
+  /**
+   * Enumerate a collection.
+   *
+   * @param {string} collectionGuid - The GUID of the collection to enumerate.
+   * @param {Object} query - The query to use for enumeration.
+   * @property {number} query.timestamp - The timestamp for the enumeration query.
+   * @property {TenantMetadata|null} query.tenant - Metadata for the tenant.
+   * @property {string} query.tenantGuid - GUID for the tenant.
+   * @property {BucketMetadata|null} query.bucket - Metadata for the bucket.
+   * @property {string} query.bucketGuid - GUID for the bucket.
+   * @property {Collection|null} query.collection - Collection information.
+   * @property {string} query.collectionGuid - GUID for the collection.
+   * @property {SourceDocument|null} query.sourceDocument - Information about the source document.
+   * @property {string} query.sourceDocumentGuid - GUID for the source document.
+   * @property {VectorRepository|null} query.vectorRepository - Information about the vector repository.
+   * @property {string} query.vectorRepositoryGuid - GUID for the vector repository.
+   * @property {GraphRepository|null} query.graphRepository - Information about the graph repository.
+   * @property {string} query.graphRepositoryGuid - GUID for the graph repository.
+   * @property {string} query.graphNodeIdentifier - Identifier for the graph node.
+   * @property {number} query.maxResults - Maximum number of results to retrieve.
+   * @property {string|null} query.continuationToken - Token for continuation in results.
+   * @property {string|null} query.prefix - Prefix to filter results.
+   * @property {string|null} query.suffix - Suffix to filter results.
+   * @property {string|null} query.marker - Marker for pagination.
+   * @property {string} query.delimiter - Delimiter for separating values.
+   * @property {string} query.token - Token for authorization.
+   * @property {boolean} query.includeData - Flag to include subordinate data.
+   * @property {boolean} query.includeOwners - Flag to include owners (default: true for S3 compatibility).
+   * @property {Array<SearchFilter>} query.filters - Search filters to apply.
+   * @property {EnumerationOrderEnum} query.ordering - Ordering for the enumeration results.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
+   * @throws {Error} If the collectionGuid or query is null or empty.
+   */
+  enumerateCollection = async (collectionGuid, query, cancelToken) => {
+    if (!query) {
+      GenExceptionHandlersInstance.ArgumentNullException('query');
+    }
+    if (!collectionGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
+    }
+
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGUID + '/collections/' + collectionGuid + '?enumerate'; //endpomt update
+    return await this.post(url, query, EnumerationResult, cancelToken);
   };
 
   /**
@@ -359,55 +405,6 @@ export default class ViewLexiSdk extends ViewSdkBase {
   //   const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/collections/${collectionGuid}/documents/${documentGuid}`;
   //   return await this.exists(url, Collection, cancelToken);
   // };
-  // endregion
-
-  // region Enumerate
-  /**
-   * Enumerate a collection.
-   *
-   * @param {string} collectionGuid - The GUID of the collection to enumerate.
-   * @param {Object} query - The query to use for enumeration.
-   * @property {number} query.timestamp - The timestamp for the enumeration query.
-   * @property {TenantMetadata|null} query.tenant - Metadata for the tenant.
-   * @property {string} query.tenantGuid - GUID for the tenant.
-   * @property {BucketMetadata|null} query.bucket - Metadata for the bucket.
-   * @property {string} query.bucketGuid - GUID for the bucket.
-   * @property {Collection|null} query.collection - Collection information.
-   * @property {string} query.collectionGuid - GUID for the collection.
-   * @property {SourceDocument|null} query.sourceDocument - Information about the source document.
-   * @property {string} query.sourceDocumentGuid - GUID for the source document.
-   * @property {VectorRepository|null} query.vectorRepository - Information about the vector repository.
-   * @property {string} query.vectorRepositoryGuid - GUID for the vector repository.
-   * @property {GraphRepository|null} query.graphRepository - Information about the graph repository.
-   * @property {string} query.graphRepositoryGuid - GUID for the graph repository.
-   * @property {string} query.graphNodeIdentifier - Identifier for the graph node.
-   * @property {number} query.maxResults - Maximum number of results to retrieve.
-   * @property {string|null} query.continuationToken - Token for continuation in results.
-   * @property {string|null} query.prefix - Prefix to filter results.
-   * @property {string|null} query.suffix - Suffix to filter results.
-   * @property {string|null} query.marker - Marker for pagination.
-   * @property {string} query.delimiter - Delimiter for separating values.
-   * @property {string} query.token - Token for authorization.
-   * @property {boolean} query.includeData - Flag to include subordinate data.
-   * @property {boolean} query.includeOwners - Flag to include owners (default: true for S3 compatibility).
-   * @property {Array<SearchFilter>} query.filters - Search filters to apply.
-   * @property {EnumerationOrderEnum} query.ordering - Ordering for the enumeration results.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
-   * @throws {Error} If the collectionGuid or query is null or empty.
-   */
-  enumerateCollection = async (collectionGuid, query, cancelToken) => {
-    if (!query) {
-      GenExceptionHandlersInstance.ArgumentNullException('query');
-    }
-    if (!collectionGuid) {
-      GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
-    }
-
-    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGUID + '/collections/' + collectionGuid + '?enumerate'; //endpomt update
-    return await this.post(url, query, EnumerationResult, cancelToken);
-  };
-
   // endregion
 
   // region Search

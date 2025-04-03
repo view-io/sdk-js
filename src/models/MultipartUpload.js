@@ -1,27 +1,26 @@
-import { v4 as uuidV4 } from 'uuid';
-import UserMaster from './UserMaster';
-
+/**
+ * Represents a multipart upload session for an object.
+ */
 export default class MultipartUpload {
   /**
-   * @param {Object} data - The input data object.
-   * @param {string} data.GUID - Unique identifier (generated if not provided).
-   * @param {string} data.TenantGUID - Identifier for the tenant.
-   * @param {string} data.BucketGUID - Identifier for the bucket.
-   * @param {string} data.PoolGUID - Identifier for the pool.
-   * @param {string} data.NodeGUID - Identifier for the node.
-   * @param {string} data.OwnerGUID - Identifier for the owner.
-   * @param {string} data.UploadGUID - Identifier for the upload.
-   * @param {string} data.Key - Key of the object (e.g., filename).
-   * @param {Date} data.StartedUtc - Start timestamp in UTC.
-   * @param {Date} data.LastAccessUtc - Last access timestamp in UTC.
-   * @param {Date} data.CreatedUtc - Creation timestamp in UTC.
-   * @param {Date} data.ExpirationUtc - Expiration timestamp in UTC.
-   * @param {Object} data.Owner - Information about the owner.
-   * @param {Array} data.Parts - Parts of the object (default is an empty array).
+   * @param {Object} data - Multipart upload metadata.
+   * @param {string} data.GUID - Unique identifier of the multipart upload.
+   * @param {string} data.TenantGUID - Tenant identifier.
+   * @param {string} data.BucketGUID - Bucket identifier.
+   * @param {string} data.PoolGUID - Pool identifier.
+   * @param {string} data.NodeGUID - Node identifier.
+   * @param {string} data.OwnerGUID - Owner identifier.
+   * @param {string} data.UploadGUID - Upload session GUID.
+   * @param {string} data.Key - Object key (e.g. filename).
+   * @param {string} data.StartedUtc - When the upload started (ISO timestamp).
+   * @param {string} data.LastAccessUtc - Last access timestamp.
+   * @param {string} data.CreatedUtc - Creation timestamp.
+   * @param {string} data.ExpirationUtc - Expiration timestamp.
+   * @param {Array} data.Parts - List of parts (currently empty).
    */
-  constructor(data) {
+  constructor(data = {}) {
     const {
-      GUID = uuidV4(),
+      GUID,
       TenantGUID,
       BucketGUID,
       PoolGUID,
@@ -29,45 +28,25 @@ export default class MultipartUpload {
       OwnerGUID,
       UploadGUID,
       Key,
-      StartedUtc = new Date(),
-      LastAccessUtc = new Date(),
-      CreatedUtc = new Date(),
-      ExpirationUtc = new Date(),
-      Owner = {},
-      Parts = [],
+      StartedUtc,
+      LastAccessUtc,
+      CreatedUtc,
+      ExpirationUtc,
+      Parts,
     } = data;
 
     this.GUID = GUID;
-    this.tenantGUID = TenantGUID;
-    this.bucketGUID = BucketGUID;
-    this.poolGUID = PoolGUID;
-    this.nodeGUID = NodeGUID;
-    this.ownerGUID = OwnerGUID;
-    this.uploadGUID = UploadGUID;
-    this.key = Key;
-    this.startedUtc = new Date(StartedUtc);
-    this.lastAccessUtc = new Date(LastAccessUtc);
-    this.createdUtc = new Date(CreatedUtc);
-    this.expirationUtc = new Date(ExpirationUtc);
-    this.owner = new UserMaster(Owner);
-    this.parts = Parts;
-  }
-
-  /**
-   * ID getter.
-   */
-  get id() {
-    return this._id;
-  }
-
-  /**
-   * ID setter with validation.
-   * @param {number} value - The ID value.
-   */
-  set id(value) {
-    if (value < 1) {
-      throw new Error('ID must be greater than 0');
-    }
-    this._id = value;
+    this.TenantGUID = TenantGUID;
+    this.BucketGUID = BucketGUID;
+    this.PoolGUID = PoolGUID;
+    this.NodeGUID = NodeGUID;
+    this.OwnerGUID = OwnerGUID;
+    this.UploadGUID = UploadGUID;
+    this.Key = Key;
+    this.StartedUtc = StartedUtc;
+    this.LastAccessUtc = LastAccessUtc;
+    this.CreatedUtc = CreatedUtc;
+    this.ExpirationUtc = ExpirationUtc;
+    this.Parts = Parts;
   }
 }

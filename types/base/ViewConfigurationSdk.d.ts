@@ -710,144 +710,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      */
     enumerateGraphRepositories: (cancelToken?: object) => Promise<Trigger | null | ApiErrorResponse>;
     /**
-     * Create a pool.
-     *
-     * @param {Object} pool Information about the storage pool.
-     * @param {number} pool.id - Database row ID.
-     * @param {string} pool.GUID - Storage pool GUID (automatically generated if not provided).
-     * @param {string} pool.TenantGUID - Tenant GUID.
-     * @param {string} pool.EncryptionKeyGUID - Encryption key GUID.
-     * @param {string} pool.Name - Name of the storage pool.
-     * @param {string} pool.Provider - Provider of the storage pool (default is 'Disk').
-     * @param {string} pool.WriteMode - Object key write mode.
-     * @param {boolean} pool.UseSsl - Enable or disable SSL.
-     * @param {string} pool.Endpoint - Endpoint URL for the storage pool provider.
-     * @param {string} pool.AccessKey - Access key.
-     * @param {string} pool.SecretKey - Secret key.
-     * @param {string} pool.AwsRegion - AWS region.
-     * @param {string} pool.AwsBucket - AWS bucket.
-     * @param {string} pool.AwsBaseDomain - Base URL for AWS S3 compatible storage platforms.
-     * @param {string} pool.AwsBaseUrl - Base URL to use for objects.
-     * @param {string} pool.DiskDirectory - Disk directory.
-     * @param {string} pool.AzureAccount - Azure account.
-     * @param {string} pool.AzureContainer - Azure container.
-     * @param {string} pool.Compress - Compression type.
-     * @param {boolean} pool.EnableReadCaching - Flag to enable or disable read caching.
-     * @param {Date} pool.CreatedUtc - Creation timestamp in UTC.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<StoragePool|null|ApiErrorResponse>} A promise resolving to the created StoragePool object or null.
-     * @throws {Error} If the pool is null.
-     */
-    createPool: (pool: {
-        id: number;
-        GUID: string;
-        TenantGUID: string;
-        EncryptionKeyGUID: string;
-        Name: string;
-        Provider: string;
-        WriteMode: string;
-        UseSsl: boolean;
-        Endpoint: string;
-        AccessKey: string;
-        SecretKey: string;
-        AwsRegion: string;
-        AwsBucket: string;
-        AwsBaseDomain: string;
-        AwsBaseUrl: string;
-        DiskDirectory: string;
-        AzureAccount: string;
-        AzureContainer: string;
-        Compress: string;
-        EnableReadCaching: boolean;
-        CreatedUtc: Date;
-    }, cancelToken?: object) => Promise<StoragePool | null | ApiErrorResponse>;
-    /**
-     * Check if a pool exists.
-     *
-     * @param {string} guid - The GUID of the pool to check.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the pool exists, or false if not.
-     * @throws {Error} If the guid is null or empty.
-     */
-    existsPool: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
-    /**
-     * Retrieve a pool by its GUID.
-     *
-     * @param {string} guid - The GUID of the pool to retrieve.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<StoragePool|null|ApiErrorResponse>} A promise resolving to the StoragePool object or null if not found.
-     * @throws {Error} If the guid is null or empty.
-     */
-    retrievePool: (guid: string, cancelToken?: object) => Promise<StoragePool | null | ApiErrorResponse>;
-    /**
-     * Retrieve all pools.
-     *
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Array<StoragePool>|ApiErrorResponse>} A promise resolving to an array of StoragePool objects.
-     */
-    retrievePools: (cancelToken?: object) => Promise<Array<StoragePool> | ApiErrorResponse>;
-    /**
-     * Update a pool.
-     *
-     * @param {Object} pool Information about the storage pool.
-     * @param {number} pool.id - Database row ID.
-     * @param {string} pool.GUID - Storage pool GUID (automatically generated if not provided).
-     * @param {string} pool.TenantGUID - Tenant GUID.
-     * @param {string} pool.EncryptionKeyGUID - Encryption key GUID.
-     * @param {string} pool.Name - Name of the storage pool.
-     * @param {string} pool.Provider - Provider of the storage pool (default is 'Disk').
-     * @param {string} pool.WriteMode - Object key write mode.
-     * @param {boolean} pool.UseSsl - Enable or disable SSL.
-     * @param {string} pool.Endpoint - Endpoint URL for the storage pool provider.
-     * @param {string} pool.AccessKey - Access key.
-     * @param {string} pool.SecretKey - Secret key.
-     * @param {string} pool.AwsRegion - AWS region.
-     * @param {string} pool.AwsBucket - AWS bucket.
-     * @param {string} pool.AwsBaseDomain - Base URL for AWS S3 compatible storage platforms.
-     * @param {string} pool.AwsBaseUrl - Base URL to use for objects.
-     * @param {string} pool.DiskDirectory - Disk directory.
-     * @param {string} pool.AzureAccount - Azure account.
-     * @param {string} pool.AzureContainer - Azure container.
-     * @param {string} pool.Compress - Compression type.
-     * @param {boolean} pool.EnableReadCaching - Flag to enable or disable read caching.
-     * @param {Date} pool.CreatedUtc - Creation timestamp in UTC.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<StoragePool|null|ApiErrorResponse>} A promise resolving to the updated StoragePool object or null.
-     * @throws {Error} If the pool is null.
-     */
-    updatePool: (pool: {
-        id: number;
-        GUID: string;
-        TenantGUID: string;
-        EncryptionKeyGUID: string;
-        Name: string;
-        Provider: string;
-        WriteMode: string;
-        UseSsl: boolean;
-        Endpoint: string;
-        AccessKey: string;
-        SecretKey: string;
-        AwsRegion: string;
-        AwsBucket: string;
-        AwsBaseDomain: string;
-        AwsBaseUrl: string;
-        DiskDirectory: string;
-        AzureAccount: string;
-        AzureContainer: string;
-        Compress: string;
-        EnableReadCaching: boolean;
-        CreatedUtc: Date;
-    }, cancelToken?: object) => Promise<StoragePool | null | ApiErrorResponse>;
-    /**
-     * Delete a pool by its GUID.
-     *
-     * @param {string} guid - The GUID of the pool to delete.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if successful.
-     * @throws {Error} If the guid is null or empty.
-     */
-    deletePool: (guid: string, cancelToken?: object) => Promise<void | ApiErrorResponse>;
-    /**
      * Create a bucket.
      *
      * @param {Object} bucket Information about the bucket metadata.
@@ -1029,56 +891,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * @throws {Error} If the collectionGuid is null or empty.
      */
     existsCollection: (collectionGuid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
-    /**
-     * Create a new object lock.
-     *
-     * @param {Object} objectLock Information about the object lock.
-     * @param {string} objectLock.GUID - Object lock GUID (automatically generated if not provided).
-     * @param {string} objectLock.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} objectLock.NodeGUID - Node GUID (automatically generated if not provided).
-     * @param {string} objectLock.BucketGUID - Bucket GUID (automatically generated if not provided).
-     * @param {string} objectLock.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} objectLock.ObjectGUID - Object GUID (automatically generated if not provided).
-     * @param {string} objectLock.Key - Key for the object (default is empty string).
-     * @param {string} objectLock.Version - Version of the object (default is empty string).
-     * @param {boolean} objectLock.IsReadLock - Indicates if this is a read lock (default is false).
-     * @param {boolean} objectLock.IsWriteLock - Indicates if this is a write lock (default is false).
-     * @param {Date} objectLock.CreatedUtc - Creation timestamp in UTC.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<ObjectLock|null|ApiErrorResponse>} A promise resolving to the created ObjectLock object or null.
-     * @throws {Error} If the objectLock is null.
-     */
-    createObjectLock: (objectLock: {
-        GUID: string;
-        TenantGUID: string;
-        NodeGUID: string;
-        BucketGUID: string;
-        OwnerGUID: string;
-        ObjectGUID: string;
-        Key: string;
-        Version: string;
-        IsReadLock: boolean;
-        IsWriteLock: boolean;
-        CreatedUtc: Date;
-    }, cancelToken?: object) => Promise<ObjectLock | null | ApiErrorResponse>;
-    /**
-     * Check if an object lock exists by its GUID.
-     *
-     * @param {string} guid - The GUID of the object lock to check.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the object lock exists, otherwise false.
-     * @throws {Error} If the guid is null or empty.
-     */
-    existsObjectLock: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
-    /**
-     * Retrieve an object lock by its GUID.
-     *
-     * @param {string} guid - The GUID of the object lock to retrieve.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<ObjectLock|null|ApiErrorResponse>} A promise resolving to the ObjectLock object or null.
-     * @throws {Error} If the guid is null or empty.
-     */
-    retrieveObjectLock: (guid: string, cancelToken?: object) => Promise<ObjectLock | null | ApiErrorResponse>;
+    retrieveObjectLock: (guid: any, cancelToken: any) => Promise<any>;
     /**
      * Retrieve all object locks.
      *
@@ -1087,37 +900,11 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      */
     retrieveObjectLocks: (cancelToken?: object) => Promise<Array<ObjectLock> | ApiErrorResponse>;
     /**
-     * Update an existing object lock.
-     *
-     * @param {Object} objectLock Information about the object lock.
-     * @param {string} objectLock.GUID - Object lock GUID (automatically generated if not provided).
-     * @param {string} objectLock.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} objectLock.NodeGUID - Node GUID (automatically generated if not provided).
-     * @param {string} objectLock.BucketGUID - Bucket GUID (automatically generated if not provided).
-     * @param {string} objectLock.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} objectLock.ObjectGUID - Object GUID (automatically generated if not provided).
-     * @param {string} objectLock.Key - Key for the object (default is empty string).
-     * @param {string} objectLock.Version - Version of the object (default is empty string).
-     * @param {boolean} objectLock.IsReadLock - Indicates if this is a read lock (default is false).
-     * @param {boolean} objectLock.IsWriteLock - Indicates if this is a write lock (default is false).
-     * @param {Date} objectLock.CreatedUtc - Creation timestamp in UTC.
+     * Enumerate object locks.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<ObjectLock|null|ApiErrorResponse>} A promise resolving to the updated ObjectLock object or null.
-     * @throws {Error} If the objectLock is null.
+     * @returns {Promise<EnumerationResult|ApiErrorResponse>} A promise resolving to the enumeration result.
      */
-    updateObjectLock: (objectLock: {
-        GUID: string;
-        TenantGUID: string;
-        NodeGUID: string;
-        BucketGUID: string;
-        OwnerGUID: string;
-        ObjectGUID: string;
-        Key: string;
-        Version: string;
-        IsReadLock: boolean;
-        IsWriteLock: boolean;
-        CreatedUtc: Date;
-    }, cancelToken?: object) => Promise<ObjectLock | null | ApiErrorResponse>;
+    enumerateObjectLocks: (cancelToken?: object) => Promise<EnumerationResult | ApiErrorResponse>;
     /**
      * Delete an object lock by its GUID.
      *
@@ -1446,255 +1233,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      */
     enumerateEmbeddingsRules: (cancelToken?: object) => Promise<EmbeddingsResult | null | ApiErrorResponse>;
     /**
-     * Retrieve a list of data repositories.
-     *
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Array<DataRepository>|ApiErrorResponse>} A promise resolving to an array of DataRepository objects.
-     */
-    retrieveDataRepositories: (cancelToken?: object) => Promise<Array<DataRepository> | ApiErrorResponse>;
-    /**
-     * Retrieve a specific data repository by its GUID.
-     *
-     * @param {string} repositoryGuid - The GUID of the data repository to retrieve.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the DataRepository object or null.
-     * @throws {Error} If the repositoryGuid is null or empty.
-     */
-    retrieveDataRepository: (repositoryGuid: string, cancelToken?: object) => Promise<DataRepository | null | ApiErrorResponse>;
-    /**
-     * Create a new data repository.
-     *
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {number} dataRepository.Id - ID (must be greater than 0).
-     * @param {string} dataRepository.GUID - Data repository GUID (automatically generated if not provided).
-     * @param {string} dataRepository.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} dataRepository.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} dataRepository.Name - Name of the repository (default is "My file repository").
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {boolean} dataRepository.UseSsl - Boolean flag to enable SSL (default is false).
-     * @param {boolean} dataRepository.IncludeSubdirectories - Include subdirectories (default is true).
-     * @param {string} dataRepository.DiskDirectory - Disk directory (default is null).
-     * @param {string} dataRepository.S3EndpointUrl - S3 endpoint URL (default is null).
-     * @param {string} dataRepository.S3BaseUrl - S3 base URL (default is null).
-     * @param {string} dataRepository.S3AccessKey - S3 access key (default is null).
-     * @param {string} dataRepository.S3SecretKey - S3 secret key (default is null).
-     * @param {string} dataRepository.S3BucketName - S3 bucket name (default is null).
-     * @param {string} dataRepository.S3Region - S3 region (default is null).
-     * @param {string} dataRepository.AzureEndpointUrl - Azure endpoint URL (default is null).
-     * @param {string} dataRepository.AzureAccountName - Azure account name (default is null).
-     * @param {string} dataRepository.AzureContainerName - Azure container name (default is null).
-     * @param {string} dataRepository.AzureAccessKey - Azure access key (default is null).
-     * @param {string} dataRepository.CifsHostname - CIFS hostname (default is null).
-     * @param {string} dataRepository.CifsUsername - CIFS username (default is null).
-     * @param {string} dataRepository.CifsPassword - CIFS password (default is null).
-     * @param {string} dataRepository.CifsShareName - CIFS share name (default is null).
-     * @param {string} dataRepository.NfsHostname - NFS hostname (default is null).
-     * @param {number} dataRepository.NfsUserId - NFS user ID (must be non-negative).
-     * @param {number} dataRepository.NfsGroupId - NFS group ID (must be non-negative).
-     * @param {string} dataRepository.NfsShareName - NFS share name (default is null).
-     * @param {string} dataRepository.NfsVersion - NFS version (default is null).
-     * @param {Date} dataRepository.CreatedUtc - Created timestamp (default is current UTC time).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the created DataRepository object or null.
-     * @throws {Error} If the repository is null.
-     */
-    createDataRepository: (dataRepository: {
-        Id: number;
-        GUID: string;
-        TenantGUID: string;
-        OwnerGUID: string;
-        Name: string;
-        RepositoryType: string;
-        UseSsl: boolean;
-        IncludeSubdirectories: boolean;
-        DiskDirectory: string;
-        S3EndpointUrl: string;
-        S3BaseUrl: string;
-        S3AccessKey: string;
-        S3SecretKey: string;
-        S3BucketName: string;
-        S3Region: string;
-        AzureEndpointUrl: string;
-        AzureAccountName: string;
-        AzureContainerName: string;
-        AzureAccessKey: string;
-        CifsHostname: string;
-        CifsUsername: string;
-        CifsPassword: string;
-        CifsShareName: string;
-        NfsHostname: string;
-        NfsUserId: number;
-        NfsGroupId: number;
-        NfsShareName: string;
-        NfsVersion: string;
-        CreatedUtc: Date;
-    }, cancelToken?: object) => Promise<DataRepository | null | ApiErrorResponse>;
-    /**
-     * Delete a data repository by its GUID.
-     *
-     * @param {string} repositoryGuid - The GUID of the data repository to delete.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if the deletion is successful.
-     * @throws {Error} If the repositoryGuid is null or empty.
-     */
-    deleteDataRepository: (repositoryGuid: string, cancelToken?: object) => Promise<void | ApiErrorResponse>;
-    /**
-     * Enumerate Data Repositories.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created EnumerationResult object or null if creation fails.
-     * @throws {Error} If the trigger is null or invalid.
-     */
-    enumerateDataRepositories: (cancelToken?: object) => Promise<EnumerationResult | null | ApiErrorResponse>;
-    /**
-     * Check if a data repository exists by its GUID.
-     *
-     * @param {string} guid - The GUID of the data repository.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the data repository exists, false otherwise.
-     * @throws {Error} If the GUID is null or empty.
-     */
-    existsDataRepository: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
-    /**
-     * Write S3 Data Repository.
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {string} dataRepository.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} dataRepository.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} dataRepository.Name - Name of the repository (default is "My file repository").
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {string} dataRepository.S3EndpointUrl - S3 endpoint URL (default is null).
-     * @param {string} dataRepository.S3BaseUrl - S3 base URL (default is null).
-     * @param {string} dataRepository.S3AccessKey - S3 access key (default is null).
-     * @param {string} dataRepository.S3SecretKey - S3 secret key (default is null).
-     * @param {string} dataRepository.S3BucketName - S3 bucket name (default is null).
-     * @param {string} dataRepository.S3Region - S3 region (default is null).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-     * @throws {Error} If the node is null or empty.
-     */
-    writeS3DataRepository: (dataRepository: {
-        TenantGUID: string;
-        OwnerGUID: string;
-        Name: string;
-        RepositoryType: string;
-        S3EndpointUrl: string;
-        S3BaseUrl: string;
-        S3AccessKey: string;
-        S3SecretKey: string;
-        S3BucketName: string;
-        S3Region: string;
-    }, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
-    /**
-     * Write Disk Data Repository.
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {string} dataRepository.DiskDirectory - Disk directory (default is null).
-     * @param {boolean} dataRepository.DiskIncludeSubdirectories - Include subdirectories on disk (default is true).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-     * @throws {Error} If the node is null or empty.
-     */
-    writeDiskDataRepository: (dataRepository: {
-        RepositoryType: string;
-        DiskDirectory: string;
-        DiskIncludeSubdirectories: boolean;
-    }, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
-    /**
-     * Write Azure BLOB Data Repository.
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {string} dataRepository.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} dataRepository.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} dataRepository.Name - Name of the repository (default is "My file repository).
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {string} dataRepository.AzureEndpointUrl - Azure endpoint URL (default is null).
-     * @param {string} dataRepository.AzureAccountName - Azure account name (default is null).
-     * @param {string} dataRepository.AzureContainerName - Azure container name (default is null).
-     * @param {string} dataRepository.AzureAccessKey - Azure access key (default is null).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-     * @throws {Error} If the node is null or empty.
-     */
-    writeAzureBlobDataRepository: (dataRepository: {
-        TenantGUID: string;
-        OwnerGUID: string;
-        Name: string;
-        RepositoryType: string;
-        AzureEndpointUrl: string;
-        AzureAccountName: string;
-        AzureContainerName: string;
-        AzureAccessKey: string;
-    }, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
-    /**
-     * Write NFS Data Repository.
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {string} dataRepository.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} dataRepository.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} dataRepository.Name - Name of the repository (default is "My file repository).
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {string} dataRepository.NfsHostname - NFS hostname (default is null).
-     * @param {number} dataRepository.NfsUserId - NFS user ID (must be non-negative).
-     * @param {number} dataRepository.NfsGroupId - NFS group ID (must be non-negative).
-     * @param {string} dataRepository.NfsShareName - NFS share name (default is null).
-     * @param {boolean} dataRepository.NfsIncludeSubdirectories - Include subdirectories on NFS (default is true).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-     * @throws {Error} If the node is null or empty.
-     */
-    writeNfsDataRepository: (dataRepository: {
-        TenantGUID: string;
-        OwnerGUID: string;
-        Name: string;
-        RepositoryType: string;
-        NfsHostname: string;
-        NfsUserId: number;
-        NfsGroupId: number;
-        NfsShareName: string;
-        NfsIncludeSubdirectories: boolean;
-    }, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
-    /**
-     * Write CIFS Data Repository.
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {string} dataRepository.TenantGUID - Tenant GUID (automatically generated if not provided).
-     * @param {string} dataRepository.OwnerGUID - Owner GUID (automatically generated if not provided).
-     * @param {string} dataRepository.Name - Name of the repository (default is "My file repository).
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {string} dataRepository.CifsHostname - CIFS hostname (default is null).
-     * @param {string} dataRepository.CifsUsername - CIFS username (default is null).
-     * @param {string} dataRepository.CifsPassword - CIFS password (default is null).
-     * @param {string} dataRepository.CifsShareName - CIFS share name (default is null).
-     * @param {boolean} dataRepository.CifsIncludeSubdirectories - Include subdirectories on CIFS (default is true).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-     * @throws {Error} If the node is null or empty.
-     */
-    writeCifsDataRepository: (dataRepository: {
-        TenantGUID: string;
-        OwnerGUID: string;
-        Name: string;
-        RepositoryType: string;
-        CifsHostname: string;
-        CifsUsername: string;
-        CifsPassword: string;
-        CifsShareName: string;
-        CifsIncludeSubdirectories: boolean;
-    }, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
-    /**
-     * Update Data Repository.
-     * @param {Object} dataRepository Information about the data repository.
-     * @param {string} dataRepository.Name - Name of the repository (default is "My file repository).
-     * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
-     * @param {boolean} dataRepository.IncludeSubdirectories - Include subdirectories (default is true).
-     * @param {string} dataRepository.DiskDirectory - Disk directory (default is null).
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-     * @throws {Error} If the node is null or empty.
-     */
-    updateDataRepository: (guid: any, dataRepository: {
-        Name: string;
-        RepositoryType: string;
-        IncludeSubdirectories: boolean;
-        DiskDirectory: string;
-    }, cancelToken?: object) => Promise<Node | null | ApiErrorResponse>;
-    /**
      * Check if a webhook event exists.
      *
      * @param {string} guid - The GUID of the webhook event.
@@ -1822,8 +1360,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
     /**
      * Create a webhook target.
      * @param {Object} [target] - Optional parameters.
-     * @param {string} [target.GUID] - GUID (automatically generated if not provided).
-     * @param {string} [target.TenantGUID] - Tenant GUID (automatically generated if not provided).
      * @param {string} [target.Name] - Name of the webhook target (defaults to "My webhook target").
      * @param {string} [target.Url] - URL of the webhook target.
      * @param {string} [target.ContentType] - Content type (defaults to "application/json").
@@ -1832,8 +1368,6 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      * @returns {Promise<WebhookTarget>} - Webhook target.
      */
     createWebhookTarget(target?: {
-        GUID?: string;
-        TenantGUID?: string;
         Name?: string;
         Url?: string;
         ContentType?: string;
@@ -2226,7 +1760,6 @@ import UserMaster from '../models/UserMaster';
 import EncryptionKey from '../models/EncryptionKey';
 import VectorRepository from '../models/VectorRepository';
 import GraphRepository from '../models/GraphRepository';
-import StoragePool from '../models/StoragePool';
 import BucketMetadata from '../models/BucketMetadata';
 import Collection from '../models/Collection';
 import CollectionStatistics from '../models/CollectionStatistics';
@@ -2234,7 +1767,6 @@ import ObjectLock from '../models/ObjectLock';
 import MetadataRule from '../models/MetadataRule';
 import EmbeddingsRule from '../models/EmbeddingsRule';
 import EmbeddingsResult from '../models/EmbeddingsResult';
-import DataRepository from '../models/DataRepository';
 import WebhookEvent from '../models/WebhookEvent';
 import WebhookRule from '../models/WebhookRule';
 import WebhookTarget from '../models/WebhookTarget';

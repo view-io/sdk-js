@@ -7,18 +7,14 @@ export default class ApiErrorResponse {
      *
      * @param {ApiErrorEnum} error - The error code.
      * @param {Object} [context=null] - Additional contextual information.
+     * @param {string} [message=null] - Message of the error.
      * @param {string} [description=null] - Description of the error.
      */
-    constructor(error?: ApiErrorEnum, context?: any, description?: string);
+    constructor(error?: ApiErrorEnum, context?: any, message?: string, description?: string);
     error: string;
     context: any;
+    message: string;
     description: string;
-    /**
-     * Get the human-readable message corresponding to the error.
-     *
-     * @returns {string} - The message for the current error.
-     */
-    get message(): string;
     /**
      * Get the HTTP status code corresponding to the error.
      *

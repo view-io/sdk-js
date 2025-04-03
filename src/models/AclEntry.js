@@ -1,47 +1,49 @@
-import { v4 as uuidV4 } from 'uuid';
+/**
+ * Represents an Access Control List (ACL) entry for a bucket.
+ */
 export default class AclEntry {
   /**
    * @param {Object} entry - Access control entry details.
-   * @param {string} entry.GUID - Unique identifier for the entry.
-   * @param {string} entry.TenantGUID - Tenant GUID.
-   * @param {string} entry.BucketGUID - Bucket GUID.
-   * @param {string} entry.OwnerGUID - Owner GUID.
-   * @param {string} entry.UserGUID - User GUID.
-   * @param {string} entry.CanonicalUser - Canonical user identifier.
-   * @param {boolean} entry.EnableRead - Permission to read.
-   * @param {boolean} entry.EnableReadAcp - Permission to read ACP.
-   * @param {boolean} entry.EnableWrite - Permission to write.
-   * @param {boolean} entry.EnableWriteAcp - Permission to write ACP.
+   * @param {string} entry.GUID - Unique identifier for the ACL entry.
+   * @param {string} entry.TenantGUID - Tenant identifier.
+   * @param {string} entry.BucketGUID - Bucket identifier.
+   * @param {string} entry.OwnerGUID - Owner identifier.
+   * @param {string} entry.UserGUID - User identifier.
+   * @param {string} entry.CanonicalUser - Canonical user string.
+   * @param {boolean} entry.EnableRead - Read permission.
+   * @param {boolean} entry.EnableReadAcp - Read ACP permission.
+   * @param {boolean} entry.EnableWrite - Write permission.
+   * @param {boolean} entry.EnableWriteAcp - Write ACP permission.
    * @param {boolean} entry.FullControl - Full control permission.
-   * @param {Date} entry.CreatedUtc - Creation timestamp in UTC.
+   * @param {string} entry.CreatedUtc - ISO timestamp when the entry was created.
    */
-  constructor(entry) {
+  constructor(entry = {}) {
     const {
-      GUID = uuidV4(),
+      GUID,
       TenantGUID,
       BucketGUID,
       OwnerGUID,
       UserGUID,
-      CanonicalUser = '',
-      EnableRead = false,
-      EnableReadAcp = false,
-      EnableWrite = false,
-      EnableWriteAcp = false,
-      FullControl = false,
-      CreatedUtc = new Date().toISOString(),
+      CanonicalUser,
+      EnableRead,
+      EnableReadAcp,
+      EnableWrite,
+      EnableWriteAcp,
+      FullControl,
+      CreatedUtc,
     } = entry;
 
     this.GUID = GUID;
-    this.tenantGUID = TenantGUID;
-    this.bucketGUID = BucketGUID;
-    this.ownerGUID = OwnerGUID;
-    this.userGUID = UserGUID;
-    this.canonicalUser = CanonicalUser;
-    this.enableRead = EnableRead;
-    this.enableReadAcp = EnableReadAcp;
-    this.enableWrite = EnableWrite;
-    this.enableWriteAcp = EnableWriteAcp;
-    this.fullControl = FullControl;
-    this.createdUtc = CreatedUtc;
+    this.TenantGUID = TenantGUID;
+    this.BucketGUID = BucketGUID;
+    this.OwnerGUID = OwnerGUID;
+    this.UserGUID = UserGUID;
+    this.CanonicalUser = CanonicalUser;
+    this.EnableRead = EnableRead;
+    this.EnableReadAcp = EnableReadAcp;
+    this.EnableWrite = EnableWrite;
+    this.EnableWriteAcp = EnableWriteAcp;
+    this.FullControl = FullControl;
+    this.CreatedUtc = CreatedUtc;
   }
 }

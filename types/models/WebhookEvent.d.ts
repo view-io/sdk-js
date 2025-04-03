@@ -46,10 +46,10 @@ export default class WebhookEvent {
         SuccessUtc: Date;
         FailedUtc: Date;
     });
-    GUID: any;
-    TenantGUID: any;
-    TargetGUID: any;
-    RuleGUID: any;
+    GUID: string;
+    TenantGUID: string;
+    TargetGUID: string;
+    RuleGUID: string;
     EventType: string;
     ContentLength: any;
     TimeoutMs: any;

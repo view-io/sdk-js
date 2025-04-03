@@ -106,8 +106,8 @@ export default class ViewSdkBase {
    *
    * @template T
    * @param {string} url - The URL to send the PUT request to.
-   * @param {T} obj - The object to send in the request body.
-   * @param {Class} Model - Modal to deserialize on
+   * @param {T} [obj] - The object to send in the request body.
+   * @param {Class} [Model] - Modal to deserialize on
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
    * @throws {Error} If the URL or object is null or empty.
@@ -116,18 +116,15 @@ export default class ViewSdkBase {
     if (!url) {
       GenExceptionHandlersInstance.ArgumentNullException('url');
     }
-    if (!obj) {
-      GenExceptionHandlersInstance.ArgumentNullException('obj');
-    }
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
-      const jsonPayload = JSON.stringify(obj);
+      const jsonPayload = obj ? JSON.stringify(obj) : '';
       // Prepare the PUT request using superagent
       const request = superagent('PUT', url) // use PUT here as per c# flow
         .set(this.defaultHeaders)
         .set('Content-Type', 'application/json')
         .timeout(this.timeout)
-        .send(jsonPayload); // Send JSON data in the request body
+        .send(obj ? jsonPayload : undefined); // Send JSON data in the request body
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
@@ -151,11 +148,11 @@ export default class ViewSdkBase {
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-
-            // Return parsed JSON response
-            // resolve(response.body);
-            // Returns parsed JSON response in the given Modal
-            resolve(Serializer.deserializeJson(response.text, Model));
+            if (!Model) {
+              resolve(response.text);
+            } else {
+              resolve(Serializer.deserializeJson(response.text, Model));
+            }
           } else {
             LoggerInstance.log(
               SeverityEnum.Warn,
@@ -175,7 +172,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -250,7 +248,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -340,7 +339,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -397,7 +397,6 @@ export default class ViewSdkBase {
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            // Returns parsed JSON response in the given Modal
             if (!Model) {
               resolve(response.text);
             } else {
@@ -422,7 +421,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -486,7 +486,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -572,7 +573,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -727,7 +729,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -804,7 +807,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -955,7 +959,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -1039,7 +1044,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {
@@ -1122,7 +1128,8 @@ export default class ViewSdkBase {
             const apiErrorResponse = new ApiErrorResponse(
               errorResponse?.Error,
               errorResponse?.Context,
-              errorResponse?.Message
+              errorResponse?.Message,
+              errorResponse?.Description
             );
             reject(apiErrorResponse);
           } else {

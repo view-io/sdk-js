@@ -1,69 +1,26 @@
-import { URL } from 'url';
-import { v4 as uuidV4 } from 'uuid';
-
 /**
  * Represents a webhook target.
  */
 export default class WebhookTarget {
   /**
-   * @param {Object} [options] - Optional parameters.
-   * @param {string} [options.GUID] - GUID (automatically generated if not provided).
-   * @param {string} [options.TenantGUID] - Tenant GUID (automatically generated if not provided).
-   * @param {string} [options.Name] - Name of the webhook target (defaults to "My webhook target").
-   * @param {string} [options.Url] - URL of the webhook target.
-   * @param {string} [options.ContentType] - Content type (defaults to "application/json").
-   * @param {number} [options.ExpectStatus] - Expected HTTP status (defaults to 200).
+   * @param {Object} options - Webhook target definition.
+   * @param {string} [options.GUID] - Unique identifier.
+   * @param {string} [options.TenantGUID] - Tenant identifier.
+   * @param {string} [options.Name] - Name of the webhook target.
+   * @param {string} [options.Url] - Target URL.
+   * @param {string} [options.ContentType] - Content type (e.g. application/json).
+   * @param {number} [options.ExpectStatus] - Expected HTTP status code.
+   * @param {string} [options.CreatedUtc] - Timestamp of creation (ISO 8601 string).
    */
-  constructor({
-    GUID = uuidV4(),
-    TenantGUID = uuidV4(),
-    Name = 'My webhook target',
-    Url = null,
-    CreatedUtc = new Date(),
-    ContentType = 'application/json',
-    ExpectStatus = 200,
-  } = {}) {
+  constructor(options = {}) {
+    const { GUID, TenantGUID, Name, Url, ContentType, ExpectStatus, CreatedUtc } = options;
+
     this.GUID = GUID;
     this.TenantGUID = TenantGUID;
     this.Name = Name;
-    this._Url = Url;
-    this._Uri = Url ? new URL(Url) : null; // Initialize URI from URL if provided
     this.ContentType = ContentType;
     this.ExpectStatus = ExpectStatus;
-    this.CreatedUtc = CreatedUtc; // Default to current UTC time
+    this.CreatedUtc = CreatedUtc;
+    this.Url = Url;
   }
-
-  /**
-   * @returns {string} The URL of the webhook target.
-   */
-  get Url() {
-    return this._Url;
-  }
-
-  /**
-   * @param {string} value - The URL of the webhook target.
-   */
-  set Url(value) {
-    if (!value) throw new Error('Url cannot be null or empty.');
-    this._Uri = new URL(value);
-    this._Url = value;
-  }
-
-  /**
-   * @returns {URL} The URI of the webhook target.
-   */
-  get Uri() {
-    return this._Uri;
-  }
-
-  /**
-   * @param {URL} value - The URI of the webhook target.
-   */
-  set Uri(value) {
-    if (!value) throw new Error('Uri cannot be null.');
-    this._Uri = value;
-    this._Url = this._Uri.toString();
-  }
-
-  // Additional methods can be added here
 }

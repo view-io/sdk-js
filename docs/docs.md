@@ -139,290 +139,165 @@ Crawler service.
 **Version**: 0.1.0  
 
 * [base/ViewCrawlerSdk](#module_base/ViewCrawlerSdk)
-    * [.enumerateDataRepositories](#module_base/ViewCrawlerSdk+enumerateDataRepositories) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;DataRepository&gt;\|null)&gt;</code>
-    * [.retrieveAllDataRepositories](#module_base/ViewCrawlerSdk+retrieveAllDataRepositories) ⇒ <code>Promise.&lt;Array.&lt;DataRepository&gt;&gt;</code>
-    * [.retrieveByGUIDDataRepositories](#module_base/ViewCrawlerSdk+retrieveByGUIDDataRepositories) ⇒ <code>Promise.&lt;(DataRepository\|ApiErrorResponse)&gt;</code>
-    * [.writeDiskDataRepository](#module_base/ViewCrawlerSdk+writeDiskDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeS3DataRepository](#module_base/ViewCrawlerSdk+writeS3DataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeS3CompatibleDataRepository](#module_base/ViewCrawlerSdk+writeS3CompatibleDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeAzureBLOBDataRepository](#module_base/ViewCrawlerSdk+writeAzureBLOBDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeCIFSDataRepository](#module_base/ViewCrawlerSdk+writeCIFSDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeNFSDataRepository](#module_base/ViewCrawlerSdk+writeNFSDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.updateDataRepository](#module_base/ViewCrawlerSdk+updateDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveDataRepositories](#module_base/ViewCrawlerSdk+retrieveDataRepositories) ⇒ <code>Promise.&lt;(Array.&lt;DataRepository&gt;\|ApiErrorResponse)&gt;</code>
+    * [.retrieveDataRepository](#module_base/ViewCrawlerSdk+retrieveDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
+    * [.createDataRepository](#module_base/ViewCrawlerSdk+createDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteDataRepository](#module_base/ViewCrawlerSdk+deleteDataRepository) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-    * [.checkExistenceDataRepository](#module_base/ViewCrawlerSdk+checkExistenceDataRepository) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.enumerateDataRepositories](#module_base/ViewCrawlerSdk+enumerateDataRepositories) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
+    * [.existsDataRepository](#module_base/ViewCrawlerSdk+existsDataRepository) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.enumerateCrawlSchedules](#module_base/ViewCrawlerSdk+enumerateCrawlSchedules) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlSchedule&gt;\|null)&gt;</code>
     * [.retrieveAllCrawlSchedules](#module_base/ViewCrawlerSdk+retrieveAllCrawlSchedules) ⇒ <code>Promise.&lt;Array.&lt;CrawlSchedule&gt;&gt;</code>
-    * [.retrieveByIDCrawlSchedules](#module_base/ViewCrawlerSdk+retrieveByIDCrawlSchedules) ⇒ <code>Promise.&lt;(CrawlSchedule\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveCrawlSchedule](#module_base/ViewCrawlerSdk+retrieveCrawlSchedule) ⇒ <code>Promise.&lt;(CrawlSchedule\|null\|ApiErrorResponse)&gt;</code>
     * [.createCrawlSchedules](#module_base/ViewCrawlerSdk+createCrawlSchedules) ⇒ <code>Promise.&lt;(CrawlSchedule\|null\|ApiErrorResponse)&gt;</code>
     * [.updateCrawlSchedules](#module_base/ViewCrawlerSdk+updateCrawlSchedules) ⇒ <code>Promise.&lt;(CrawlSchedule\|ApiErrorResponse)&gt;</code>
     * [.deleteCrawlSchedule](#module_base/ViewCrawlerSdk+deleteCrawlSchedule) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.checkExistenceCrawlSchedule](#module_base/ViewCrawlerSdk+checkExistenceCrawlSchedule) ⇒ <code>Promise.&lt;boolean&gt;</code>
-    * [.enumerateCrawlFilter](#module_base/ViewCrawlerSdk+enumerateCrawlFilter) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlFilter&gt;\|null)&gt;</code>
-    * [.retrieveAllCrawlFilter](#module_base/ViewCrawlerSdk+retrieveAllCrawlFilter) ⇒ <code>Promise.&lt;Array.&lt;CrawlFilter&gt;&gt;</code>
-    * [.retrieveByIdFilter](#module_base/ViewCrawlerSdk+retrieveByIdFilter) ⇒ <code>Promise.&lt;(CrawlFilter\|null\|ApiErrorResponse)&gt;</code>
+    * [.existsCrawlSchedule](#module_base/ViewCrawlerSdk+existsCrawlSchedule) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.enumerateCrawlFilters](#module_base/ViewCrawlerSdk+enumerateCrawlFilters) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlFilter&gt;\|null)&gt;</code>
+    * [.retrieveCrawlFilters](#module_base/ViewCrawlerSdk+retrieveCrawlFilters) ⇒ <code>Promise.&lt;Array.&lt;CrawlFilter&gt;&gt;</code>
+    * [.retrieveCrawlFilter](#module_base/ViewCrawlerSdk+retrieveCrawlFilter) ⇒ <code>Promise.&lt;(CrawlFilter\|null\|ApiErrorResponse)&gt;</code>
     * [.createCrawlFilter](#module_base/ViewCrawlerSdk+createCrawlFilter) ⇒ <code>Promise.&lt;(CrawlFilter\|null\|ApiErrorResponse)&gt;</code>
     * [.updateCrawlFilter](#module_base/ViewCrawlerSdk+updateCrawlFilter) ⇒ <code>Promise.&lt;(CrawlFilter\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteCrawlFilter](#module_base/ViewCrawlerSdk+deleteCrawlFilter) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.checkExistenceCrawlFilter](#module_base/ViewCrawlerSdk+checkExistenceCrawlFilter) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.existsCrawlFilter](#module_base/ViewCrawlerSdk+existsCrawlFilter) ⇒ <code>Promise.&lt;boolean&gt;</code>
     * [.enumerateCrawlPlans](#module_base/ViewCrawlerSdk+enumerateCrawlPlans) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlPlan&gt;\|null)&gt;</code>
-    * [.retrieveAllCrawlPlans](#module_base/ViewCrawlerSdk+retrieveAllCrawlPlans) ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
-    * [.retrieveByIdCrawlPlan](#module_base/ViewCrawlerSdk+retrieveByIdCrawlPlan) ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
-    * [.writeCrawlPlans](#module_base/ViewCrawlerSdk+writeCrawlPlans) ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
-    * [.updateCrawlPlans](#module_base/ViewCrawlerSdk+updateCrawlPlans) ⇒ <code>Promise.&lt;(CrawlPlan\|null)&gt;</code>
-    * [.deleteCrawlPlans](#module_base/ViewCrawlerSdk+deleteCrawlPlans) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.checkExistenceCrawlPlans](#module_base/ViewCrawlerSdk+checkExistenceCrawlPlans) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.retrieveCrawlPlans](#module_base/ViewCrawlerSdk+retrieveCrawlPlans) ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
+    * [.retrieveCrawlPlan](#module_base/ViewCrawlerSdk+retrieveCrawlPlan) ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
+    * [.createCrawlPlan](#module_base/ViewCrawlerSdk+createCrawlPlan) ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
+    * [.updateCrawlPlan](#module_base/ViewCrawlerSdk+updateCrawlPlan) ⇒ <code>Promise.&lt;(CrawlPlan\|null)&gt;</code>
+    * [.deleteCrawlPlan](#module_base/ViewCrawlerSdk+deleteCrawlPlan) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+    * [.existsCrawlPlan](#module_base/ViewCrawlerSdk+existsCrawlPlan) ⇒ <code>Promise.&lt;boolean&gt;</code>
     * [.enumerateCrawlOperations](#module_base/ViewCrawlerSdk+enumerateCrawlOperations) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlOperation&gt;\|null)&gt;</code>
-    * [.retrieveAllCrawlOperations](#module_base/ViewCrawlerSdk+retrieveAllCrawlOperations) ⇒ <code>Promise.&lt;(Array.&lt;CrawlOperation&gt;\|null)&gt;</code>
-    * [.retrieveByIdCrawlOperations](#module_base/ViewCrawlerSdk+retrieveByIdCrawlOperations) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
+    * [.retrieveCrawlOperations](#module_base/ViewCrawlerSdk+retrieveCrawlOperations) ⇒ <code>Promise.&lt;(Array.&lt;CrawlOperation&gt;\|null)&gt;</code>
+    * [.retrieveCrawlOperation](#module_base/ViewCrawlerSdk+retrieveCrawlOperation) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
     * [.retrieveEnumerationCrawlOperations](#module_base/ViewCrawlerSdk+retrieveEnumerationCrawlOperations) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
-    * [.startCrawlOperations](#module_base/ViewCrawlerSdk+startCrawlOperations) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
-    * [.stopCrawlOperations](#module_base/ViewCrawlerSdk+stopCrawlOperations) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
-    * [.deleteCrawlOperations](#module_base/ViewCrawlerSdk+deleteCrawlOperations) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.checkExistenceCrawlOperations](#module_base/ViewCrawlerSdk+checkExistenceCrawlOperations) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.startCrawlOperation](#module_base/ViewCrawlerSdk+startCrawlOperation) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
+    * [.stopCrawlOperation](#module_base/ViewCrawlerSdk+stopCrawlOperation) ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
+    * [.deleteCrawlOperation](#module_base/ViewCrawlerSdk+deleteCrawlOperation) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+    * [.existsCrawlOperation](#module_base/ViewCrawlerSdk+existsCrawlOperation) ⇒ <code>Promise.&lt;boolean&gt;</code>
 
-<a name="module_base/ViewCrawlerSdk+enumerateDataRepositories"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveDataRepositories"></a>
 
-### base/ViewCrawlerSdk.enumerateDataRepositories ⇒ <code>Promise.&lt;(EnumerationResult.&lt;DataRepository&gt;\|null)&gt;</code>
-Enumerate Data Repositories.
+### base/ViewCrawlerSdk.retrieveDataRepositories ⇒ <code>Promise.&lt;(Array.&lt;DataRepository&gt;\|ApiErrorResponse)&gt;</code>
+Retrieve a list of data repositories.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(EnumerationResult.&lt;DataRepository&gt;\|null)&gt;</code> - A promise resolving to the enumeration result or null.  
+**Returns**: <code>Promise.&lt;(Array.&lt;DataRepository&gt;\|ApiErrorResponse)&gt;</code> - A promise resolving to an array of DataRepository objects.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveAllDataRepositories"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveDataRepository"></a>
 
-### base/ViewCrawlerSdk.retrieveAllDataRepositories ⇒ <code>Promise.&lt;Array.&lt;DataRepository&gt;&gt;</code>
-Retrieve All Data Repositories.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;Array.&lt;DataRepository&gt;&gt;</code> - A promise that resolves to an array of data repositories.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewCrawlerSdk+retrieveByGUIDDataRepositories"></a>
-
-### base/ViewCrawlerSdk.retrieveByGUIDDataRepositories ⇒ <code>Promise.&lt;(DataRepository\|ApiErrorResponse)&gt;</code>
-Retrieve Data By GUID Repository.
+### base/ViewCrawlerSdk.retrieveDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
+Retrieve a specific data repository by its GUID.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|ApiErrorResponse)&gt;</code> - A promise that resolves to the data repository object, or null if not found, or an error response.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the data repository to retrieve. |
-| cancelToken | <code>CancelToken</code> | The token to cancel the operation. |
-
-<a name="module_base/ViewCrawlerSdk+writeDiskDataRepository"></a>
-
-### base/ViewCrawlerSdk.writeDiskDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Write Disk Data Repository.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
+**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the DataRepository object or null.  
 **Throws**:
 
-- <code>Error</code> If the repository is null or empty.
+- <code>Error</code> If the repositoryGuid is null or empty.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.Name | <code>string</code> | Name of repository. |
-| [repository.RepositoryType] | <code>string</code> | Type of repository. |
-| repository.DiskDirectory | <code>string</code> | The directory path for storing the repository. |
-| repository.DiskIncludeSubdirectories | <code>boolean</code> | Whether to include subdirectories in the disk directory. |
+| repositoryGuid | <code>string</code> | The GUID of the data repository to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+writeS3DataRepository"></a>
+<a name="module_base/ViewCrawlerSdk+createDataRepository"></a>
 
-### base/ViewCrawlerSdk.writeS3DataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Write S3 Data Repository.
+### base/ViewCrawlerSdk.createDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
+Create a new data repository.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
+**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created DataRepository object or null.  
 **Throws**:
 
-- <code>Error</code> If the repository is null or empty.
+- <code>Error</code> If the repository is null.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.TenantGUID | <code>string</code> | GUID of the tenant (e.g., "default"). |
-| repository.OwnerGUID | <code>string</code> | GUID of the owner (e.g., "default"). |
-| repository.Name | <code>string</code> | Name of the repository. |
-| repository.RepositoryType | <code>string</code> | Type of the repository. |
-| [repository.S3EndpointUrl] | <code>string</code> \| <code>null</code> | (Optional) URL for the S3 endpoint (null if not provided). |
-| repository.S3BaseUrl | <code>string</code> | Base URL for the S3 repository, with placeholders for bucket and key"). |
-| repository.S3AccessKey | <code>string</code> | Access key for the S3 repository. |
-| repository.S3SecretKey | <code>string</code> | Secret key for the S3 repository. |
-| repository.S3BucketName | <code>string</code> | Name of the S3 bucket. |
-| repository.S3Region | <code>string</code> | Region of the S3 bucket. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewCrawlerSdk+writeS3CompatibleDataRepository"></a>
-
-### base/ViewCrawlerSdk.writeS3CompatibleDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Write S3 Compatible Storage Data Repository.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
-**Throws**:
-
-- <code>Error</code> If the repository is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.TenantGUID | <code>string</code> | GUID of the tenant. |
-| repository.OwnerGUID | <code>string</code> | GUID of the owner. |
-| repository.Name | <code>string</code> | Name of the repository. |
-| repository.RepositoryType | <code>string</code> | Type of the repository. |
-| repository.S3EndpointUrl | <code>string</code> | URL of the S3-compatible storage endpoint. |
-| repository.S3BaseUrl | <code>string</code> | Base URL for accessing objects in the S3-compatible storage. |
-| repository.S3AccessKey | <code>string</code> | Access key for authentication with the S3-compatible storage. |
-| repository.S3SecretKey | <code>string</code> | Secret key for authentication with the S3-compatible storage. |
-| repository.S3BucketName | <code>string</code> | Name of the S3-compatible storage bucket. |
-| repository.S3Region | <code>string</code> | Region of the S3-compatible storage bucket. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewCrawlerSdk+writeAzureBLOBDataRepository"></a>
-
-### base/ViewCrawlerSdk.writeAzureBLOBDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Write Azure BLOB Data Repository.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
-**Throws**:
-
-- <code>Error</code> If the repository is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.TenantGUID | <code>string</code> | GUID of the tenant. |
-| repository.OwnerGUID | <code>string</code> | GUID of the owner. |
-| repository.Name | <code>string</code> | Name of the repository. |
-| repository.RepositoryType | <code>string</code> | Type of the repository (e.g., "AzureBlob"). |
-| repository.AzureEndpointUrl | <code>string</code> | URL of the Azure Blob storage endpoint. |
-| repository.AzureAccountName | <code>string</code> | Name of the Azure storage account. |
-| repository.AzureContainerName | <code>string</code> | Name of the Azure Blob storage container. |
-| repository.AzureAccessKey | <code>string</code> | Access key for authentication with the Azure Blob storage. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewCrawlerSdk+writeCIFSDataRepository"></a>
-
-### base/ViewCrawlerSdk.writeCIFSDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Write CIFS Data Repository.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
-**Throws**:
-
-- <code>Error</code> If the repository is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.TenantGUID | <code>string</code> | GUID of the tenant. |
-| repository.OwnerGUID | <code>string</code> | GUID of the owner. |
-| repository.Name | <code>string</code> | Name of the repository. |
-| repository.RepositoryType | <code>string</code> | Type of the repository (e.g., "CIFS"). |
-| repository.CifsHostname | <code>string</code> | Hostname or IP address of the CIFS server. |
-| repository.CifsUsername | <code>string</code> | Username for authentication with the CIFS server. |
-| repository.CifsPassword | <code>string</code> | Password for authentication with the CIFS server. |
-| repository.CifsShareName | <code>string</code> | The name of the CIFS share. |
-| repository.CifsIncludeSubdirectories | <code>boolean</code> | Whether to include subdirectories in the CIFS share (true or false). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewCrawlerSdk+writeNFSDataRepository"></a>
-
-### base/ViewCrawlerSdk.writeNFSDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Write NFS Data Repository.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
-**Throws**:
-
-- <code>Error</code> If the repository is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.TenantGUID | <code>string</code> | GUID of the tenant. |
-| repository.OwnerGUID | <code>string</code> | GUID of the owner. |
-| repository.Name | <code>string</code> | Name of the repository. |
-| repository.RepositoryType | <code>string</code> | Type of the repository. |
-| repository.NfsHostname | <code>string</code> | Hostname or IP address of the NFS server. |
-| repository.NfsUserId | <code>number</code> | User ID (UID) for authentication with the NFS server. |
-| repository.NfsGroupId | <code>number</code> | Group ID (GID) for authentication with the NFS server. |
-| repository.NfsShareName | <code>string</code> | Name of the NFS share. |
-| repository.NfsIncludeSubdirectories | <code>boolean</code> | Whether to include subdirectories in the NFS share (true or false). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewCrawlerSdk+updateDataRepository"></a>
-
-### base/ViewCrawlerSdk.updateDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Update Data Repository.
-
-**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise that resolves to the written data repository object, or null if the write fails, or an error response.  
-**Throws**:
-
-- <code>Error</code> If the repository is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repository | <code>Object</code> | Information about the repository object data. |
-| repository.Name | <code>string</code> | Name of the repository. |
-| repository.RepositoryType | <code>string</code> | Type of the repository. |
-| repository.IncludeSubdirectories | <code>boolean</code> | Whether to include subdirectories in the repository (true or false). |
-| repository.DiskDirectory | <code>string</code> | Path to the directory where the files are stored. |
+| dataRepository | <code>Object</code> | Information about the data repository. |
+| dataRepository.Id | <code>number</code> | ID (must be greater than 0). |
+| dataRepository.GUID | <code>string</code> | Data repository GUID (automatically generated if not provided). |
+| dataRepository.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
+| dataRepository.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
+| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository"). |
+| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
+| dataRepository.UseSsl | <code>boolean</code> | Boolean flag to enable SSL (default is false). |
+| dataRepository.IncludeSubdirectories | <code>boolean</code> | Include subdirectories (default is true). |
+| dataRepository.DiskDirectory | <code>string</code> | Disk directory (default is null). |
+| dataRepository.S3EndpointUrl | <code>string</code> | S3 endpoint URL (default is null). |
+| dataRepository.S3BaseUrl | <code>string</code> | S3 base URL (default is null). |
+| dataRepository.S3AccessKey | <code>string</code> | S3 access key (default is null). |
+| dataRepository.S3SecretKey | <code>string</code> | S3 secret key (default is null). |
+| dataRepository.S3BucketName | <code>string</code> | S3 bucket name (default is null). |
+| dataRepository.S3Region | <code>string</code> | S3 region (default is null). |
+| dataRepository.AzureEndpointUrl | <code>string</code> | Azure endpoint URL (default is null). |
+| dataRepository.AzureAccountName | <code>string</code> | Azure account name (default is null). |
+| dataRepository.AzureContainerName | <code>string</code> | Azure container name (default is null). |
+| dataRepository.AzureAccessKey | <code>string</code> | Azure access key (default is null). |
+| dataRepository.CifsHostname | <code>string</code> | CIFS hostname (default is null). |
+| dataRepository.CifsUsername | <code>string</code> | CIFS username (default is null). |
+| dataRepository.CifsPassword | <code>string</code> | CIFS password (default is null). |
+| dataRepository.CifsShareName | <code>string</code> | CIFS share name (default is null). |
+| dataRepository.NfsHostname | <code>string</code> | NFS hostname (default is null). |
+| dataRepository.NfsUserId | <code>number</code> | NFS user ID (must be non-negative). |
+| dataRepository.NfsGroupId | <code>number</code> | NFS group ID (must be non-negative). |
+| dataRepository.NfsShareName | <code>string</code> | NFS share name (default is null). |
+| dataRepository.NfsVersion | <code>string</code> | NFS version (default is null). |
+| dataRepository.CreatedUtc | <code>Date</code> | Created timestamp (default is current UTC time). |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewCrawlerSdk+deleteDataRepository"></a>
 
 ### base/ViewCrawlerSdk.deleteDataRepository ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-Delete Repository.
+Delete a data repository by its GUID.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code> - A promise that resolves to true if the deletion was successful, or an error response if it failed.  
+**Returns**: <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code> - A promise resolving to void if the deletion is successful.  
 **Throws**:
 
-- <code>Error</code> If the guid is null or empty.
+- <code>Error</code> If the repositoryGuid is null or empty.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| guid | <code>string</code> | The GUID of the repository to delete. |
+| repositoryGuid | <code>string</code> | The GUID of the data repository to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+checkExistenceDataRepository"></a>
+<a name="module_base/ViewCrawlerSdk+enumerateDataRepositories"></a>
 
-### base/ViewCrawlerSdk.checkExistenceDataRepository ⇒ <code>Promise.&lt;boolean&gt;</code>
-Check Existence.
+### base/ViewCrawlerSdk.enumerateDataRepositories ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
+Enumerate Data Repositories.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
-**Returns**: <code>Promise.&lt;boolean&gt;</code> - A promise that resolves to `true` if the data repository exists, otherwise `false` or an error response if the check fails.  
+**Returns**: <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created EnumerationResult object or null if creation fails.  
 **Throws**:
 
-- <code>Error</code> If the guid is null or empty.
+- <code>Error</code> If the trigger is null or invalid.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| guid | <code>string</code> | GUID of data repository. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewCrawlerSdk+existsDataRepository"></a>
+
+### base/ViewCrawlerSdk.existsDataRepository ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+Check if a data repository exists by its GUID.
+
+**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
+**Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise resolving to true if the data repository exists, false otherwise.  
+**Throws**:
+
+- <code>Error</code> If the GUID is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| guid | <code>string</code> | The GUID of the data repository. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewCrawlerSdk+enumerateCrawlSchedules"></a>
@@ -449,9 +324,9 @@ Retrieve All Crawl Schedules.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveByIDCrawlSchedules"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlSchedule"></a>
 
-### base/ViewCrawlerSdk.retrieveByIDCrawlSchedules ⇒ <code>Promise.&lt;(CrawlSchedule\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlSchedule ⇒ <code>Promise.&lt;(CrawlSchedule\|null\|ApiErrorResponse)&gt;</code>
 Retrieve By ID Crawl Schedules.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -500,8 +375,8 @@ Update Crawl Schedules.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [guid] | <code>string</code> | GUID of Crawl Schedules |
 | scheduleData | <code>Object</code> | Information about the schedule. |
+| scheduleData.GUID | <code>string</code> | GUID of the schedule. |
 | scheduleData.Name | <code>string</code> | Name of the schedule. |
 | scheduleData.Schedule | <code>string</code> | Type of schedule. |
 | scheduleData.Interval | <code>number</code> | The interval value for the schedule. |
@@ -524,9 +399,9 @@ Delete Crawl Schedule.
 | guid | <code>string</code> | The GUID of the crawl schedule to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+checkExistenceCrawlSchedule"></a>
+<a name="module_base/ViewCrawlerSdk+existsCrawlSchedule"></a>
 
-### base/ViewCrawlerSdk.checkExistenceCrawlSchedule ⇒ <code>Promise.&lt;boolean&gt;</code>
+### base/ViewCrawlerSdk.existsCrawlSchedule ⇒ <code>Promise.&lt;boolean&gt;</code>
 Check Existence of Crawl Schedule.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -541,9 +416,9 @@ Check Existence of Crawl Schedule.
 | guid | <code>string</code> | GUID of Crawl Schedule. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+enumerateCrawlFilter"></a>
+<a name="module_base/ViewCrawlerSdk+enumerateCrawlFilters"></a>
 
-### base/ViewCrawlerSdk.enumerateCrawlFilter ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlFilter&gt;\|null)&gt;</code>
+### base/ViewCrawlerSdk.enumerateCrawlFilters ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlFilter&gt;\|null)&gt;</code>
 Enumerate Crawl Filters.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -553,9 +428,9 @@ Enumerate Crawl Filters.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveAllCrawlFilter"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlFilters"></a>
 
-### base/ViewCrawlerSdk.retrieveAllCrawlFilter ⇒ <code>Promise.&lt;Array.&lt;CrawlFilter&gt;&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlFilters ⇒ <code>Promise.&lt;Array.&lt;CrawlFilter&gt;&gt;</code>
 Retrieve All Crawl Filters.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -565,9 +440,9 @@ Retrieve All Crawl Filters.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveByIdFilter"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlFilter"></a>
 
-### base/ViewCrawlerSdk.retrieveByIdFilter ⇒ <code>Promise.&lt;(CrawlFilter\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlFilter ⇒ <code>Promise.&lt;(CrawlFilter\|null\|ApiErrorResponse)&gt;</code>
 Retrieve By Id Crawl Filters.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -617,13 +492,13 @@ Update Crawl Filters.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [guid] | <code>string</code> | GUID of Crawl Filters |
-| scheduleData | <code>Object</code> | Information about the schedule. |
-| filterData.Name | <code>string</code> | Name of the filter (e.g., "My updated filter"). |
-| filterData.MinimumSize | <code>number</code> | Minimum file size to include in the filter (e.g., 1 byte). |
-| filterData.MaximumSize | <code>number</code> | Maximum file size to include in the filter (e.g., 134217728 bytes, or 128 MB). |
-| filterData.IncludeSubdirectories | <code>boolean</code> | Whether to include subdirectories in the filter (true or false). |
-| filterData.ContentType | <code>string</code> | The content type to filter (e.g., "*"). |
+| crawlFilterData | <code>Object</code> | Information about the schedule. |
+| crawlFilterData.GUID | <code>string</code> | GUID of the filter. |
+| crawlFilterData.Name | <code>string</code> | Name of the filter (e.g., "My updated filter"). |
+| crawlFilterData.MinimumSize | <code>number</code> | Minimum file size to include in the filter (e.g., 1 byte). |
+| crawlFilterData.MaximumSize | <code>number</code> | Maximum file size to include in the filter (e.g., 134217728 bytes, or 128 MB). |
+| crawlFilterData.IncludeSubdirectories | <code>boolean</code> | Whether to include subdirectories in the filter (true or false). |
+| crawlFilterData.ContentType | <code>string</code> | The content type to filter (e.g., "*"). |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewCrawlerSdk+deleteCrawlFilter"></a>
@@ -643,9 +518,9 @@ Delete Crawl Filters.
 | [guid] | <code>string</code> | GUID of Crawl Filters |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+checkExistenceCrawlFilter"></a>
+<a name="module_base/ViewCrawlerSdk+existsCrawlFilter"></a>
 
-### base/ViewCrawlerSdk.checkExistenceCrawlFilter ⇒ <code>Promise.&lt;boolean&gt;</code>
+### base/ViewCrawlerSdk.existsCrawlFilter ⇒ <code>Promise.&lt;boolean&gt;</code>
 Check Existence Crawl Filters.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -672,9 +547,9 @@ Enumerate Crawl Plans.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveAllCrawlPlans"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlPlans"></a>
 
-### base/ViewCrawlerSdk.retrieveAllCrawlPlans ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlPlans ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
 Retrieve All Crawl Plans.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -684,9 +559,9 @@ Retrieve All Crawl Plans.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveByIdCrawlPlan"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlPlan"></a>
 
-### base/ViewCrawlerSdk.retrieveByIdCrawlPlan ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlPlan ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
 Retrieve By Id Crawl Plans.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -701,9 +576,9 @@ Retrieve By Id Crawl Plans.
 | [guid] | <code>string</code> | GUID of crawl Plans |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+writeCrawlPlans"></a>
+<a name="module_base/ViewCrawlerSdk+createCrawlPlan"></a>
 
-### base/ViewCrawlerSdk.writeCrawlPlans ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
+### base/ViewCrawlerSdk.createCrawlPlan ⇒ <code>Promise.&lt;Array.&lt;CrawlPlan&gt;&gt;</code>
 Write Crawl Plans.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -729,10 +604,10 @@ Write Crawl Plans.
 | crawlPlanData.CleanupAccessKey | <code>string</code> | The access key used for authenticating to the cleanup endpoint. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+updateCrawlPlans"></a>
+<a name="module_base/ViewCrawlerSdk+updateCrawlPlan"></a>
 
-### base/ViewCrawlerSdk.updateCrawlPlans ⇒ <code>Promise.&lt;(CrawlPlan\|null)&gt;</code>
-Update Crawl Plans.
+### base/ViewCrawlerSdk.updateCrawlPlan ⇒ <code>Promise.&lt;(CrawlPlan\|null)&gt;</code>
+Update Crawl Plan.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
 **Returns**: <code>Promise.&lt;(CrawlPlan\|null)&gt;</code> - A promise resolving of CrawlPlan objects if the update is successful, or null if the update fails.  
@@ -743,8 +618,8 @@ Update Crawl Plans.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [guid] | <code>string</code> | GUID of Crawl Plans |
 | crawlPlanData | <code>Object</code> | Information about the crawl plan to update. |
+| crawlPlanData.GUID | <code>string</code> | GUID of the crawl plan to update. |
 | crawlPlanData.DataRepositoryGUID | <code>string</code> | GUID of the data repository associated with the crawl plan. |
 | crawlPlanData.CrawlScheduleGUID | <code>string</code> | GUID of the crawl schedule for the crawl plan. |
 | crawlPlanData.CrawlFilterGUID | <code>string</code> | GUID of the crawl filter applied to the crawl plan. |
@@ -758,9 +633,9 @@ Update Crawl Plans.
 | crawlPlanData.ProcessUpdates | <code>boolean</code> | Whether to process updates in the updated crawl plan (true or false). |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+deleteCrawlPlans"></a>
+<a name="module_base/ViewCrawlerSdk+deleteCrawlPlan"></a>
 
-### base/ViewCrawlerSdk.deleteCrawlPlans ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.deleteCrawlPlan ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
 Delete Crawl Plans.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -775,9 +650,9 @@ Delete Crawl Plans.
 | [guid] | <code>string</code> | GUID of Crawl Plans |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+checkExistenceCrawlPlans"></a>
+<a name="module_base/ViewCrawlerSdk+existsCrawlPlan"></a>
 
-### base/ViewCrawlerSdk.checkExistenceCrawlPlans ⇒ <code>Promise.&lt;boolean&gt;</code>
+### base/ViewCrawlerSdk.existsCrawlPlan ⇒ <code>Promise.&lt;boolean&gt;</code>
 Check Existence Crawl Plans.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -804,9 +679,9 @@ Enumerate Crawl Operations.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveAllCrawlOperations"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlOperations"></a>
 
-### base/ViewCrawlerSdk.retrieveAllCrawlOperations ⇒ <code>Promise.&lt;(Array.&lt;CrawlOperation&gt;\|null)&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlOperations ⇒ <code>Promise.&lt;(Array.&lt;CrawlOperation&gt;\|null)&gt;</code>
 Retrieve All Crawl Operations.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -816,9 +691,9 @@ Retrieve All Crawl Operations.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+retrieveByIdCrawlOperations"></a>
+<a name="module_base/ViewCrawlerSdk+retrieveCrawlOperation"></a>
 
-### base/ViewCrawlerSdk.retrieveByIdCrawlOperations ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.retrieveCrawlOperation ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
 Retrieve By Id Crawl Operations.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -850,9 +725,9 @@ Retrieve enumeration Crawl Operations.
 | [guid] | <code>string</code> | GUID of crawl operations |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+startCrawlOperations"></a>
+<a name="module_base/ViewCrawlerSdk+startCrawlOperation"></a>
 
-### base/ViewCrawlerSdk.startCrawlOperations ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.startCrawlOperation ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
 Start Crawl Operations.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -869,9 +744,9 @@ Start Crawl Operations.
 | crawlOperationData.Name | <code>string</code> | The name of the tenant for which the crawl operation is being started. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+stopCrawlOperations"></a>
+<a name="module_base/ViewCrawlerSdk+stopCrawlOperation"></a>
 
-### base/ViewCrawlerSdk.stopCrawlOperations ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.stopCrawlOperation ⇒ <code>Promise.&lt;(CrawlOperation\|ApiErrorResponse)&gt;</code>
 Stop Crawl Operations.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -888,9 +763,9 @@ Stop Crawl Operations.
 | crawlOperationData.Name | <code>string</code> | The name of the tenant for which the crawl operation is being started. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+deleteCrawlOperations"></a>
+<a name="module_base/ViewCrawlerSdk+deleteCrawlOperation"></a>
 
-### base/ViewCrawlerSdk.deleteCrawlOperations ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+### base/ViewCrawlerSdk.deleteCrawlOperation ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
 Delete Crawl Operations.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -905,9 +780,9 @@ Delete Crawl Operations.
 | [guid] | <code>string</code> | GUID of Crawl Operations |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewCrawlerSdk+checkExistenceCrawlOperations"></a>
+<a name="module_base/ViewCrawlerSdk+existsCrawlOperation"></a>
 
-### base/ViewCrawlerSdk.checkExistenceCrawlOperations ⇒ <code>Promise.&lt;boolean&gt;</code>
+### base/ViewCrawlerSdk.existsCrawlOperation ⇒ <code>Promise.&lt;boolean&gt;</code>
 Check Existence Crawl Operations.
 
 **Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
@@ -2860,16 +2735,16 @@ View Lexi SDK.
     * [.retrieveCollectionStatistics](#module_base/Lexi/ViewLexiSdk+retrieveCollectionStatistics) ⇒ <code>Promise.&lt;(CollectionStatistics\|ApiErrorResponse)&gt;</code>
     * [.createCollection](#module_base/Lexi/ViewLexiSdk+createCollection) ⇒ <code>Promise.&lt;(Collection\|ApiErrorResponse)&gt;</code>
     * [.deleteCollection](#module_base/Lexi/ViewLexiSdk+deleteCollection) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-    * [.retrieveTopTerms](#module_base/Lexi/ViewLexiSdk+retrieveTopTerms) ⇒ <code>Promise.&lt;(Object\|ApiErrorResponse)&gt;</code>
+    * [.retrieveCollectionTopTerms](#module_base/Lexi/ViewLexiSdk+retrieveCollectionTopTerms) ⇒ <code>Promise.&lt;(Object\|ApiErrorResponse)&gt;</code>
     * [.collectionExists](#module_base/Lexi/ViewLexiSdk+collectionExists) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.retrieveDocuments](#module_base/Lexi/ViewLexiSdk+retrieveDocuments) ⇒ <code>Promise.&lt;(Array.&lt;SourceDocument&gt;\|ApiErrorResponse)&gt;</code>
+    * [.enumerateCollection](#module_base/Lexi/ViewLexiSdk+enumerateCollection) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveDocument](#module_base/Lexi/ViewLexiSdk+retrieveDocument) ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
     * [.retrieveDocumentStatistics](#module_base/Lexi/ViewLexiSdk+retrieveDocumentStatistics) ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
     * [.uploadDocument](#module_base/Lexi/ViewLexiSdk+uploadDocument) ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
     * [.deleteDocument](#module_base/Lexi/ViewLexiSdk+deleteDocument) ⇒ <code>Promise.&lt;void&gt;</code>
     * [.deleteDocumentFromKey](#module_base/Lexi/ViewLexiSdk+deleteDocumentFromKey) ⇒ <code>Promise.&lt;void&gt;</code>
     * [.sourceDocumentsExists](#module_base/Lexi/ViewLexiSdk+sourceDocumentsExists) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.enumerateCollection](#module_base/Lexi/ViewLexiSdk+enumerateCollection) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
     * [.searchCollection](#module_base/Lexi/ViewLexiSdk+searchCollection) ⇒ <code>Promise.&lt;(SearchResult\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveAllIngestQueue](#module_base/Lexi/ViewLexiSdk+retrieveAllIngestQueue) ⇒ <code>Promise.&lt;(Array.&lt;IngestQueue&gt;\|ApiErrorResponse)&gt;</code>
     * [.retrieveIngestQueue](#module_base/Lexi/ViewLexiSdk+retrieveIngestQueue) ⇒ <code>Promise.&lt;(IngestQueue\|ApiErrorResponse)&gt;</code>
@@ -2957,9 +2832,9 @@ Delete a collection.
 | collectionGuid | <code>string</code> | The GUID of the collection to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an abort method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+retrieveTopTerms"></a>
+<a name="module_base/Lexi/ViewLexiSdk+retrieveCollectionTopTerms"></a>
 
-### base/Lexi/ViewLexiSdk.retrieveTopTerms ⇒ <code>Promise.&lt;(Object\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.retrieveCollectionTopTerms ⇒ <code>Promise.&lt;(Object\|ApiErrorResponse)&gt;</code>
 Retrieve top terms.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -3008,6 +2883,54 @@ Retrieve documents from a specified collection.
 | --- | --- | --- |
 | collectionGuid | <code>string</code> | The GUID of the collection to retrieve documents from. |
 | [cancelToken] | <code>object</code> | Optional object with an abort method to cancel the request. |
+
+<a name="module_base/Lexi/ViewLexiSdk+enumerateCollection"></a>
+
+### base/Lexi/ViewLexiSdk.enumerateCollection ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
+Enumerate a collection.
+
+**Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
+**Returns**: <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code> - The enumeration result or null if the request fails.  
+**Throws**:
+
+- <code>Error</code> If the collectionGuid or query is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collectionGuid | <code>string</code> | The GUID of the collection to enumerate. |
+| query | <code>Object</code> | The query to use for enumeration. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| query.timestamp | <code>number</code> | The timestamp for the enumeration query. |
+| query.tenant | <code>TenantMetadata</code> \| <code>null</code> | Metadata for the tenant. |
+| query.tenantGuid | <code>string</code> | GUID for the tenant. |
+| query.bucket | <code>BucketMetadata</code> \| <code>null</code> | Metadata for the bucket. |
+| query.bucketGuid | <code>string</code> | GUID for the bucket. |
+| query.collection | <code>Collection</code> \| <code>null</code> | Collection information. |
+| query.collectionGuid | <code>string</code> | GUID for the collection. |
+| query.sourceDocument | <code>SourceDocument</code> \| <code>null</code> | Information about the source document. |
+| query.sourceDocumentGuid | <code>string</code> | GUID for the source document. |
+| query.vectorRepository | <code>VectorRepository</code> \| <code>null</code> | Information about the vector repository. |
+| query.vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| query.graphRepository | <code>GraphRepository</code> \| <code>null</code> | Information about the graph repository. |
+| query.graphRepositoryGuid | <code>string</code> | GUID for the graph repository. |
+| query.graphNodeIdentifier | <code>string</code> | Identifier for the graph node. |
+| query.maxResults | <code>number</code> | Maximum number of results to retrieve. |
+| query.continuationToken | <code>string</code> \| <code>null</code> | Token for continuation in results. |
+| query.prefix | <code>string</code> \| <code>null</code> | Prefix to filter results. |
+| query.suffix | <code>string</code> \| <code>null</code> | Suffix to filter results. |
+| query.marker | <code>string</code> \| <code>null</code> | Marker for pagination. |
+| query.delimiter | <code>string</code> | Delimiter for separating values. |
+| query.token | <code>string</code> | Token for authorization. |
+| query.includeData | <code>boolean</code> | Flag to include subordinate data. |
+| query.includeOwners | <code>boolean</code> | Flag to include owners (default: true for S3 compatibility). |
+| query.filters | <code>Array.&lt;SearchFilter&gt;</code> | Search filters to apply. |
+| query.ordering | <code>EnumerationOrderEnum</code> | Ordering for the enumeration results. |
 
 <a name="module_base/Lexi/ViewLexiSdk+retrieveDocument"></a>
 
@@ -3139,54 +3062,6 @@ Check if a source documents exists.
 | collectionGuid | <code>string</code> | The collection GUID. |
 | documentGuid | <code>string</code> | The document GUID. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/Lexi/ViewLexiSdk+enumerateCollection"></a>
-
-### base/Lexi/ViewLexiSdk.enumerateCollection ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
-Enumerate a collection.
-
-**Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
-**Returns**: <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code> - The enumeration result or null if the request fails.  
-**Throws**:
-
-- <code>Error</code> If the collectionGuid or query is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| collectionGuid | <code>string</code> | The GUID of the collection to enumerate. |
-| query | <code>Object</code> | The query to use for enumeration. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| query.timestamp | <code>number</code> | The timestamp for the enumeration query. |
-| query.tenant | <code>TenantMetadata</code> \| <code>null</code> | Metadata for the tenant. |
-| query.tenantGuid | <code>string</code> | GUID for the tenant. |
-| query.bucket | <code>BucketMetadata</code> \| <code>null</code> | Metadata for the bucket. |
-| query.bucketGuid | <code>string</code> | GUID for the bucket. |
-| query.collection | <code>Collection</code> \| <code>null</code> | Collection information. |
-| query.collectionGuid | <code>string</code> | GUID for the collection. |
-| query.sourceDocument | <code>SourceDocument</code> \| <code>null</code> | Information about the source document. |
-| query.sourceDocumentGuid | <code>string</code> | GUID for the source document. |
-| query.vectorRepository | <code>VectorRepository</code> \| <code>null</code> | Information about the vector repository. |
-| query.vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
-| query.graphRepository | <code>GraphRepository</code> \| <code>null</code> | Information about the graph repository. |
-| query.graphRepositoryGuid | <code>string</code> | GUID for the graph repository. |
-| query.graphNodeIdentifier | <code>string</code> | Identifier for the graph node. |
-| query.maxResults | <code>number</code> | Maximum number of results to retrieve. |
-| query.continuationToken | <code>string</code> \| <code>null</code> | Token for continuation in results. |
-| query.prefix | <code>string</code> \| <code>null</code> | Prefix to filter results. |
-| query.suffix | <code>string</code> \| <code>null</code> | Suffix to filter results. |
-| query.marker | <code>string</code> \| <code>null</code> | Marker for pagination. |
-| query.delimiter | <code>string</code> | Delimiter for separating values. |
-| query.token | <code>string</code> | Token for authorization. |
-| query.includeData | <code>boolean</code> | Flag to include subordinate data. |
-| query.includeOwners | <code>boolean</code> | Flag to include owners (default: true for S3 compatibility). |
-| query.filters | <code>Array.&lt;SearchFilter&gt;</code> | Search filters to apply. |
-| query.ordering | <code>EnumerationOrderEnum</code> | Ordering for the enumeration results. |
 
 <a name="module_base/Lexi/ViewLexiSdk+searchCollection"></a>
 
@@ -3505,42 +3380,189 @@ Storage service.
 **Version**: 0.1.0  
 
 * [base/ViewStorageSdk](#module_base/ViewStorageSdk)
-    * [.retrieveAllBuckets](#module_base/ViewStorageSdk+retrieveAllBuckets) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
+    * [.createStoragePool](#module_base/ViewStorageSdk+createStoragePool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
+    * [.existsStoragePool](#module_base/ViewStorageSdk+existsStoragePool) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+    * [.retrieveStoragePool](#module_base/ViewStorageSdk+retrieveStoragePool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveStoragePools](#module_base/ViewStorageSdk+retrieveStoragePools) ⇒ <code>Promise.&lt;(Array.&lt;StoragePool&gt;\|ApiErrorResponse)&gt;</code>
+    * [.updateStoragePool](#module_base/ViewStorageSdk+updateStoragePool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
+    * [.deleteStoragePool](#module_base/ViewStorageSdk+deleteStoragePool) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.retrieveBuckets](#module_base/ViewStorageSdk+retrieveBuckets) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveBucketByGuid](#module_base/ViewStorageSdk+retrieveBucketByGuid) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeBucket](#module_base/ViewStorageSdk+writeBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
+    * [.enumerateBucketObjects](#module_base/ViewStorageSdk+enumerateBucketObjects) ⇒ <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveBucketMetadata](#module_base/ViewStorageSdk+retrieveBucketMetadata) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
+    * [.createBucket](#module_base/ViewStorageSdk+createBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.updateBucket](#module_base/ViewStorageSdk+updateBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteBucket](#module_base/ViewStorageSdk+deleteBucket) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
-    * [.retrieveTagByBucket](#module_base/ViewStorageSdk+retrieveTagByBucket) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
-    * [.deleteTag](#module_base/ViewStorageSdk+deleteTag) ⇒ <code>Promise.&lt;void&gt;</code>
-    * [.writeTagForBucket](#module_base/ViewStorageSdk+writeTagForBucket) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveBucketByACL](#module_base/ViewStorageSdk+retrieveBucketByACL) ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
-    * [.deleteAcl](#module_base/ViewStorageSdk+deleteAcl) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
-    * [.writeAclForBucket](#module_base/ViewStorageSdk+writeAclForBucket) ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveBucketTags](#module_base/ViewStorageSdk+retrieveBucketTags) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.deleteBucketTags](#module_base/ViewStorageSdk+deleteBucketTags) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.createBucketTags](#module_base/ViewStorageSdk+createBucketTags) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveBucketACL](#module_base/ViewStorageSdk+retrieveBucketACL) ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.deleteBucketACL](#module_base/ViewStorageSdk+deleteBucketACL) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+    * [.createBucketACL](#module_base/ViewStorageSdk+createBucketACL) ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
     * [.existsObject](#module_base/ViewStorageSdk+existsObject) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveObjects](#module_base/ViewStorageSdk+retrieveObjects) ⇒ <code>Promise.&lt;(String\|null\|ApiErrorResponse)&gt;</code>
     * [.writeObject](#module_base/ViewStorageSdk+writeObject) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeExpiration](#module_base/ViewStorageSdk+writeExpiration) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveData](#module_base/ViewStorageSdk+retrieveData) ⇒ <code>Promise.&lt;(String\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveRange](#module_base/ViewStorageSdk+retrieveRange) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
+    * [.writeObjectExpiration](#module_base/ViewStorageSdk+writeObjectExpiration) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveObjectData](#module_base/ViewStorageSdk+retrieveObjectData) ⇒ <code>Promise.&lt;(String\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveObjectDataInRange](#module_base/ViewStorageSdk+retrieveObjectDataInRange) ⇒ <code>Promise.&lt;(string\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveObjectMetadata](#module_base/ViewStorageSdk+retrieveObjectMetadata) ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteObject](#module_base/ViewStorageSdk+deleteObject) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-    * [.writeTagForObject](#module_base/ViewStorageSdk+writeTagForObject) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveTagByObject](#module_base/ViewStorageSdk+retrieveTagByObject) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveObjectByACL](#module_base/ViewStorageSdk+retrieveObjectByACL) ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
-    * [.deleteAclObject](#module_base/ViewStorageSdk+deleteAclObject) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
-    * [.writeAclForObject](#module_base/ViewStorageSdk+writeAclForObject) ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
+    * [.createObjectTags](#module_base/ViewStorageSdk+createObjectTags) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.deleteObjectTags](#module_base/ViewStorageSdk+deleteObjectTags) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
+    * [.retrieveObjectTags](#module_base/ViewStorageSdk+retrieveObjectTags) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveObjectACL](#module_base/ViewStorageSdk+retrieveObjectACL) ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.deleteObjectACL](#module_base/ViewStorageSdk+deleteObjectACL) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+    * [.createObjectACL](#module_base/ViewStorageSdk+createObjectACL) ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
     * [.createMultipartUpload](#module_base/ViewStorageSdk+createMultipartUpload)
-    * [.retrieveAllMultipartUpload](#module_base/ViewStorageSdk+retrieveAllMultipartUpload) ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveMultipartUploads](#module_base/ViewStorageSdk+retrieveMultipartUploads) ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveMultipartUpload](#module_base/ViewStorageSdk+retrieveMultipartUpload) ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrievePartMultipartUpload](#module_base/ViewStorageSdk+retrievePartMultipartUpload) ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
-    * [.deletePart](#module_base/ViewStorageSdk+deletePart) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
+    * [.retrievePartOfMultipartUpload](#module_base/ViewStorageSdk+retrievePartOfMultipartUpload) ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
+    * [.deletePartOfMultipartUpload](#module_base/ViewStorageSdk+deletePartOfMultipartUpload) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.deleteMultipartUpload](#module_base/ViewStorageSdk+deleteMultipartUpload) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
-    * [.uploadPart](#module_base/ViewStorageSdk+uploadPart) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.uploadPartOfMultipartUpload](#module_base/ViewStorageSdk+uploadPartOfMultipartUpload) ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+    * [.completeMultipartUpload](#module_base/ViewStorageSdk+completeMultipartUpload) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
 
-<a name="module_base/ViewStorageSdk+retrieveAllBuckets"></a>
+<a name="module_base/ViewStorageSdk+createStoragePool"></a>
 
-### base/ViewStorageSdk.retrieveAllBuckets ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.createStoragePool ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
+Create a pool.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created StoragePool object or null.  
+**Throws**:
+
+- <code>Error</code> If the pool is null.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pool | <code>Object</code> | Information about the storage pool. |
+| pool.id | <code>number</code> | Database row ID. |
+| pool.GUID | <code>string</code> | Storage pool GUID (automatically generated if not provided). |
+| pool.TenantGUID | <code>string</code> | Tenant GUID. |
+| pool.EncryptionKeyGUID | <code>string</code> | Encryption key GUID. |
+| pool.Name | <code>string</code> | Name of the storage pool. |
+| pool.Provider | <code>string</code> | Provider of the storage pool (default is 'Disk'). |
+| pool.WriteMode | <code>string</code> | Object key write mode. |
+| pool.UseSsl | <code>boolean</code> | Enable or disable SSL. |
+| pool.Endpoint | <code>string</code> | Endpoint URL for the storage pool provider. |
+| pool.AccessKey | <code>string</code> | Access key. |
+| pool.SecretKey | <code>string</code> | Secret key. |
+| pool.AwsRegion | <code>string</code> | AWS region. |
+| pool.AwsBucket | <code>string</code> | AWS bucket. |
+| pool.AwsBaseDomain | <code>string</code> | Base URL for AWS S3 compatible storage platforms. |
+| pool.AwsBaseUrl | <code>string</code> | Base URL to use for objects. |
+| pool.DiskDirectory | <code>string</code> | Disk directory. |
+| pool.AzureAccount | <code>string</code> | Azure account. |
+| pool.AzureContainer | <code>string</code> | Azure container. |
+| pool.Compress | <code>string</code> | Compression type. |
+| pool.EnableReadCaching | <code>boolean</code> | Flag to enable or disable read caching. |
+| pool.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+existsStoragePool"></a>
+
+### base/ViewStorageSdk.existsStoragePool ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+Check if a pool exists.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise resolving to true if the pool exists, or false if not.  
+**Throws**:
+
+- <code>Error</code> If the guid is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| guid | <code>string</code> | The GUID of the pool to check. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+retrieveStoragePool"></a>
+
+### base/ViewStorageSdk.retrieveStoragePool ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
+Retrieve a pool by its GUID.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the StoragePool object or null if not found.  
+**Throws**:
+
+- <code>Error</code> If the guid is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| guid | <code>string</code> | The GUID of the pool to retrieve. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+retrieveStoragePools"></a>
+
+### base/ViewStorageSdk.retrieveStoragePools ⇒ <code>Promise.&lt;(Array.&lt;StoragePool&gt;\|ApiErrorResponse)&gt;</code>
+Retrieve all pools.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(Array.&lt;StoragePool&gt;\|ApiErrorResponse)&gt;</code> - A promise resolving to an array of StoragePool objects.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+updateStoragePool"></a>
+
+### base/ViewStorageSdk.updateStoragePool ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
+Update a pool.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the updated StoragePool object or null.  
+**Throws**:
+
+- <code>Error</code> If the pool is null.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pool | <code>Object</code> | Information about the storage pool. |
+| pool.id | <code>number</code> | Database row ID. |
+| pool.GUID | <code>string</code> | Storage pool GUID (automatically generated if not provided). |
+| pool.TenantGUID | <code>string</code> | Tenant GUID. |
+| pool.EncryptionKeyGUID | <code>string</code> | Encryption key GUID. |
+| pool.Name | <code>string</code> | Name of the storage pool. |
+| pool.Provider | <code>string</code> | Provider of the storage pool (default is 'Disk'). |
+| pool.WriteMode | <code>string</code> | Object key write mode. |
+| pool.UseSsl | <code>boolean</code> | Enable or disable SSL. |
+| pool.Endpoint | <code>string</code> | Endpoint URL for the storage pool provider. |
+| pool.AccessKey | <code>string</code> | Access key. |
+| pool.SecretKey | <code>string</code> | Secret key. |
+| pool.AwsRegion | <code>string</code> | AWS region. |
+| pool.AwsBucket | <code>string</code> | AWS bucket. |
+| pool.AwsBaseDomain | <code>string</code> | Base URL for AWS S3 compatible storage platforms. |
+| pool.AwsBaseUrl | <code>string</code> | Base URL to use for objects. |
+| pool.DiskDirectory | <code>string</code> | Disk directory. |
+| pool.AzureAccount | <code>string</code> | Azure account. |
+| pool.AzureContainer | <code>string</code> | Azure container. |
+| pool.Compress | <code>string</code> | Compression type. |
+| pool.EnableReadCaching | <code>boolean</code> | Flag to enable or disable read caching. |
+| pool.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+deleteStoragePool"></a>
+
+### base/ViewStorageSdk.deleteStoragePool ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
+Delete a pool by its GUID.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code> - A promise resolving to void if successful.  
+**Throws**:
+
+- <code>Error</code> If the guid is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| guid | <code>string</code> | The GUID of the pool to delete. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+retrieveBuckets"></a>
+
+### base/ViewStorageSdk.retrieveBuckets ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
 Retrieve List of Buckets.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3554,26 +3576,21 @@ Retrieve List of Buckets.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveBuckets"></a>
+<a name="module_base/ViewStorageSdk+enumerateBucketObjects"></a>
 
-### base/ViewStorageSdk.retrieveBuckets ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
-Retrieve List of Objects.
+### base/ViewStorageSdk.enumerateBucketObjects ⇒ <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code>
+Enumerate all buckets in the tenant.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
-**Returns**: <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the Bucket object or null if not found.  
-**Throws**:
-
-- <code>Error</code> If the guid is null or empty.
-
+**Returns**: <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to an array of BucketMetadata objects or null.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| guid | <code>string</code> | The GUID of the BucketMetadata. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveBucketByGuid"></a>
+<a name="module_base/ViewStorageSdk+retrieveBucketMetadata"></a>
 
-### base/ViewStorageSdk.retrieveBucketByGuid ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveBucketMetadata ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
 Retrieve bucket by Guid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3588,9 +3605,9 @@ Retrieve bucket by Guid.
 | guid | <code>string</code> | The GUID of the bucket to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+writeBucket"></a>
+<a name="module_base/ViewStorageSdk+createBucket"></a>
 
-### base/ViewStorageSdk.writeBucket ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.createBucket ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
 Write Bucket data.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3653,9 +3670,9 @@ Delete a bucket.
 | guid | <code>string</code> | The GUID of the bucket to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveTagByBucket"></a>
+<a name="module_base/ViewStorageSdk+retrieveBucketTags"></a>
 
-### base/ViewStorageSdk.retrieveTagByBucket ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveBucketTags ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
 Retrieve tag by bucketGuid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3670,9 +3687,9 @@ Retrieve tag by bucketGuid.
 | guid | <code>string</code> | GUID of the bucket. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+deleteTag"></a>
+<a name="module_base/ViewStorageSdk+deleteBucketTags"></a>
 
-### base/ViewStorageSdk.deleteTag ⇒ <code>Promise.&lt;void&gt;</code>
+### base/ViewStorageSdk.deleteBucketTags ⇒ <code>Promise.&lt;void&gt;</code>
 Delete tag by bucketGuid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3687,9 +3704,9 @@ Delete tag by bucketGuid.
 | guid | <code>string</code> | GUID of the bucket to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+writeTagForBucket"></a>
+<a name="module_base/ViewStorageSdk+createBucketTags"></a>
 
-### base/ViewStorageSdk.writeTagForBucket ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.createBucketTags ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
 Write Tag .
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3707,9 +3724,9 @@ Write Tag .
 | tagMetaData.Value | <code>string</code> | Value associated with the metadata. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveBucketByACL"></a>
+<a name="module_base/ViewStorageSdk+retrieveBucketACL"></a>
 
-### base/ViewStorageSdk.retrieveBucketByACL ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveBucketACL ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
 Retrieve tag by bucketGuid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3724,9 +3741,9 @@ Retrieve tag by bucketGuid.
 | guid | <code>string</code> | GUID of the bucket. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+deleteAcl"></a>
+<a name="module_base/ViewStorageSdk+deleteBucketACL"></a>
 
-### base/ViewStorageSdk.deleteAcl ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.deleteBucketACL ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
 Delete acl by bucketGuid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3741,9 +3758,9 @@ Delete acl by bucketGuid.
 | guid | <code>string</code> | GUID of the bucket to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+writeAclForBucket"></a>
+<a name="module_base/ViewStorageSdk+createBucketACL"></a>
 
-### base/ViewStorageSdk.writeAclForBucket ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.createBucketACL ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
 Write Acl for bucket.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3817,9 +3834,9 @@ Write Object non-chuncked .
 | data | <code>string</code> | Information about the Object . |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+writeExpiration"></a>
+<a name="module_base/ViewStorageSdk+writeObjectExpiration"></a>
 
-### base/ViewStorageSdk.writeExpiration ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.writeObjectExpiration ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
 Write expiration .
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3832,18 +3849,19 @@ Write expiration .
 | Param | Type | Description |
 | --- | --- | --- |
 | bucketGUID | <code>string</code> | The GUID of the bucket. |
-| objectMetadata | <code>Object</code> | Information about the Object . |
+| key | <code>string</code> | The key of the object. |
+| object | <code>Object</code> | Information about the Object . |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 **Properties**
 
 | Name | Type | Description |
 | --- | --- | --- |
-| Object.ExpirationUtc | <code>Date</code> \| <code>null</code> | The expiration timestamp in UTC. |
+| object.ExpirationUtc | <code>string</code> | The expiration timestamp in UTC. |
 
-<a name="module_base/ViewStorageSdk+retrieveData"></a>
+<a name="module_base/ViewStorageSdk+retrieveObjectData"></a>
 
-### base/ViewStorageSdk.retrieveData ⇒ <code>Promise.&lt;(String\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveObjectData ⇒ <code>Promise.&lt;(String\|null\|ApiErrorResponse)&gt;</code>
 Retrieve data by key.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3858,13 +3876,13 @@ Retrieve data by key.
 | bucketGuid | <code>string</code> | The GUID of the bucket. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveRange"></a>
+<a name="module_base/ViewStorageSdk+retrieveObjectDataInRange"></a>
 
-### base/ViewStorageSdk.retrieveRange ⇒ <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveObjectDataInRange ⇒ <code>Promise.&lt;(string\|null\|ApiErrorResponse)&gt;</code>
 Retrieve object Range.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
-**Returns**: <code>Promise.&lt;(ObjectMetadata\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the UserMaster object or null if not found.  
+**Returns**: <code>Promise.&lt;(string\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the UserMaster object or null if not found.  
 **Throws**:
 
 - <code>Error</code> If the GUID is null or empty.
@@ -3874,7 +3892,7 @@ Retrieve object Range.
 | --- | --- | --- |
 | bucketGuid | <code>string</code> | The GUID of the bucket. |
 | key | <code>string</code> | The key of the object. |
-| objectMetadata | <code>object</code> | The metadata of the object. |
+| range | <code>string</code> | The range of the object. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewStorageSdk+retrieveObjectMetadata"></a>
@@ -3914,9 +3932,9 @@ Delete a Object by its key.
 | key | <code>string</code> | The key of the object. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+writeTagForObject"></a>
+<a name="module_base/ViewStorageSdk+createObjectTags"></a>
 
-### base/ViewStorageSdk.writeTagForObject ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.createObjectTags ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
 Write Tag .
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3929,14 +3947,30 @@ Write Tag .
 | Param | Type | Description |
 | --- | --- | --- |
 | bucketGUID | <code>string</code> | The GUID of the bucket. |
-| tagMetaData | <code>Object</code> | Information about the tag . |
-| tagMetaData.Key | <code>string</code> | Key associated with the metadata. |
-| tagMetaData.Value | <code>string</code> | Value associated with the metadata. |
+| tagMetaData | <code>Array.&lt;{Key: string, Value: string}&gt;</code> | Information about the tag . |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveTagByObject"></a>
+<a name="module_base/ViewStorageSdk+deleteObjectTags"></a>
 
-### base/ViewStorageSdk.retrieveTagByObject ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.deleteObjectTags ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
+Delete tags from an object.
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code> - A promise resolving when the tags are deleted.  
+**Throws**:
+
+- <code>Error</code> If the bucketGUID or key is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| bucketGUID | <code>string</code> | The GUID of the bucket. |
+| key | <code>string</code> | The key of the object. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+retrieveObjectTags"></a>
+
+### base/ViewStorageSdk.retrieveObjectTags ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
 Retrieve a tag by its key.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3952,9 +3986,9 @@ Retrieve a tag by its key.
 | key | <code>string</code> | The key of the tag to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrieveObjectByACL"></a>
+<a name="module_base/ViewStorageSdk+retrieveObjectACL"></a>
 
-### base/ViewStorageSdk.retrieveObjectByACL ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveObjectACL ⇒ <code>Promise.&lt;(AclMetaData\|null\|ApiErrorResponse)&gt;</code>
 Retrieve tag by bucketGuid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3963,16 +3997,16 @@ Retrieve tag by bucketGuid.
 
 - <code>Error</code> If the guid is null or empty.
 
-**Param,**: <code>string</code> key - Key of the object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | bucketguid | <code>string</code> | GUID of the bucket. |
+| key | <code>string</code> | Key of the object. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+deleteAclObject"></a>
+<a name="module_base/ViewStorageSdk+deleteObjectACL"></a>
 
-### base/ViewStorageSdk.deleteAclObject ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.deleteObjectACL ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
 Delete acl by bucketGuid.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -3984,12 +4018,13 @@ Delete acl by bucketGuid.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| guid | <code>string</code> | GUID of the bucket to delete. |
+| bucketGuid | <code>string</code> | GUID of the bucket to delete. |
+| key | <code>string</code> | Key of the object. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+writeAclForObject"></a>
+<a name="module_base/ViewStorageSdk+createObjectACL"></a>
 
-### base/ViewStorageSdk.writeAclForObject ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.createObjectACL ⇒ <code>Promise.&lt;(AclEntry\|null\|ApiErrorResponse)&gt;</code>
 Write Acl for bucket.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -4001,7 +4036,8 @@ Write Acl for bucket.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| guid | <code>string</code> | The GUID of the bucket. |
+| bucketGuid | <code>string</code> | The GUID of the bucket. |
+| key | <code>string</code> | The key of the object. |
 | aclMetaData | <code>Object</code> | Information about the acl . |
 | aclMetaData.Owner | <code>Object</code> | Key associated with the metadata. |
 | aclMetaData.Users | <code>Array</code> | List of users, each using UserMaster class. |
@@ -4020,9 +4056,9 @@ Create a Multipart Upload.
 | multipartUpload | <code>Object</code> | Information about the multipart upload. |
 | multipartUpload.key | <code>string</code> | The key of the tag to retrieve. |
 
-<a name="module_base/ViewStorageSdk+retrieveAllMultipartUpload"></a>
+<a name="module_base/ViewStorageSdk+retrieveMultipartUploads"></a>
 
-### base/ViewStorageSdk.retrieveAllMultipartUpload ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveMultipartUploads ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
 Retrieve list of Multipart Upload by its GUID.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -4055,9 +4091,9 @@ Retrieve a Multipart Upload by its GUID.
 | key | <code>string</code> | The key of the tag to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+retrievePartMultipartUpload"></a>
+<a name="module_base/ViewStorageSdk+retrievePartOfMultipartUpload"></a>
 
-### base/ViewStorageSdk.retrievePartMultipartUpload ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrievePartOfMultipartUpload ⇒ <code>Promise.&lt;(MultipartUpload\|null\|ApiErrorResponse)&gt;</code>
 Retrieve a part of a Multipart Upload by its key and part number.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -4074,9 +4110,9 @@ Retrieve a part of a Multipart Upload by its key and part number.
 | key | <code>string</code> | The key of the Multipart Upload to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+deletePart"></a>
+<a name="module_base/ViewStorageSdk+deletePartOfMultipartUpload"></a>
 
-### base/ViewStorageSdk.deletePart ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.deletePartOfMultipartUpload ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
 Delete a part of a Multipart Upload by its key and part number.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -4111,9 +4147,9 @@ Delete a Multipart Upload by its key .
 | key | <code>string</code> | The key of the Multipart Upload to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+uploadPart"></a>
+<a name="module_base/ViewStorageSdk+uploadPartOfMultipartUpload"></a>
 
-### base/ViewStorageSdk.uploadPart ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.uploadPartOfMultipartUpload ⇒ <code>Promise.&lt;(TagMetaData\|null\|ApiErrorResponse)&gt;</code>
 Upload Part .
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -4129,6 +4165,24 @@ Upload Part .
 | tagMetaData | <code>Object</code> | Information about the tag . |
 | partNumber | <code>Number</code> | Part number. |
 | data | <code>string</code> | Information about the Object . |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewStorageSdk+completeMultipartUpload"></a>
+
+### base/ViewStorageSdk.completeMultipartUpload ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+Complete a Multipart Upload by its key .
+
+**Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
+**Returns**: <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code> - A promise resolving when the user is deleted.  
+**Throws**:
+
+- <code>Error</code> If the GUID is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| bucketGUID | <code>string</code> | The GUID of the bucket to retrieve. |
+| key | <code>string</code> | The key of the Multipart Upload to retrieve. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/EmbeddingsSdkBase"></a>
@@ -5182,12 +5236,6 @@ Configuration service.
     * [.enumerateEncryptionKeys](#module_base/ViewConfigurationSdk+enumerateEncryptionKeys) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
     * [.enumerateVectorRepositories](#module_base/ViewConfigurationSdk+enumerateVectorRepositories) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
     * [.enumerateGraphRepositories](#module_base/ViewConfigurationSdk+enumerateGraphRepositories) ⇒ <code>Promise.&lt;(Trigger\|null\|ApiErrorResponse)&gt;</code>
-    * [.createPool](#module_base/ViewConfigurationSdk+createPool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
-    * [.existsPool](#module_base/ViewConfigurationSdk+existsPool) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.retrievePool](#module_base/ViewConfigurationSdk+retrievePool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrievePools](#module_base/ViewConfigurationSdk+retrievePools) ⇒ <code>Promise.&lt;(Array.&lt;StoragePool&gt;\|ApiErrorResponse)&gt;</code>
-    * [.updatePool](#module_base/ViewConfigurationSdk+updatePool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
-    * [.deletePool](#module_base/ViewConfigurationSdk+deletePool) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.createBucket](#module_base/ViewConfigurationSdk+createBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.existsBucket](#module_base/ViewConfigurationSdk+existsBucket) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.retrieveBucket](#module_base/ViewConfigurationSdk+retrieveBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
@@ -5201,11 +5249,8 @@ Configuration service.
     * [.deleteCollection](#module_base/ViewConfigurationSdk+deleteCollection) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.enumerateCollections](#module_base/ViewConfigurationSdk+enumerateCollections) ⇒ <code>Promise.&lt;(Trigger\|null\|ApiErrorResponse)&gt;</code>
     * [.existsCollection](#module_base/ViewConfigurationSdk+existsCollection) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.createObjectLock](#module_base/ViewConfigurationSdk+createObjectLock) ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
-    * [.existsObjectLock](#module_base/ViewConfigurationSdk+existsObjectLock) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.retrieveObjectLock](#module_base/ViewConfigurationSdk+retrieveObjectLock) ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveObjectLocks](#module_base/ViewConfigurationSdk+retrieveObjectLocks) ⇒ <code>Promise.&lt;(Array.&lt;ObjectLock&gt;\|ApiErrorResponse)&gt;</code>
-    * [.updateObjectLock](#module_base/ViewConfigurationSdk+updateObjectLock) ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
+    * [.enumerateObjectLocks](#module_base/ViewConfigurationSdk+enumerateObjectLocks) ⇒ <code>Promise.&lt;(EnumerationResult\|ApiErrorResponse)&gt;</code>
     * [.deleteObjectLock](#module_base/ViewConfigurationSdk+deleteObjectLock) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.createMetadataRule](#module_base/ViewConfigurationSdk+createMetadataRule) ⇒ <code>Promise.&lt;(MetadataRule\|null\|ApiErrorResponse)&gt;</code>
     * [.existsMetadataRule](#module_base/ViewConfigurationSdk+existsMetadataRule) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
@@ -5221,18 +5266,6 @@ Configuration service.
     * [.updateEmbeddingsRule](#module_base/ViewConfigurationSdk+updateEmbeddingsRule) ⇒ <code>Promise.&lt;(EmbeddingsRule\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteEmbeddingsRule](#module_base/ViewConfigurationSdk+deleteEmbeddingsRule) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.enumerateEmbeddingsRules](#module_base/ViewConfigurationSdk+enumerateEmbeddingsRules) ⇒ <code>Promise.&lt;(EmbeddingsResult\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveDataRepositories](#module_base/ViewConfigurationSdk+retrieveDataRepositories) ⇒ <code>Promise.&lt;(Array.&lt;DataRepository&gt;\|ApiErrorResponse)&gt;</code>
-    * [.retrieveDataRepository](#module_base/ViewConfigurationSdk+retrieveDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.createDataRepository](#module_base/ViewConfigurationSdk+createDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-    * [.deleteDataRepository](#module_base/ViewConfigurationSdk+deleteDataRepository) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-    * [.enumerateDataRepositories](#module_base/ViewConfigurationSdk+enumerateDataRepositories) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
-    * [.existsDataRepository](#module_base/ViewConfigurationSdk+existsDataRepository) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.writeS3DataRepository](#module_base/ViewConfigurationSdk+writeS3DataRepository) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeDiskDataRepository](#module_base/ViewConfigurationSdk+writeDiskDataRepository) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeAzureBlobDataRepository](#module_base/ViewConfigurationSdk+writeAzureBlobDataRepository) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeNfsDataRepository](#module_base/ViewConfigurationSdk+writeNfsDataRepository) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-    * [.writeCifsDataRepository](#module_base/ViewConfigurationSdk+writeCifsDataRepository) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-    * [.updateDataRepository](#module_base/ViewConfigurationSdk+updateDataRepository) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
     * [.existsWebhookEvent](#module_base/ViewConfigurationSdk+existsWebhookEvent) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.retrieveWebhookEvent](#module_base/ViewConfigurationSdk+retrieveWebhookEvent) ⇒ <code>Promise.&lt;(WebhookEvent\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveWebhookEvents](#module_base/ViewConfigurationSdk+retrieveWebhookEvents) ⇒ <code>Promise.&lt;(Array.&lt;WebhookEvent&gt;\|ApiErrorResponse)&gt;</code>
@@ -5250,6 +5283,7 @@ Configuration service.
     * [.retrieveBlob](#module_base/ViewConfigurationSdk+retrieveBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveBlobIncludeData](#module_base/ViewConfigurationSdk+retrieveBlobIncludeData) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
     * [.writeBlob](#module_base/ViewConfigurationSdk+writeBlob) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
+    * [.updateBlob](#module_base/ViewConfigurationSdk+updateBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteBlob](#module_base/ViewConfigurationSdk+deleteBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
     * [.existsBlob](#module_base/ViewConfigurationSdk+existsBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveTenantsForEmail](#module_base/ViewConfigurationSdk+retrieveTenantsForEmail) ⇒ <code>Promise.&lt;(Array.&lt;TenantMetadata&gt;\|ApiErrorResponse)&gt;</code>
@@ -5811,18 +5845,14 @@ Create an encryption key.
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>Object</code> | Information about the encryption key. |
-| key.GUID | <code>string</code> | GUID of the encryption key (automatically generated if not provided). |
-| key.tenantGuid | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| key.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| key.KeyBase64 | <code>string</code> | Key in base64 form. |
-| key.KeyHex | <code>string</code> | Key in hexadecimal form. |
-| key.IvBase64 | <code>string</code> | Initialization vector in base64 form. |
+| key.KeyBase64 | <code>string</code> | Encryption key in base64 format. |
+| key.KeyHex | <code>string</code> | Encryption key in hexadecimal format. |
+| key.IvBase64 | <code>string</code> | Initialization vector in base64 format. |
 | key.IvHex | <code>string</code> | Initialization vector in hexadecimal form. |
 | key.SaltBase64 | <code>string</code> | Salt in base64 form. |
 | key.SaltHex | <code>string</code> | Salt in hexadecimal form. |
 | key.Name | <code>string</code> | Name of the encryption key. |
 | key.Description | <code>string</code> | Description of the encryption key. |
-| key.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+existsEncryptionKey"></a>
@@ -5963,145 +5993,6 @@ Enumerate Graph-Repositories.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+createPool"></a>
-
-### base/ViewConfigurationSdk.createPool ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
-Create a pool.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created StoragePool object or null.  
-**Throws**:
-
-- <code>Error</code> If the pool is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| pool | <code>Object</code> | Information about the storage pool. |
-| pool.id | <code>number</code> | Database row ID. |
-| pool.GUID | <code>string</code> | Storage pool GUID (automatically generated if not provided). |
-| pool.TenantGUID | <code>string</code> | Tenant GUID. |
-| pool.EncryptionKeyGUID | <code>string</code> | Encryption key GUID. |
-| pool.Name | <code>string</code> | Name of the storage pool. |
-| pool.Provider | <code>string</code> | Provider of the storage pool (default is 'Disk'). |
-| pool.WriteMode | <code>string</code> | Object key write mode. |
-| pool.UseSsl | <code>boolean</code> | Enable or disable SSL. |
-| pool.Endpoint | <code>string</code> | Endpoint URL for the storage pool provider. |
-| pool.AccessKey | <code>string</code> | Access key. |
-| pool.SecretKey | <code>string</code> | Secret key. |
-| pool.AwsRegion | <code>string</code> | AWS region. |
-| pool.AwsBucket | <code>string</code> | AWS bucket. |
-| pool.AwsBaseDomain | <code>string</code> | Base URL for AWS S3 compatible storage platforms. |
-| pool.AwsBaseUrl | <code>string</code> | Base URL to use for objects. |
-| pool.DiskDirectory | <code>string</code> | Disk directory. |
-| pool.AzureAccount | <code>string</code> | Azure account. |
-| pool.AzureContainer | <code>string</code> | Azure container. |
-| pool.Compress | <code>string</code> | Compression type. |
-| pool.EnableReadCaching | <code>boolean</code> | Flag to enable or disable read caching. |
-| pool.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+existsPool"></a>
-
-### base/ViewConfigurationSdk.existsPool ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-Check if a pool exists.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise resolving to true if the pool exists, or false if not.  
-**Throws**:
-
-- <code>Error</code> If the guid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the pool to check. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+retrievePool"></a>
-
-### base/ViewConfigurationSdk.retrievePool ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
-Retrieve a pool by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the StoragePool object or null if not found.  
-**Throws**:
-
-- <code>Error</code> If the guid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the pool to retrieve. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+retrievePools"></a>
-
-### base/ViewConfigurationSdk.retrievePools ⇒ <code>Promise.&lt;(Array.&lt;StoragePool&gt;\|ApiErrorResponse)&gt;</code>
-Retrieve all pools.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Array.&lt;StoragePool&gt;\|ApiErrorResponse)&gt;</code> - A promise resolving to an array of StoragePool objects.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+updatePool"></a>
-
-### base/ViewConfigurationSdk.updatePool ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
-Update a pool.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the updated StoragePool object or null.  
-**Throws**:
-
-- <code>Error</code> If the pool is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| pool | <code>Object</code> | Information about the storage pool. |
-| pool.id | <code>number</code> | Database row ID. |
-| pool.GUID | <code>string</code> | Storage pool GUID (automatically generated if not provided). |
-| pool.TenantGUID | <code>string</code> | Tenant GUID. |
-| pool.EncryptionKeyGUID | <code>string</code> | Encryption key GUID. |
-| pool.Name | <code>string</code> | Name of the storage pool. |
-| pool.Provider | <code>string</code> | Provider of the storage pool (default is 'Disk'). |
-| pool.WriteMode | <code>string</code> | Object key write mode. |
-| pool.UseSsl | <code>boolean</code> | Enable or disable SSL. |
-| pool.Endpoint | <code>string</code> | Endpoint URL for the storage pool provider. |
-| pool.AccessKey | <code>string</code> | Access key. |
-| pool.SecretKey | <code>string</code> | Secret key. |
-| pool.AwsRegion | <code>string</code> | AWS region. |
-| pool.AwsBucket | <code>string</code> | AWS bucket. |
-| pool.AwsBaseDomain | <code>string</code> | Base URL for AWS S3 compatible storage platforms. |
-| pool.AwsBaseUrl | <code>string</code> | Base URL to use for objects. |
-| pool.DiskDirectory | <code>string</code> | Disk directory. |
-| pool.AzureAccount | <code>string</code> | Azure account. |
-| pool.AzureContainer | <code>string</code> | Azure container. |
-| pool.Compress | <code>string</code> | Compression type. |
-| pool.EnableReadCaching | <code>boolean</code> | Flag to enable or disable read caching. |
-| pool.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+deletePool"></a>
-
-### base/ViewConfigurationSdk.deletePool ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-Delete a pool by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code> - A promise resolving to void if successful.  
-**Throws**:
-
-- <code>Error</code> If the guid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the pool to delete. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+createBucket"></a>
@@ -6348,68 +6239,6 @@ Check if a collection exists by its GUID.
 | collectionGuid | <code>string</code> | The GUID of the collection to check. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewConfigurationSdk+createObjectLock"></a>
-
-### base/ViewConfigurationSdk.createObjectLock ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
-Create a new object lock.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created ObjectLock object or null.  
-**Throws**:
-
-- <code>Error</code> If the objectLock is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| objectLock | <code>Object</code> | Information about the object lock. |
-| objectLock.GUID | <code>string</code> | Object lock GUID (automatically generated if not provided). |
-| objectLock.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| objectLock.NodeGUID | <code>string</code> | Node GUID (automatically generated if not provided). |
-| objectLock.BucketGUID | <code>string</code> | Bucket GUID (automatically generated if not provided). |
-| objectLock.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| objectLock.ObjectGUID | <code>string</code> | Object GUID (automatically generated if not provided). |
-| objectLock.Key | <code>string</code> | Key for the object (default is empty string). |
-| objectLock.Version | <code>string</code> | Version of the object (default is empty string). |
-| objectLock.IsReadLock | <code>boolean</code> | Indicates if this is a read lock (default is false). |
-| objectLock.IsWriteLock | <code>boolean</code> | Indicates if this is a write lock (default is false). |
-| objectLock.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+existsObjectLock"></a>
-
-### base/ViewConfigurationSdk.existsObjectLock ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-Check if an object lock exists by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise resolving to true if the object lock exists, otherwise false.  
-**Throws**:
-
-- <code>Error</code> If the guid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the object lock to check. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+retrieveObjectLock"></a>
-
-### base/ViewConfigurationSdk.retrieveObjectLock ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
-Retrieve an object lock by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the ObjectLock object or null.  
-**Throws**:
-
-- <code>Error</code> If the guid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the object lock to retrieve. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
 <a name="module_base/ViewConfigurationSdk+retrieveObjectLocks"></a>
 
 ### base/ViewConfigurationSdk.retrieveObjectLocks ⇒ <code>Promise.&lt;(Array.&lt;ObjectLock&gt;\|ApiErrorResponse)&gt;</code>
@@ -6422,32 +6251,16 @@ Retrieve all object locks.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewConfigurationSdk+updateObjectLock"></a>
+<a name="module_base/ViewConfigurationSdk+enumerateObjectLocks"></a>
 
-### base/ViewConfigurationSdk.updateObjectLock ⇒ <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code>
-Update an existing object lock.
+### base/ViewConfigurationSdk.enumerateObjectLocks ⇒ <code>Promise.&lt;(EnumerationResult\|ApiErrorResponse)&gt;</code>
+Enumerate object locks.
 
 **Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(ObjectLock\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the updated ObjectLock object or null.  
-**Throws**:
-
-- <code>Error</code> If the objectLock is null.
-
+**Returns**: <code>Promise.&lt;(EnumerationResult\|ApiErrorResponse)&gt;</code> - A promise resolving to the enumeration result.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| objectLock | <code>Object</code> | Information about the object lock. |
-| objectLock.GUID | <code>string</code> | Object lock GUID (automatically generated if not provided). |
-| objectLock.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| objectLock.NodeGUID | <code>string</code> | Node GUID (automatically generated if not provided). |
-| objectLock.BucketGUID | <code>string</code> | Bucket GUID (automatically generated if not provided). |
-| objectLock.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| objectLock.ObjectGUID | <code>string</code> | Object GUID (automatically generated if not provided). |
-| objectLock.Key | <code>string</code> | Key for the object (default is empty string). |
-| objectLock.Version | <code>string</code> | Version of the object (default is empty string). |
-| objectLock.IsReadLock | <code>boolean</code> | Indicates if this is a read lock (default is false). |
-| objectLock.IsWriteLock | <code>boolean</code> | Indicates if this is a write lock (default is false). |
-| objectLock.CreatedUtc | <code>Date</code> | Creation timestamp in UTC. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+deleteObjectLock"></a>
@@ -6791,276 +6604,6 @@ Enumerate Embeddings Rules.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewConfigurationSdk+retrieveDataRepositories"></a>
-
-### base/ViewConfigurationSdk.retrieveDataRepositories ⇒ <code>Promise.&lt;(Array.&lt;DataRepository&gt;\|ApiErrorResponse)&gt;</code>
-Retrieve a list of data repositories.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Array.&lt;DataRepository&gt;\|ApiErrorResponse)&gt;</code> - A promise resolving to an array of DataRepository objects.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+retrieveDataRepository"></a>
-
-### base/ViewConfigurationSdk.retrieveDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Retrieve a specific data repository by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the DataRepository object or null.  
-**Throws**:
-
-- <code>Error</code> If the repositoryGuid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repositoryGuid | <code>string</code> | The GUID of the data repository to retrieve. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+createDataRepository"></a>
-
-### base/ViewConfigurationSdk.createDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
-Create a new data repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created DataRepository object or null.  
-**Throws**:
-
-- <code>Error</code> If the repository is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.Id | <code>number</code> | ID (must be greater than 0). |
-| dataRepository.GUID | <code>string</code> | Data repository GUID (automatically generated if not provided). |
-| dataRepository.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| dataRepository.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository"). |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.UseSsl | <code>boolean</code> | Boolean flag to enable SSL (default is false). |
-| dataRepository.IncludeSubdirectories | <code>boolean</code> | Include subdirectories (default is true). |
-| dataRepository.DiskDirectory | <code>string</code> | Disk directory (default is null). |
-| dataRepository.S3EndpointUrl | <code>string</code> | S3 endpoint URL (default is null). |
-| dataRepository.S3BaseUrl | <code>string</code> | S3 base URL (default is null). |
-| dataRepository.S3AccessKey | <code>string</code> | S3 access key (default is null). |
-| dataRepository.S3SecretKey | <code>string</code> | S3 secret key (default is null). |
-| dataRepository.S3BucketName | <code>string</code> | S3 bucket name (default is null). |
-| dataRepository.S3Region | <code>string</code> | S3 region (default is null). |
-| dataRepository.AzureEndpointUrl | <code>string</code> | Azure endpoint URL (default is null). |
-| dataRepository.AzureAccountName | <code>string</code> | Azure account name (default is null). |
-| dataRepository.AzureContainerName | <code>string</code> | Azure container name (default is null). |
-| dataRepository.AzureAccessKey | <code>string</code> | Azure access key (default is null). |
-| dataRepository.CifsHostname | <code>string</code> | CIFS hostname (default is null). |
-| dataRepository.CifsUsername | <code>string</code> | CIFS username (default is null). |
-| dataRepository.CifsPassword | <code>string</code> | CIFS password (default is null). |
-| dataRepository.CifsShareName | <code>string</code> | CIFS share name (default is null). |
-| dataRepository.NfsHostname | <code>string</code> | NFS hostname (default is null). |
-| dataRepository.NfsUserId | <code>number</code> | NFS user ID (must be non-negative). |
-| dataRepository.NfsGroupId | <code>number</code> | NFS group ID (must be non-negative). |
-| dataRepository.NfsShareName | <code>string</code> | NFS share name (default is null). |
-| dataRepository.NfsVersion | <code>string</code> | NFS version (default is null). |
-| dataRepository.CreatedUtc | <code>Date</code> | Created timestamp (default is current UTC time). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+deleteDataRepository"></a>
-
-### base/ViewConfigurationSdk.deleteDataRepository ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
-Delete a data repository by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code> - A promise resolving to void if the deletion is successful.  
-**Throws**:
-
-- <code>Error</code> If the repositoryGuid is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| repositoryGuid | <code>string</code> | The GUID of the data repository to delete. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+enumerateDataRepositories"></a>
-
-### base/ViewConfigurationSdk.enumerateDataRepositories ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
-Enumerate Data Repositories.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created EnumerationResult object or null if creation fails.  
-**Throws**:
-
-- <code>Error</code> If the trigger is null or invalid.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+existsDataRepository"></a>
-
-### base/ViewConfigurationSdk.existsDataRepository ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-Check if a data repository exists by its GUID.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise resolving to true if the data repository exists, false otherwise.  
-**Throws**:
-
-- <code>Error</code> If the GUID is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| guid | <code>string</code> | The GUID of the data repository. |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+writeS3DataRepository"></a>
-
-### base/ViewConfigurationSdk.writeS3DataRepository ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-Write S3 Data Repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Node object or null if the creation fails.  
-**Throws**:
-
-- <code>Error</code> If the node is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| dataRepository.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository"). |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.S3EndpointUrl | <code>string</code> | S3 endpoint URL (default is null). |
-| dataRepository.S3BaseUrl | <code>string</code> | S3 base URL (default is null). |
-| dataRepository.S3AccessKey | <code>string</code> | S3 access key (default is null). |
-| dataRepository.S3SecretKey | <code>string</code> | S3 secret key (default is null). |
-| dataRepository.S3BucketName | <code>string</code> | S3 bucket name (default is null). |
-| dataRepository.S3Region | <code>string</code> | S3 region (default is null). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+writeDiskDataRepository"></a>
-
-### base/ViewConfigurationSdk.writeDiskDataRepository ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-Write Disk Data Repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Node object or null if the creation fails.  
-**Throws**:
-
-- <code>Error</code> If the node is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.DiskDirectory | <code>string</code> | Disk directory (default is null). |
-| dataRepository.DiskIncludeSubdirectories | <code>boolean</code> | Include subdirectories on disk (default is true). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+writeAzureBlobDataRepository"></a>
-
-### base/ViewConfigurationSdk.writeAzureBlobDataRepository ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-Write Azure BLOB Data Repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Node object or null if the creation fails.  
-**Throws**:
-
-- <code>Error</code> If the node is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| dataRepository.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository). |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.AzureEndpointUrl | <code>string</code> | Azure endpoint URL (default is null). |
-| dataRepository.AzureAccountName | <code>string</code> | Azure account name (default is null). |
-| dataRepository.AzureContainerName | <code>string</code> | Azure container name (default is null). |
-| dataRepository.AzureAccessKey | <code>string</code> | Azure access key (default is null). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+writeNfsDataRepository"></a>
-
-### base/ViewConfigurationSdk.writeNfsDataRepository ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-Write NFS Data Repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Node object or null if the creation fails.  
-**Throws**:
-
-- <code>Error</code> If the node is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| dataRepository.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository). |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.NfsHostname | <code>string</code> | NFS hostname (default is null). |
-| dataRepository.NfsUserId | <code>number</code> | NFS user ID (must be non-negative). |
-| dataRepository.NfsGroupId | <code>number</code> | NFS group ID (must be non-negative). |
-| dataRepository.NfsShareName | <code>string</code> | NFS share name (default is null). |
-| dataRepository.NfsIncludeSubdirectories | <code>boolean</code> | Include subdirectories on NFS (default is true). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+writeCifsDataRepository"></a>
-
-### base/ViewConfigurationSdk.writeCifsDataRepository ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-Write CIFS Data Repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Node object or null if the creation fails.  
-**Throws**:
-
-- <code>Error</code> If the node is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.TenantGUID | <code>string</code> | Tenant GUID (automatically generated if not provided). |
-| dataRepository.OwnerGUID | <code>string</code> | Owner GUID (automatically generated if not provided). |
-| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository). |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.CifsHostname | <code>string</code> | CIFS hostname (default is null). |
-| dataRepository.CifsUsername | <code>string</code> | CIFS username (default is null). |
-| dataRepository.CifsPassword | <code>string</code> | CIFS password (default is null). |
-| dataRepository.CifsShareName | <code>string</code> | CIFS share name (default is null). |
-| dataRepository.CifsIncludeSubdirectories | <code>boolean</code> | Include subdirectories on CIFS (default is true). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
-<a name="module_base/ViewConfigurationSdk+updateDataRepository"></a>
-
-### base/ViewConfigurationSdk.updateDataRepository ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
-Update Data Repository.
-
-**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the created Node object or null if the creation fails.  
-**Throws**:
-
-- <code>Error</code> If the node is null or empty.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dataRepository | <code>Object</code> | Information about the data repository. |
-| dataRepository.Name | <code>string</code> | Name of the repository (default is "My file repository). |
-| dataRepository.RepositoryType | <code>string</code> | Repository type (default is DataRepositoryTypeEnum.File). |
-| dataRepository.IncludeSubdirectories | <code>boolean</code> | Include subdirectories (default is true). |
-| dataRepository.DiskDirectory | <code>string</code> | Disk directory (default is null). |
-| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
-
 <a name="module_base/ViewConfigurationSdk+existsWebhookEvent"></a>
 
 ### base/ViewConfigurationSdk.existsWebhookEvent ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
@@ -7351,6 +6894,30 @@ Write BLOB data.
 | blob.RefObjType | <code>string</code> | Object type to which this BLOB refers. |
 | blob.RefObjGUID | <code>string</code> | Globally-unique identifier of the object to which this BLOB refers. |
 | blob.Data | <code>Uint8Array</code> | BLOB data. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewConfigurationSdk+updateBlob"></a>
+
+### base/ViewConfigurationSdk.updateBlob ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
+Update a BLOB.
+
+**Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
+**Returns**: <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the updated Blob object or null if update fails.  
+**Throws**:
+
+- <code>Error</code> If the blob is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| blob | <code>Object</code> | Information about the blob to update. |
+| blob.GUID | <code>string</code> | GUID of the BLOB to update. |
+| [blob.ContentType] | <code>string</code> | Content type of the BLOB. |
+| [blob.Name] | <code>string</code> | Name of the BLOB. |
+| [blob.Description] | <code>string</code> | Description of the BLOB. |
+| [blob.RefObjType] | <code>string</code> | Object type to which this BLOB refers. |
+| [blob.RefObjGUID] | <code>string</code> | Globally-unique identifier of the object to which this BLOB refers. |
+| [blob.Data] | <code>Uint8Array</code> | BLOB data. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewConfigurationSdk+deleteBlob"></a>
@@ -7782,8 +7349,6 @@ Create a webhook target.
 | Param | Type | Description |
 | --- | --- | --- |
 | [target] | <code>Object</code> | Optional parameters. |
-| [target.GUID] | <code>string</code> | GUID (automatically generated if not provided). |
-| [target.TenantGUID] | <code>string</code> | Tenant GUID (automatically generated if not provided). |
 | [target.Name] | <code>string</code> | Name of the webhook target (defaults to "My webhook target"). |
 | [target.Url] | <code>string</code> | URL of the webhook target. |
 | [target.ContentType] | <code>string</code> | Content type (defaults to "application/json"). |
@@ -8078,8 +7643,8 @@ Create an object via PUT request to the specified URL.
 | Param | Type | Description |
 | --- | --- | --- |
 | url | <code>string</code> | The URL to send the PUT request to. |
-| obj | <code>T</code> | The object to send in the request body. |
-| Model | <code>Class</code> | Modal to deserialize on |
+| [obj] | <code>T</code> | The object to send in the request body. |
+| [Model] | <code>Class</code> | Modal to deserialize on |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewSdkBase--module.exports+exists"></a>

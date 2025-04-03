@@ -1,256 +1,483 @@
-const { ViewCrawlerSdk } = require('view-sdk');
+import { ViewCrawlerSdk } from "view-sdk";
 
-const api = new ViewCrawlerSdk(
-  'default', //tenant Id
-  'default', //access token
-  'http://view.homedns.org:8000/' //endpoint
+const crawler = new ViewCrawlerSdk(
+  "00000000-0000-0000-0000-000000000000", //tenant Id
+  "default", //access token
+  "http://view.homedns.org:8000/" //endpoint
 );
+
+const deleteCrawlOperation = async () => {
+  try {
+    const response = await crawler.deleteCrawlOperation(
+      "143fc146-dc60-4264-99b8-49bb816d356f"
+    );
+    console.log(response, "Crawl operation deleted successfully");
+  } catch (err) {
+    console.log("Error deleting Crawl operation:", err);
+  }
+};
+
+deleteCrawlOperation();
+const existsCrawlOperation = async () => {
+  try {
+    const response = await crawler.existsCrawlOperation(
+      "143fc146-dc60-4264-99b8-49bb816d356f"
+    );
+    console.log(response, "Crawl operation exists");
+  } catch (err) {
+    console.log("Error checking Crawl operation:", err);
+  }
+};
+
+// existsCrawlOperation();
+const stopCrawlOperation = async () => {
+  try {
+    const response = await crawler.stopCrawlOperation(
+      "143fc146-dc60-4264-99b8-49bb816d356f",
+      {
+        Name: "My crawl operation [ASH]",
+      }
+    );
+    console.log(response, "Crawl operation stopped successfully");
+  } catch (err) {
+    console.log("Error stopping Crawl operation:", err);
+  }
+};
+// stopCrawlOperation();
+
+const startCrawlOperation = async () => {
+  try {
+    const response = await crawler.startCrawlOperation(
+      "143fc146-dc60-4264-99b8-49bb816d356f",
+      {
+        Name: "My crawl operation [ASH]",
+      }
+    );
+    console.log(response, "Crawl operation started successfully");
+  } catch (err) {
+    console.log("Error starting Crawl operation:", err);
+  }
+};
+
+// startCrawlOperation();
+
+const retrieveEnumerationCrawlOperations = async () => {
+  try {
+    const response = await crawler.retrieveEnumerationCrawlOperations(
+      "143fc146-dc60-4264-99b8-49bb816d356f"
+    );
+    console.log(response, "Crawl operation enumeration fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl operation enumeration:", err);
+  }
+};
+
+// retrieveEnumerationCrawlOperations();
+
+const readAllCrawlOperations = async () => {
+  try {
+    const response = await crawler.retrieveCrawlOperations();
+    console.log(response, "All crawl operations fetched successfully");
+  } catch (err) {
+    console.log("Error fetching All crawl operations:", err);
+  }
+};
+
+// readAllCrawlOperations();
+
+const readCrawlOperation = async () => {
+  try {
+    const response = await crawler.retrieveCrawlOperation(
+      "143fc146-dc60-4264-99b8-49bb816d356f"
+    );
+    console.log(response, "Crawl operation fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl operation:", err);
+  }
+};
+
+// readCrawlOperation();
+
+const enumerateCrawlOperations = async () => {
+  try {
+    const response = await crawler.enumerateCrawlOperations();
+    console.log(response, "Crawl operations fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl operations:", err);
+  }
+};
+
+// enumerateCrawlOperations();
+
+const existsCrawlPlan = async () => {
+  try {
+    const response = await crawler.existsCrawlPlan(
+      "418cd284-4a30-4a9b-9e2a-b36645cbc6d7"
+    );
+    console.log(response, "Crawl plan exists");
+  } catch (err) {
+    console.log("Error checking Crawl plan:", err);
+  }
+};
+
+// existsCrawlPlan();
+
+const deleteCrawlPlan = async () => {
+  try {
+    const response = await crawler.deleteCrawlPlan(
+      "418cd284-4a30-4a9b-9e2a-b36645cbc6d7"
+    );
+    console.log(response, "Crawl plan deleted successfully");
+  } catch (err) {
+    console.log("Error deleting Crawl plan:", err);
+  }
+};
+// deleteCrawlPlan();
+
+const readAllCrawlPlans = async () => {
+  try {
+    const response = await crawler.retrieveCrawlPlans();
+    console.log(response, "All crawl plans fetched successfully");
+  } catch (err) {
+    console.log("Error fetching All crawl plans:", err);
+  }
+};
+
+// readAllCrawlPlans();
+const updateCrawlPlan = async () => {
+  try {
+    const response = await crawler.updateCrawlPlan({
+      GUID: "6c00eb8e-8c05-48dc-82d9-1e1f7b2d0bc0",
+      TenantGUID: "00000000-0000-0000-0000-000000000000",
+      DataRepositoryGUID: "7c3eb087-f9ef-4ca4-9b50-359b9840298e",
+      CrawlScheduleGUID: "00000000-0000-0000-0000-000000000000",
+      CrawlFilterGUID: "00000000-0000-0000-0000-000000000000",
+      MetadataRuleGUID: "00000000-0000-0000-0000-000000000000",
+      EmbeddingsRuleGUID: undefined,
+      Name: "My crawl plan [ASH] [UPDATED]",
+      EnumerationDirectory: "./enumerations/",
+      EnumerationsToRetain: 30,
+      MaxDrainTasks: 8,
+      ProcessAdditions: true,
+      ProcessDeletions: false,
+      ProcessUpdates: true,
+      CreatedUtc: "2025-04-01T12:52:07.995597Z",
+    });
+    console.log(response, "Crawl plan updated successfully");
+  } catch (err) {
+    console.log("Error updating Crawl plan:", err);
+  }
+};
+
+// updateCrawlPlan();
+
+const readCrawlPlan = async () => {
+  try {
+    const response = await crawler.retrieveCrawlPlan(
+      "418cd284-4a30-4a9b-9e2a-b36645cbc6d7"
+    );
+    console.log(response, "Crawl plan fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl plan:", err);
+  }
+};
+
+// readCrawlPlan();
+
+const enumerateCrawlPlans = async () => {
+  try {
+    const response = await crawler.enumerateCrawlPlans();
+    console.log(response, "Crawl plans fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl plans:", err);
+  }
+};
+
+// enumerateCrawlPlans();
+const createCrawlPlan = async () => {
+  try {
+    const response = await crawler.createCrawlPlan({
+      DataRepositoryGUID: "7c3eb087-f9ef-4ca4-9b50-359b9840298e",
+      CrawlScheduleGUID: "00000000-0000-0000-0000-000000000000",
+      CrawlFilterGUID: "00000000-0000-0000-0000-000000000000",
+      Name: "My crawl plan [ASH]",
+      EnumerationDirectory: "./enumerations/",
+      EnumerationsToRetain: 30,
+      MetadataRuleGUID: "00000000-0000-0000-0000-000000000000",
+      ProcessingEndpoint:
+        "http://nginx-processor:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/processing",
+      ProcessingAccessKey: "default",
+      CleanupEndpoint:
+        "http://nginx-processor:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/processing/cleanup",
+      CleanupAccessKey: "default",
+    });
+    console.log(response, "Crawl plan created successfully");
+  } catch (err) {
+    console.log("Error creating Crawl plan:", err);
+  }
+};
+
+// createCrawlPlan();
+
+const deleteCrawlFilter = async () => {
+  try {
+    const response = await crawler.deleteCrawlFilter(
+      "d3490b1a-3219-4691-9587-61e6380a9551"
+    );
+    console.log(response, "Crawl filter deleted successfully");
+  } catch (err) {
+    console.log("Error deleting Crawl filter:", err);
+  }
+};
+
+// deleteCrawlFilter();
+
+const existsCrawlFilter = async () => {
+  try {
+    const response = await crawler.existsCrawlFilter(
+      "d3490b1a-3219-4691-9587-61e6380a9551"
+    );
+    console.log(response, "Crawl filter exists");
+  } catch (err) {
+    console.log("Error checking Crawl filter:", err);
+  }
+};
+
+// existsCrawlFilter();
+
+const updateCrawlFilter = async () => {
+  try {
+    const response = await crawler.updateCrawlFilter({
+      GUID: "d3490b1a-3219-4691-9587-61e6380a9551",
+      TenantGUID: "00000000-0000-0000-0000-000000000000",
+      Name: "My filter [ASH] [UPDATED]",
+      MinimumSize: 1,
+      MaximumSize: 134217728,
+      IncludeSubdirectories: true,
+      ContentType: "*",
+      CreatedUtc: "2025-04-01T10:47:14.382138Z",
+    });
+    console.log(response, "Crawl filter updated successfully");
+  } catch (err) {
+    console.log("Error updating Crawl filter:", err);
+  }
+};
+
+// updateCrawlFilter();
+
+const readAllCrawlFilters = async () => {
+  try {
+    const response = await crawler.retrieveCrawlFilters();
+    console.log(response, "All crawl filters fetched successfully");
+  } catch (err) {
+    console.log("Error fetching All crawl filters:", err);
+  }
+};
+
+// readAllCrawlFilters();
+
+const readCrawlFilter = async () => {
+  try {
+    const response = await crawler.retrieveCrawlFilter(
+      "d3490b1a-3219-4691-9587-61e6380a9551"
+    );
+    console.log(response, "Crawl filter fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl filter:", err);
+  }
+};
+
+// readCrawlFilter();
+const enumerateCrawlFilters = async () => {
+  try {
+    const response = await crawler.enumerateCrawlFilters();
+    console.log(response, "Crawl filters fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl filters:", err);
+  }
+};
+
+// enumerateCrawlFilters();
+
+const createCrawlFilter = async () => {
+  try {
+    const response = await crawler.createCrawlFilter({
+      Name: "My filter [ASH]",
+      MinimumSize: 1,
+      MaximumSize: 134217728,
+      IncludeSubdirectories: true,
+      ContentType: "*",
+    });
+    console.log(response, "Crawl filter created successfully");
+  } catch (err) {
+    console.log("Error creating Crawl filter:", err);
+  }
+};
+
+// createCrawlFilter();
+const deleteCrawlSchedule = async () => {
+  try {
+    const response = await crawler.deleteCrawlSchedule(
+      "d3110b6a-223c-4c0a-b084-3fc5d996fd07"
+    );
+    console.log(response, "Crawl schedule deleted successfully");
+  } catch (err) {
+    console.log("Error deleting Crawl schedule:", err);
+  }
+};
+
+// deleteCrawlSchedule();
+
+const existsCrawlSchedule = async () => {
+  try {
+    const response = await crawler.existsCrawlSchedule(
+      "d3110b6a-223c-4c0a-b084-3fc5d996fd07"
+    );
+    console.log(response, "Crawl schedule exists");
+  } catch (err) {
+    console.log("Error checking Crawl schedule:", err);
+  }
+};
+
+// existsCrawlSchedule();
+
+const updateCrawlSchedule = async () => {
+  try {
+    const response = await crawler.updateCrawlSchedules({
+      GUID: "d3110b6a-223c-4c0a-b084-3fc5d996fd07",
+      TenantGUID: "00000000-0000-0000-0000-000000000000",
+      Name: "My schedule [UPDATED]",
+      Schedule: "DaysInterval",
+      Interval: 1,
+    });
+    console.log(response, "Crawl schedule updated successfully");
+  } catch (err) {
+    console.log("Error updating Crawl schedule:", err);
+  }
+};
+
+// updateCrawlSchedule();
+
+const readAllCrawlSchedules = async () => {
+  try {
+    const response = await crawler.retrieveAllCrawlSchedules();
+    console.log(response, "All crawl schedules fetched successfully");
+  } catch (err) {
+    console.log("Error fetching All crawl schedules:", err);
+  }
+};
+
+// readAllCrawlSchedules();
+
+const readCrawlSchedule = async () => {
+  try {
+    const response = await crawler.retrieveCrawlSchedule(
+      "d3110b6a-223c-4c0a-b084-3fc5d996fd07"
+    );
+    console.log(response, "Crawl schedule fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl schedule:", err);
+  }
+};
+
+// readCrawlSchedule();
+const enumerateCrawlSchedules = async () => {
+  try {
+    const response = await crawler.enumerateCrawlSchedules();
+    console.log(response, "Crawl schedules fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Crawl schedules:", err);
+  }
+};
+
+// enumerateCrawlSchedules();
+const createCrawlSchedules = async () => {
+  try {
+    const response = await crawler.createCrawlSchedules({
+      Name: "My schedule",
+      Schedule: "DaysInterval",
+      Interval: 1,
+    });
+    console.log(response, "Data crawler created successfully");
+  } catch (err) {
+    console.log("Error creating Data crawler:", err);
+  }
+};
+
+// createCrawlSchedules();
+
+const deleteDataRepository = async () => {
+  try {
+    const response = await crawler.deleteDataRepository(
+      "cd455417-d261-48e3-817f-98f15ba3d6b8"
+    );
+    console.log(response, "Data repository deleted successfully");
+  } catch (err) {
+    console.log("Error deleting Data repository:", err);
+  }
+};
+
+// deleteDataRepository();
+
+const existsDataRepository = async () => {
+  try {
+    const response = await crawler.existsDataRepository(
+      "cd455417-d261-48e3-817f-98f15ba3d6b8"
+    );
+    console.log(response, "Data repository exists");
+  } catch (err) {
+    console.log("Error checking Data repository:", err);
+  }
+};
+
+// existsDataRepository();
+
+const readAllDataRepositories = async () => {
+  try {
+    const response = await crawler.retrieveDataRepositories();
+    console.log(response, "All data repositories fetched successfully");
+  } catch (err) {
+    console.log("Error fetching All data repositories:", err);
+  }
+};
+
+// readAllDataRepositories();
+const readDataRepository = async () => {
+  try {
+    const response = await crawler.retrieveDataRepository(
+      "cd455417-d261-48e3-817f-98f15ba3d6b8"
+    );
+    console.log(response, "Data repository fetched successfully");
+  } catch (err) {
+    console.log("Error fetching Data repository:", err);
+  }
+};
+
+// readDataRepository();
 
 const enumerateDataRepositories = async () => {
   try {
-    const data = await api.enumerateDataRepositories();
-    console.log('enumerateDataRepositories data', data);
+    const response = await crawler.enumerateDataRepositories();
+    console.log(response, "Data repositories fetched successfully");
   } catch (err) {
-    console.log('err:', JSON.stringify(err));
+    console.log("Error fetching Data repositories:", err);
   }
 };
-const retrieveAllDataRepositories = async () => {
+
+// enumerateDataRepositories();
+const createDataRepository = async () => {
   try {
-    const data = await api.retrieveAllDataRepositories();
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const retrieveByGUIDDataRepositories = async () => {
-  try {
-    const data = await api.retrieveByGUIDDataRepositories('47e32133-0456-4047-9987-bf626600e42f');
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const writeDiskDataRepository = async () => {
-  try {
-    const data = await api.writeDiskDataRepository({
-      Name: 'My file repository test',
-      RepositoryType: 'File',
-      DiskDirectory: './files/',
+    const response = await crawler.createDataRepository({
+      Name: "My file repository [ASH]",
+      RepositoryType: "File",
+      BaseUrl: "./files/",
+      DiskDirectory: "./files/",
       DiskIncludeSubdirectories: true,
     });
-    console.log(data, 'chk data');
+    console.log(response, "Data repository created successfully");
   } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const writeS3DataRepository = async () => {
-  try {
-    const data = await api.writeS3DataRepository({
-      TenantGUID: 'default',
-      OwnerGUID: 'default',
-      Name: 'My S3 repository from test',
-      RepositoryType: 'AmazonS3',
-      S3EndpointUrl: null,
-      S3BaseUrl: 'https://{bucket}.us-west-1.s3.amazonaws.com/{key}',
-      S3AccessKey: 'accesskey',
-      S3SecretKey: 'secretkey',
-      S3BucketName: 'bucket',
-      S3Region: 'us-west-1',
-    });
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const writeS3CompatibleDataRepository = async () => {
-  try {
-    const data = await api.writeS3CompatibleDataRepository({
-      TenantGUID: 'default',
-      OwnerGUID: 'default',
-      Name: 'My S3 compatible storage repository test1',
-      RepositoryType: 'AmazonS3',
-      S3EndpointUrl: 'http://localhost:8002/',
-      S3BaseUrl: 'http://localhost:8002/{bucket}/{key}',
-      S3AccessKey: 'accesskey',
-      S3SecretKey: 'secretkey',
-      S3BucketName: 'bucket',
-      S3Region: 'us-west-1',
-    });
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const writeAzureBLOBDataRepository = async () => {
-  try {
-    const data = await api.writeAzureBLOBDataRepository({
-      TenantGUID: 'default',
-      OwnerGUID: 'default',
-      Name: 'My Azure BLOB repository test',
-      RepositoryType: 'AzureBlob',
-      AzureEndpointUrl: 'https://accountname.blob.core.windows.net',
-      AzureAccountName: 'accountname',
-      AzureContainerName: 'containername',
-      AzureAccessKey: 'accesskey',
-    });
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const writeCIFSDataRepository = async () => {
-  try {
-    const data = await api.writeCIFSDataRepository({
-      TenantGUID: 'default',
-      OwnerGUID: 'default',
-      Name: 'My Azure BLOB repository test',
-      RepositoryType: 'AzureBlob',
-      AzureEndpointUrl: 'https://accountname.blob.core.windows.net',
-      AzureAccountName: 'accountname',
-      AzureContainerName: 'containername',
-      AzureAccessKey: 'accesskey',
-    });
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const writeNFSDataRepository = async () => {
-  try {
-    const data = await api.writeCIFSDataRepository({
-      TenantGUID: 'default',
-      OwnerGUID: 'default',
-      Name: 'My NFS repository test',
-      RepositoryType: 'NFS',
-      NfsHostname: 'localhost',
-      NfsUserId: 0,
-      NfsGroupId: 0,
-      NfsShareName: 'share',
-      NfsIncludeSubdirectories: true,
-    });
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const updateDataRepository = async () => {
-  try {
-    const data = await api.updateDataRepository({
-      Name: 'My updated file repository update',
-      RepositoryType: 'File',
-      IncludeSubdirectories: true,
-      DiskDirectory: './files/',
-    });
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const deleteDataRepository = async () => {
-  try {
-    const data = await api.deleteDataRepository('53237839-c0b1-41a9-bf03-72173d4b06f4');
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
+    console.log("Error creating Data repository:", err);
   }
 };
 
-const checkExistenceDataRepository = async () => {
-  try {
-    const data = await api.checkExistenceDataRepository('2c10653f-ca0c-4dff-a64b-8d5c0fe8b276');
-    console.log(data, 'chk data');
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-
-//Crawl Schedules
-const enumerateCrawlSchedules = async () => {
-  try {
-    const data = await api.enumerateCrawlSchedules();
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const retrieveAllCrawlSchedules = async () => {
-  try {
-    const data = await api.retrieveAllCrawlSchedules();
-    console.log('data', data);
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const retrieveByIDCrawlSchedules = async () => {
-  try {
-    const data = await api.retrieveByIDCrawlSchedules('oneminute');
-    console.log('data', data);
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const createCrawlSchedules = async () => {
-  try {
-    const data = await api.createCrawlSchedules({
-      Name: 'My schedule update',
-      Schedule: 'DaysInterval',
-      Interval: 1,
-    });
-    console.log('data ...', data);
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const updateCrawlSchedules = async () => {
-  try {
-    const data = await api.updateCrawlSchedules('963e2139-3076-430b-a949-a4e9db6c3d5f', {
-      Name: 'My schedule update',
-      Schedule: 'DaysInterval',
-      Interval: 1,
-    });
-    console.log('data ...', data);
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-
-const deleteCrawlSchedule = async () => {
-  try {
-    const data = await api.deleteCrawlSchedule('963e2139-3076-430b-a949-a4e9db6c3d5f');
-    console.log('data ...', data);
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-
-const checkExistenceCrawlSchedule = async () => {
-  try {
-    const data = await api.checkExistenceCrawlSchedule('963e2139-3076-430b-a949-a4e9db6c3d5f');
-    console.log('data ...', data);
-  } catch (err) {
-    console.log('err:', JSON.stringify(err));
-  }
-};
-const useSDK = () => {
-  // enumerateDataRepositories();
-  // retrieveAllDataRepositories();
-  // retrieveByGUIDDataRepositories()
-  // writeDiskDataRepository()
-  // writeS3DataRepository()
-  // writeS3CompatibleDataRepository()
-  // writeAzureBLOBDataRepository()
-  // writeCIFSDataRepository()
-  // writeNFSDataRepository()
-  // updateDataRepository()
-  // deleteDataRepository()
-  // checkExistenceDataRepository()
-  // //Crawl Schedules
-  // enumerateCrawlSchedules()
-  // retrieveAllCrawlSchedules()
-  // retrieveByIDCrawlSchedules()
-  // createCrawlSchedules()
-  // updateCrawlSchedules()
-  // deleteCrawlSchedule()
-  // checkExistenceCrawlSchedule()
-};
-
-useSDK();
+// createDataRepository();

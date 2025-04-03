@@ -11,21 +11,158 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @param {string} endpoint
      */
     /**
+     * Create a pool.
+     *
+     * @param {Object} pool Information about the storage pool.
+     * @param {number} pool.id - Database row ID.
+     * @param {string} pool.GUID - Storage pool GUID (automatically generated if not provided).
+     * @param {string} pool.TenantGUID - Tenant GUID.
+     * @param {string} pool.EncryptionKeyGUID - Encryption key GUID.
+     * @param {string} pool.Name - Name of the storage pool.
+     * @param {string} pool.Provider - Provider of the storage pool (default is 'Disk').
+     * @param {string} pool.WriteMode - Object key write mode.
+     * @param {boolean} pool.UseSsl - Enable or disable SSL.
+     * @param {string} pool.Endpoint - Endpoint URL for the storage pool provider.
+     * @param {string} pool.AccessKey - Access key.
+     * @param {string} pool.SecretKey - Secret key.
+     * @param {string} pool.AwsRegion - AWS region.
+     * @param {string} pool.AwsBucket - AWS bucket.
+     * @param {string} pool.AwsBaseDomain - Base URL for AWS S3 compatible storage platforms.
+     * @param {string} pool.AwsBaseUrl - Base URL to use for objects.
+     * @param {string} pool.DiskDirectory - Disk directory.
+     * @param {string} pool.AzureAccount - Azure account.
+     * @param {string} pool.AzureContainer - Azure container.
+     * @param {string} pool.Compress - Compression type.
+     * @param {boolean} pool.EnableReadCaching - Flag to enable or disable read caching.
+     * @param {Date} pool.CreatedUtc - Creation timestamp in UTC.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<StoragePool|null|ApiErrorResponse>} A promise resolving to the created StoragePool object or null.
+     * @throws {Error} If the pool is null.
+     */
+    createStoragePool: (pool: {
+        id: number;
+        GUID: string;
+        TenantGUID: string;
+        EncryptionKeyGUID: string;
+        Name: string;
+        Provider: string;
+        WriteMode: string;
+        UseSsl: boolean;
+        Endpoint: string;
+        AccessKey: string;
+        SecretKey: string;
+        AwsRegion: string;
+        AwsBucket: string;
+        AwsBaseDomain: string;
+        AwsBaseUrl: string;
+        DiskDirectory: string;
+        AzureAccount: string;
+        AzureContainer: string;
+        Compress: string;
+        EnableReadCaching: boolean;
+        CreatedUtc: Date;
+    }, cancelToken?: object) => Promise<StoragePool | null | ApiErrorResponse>;
+    /**
+     * Check if a pool exists.
+     *
+     * @param {string} guid - The GUID of the pool to check.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the pool exists, or false if not.
+     * @throws {Error} If the guid is null or empty.
+     */
+    existsStoragePool: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
+    /**
+     * Retrieve a pool by its GUID.
+     *
+     * @param {string} guid - The GUID of the pool to retrieve.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<StoragePool|null|ApiErrorResponse>} A promise resolving to the StoragePool object or null if not found.
+     * @throws {Error} If the guid is null or empty.
+     */
+    retrieveStoragePool: (guid: string, cancelToken?: object) => Promise<StoragePool | null | ApiErrorResponse>;
+    /**
+     * Retrieve all pools.
+     *
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<Array<StoragePool>|ApiErrorResponse>} A promise resolving to an array of StoragePool objects.
+     */
+    retrieveStoragePools: (cancelToken?: object) => Promise<Array<StoragePool> | ApiErrorResponse>;
+    /**
+     * Update a pool.
+     *
+     * @param {Object} pool Information about the storage pool.
+     * @param {number} pool.id - Database row ID.
+     * @param {string} pool.GUID - Storage pool GUID (automatically generated if not provided).
+     * @param {string} pool.TenantGUID - Tenant GUID.
+     * @param {string} pool.EncryptionKeyGUID - Encryption key GUID.
+     * @param {string} pool.Name - Name of the storage pool.
+     * @param {string} pool.Provider - Provider of the storage pool (default is 'Disk').
+     * @param {string} pool.WriteMode - Object key write mode.
+     * @param {boolean} pool.UseSsl - Enable or disable SSL.
+     * @param {string} pool.Endpoint - Endpoint URL for the storage pool provider.
+     * @param {string} pool.AccessKey - Access key.
+     * @param {string} pool.SecretKey - Secret key.
+     * @param {string} pool.AwsRegion - AWS region.
+     * @param {string} pool.AwsBucket - AWS bucket.
+     * @param {string} pool.AwsBaseDomain - Base URL for AWS S3 compatible storage platforms.
+     * @param {string} pool.AwsBaseUrl - Base URL to use for objects.
+     * @param {string} pool.DiskDirectory - Disk directory.
+     * @param {string} pool.AzureAccount - Azure account.
+     * @param {string} pool.AzureContainer - Azure container.
+     * @param {string} pool.Compress - Compression type.
+     * @param {boolean} pool.EnableReadCaching - Flag to enable or disable read caching.
+     * @param {Date} pool.CreatedUtc - Creation timestamp in UTC.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<StoragePool|null|ApiErrorResponse>} A promise resolving to the updated StoragePool object or null.
+     * @throws {Error} If the pool is null.
+     */
+    updateStoragePool: (pool: {
+        id: number;
+        GUID: string;
+        TenantGUID: string;
+        EncryptionKeyGUID: string;
+        Name: string;
+        Provider: string;
+        WriteMode: string;
+        UseSsl: boolean;
+        Endpoint: string;
+        AccessKey: string;
+        SecretKey: string;
+        AwsRegion: string;
+        AwsBucket: string;
+        AwsBaseDomain: string;
+        AwsBaseUrl: string;
+        DiskDirectory: string;
+        AzureAccount: string;
+        AzureContainer: string;
+        Compress: string;
+        EnableReadCaching: boolean;
+        CreatedUtc: Date;
+    }, cancelToken?: object) => Promise<StoragePool | null | ApiErrorResponse>;
+    /**
+     * Delete a pool by its GUID.
+     *
+     * @param {string} guid - The GUID of the pool to delete.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if successful.
+     * @throws {Error} If the guid is null or empty.
+     */
+    deleteStoragePool: (guid: string, cancelToken?: object) => Promise<void | ApiErrorResponse>;
+    /**
      * Retrieve List of Buckets.
      *
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the Bucket object or null if not found.
      * @throws {Error} If the guid is null or empty.
      */
-    retrieveAllBuckets: (cancelToken?: object) => Promise<BucketMetadata | null | ApiErrorResponse>;
+    retrieveBuckets: (cancelToken?: object) => Promise<BucketMetadata | null | ApiErrorResponse>;
     /**
-     * Retrieve List of Objects.
-     * @param {string} guid - The GUID of the BucketMetadata.
+     * Enumerate all buckets in the tenant.
+     *
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the Bucket object or null if not found.
-     * @throws {Error} If the guid is null or empty.
+     * @returns {Promise<BucketMetadata[]|null|ApiErrorResponse>} A promise resolving to an array of BucketMetadata objects or null.
      */
-    retrieveBuckets: (guid: string, cancelToken?: object) => Promise<BucketMetadata | null | ApiErrorResponse>;
+    enumerateBucketObjects: (guid: any, cancelToken?: object) => Promise<BucketMetadata[] | null | ApiErrorResponse>;
     /**
      * Retrieve bucket by Guid.
      *
@@ -34,7 +171,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the Bucket object or null if not found.
      * @throws {Error} If the guid is null or empty.
      */
-    retrieveBucketByGuid: (guid: string, cancelToken?: object) => Promise<BucketMetadata | null | ApiErrorResponse>;
+    retrieveBucketMetadata: (guid: string, cancelToken?: object) => Promise<BucketMetadata | null | ApiErrorResponse>;
     /**
      * Write Bucket data.
      * @param {Object} metadata Information about the bucket metadata.
@@ -46,7 +183,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the created Bucket object or null if the creation fails.
      * @throws {Error} If the node is null or empty.
      */
-    writeBucket: (metadata: {
+    createBucket: (metadata: {
         PoolGUID: string;
         Name: string;
         RegionString: string;
@@ -98,7 +235,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<TagMetaData|null|ApiErrorResponse>} A promise resolving to the TagMetadata object or null if not found.
      * @throws {Error} If the guid is null or empty.
      */
-    retrieveTagByBucket: (guid: string, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
+    retrieveBucketTags: (guid: string, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
     /**
      * Delete tag by bucketGuid.
      *
@@ -107,7 +244,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<void>} A promise that resolves when the bucket is deleted.
      * @throws {Error} If the guid is null or empty.
      */
-    deleteTag: (guid: string, cancelToken?: object) => Promise<void>;
+    deleteBucketTags: (guid: string, cancelToken?: object) => Promise<void>;
     /**
      * Write Tag .
      * @param {string} guid - The GUID of the bucket.
@@ -118,7 +255,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<ObjectMetadata|null|ApiErrorResponse>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
      * @throws {Error} If the ObjectMetadata is null or empty.
      */
-    writeTagForBucket: (guid: string, tagMetaData: {
+    createBucketTags: (guid: string, tagMetaData: {
         Key: string;
         Value: string;
     }, cancelToken?: object) => Promise<ObjectMetadata | null | ApiErrorResponse>;
@@ -130,7 +267,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<AclMetaData|null|ApiErrorResponse>} A promise resolving to the TagMetadata object or null if not found.
      * @throws {Error} If the guid is null or empty.
      */
-    retrieveBucketByACL: (guid: string, cancelToken?: object) => Promise<AclMetaData | null | ApiErrorResponse>;
+    retrieveBucketACL: (guid: string, cancelToken?: object) => Promise<AclMetaData | null | ApiErrorResponse>;
     /**
      * Delete acl by bucketGuid.
      *
@@ -139,7 +276,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<Boolean|ApiErrorResponse>} A promise that resolves when the bucket is deleted.
      * @throws {Error} If the guid is null or empty.
      */
-    deleteAcl: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
+    deleteBucketACL: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
     /**
      * Write Acl for bucket.
      * @param {string} guid - The GUID of the bucket.
@@ -151,7 +288,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<AclEntry|null|ApiErrorResponse>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
      * @throws {Error} If the ObjectMetadata is null or empty.
      */
-    writeAclForBucket: (guid: string, aclMetaData: {
+    createBucketACL: (guid: string, aclMetaData: {
         Owner: any;
         Users: any[];
         Entries: any[];
@@ -189,13 +326,14 @@ export default class ViewStorageSdk extends ViewSdkBase {
     /**
      * Write expiration .
      * @param {string} bucketGUID - The GUID of the bucket.
-     * @param {Object} objectMetadata Information about the Object .
-     * @property {Date|null} Object.ExpirationUtc - The expiration timestamp in UTC.
+     * @param {string} key - The key of the object.
+     * @param {Object} object Information about the Object .
+     * @property {string} object.ExpirationUtc - The expiration timestamp in UTC.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<ObjectMetadata|null|ApiErrorResponse>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
      * @throws {Error} If the node is null or empty.
      */
-    writeExpiration: (bucketGUID: string, key: any, objectMetadata: any, cancelToken?: object) => Promise<ObjectMetadata | null | ApiErrorResponse>;
+    writeObjectExpiration: (bucketGUID: string, key: string, object: any, cancelToken?: object) => Promise<ObjectMetadata | null | ApiErrorResponse>;
     /**
      * Retrieve data by key.
      *
@@ -204,18 +342,18 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<String|null|ApiErrorResponse>} A promise resolving to the data retrieved or null if the object is not found.
      * @throws {Error} If the GUID is null or empty.
      */
-    retrieveData: (bucketGuid: string, key: any, cancelToken?: object) => Promise<string | null | ApiErrorResponse>;
+    retrieveObjectData: (bucketGuid: string, key: any, cancelToken?: object) => Promise<string | null | ApiErrorResponse>;
     /**
      * Retrieve object Range.
      *
      * @param {string} bucketGuid - The GUID of the bucket.
      * @param {string} key - The key of the object.
-     * @param {object} objectMetadata - The metadata of the object.
+     * @param {string} range - The range of the object.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<ObjectMetadata|null|ApiErrorResponse>} A promise resolving to the UserMaster object or null if not found.
+     * @returns {Promise<string|null|ApiErrorResponse>} A promise resolving to the UserMaster object or null if not found.
      * @throws {Error} If the GUID is null or empty.
      */
-    retrieveRange: (bucketGuid: string, key: string, cancelToken?: object, range: any) => Promise<ObjectMetadata | null | ApiErrorResponse>;
+    retrieveObjectDataInRange: (bucketGuid: string, key: string, range: string, cancelToken?: object) => Promise<string | null | ApiErrorResponse>;
     /**
      * Retrieve object by metadata.
      *
@@ -240,17 +378,24 @@ export default class ViewStorageSdk extends ViewSdkBase {
     /**
      * Write Tag .
      * @param {string} bucketGUID - The GUID of the bucket.
-     * @param {Object} tagMetaData Information about the tag .
-     * @param {string} tagMetaData.Key - Key associated with the metadata.
-     * @param {string} tagMetaData.Value - Value associated with the metadata.
+     * @param {Array<{Key: string, Value: string}>} tagMetaData Information about the tag .
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<TagMetaData|null|ApiErrorResponse>} A promise resolving to the created TagMetaData object or null if the creation fails.
      * @throws {Error} If the node is null or empty.
      */
-    writeTagForObject: (bucketGUID: string, key: any, tagMetaData: {
+    createObjectTags: (bucketGUID: string, key: any, tagMetaData: Array<{
         Key: string;
         Value: string;
-    }, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
+    }>, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
+    /**
+     * Delete tags from an object.
+     * @param {string} bucketGUID - The GUID of the bucket.
+     * @param {string} key - The key of the object.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<void|ApiErrorResponse>} A promise resolving when the tags are deleted.
+     * @throws {Error} If the bucketGUID or key is null or empty.
+     */
+    deleteObjectTags: (bucketGUID: string, key: string, cancelToken?: object) => Promise<void | ApiErrorResponse>;
     /**
      * Retrieve a tag by its key.
      *
@@ -260,29 +405,31 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<TagMetaData|null|ApiErrorResponse>} A promise resolving to the TagMetaData object or null if not found.
      * @throws {Error} If the bucketGUID or key is null or empty.
      */
-    retrieveTagByObject: (bucketGUID: string, key: string, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
+    retrieveObjectTags: (bucketGUID: string, key: string, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
     /**
      * Retrieve tag by bucketGuid.
      *
      * @param {string} bucketguid - GUID of the bucket.
-     * @param, {string} key - Key of the object.
+     * @param {string} key - Key of the object.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<AclMetaData|null|ApiErrorResponse>} A promise resolving to the TagMetadata object or null if not found.
      * @throws {Error} If the guid is null or empty.
      */
-    retrieveObjectByACL: (key: any, bucketGuid: any, cancelToken?: object) => Promise<AclMetaData | null | ApiErrorResponse>;
+    retrieveObjectACL: (bucketGuid: any, key: string, cancelToken?: object) => Promise<AclMetaData | null | ApiErrorResponse>;
     /**
      * Delete acl by bucketGuid.
      *
-     * @param {string} guid - GUID of the bucket to delete.
+     * @param {string} bucketGuid - GUID of the bucket to delete.
+     * @param {string} key - Key of the object.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<Boolean|ApiErrorResponse>} A promise that resolves when the bucket is deleted.
      * @throws {Error} If the guid is null or empty.
      */
-    deleteAclObject: (key: any, bucketGuid: any, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
+    deleteObjectACL: (bucketGuid: string, key: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
     /**
      * Write Acl for bucket.
-     * @param {string} guid - The GUID of the bucket.
+     * @param {string} bucketGuid - The GUID of the bucket.
+     * @param {string} key - The key of the object.
      * @param {Object} aclMetaData Information about the acl .
      * @param {Object} aclMetaData.Owner - Key associated with the metadata.
      * @param {Array} aclMetaData.Users - List of users, each using UserMaster class.
@@ -291,7 +438,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<AclEntry|null|ApiErrorResponse>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
      * @throws {Error} If the ObjectMetadata is null or empty.
      */
-    writeAclForObject: (key: any, bucketGuid: any, aclMetaData: {
+    createObjectACL: (bucketGuid: string, key: string, aclMetaData: {
         Owner: any;
         Users: any[];
         Entries: any[];
@@ -314,7 +461,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<MultipartUpload|null|ApiErrorResponse>} A promise resolving to the MultipartUpload object or null if not found.
      * @throws {Error} If the GUID is null or empty.
      */
-    retrieveAllMultipartUpload: (bucketGUID: string, cancelToken?: object) => Promise<MultipartUpload | null | ApiErrorResponse>;
+    retrieveMultipartUploads: (bucketGUID: string, cancelToken?: object) => Promise<MultipartUpload | null | ApiErrorResponse>;
     /**
      * Retrieve a Multipart Upload by its GUID.
      *
@@ -335,7 +482,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<MultipartUpload|null|ApiErrorResponse>} A promise resolving to the MultipartUpload object or null if not found.
      * @throws {Error} If the GUID is null or empty.
      */
-    retrievePartMultipartUpload: (bucketGUID: string, key: string, partNumber: number, cancelToken?: object) => Promise<MultipartUpload | null | ApiErrorResponse>;
+    retrievePartOfMultipartUpload: (bucketGUID: string, key: string, partNumber: number, cancelToken?: object) => Promise<MultipartUpload | null | ApiErrorResponse>;
     /**
      * Delete a part of a Multipart Upload by its key and part number.
      *
@@ -346,7 +493,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<void|ApiErrorResponse>} A promise resolving when the user is deleted.
      * @throws {Error} If the GUID is null or empty.
      */
-    deletePart: (bucketGUID: string, key: string, partNumber: number, cancelToken?: object) => Promise<void | ApiErrorResponse>;
+    deletePartOfMultipartUpload: (bucketGUID: string, key: string, partNumber: number, cancelToken?: object) => Promise<void | ApiErrorResponse>;
     /**
      * Delete a Multipart Upload by its key .
      *
@@ -367,9 +514,20 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @returns {Promise<TagMetaData|null|ApiErrorResponse>} A promise resolving to the created TagMetaData object or null if the creation fails.
      * @throws {Error} If the node is null or empty.
      */
-    uploadPart: (bucketGUID: string, key: any, partNumber: number, data: string, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
+    uploadPartOfMultipartUpload: (bucketGUID: string, key: any, partNumber: number, data: string, cancelToken?: object) => Promise<TagMetaData | null | ApiErrorResponse>;
+    /**
+     * Complete a Multipart Upload by its key .
+     *
+     * @param {string} bucketGUID - The GUID of the bucket to retrieve.
+     * @param {string} key - The key of the Multipart Upload to retrieve.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<Boolean|ApiErrorResponse>} A promise resolving when the user is deleted.
+     * @throws {Error} If the GUID is null or empty.
+     */
+    completeMultipartUpload: (bucketGUID: string, key: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
 }
 import ViewSdkBase from '../ViewSDKBase';
+import StoragePool from '../../models/StoragePool';
 import BucketMetadata from '../../models/BucketMetadata';
 import TagMetaData from '../../models/TagMetadata';
 import ObjectMetadata from '../../models/ObjectMetadata';

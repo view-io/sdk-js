@@ -69,7 +69,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<Object|ApiErrorResponse>} A promise resolving to collection statistics.
      * @throws {Error} If the collectionGuid is null or empty.
      */
-    retrieveTopTerms: (collectionGuid: string, maxKeys?: number, cancelToken?: object) => Promise<any | ApiErrorResponse>;
+    retrieveCollectionTopTerms: (collectionGuid: string, maxKeys?: number, cancelToken?: object) => Promise<any | ApiErrorResponse>;
     /**
      * Check if a collection exists.
      * @param {string} collectionGuid - The GUID of the collection to check for existence.
@@ -87,6 +87,41 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @throws {Error} If the collectionGuid is null or empty.
      */
     retrieveDocuments: (collectionGuid: string, cancelToken?: object) => Promise<SourceDocument[] | ApiErrorResponse>;
+    /**
+     * Enumerate a collection.
+     *
+     * @param {string} collectionGuid - The GUID of the collection to enumerate.
+     * @param {Object} query - The query to use for enumeration.
+     * @property {number} query.timestamp - The timestamp for the enumeration query.
+     * @property {TenantMetadata|null} query.tenant - Metadata for the tenant.
+     * @property {string} query.tenantGuid - GUID for the tenant.
+     * @property {BucketMetadata|null} query.bucket - Metadata for the bucket.
+     * @property {string} query.bucketGuid - GUID for the bucket.
+     * @property {Collection|null} query.collection - Collection information.
+     * @property {string} query.collectionGuid - GUID for the collection.
+     * @property {SourceDocument|null} query.sourceDocument - Information about the source document.
+     * @property {string} query.sourceDocumentGuid - GUID for the source document.
+     * @property {VectorRepository|null} query.vectorRepository - Information about the vector repository.
+     * @property {string} query.vectorRepositoryGuid - GUID for the vector repository.
+     * @property {GraphRepository|null} query.graphRepository - Information about the graph repository.
+     * @property {string} query.graphRepositoryGuid - GUID for the graph repository.
+     * @property {string} query.graphNodeIdentifier - Identifier for the graph node.
+     * @property {number} query.maxResults - Maximum number of results to retrieve.
+     * @property {string|null} query.continuationToken - Token for continuation in results.
+     * @property {string|null} query.prefix - Prefix to filter results.
+     * @property {string|null} query.suffix - Suffix to filter results.
+     * @property {string|null} query.marker - Marker for pagination.
+     * @property {string} query.delimiter - Delimiter for separating values.
+     * @property {string} query.token - Token for authorization.
+     * @property {boolean} query.includeData - Flag to include subordinate data.
+     * @property {boolean} query.includeOwners - Flag to include owners (default: true for S3 compatibility).
+     * @property {Array<SearchFilter>} query.filters - Search filters to apply.
+     * @property {EnumerationOrderEnum} query.ordering - Ordering for the enumeration results.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
+     * @throws {Error} If the collectionGuid or query is null or empty.
+     */
+    enumerateCollection: (collectionGuid: string, query: any, cancelToken?: object) => Promise<EnumerationResult<SourceDocument> | null | ApiErrorResponse>;
     /**
      * Retrieve a specific document from a collection.
      *
@@ -193,41 +228,6 @@ export default class ViewLexiSdk extends ViewSdkBase {
      */
     sourceDocumentsExists: (collectionGuid: string, documentGuid: string, cancelToken?: any) => Promise<boolean | ApiErrorResponse>;
     /**
-     * Enumerate a collection.
-     *
-     * @param {string} collectionGuid - The GUID of the collection to enumerate.
-     * @param {Object} query - The query to use for enumeration.
-     * @property {number} query.timestamp - The timestamp for the enumeration query.
-     * @property {TenantMetadata|null} query.tenant - Metadata for the tenant.
-     * @property {string} query.tenantGuid - GUID for the tenant.
-     * @property {BucketMetadata|null} query.bucket - Metadata for the bucket.
-     * @property {string} query.bucketGuid - GUID for the bucket.
-     * @property {Collection|null} query.collection - Collection information.
-     * @property {string} query.collectionGuid - GUID for the collection.
-     * @property {SourceDocument|null} query.sourceDocument - Information about the source document.
-     * @property {string} query.sourceDocumentGuid - GUID for the source document.
-     * @property {VectorRepository|null} query.vectorRepository - Information about the vector repository.
-     * @property {string} query.vectorRepositoryGuid - GUID for the vector repository.
-     * @property {GraphRepository|null} query.graphRepository - Information about the graph repository.
-     * @property {string} query.graphRepositoryGuid - GUID for the graph repository.
-     * @property {string} query.graphNodeIdentifier - Identifier for the graph node.
-     * @property {number} query.maxResults - Maximum number of results to retrieve.
-     * @property {string|null} query.continuationToken - Token for continuation in results.
-     * @property {string|null} query.prefix - Prefix to filter results.
-     * @property {string|null} query.suffix - Suffix to filter results.
-     * @property {string|null} query.marker - Marker for pagination.
-     * @property {string} query.delimiter - Delimiter for separating values.
-     * @property {string} query.token - Token for authorization.
-     * @property {boolean} query.includeData - Flag to include subordinate data.
-     * @property {boolean} query.includeOwners - Flag to include owners (default: true for S3 compatibility).
-     * @property {Array<SearchFilter>} query.filters - Search filters to apply.
-     * @property {EnumerationOrderEnum} query.ordering - Ordering for the enumeration results.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
-     * @throws {Error} If the collectionGuid or query is null or empty.
-     */
-    enumerateCollection: (collectionGuid: string, query: any, cancelToken?: object) => Promise<EnumerationResult<SourceDocument> | null | ApiErrorResponse>;
-    /**
      * Search a collection.
      *
      * @param {string} collectionGuid - The GUID of the collection to search.
@@ -316,7 +316,7 @@ import ViewSdkBase from '../ViewSDKBase';
 import Collection from '../../models/Collection';
 import CollectionStatistics from '../../models/CollectionStatistics';
 import SourceDocument from '../../models/SourceDocument';
-import SourceDocumentStatistics from '../../models/SourceDocumentStatistics';
 import EnumerationResult from '../../models/EnumerationResult';
+import SourceDocumentStatistics from '../../models/SourceDocumentStatistics';
 import SearchResult from '../../models/SearchResult';
 import IngestQueue from '../../models/IngestQueue';

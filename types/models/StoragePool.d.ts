@@ -1,30 +1,30 @@
 export default class StoragePool {
     /**
-     * @param {Object} pool Information about the storage pool.
-     * @param {number} pool.id - Database row ID.
-     * @param {string} pool.GUID - Storage pool GUID (automatically generated if not provided).
+     * @param {Object} pool - Information about the storage pool.
+     * @param {number} pool.Id - Row ID.
+     * @param {string} pool.GUID - Storage pool GUID.
      * @param {string} pool.TenantGUID - Tenant GUID.
      * @param {string} pool.EncryptionKeyGUID - Encryption key GUID.
      * @param {string} pool.Name - Name of the storage pool.
-     * @param {string} pool.Provider - Provider of the storage pool (default is 'Disk').
-     * @param {string} pool.WriteMode - Object key write mode.
-     * @param {boolean} pool.UseSsl - Enable or disable SSL.
-     * @param {string} pool.Endpoint - Endpoint URL for the storage pool provider.
+     * @param {string} pool.Provider - Provider type.
+     * @param {string} pool.WriteMode - Object write mode enum value.
+     * @param {boolean} pool.UseSsl - Whether SSL is enabled.
+     * @param {string} pool.Endpoint - Endpoint URL.
      * @param {string} pool.AccessKey - Access key.
      * @param {string} pool.SecretKey - Secret key.
-     * @param {string} pool.AwsRegion - AWS region.
-     * @param {string} pool.AwsBucket - AWS bucket.
-     * @param {string} pool.AwsBaseDomain - Base URL for AWS S3 compatible storage platforms.
-     * @param {string} pool.AwsBaseUrl - Base URL to use for objects.
-     * @param {string} pool.DiskDirectory - Disk directory.
-     * @param {string} pool.AzureAccount - Azure account.
-     * @param {string} pool.AzureContainer - Azure container.
-     * @param {string} pool.Compress - Compression type.
-     * @param {boolean} pool.EnableReadCaching - Flag to enable or disable read caching.
-     * @param {Date} pool.CreatedUtc - Creation timestamp in UTC.
+     * @param {string} pool.AwsRegion - AWS region name.
+     * @param {string} pool.AwsBucket - AWS bucket name.
+     * @param {string} pool.AwsBaseDomain - Base domain for AWS.
+     * @param {string} pool.AwsBaseUrl - Custom S3 base URL.
+     * @param {string} pool.DiskDirectory - Disk directory path.
+     * @param {string} pool.AzureAccount - Azure storage account.
+     * @param {string} pool.AzureContainer - Azure container name.
+     * @param {string} pool.Compress - Compression type enum value.
+     * @param {boolean} pool.EnableReadCaching - Whether read caching is enabled.
+     * @param {string} pool.CreatedUtc - ISO timestamp of creation.
      */
-    constructor(pool: {
-        id: number;
+    constructor(pool?: {
+        Id: number;
         GUID: string;
         TenantGUID: string;
         EncryptionKeyGUID: string;
@@ -44,19 +44,10 @@ export default class StoragePool {
         AzureContainer: string;
         Compress: string;
         EnableReadCaching: boolean;
-        CreatedUtc: Date;
+        CreatedUtc: string;
     });
-    _id: number;
-    /**
-     * ID setter with validation.
-     * @param {number} value - The ID value.
-     */
-    set id(value: number);
-    /**
-     * ID getter.
-     */
-    get id(): number;
-    GUID: any;
+    Id: number;
+    GUID: string;
     TenantGUID: string;
     EncryptionKeyGUID: string;
     Name: string;
@@ -75,5 +66,5 @@ export default class StoragePool {
     AzureContainer: string;
     Compress: string;
     EnableReadCaching: boolean;
-    CreatedUtc: Date;
+    CreatedUtc: string;
 }

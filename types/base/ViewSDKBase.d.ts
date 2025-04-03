@@ -57,13 +57,13 @@ export default class ViewSdkBase {
      *
      * @template T
      * @param {string} url - The URL to send the PUT request to.
-     * @param {T} obj - The object to send in the request body.
-     * @param {Class} Model - Modal to deserialize on
+     * @param {T} [obj] - The object to send in the request body.
+     * @param {Class} [Model] - Modal to deserialize on
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
      * @throws {Error} If the URL or object is null or empty.
      */
-    create: <T>(url: string, obj: T, Model: Class, cancelToken?: object) => Promise<T | null | ApiErrorResponse>;
+    create: <T>(url: string, obj?: T, Model?: Class, cancelToken?: object) => Promise<T | null | ApiErrorResponse>;
     /**
      * Check if data exists from the given URL with optional cancellation support using superagent's abort method.
      *

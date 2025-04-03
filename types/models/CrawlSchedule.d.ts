@@ -1,49 +1,35 @@
 /**
  * Represents a crawl schedule with associated interval and GUIDs.
  *
- * @property {number} id - ID of the crawl schedule.
- * @property {string} guid - Globally unique identifier for the crawl schedule.
- * @property {string} tenantGuid - Globally unique identifier for the tenant.
- * @property {string} name - Name of the schedule.
- * @property {ScheduleIntervalEnum} schedule - Schedule interval enumeration.
- * @property {number} interval - Time interval for the schedule.
- * @property {Date} createdUtc - Timestamp when the crawl schedule was created.
+ * @property {string} GUID - Globally unique identifier for the crawl schedule.
+ * @property {string} TenantGUID - Globally unique identifier for the tenant.
+ * @property {string} Name - Name of the schedule.
+ * @property {ScheduleIntervalEnum} Schedule - Schedule interval enumeration.
+ * @property {number} Interval - Time interval for the schedule.
+ * @property {string} CreatedUtc - ISO timestamp when the crawl schedule was created.
  */
 export default class CrawlSchedule {
-    /** @type {number} */
-    _id: number;
-    /** @type {string} */
-    guid: string;
-    /** @type {string} */
-    tenantGuid: string;
-    /** @type {string} */
-    name: string;
-    /** @type {ScheduleIntervalEnum} */
-    schedule: ScheduleIntervalEnum;
-    /** @type {number} */
-    _interval: number;
-    /** @type {Date} */
-    createdUtc: Date;
     /**
-     * Sets the ID of the crawl schedule.
-     * @param {number} value
-     * @throws {RangeError} If the ID is less than 1.
+     * @param {Object} schedule - Crawl schedule data.
+     * @param {string} schedule.GUID
+     * @param {string} schedule.TenantGUID
+     * @param {string} schedule.Name
+     * @param {string} schedule.Schedule
+     * @param {number} schedule.Interval
+     * @param {string} schedule.CreatedUtc
      */
-    set id(value: number);
-    /**
-     * Gets the ID of the crawl schedule.
-     * @return {number}
-     */
-    get id(): number;
-    /**
-     * Sets the schedule interval.
-     * @param {number} value
-     * @throws {RangeError} If the interval is less than 1.
-     */
-    set interval(value: number);
-    /**
-     * Gets the schedule interval value.
-     * @return {number}
-     */
-    get interval(): number;
+    constructor(schedule?: {
+        GUID: string;
+        TenantGUID: string;
+        Name: string;
+        Schedule: string;
+        Interval: number;
+        CreatedUtc: string;
+    });
+    GUID: string;
+    TenantGUID: string;
+    Name: string;
+    Schedule: string;
+    Interval: number;
+    CreatedUtc: string;
 }

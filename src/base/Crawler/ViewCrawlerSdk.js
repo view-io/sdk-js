@@ -27,12 +27,100 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
     this.Header = '[ViewHealthcheckSdk] ';
   }
 
-  // region Data Repositories
+  //region Data-Repositoty
+
+  /**
+   * Retrieve a list of data repositories.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<Array<DataRepository>|ApiErrorResponse>} A promise resolving to an array of DataRepository objects.
+   */
+  retrieveDataRepositories = async (cancelToken) => {
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories/';
+    return await this.retrieveMany(url, DataRepository, cancelToken);
+  };
+
+  /**
+   * Retrieve a specific data repository by its GUID.
+   *
+   * @param {string} repositoryGuid - The GUID of the data repository to retrieve.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the DataRepository object or null.
+   * @throws {Error} If the repositoryGuid is null or empty.
+   */
+  retrieveDataRepository = async (repositoryGuid, cancelToken) => {
+    if (!repositoryGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('repositoryGuid');
+    }
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories/' + repositoryGuid;
+    return await this.retrieve(url, DataRepository, cancelToken);
+  };
+
+  /**
+   * Create a new data repository.
+   *
+   * @param {Object} dataRepository Information about the data repository.
+   * @param {number} dataRepository.Id - ID (must be greater than 0).
+   * @param {string} dataRepository.GUID - Data repository GUID (automatically generated if not provided).
+   * @param {string} dataRepository.TenantGUID - Tenant GUID (automatically generated if not provided).
+   * @param {string} dataRepository.OwnerGUID - Owner GUID (automatically generated if not provided).
+   * @param {string} dataRepository.Name - Name of the repository (default is "My file repository").
+   * @param {string} dataRepository.RepositoryType - Repository type (default is DataRepositoryTypeEnum.File).
+   * @param {boolean} dataRepository.UseSsl - Boolean flag to enable SSL (default is false).
+   * @param {boolean} dataRepository.IncludeSubdirectories - Include subdirectories (default is true).
+   * @param {string} dataRepository.DiskDirectory - Disk directory (default is null).
+   * @param {string} dataRepository.S3EndpointUrl - S3 endpoint URL (default is null).
+   * @param {string} dataRepository.S3BaseUrl - S3 base URL (default is null).
+   * @param {string} dataRepository.S3AccessKey - S3 access key (default is null).
+   * @param {string} dataRepository.S3SecretKey - S3 secret key (default is null).
+   * @param {string} dataRepository.S3BucketName - S3 bucket name (default is null).
+   * @param {string} dataRepository.S3Region - S3 region (default is null).
+   * @param {string} dataRepository.AzureEndpointUrl - Azure endpoint URL (default is null).
+   * @param {string} dataRepository.AzureAccountName - Azure account name (default is null).
+   * @param {string} dataRepository.AzureContainerName - Azure container name (default is null).
+   * @param {string} dataRepository.AzureAccessKey - Azure access key (default is null).
+   * @param {string} dataRepository.CifsHostname - CIFS hostname (default is null).
+   * @param {string} dataRepository.CifsUsername - CIFS username (default is null).
+   * @param {string} dataRepository.CifsPassword - CIFS password (default is null).
+   * @param {string} dataRepository.CifsShareName - CIFS share name (default is null).
+   * @param {string} dataRepository.NfsHostname - NFS hostname (default is null).
+   * @param {number} dataRepository.NfsUserId - NFS user ID (must be non-negative).
+   * @param {number} dataRepository.NfsGroupId - NFS group ID (must be non-negative).
+   * @param {string} dataRepository.NfsShareName - NFS share name (default is null).
+   * @param {string} dataRepository.NfsVersion - NFS version (default is null).
+   * @param {Date} dataRepository.CreatedUtc - Created timestamp (default is current UTC time).
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the created DataRepository object or null.
+   * @throws {Error} If the repository is null.
+   */
+  createDataRepository = async (dataRepository, cancelToken) => {
+    if (!dataRepository) {
+      GenExceptionHandlersInstance.ArgumentNullException('repository');
+    }
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories';
+    return await this.create(url, dataRepository, DataRepository, cancelToken);
+  };
+
+  /**
+   * Delete a data repository by its GUID.
+   *
+   * @param {string} repositoryGuid - The GUID of the data repository to delete.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if the deletion is successful.
+   * @throws {Error} If the repositoryGuid is null or empty.
+   */
+  deleteDataRepository = async (repositoryGuid, cancelToken) => {
+    if (!repositoryGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('repositoryGuid');
+    }
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories/' + repositoryGuid;
+    return await this.deleteRaw(url, cancelToken);
+  };
 
   /**
    * Enumerate Data Repositories.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult<DataRepository>|null>} A promise resolving to the enumeration result or null.
+   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created EnumerationResult object or null if creation fails.
+   * @throws {Error} If the trigger is null or invalid.
    */
   enumerateDataRepositories = async (cancelToken) => {
     const url = `${this.endpoint}/v2.0/tenants/${this.tenantGuid}/datarepositories/`;
@@ -40,210 +128,28 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
   };
 
   /**
-   * Retrieve All Data Repositories.
+   * Check if a data repository exists by its GUID.
+   *
+   * @param {string} guid - The GUID of the data repository.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository[]>} A promise that resolves to an array of data repositories.
+   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the data repository exists, false otherwise.
+   * @throws {Error} If the GUID is null or empty.
    */
-  retrieveAllDataRepositories = async (cancelToken) => {
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories/`;
-    return await this.retrieveMany(url, DataRepository, cancelToken);
-  };
-
-  /**
-   * Retrieve Data By GUID Repository.
-   * @param {string} guid - The GUID of the data repository to retrieve.
-   * @param {CancelToken} cancelToken - The token to cancel the operation.
-   * @returns {Promise<DataRepository|ApiErrorResponse>} A promise that resolves to the data repository object, or null if not found, or an error response.
-   */
-  retrieveByGUIDDataRepositories = async (guid, cancelToken) => {
+  existsDataRepository = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories/${guid}`;
-    return await this.retrieve(url, DataRepository, cancelToken);
-  };
-  /**
-   * Write Disk Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.Name - Name of repository.
-   * @param {string} [repository.RepositoryType] - Type of repository.
-   * @param {string} repository.DiskDirectory - The directory path for storing the repository.
-   * @param {boolean} repository.DiskIncludeSubdirectories - Whether to include subdirectories in the disk directory.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  writeDiskDataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
-  };
-  /**
-   * Write S3 Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.TenantGUID - GUID of the tenant (e.g., "default").
-   * @param {string} repository.OwnerGUID - GUID of the owner (e.g., "default").
-   * @param {string} repository.Name - Name of the repository.
-   * @param {string} repository.RepositoryType - Type of the repository.
-   * @param {string|null} [repository.S3EndpointUrl] - (Optional) URL for the S3 endpoint (null if not provided).
-   * @param {string} repository.S3BaseUrl - Base URL for the S3 repository, with placeholders for bucket and key").
-   * @param {string} repository.S3AccessKey - Access key for the S3 repository.
-   * @param {string} repository.S3SecretKey - Secret key for the S3 repository.
-   * @param {string} repository.S3BucketName - Name of the S3 bucket.
-   * @param {string} repository.S3Region - Region of the S3 bucket.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  writeS3DataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories/' + guid;
+    // Use the `exists` method to check for the data repository
+    return await this.exists(url, DataRepository, cancelToken);
   };
 
-  /**
-   * Write S3 Compatible Storage Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.TenantGUID - GUID of the tenant.
-   * @param {string} repository.OwnerGUID - GUID of the owner.
-   * @param {string} repository.Name - Name of the repository.
-   * @param {string} repository.RepositoryType - Type of the repository.
-   * @param {string} repository.S3EndpointUrl - URL of the S3-compatible storage endpoint.
-   * @param {string} repository.S3BaseUrl - Base URL for accessing objects in the S3-compatible storage.
-   * @param {string} repository.S3AccessKey - Access key for authentication with the S3-compatible storage.
-   * @param {string} repository.S3SecretKey - Secret key for authentication with the S3-compatible storage.
-   * @param {string} repository.S3BucketName - Name of the S3-compatible storage bucket.
-   * @param {string} repository.S3Region - Region of the S3-compatible storage bucket.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  writeS3CompatibleDataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
+  updateDataRepository = async (guid, dataRepository, cancelToken) => {
+    if (!dataRepository) {
+      GenExceptionHandlersInstance.ArgumentNullException('dataRepository');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
-  };
-  /**
-   * Write Azure BLOB Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.TenantGUID - GUID of the tenant.
-   * @param {string} repository.OwnerGUID - GUID of the owner.
-   * @param {string} repository.Name - Name of the repository.
-   * @param {string} repository.RepositoryType - Type of the repository (e.g., "AzureBlob").
-   * @param {string} repository.AzureEndpointUrl - URL of the Azure Blob storage endpoint.
-   * @param {string} repository.AzureAccountName - Name of the Azure storage account.
-   * @param {string} repository.AzureContainerName - Name of the Azure Blob storage container.
-   * @param {string} repository.AzureAccessKey - Access key for authentication with the Azure Blob storage.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  writeAzureBLOBDataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
-  };
-  /**
-   * Write CIFS Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.TenantGUID - GUID of the tenant.
-   * @param {string} repository.OwnerGUID - GUID of the owner.
-   * @param {string} repository.Name - Name of the repository.
-   * @param {string} repository.RepositoryType - Type of the repository (e.g., "CIFS").
-   * @param {string} repository.CifsHostname - Hostname or IP address of the CIFS server.
-   * @param {string} repository.CifsUsername - Username for authentication with the CIFS server.
-   * @param {string} repository.CifsPassword - Password for authentication with the CIFS server.
-   * @param {string} repository.CifsShareName - The name of the CIFS share.
-   * @param {boolean} repository.CifsIncludeSubdirectories - Whether to include subdirectories in the CIFS share (true or false).
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  writeCIFSDataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
-  };
-  /**
-   * Write NFS Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.TenantGUID - GUID of the tenant.
-   * @param {string} repository.OwnerGUID - GUID of the owner.
-   * @param {string} repository.Name - Name of the repository.
-   * @param {string} repository.RepositoryType - Type of the repository.
-   * @param {string} repository.NfsHostname - Hostname or IP address of the NFS server.
-   * @param {number} repository.NfsUserId - User ID (UID) for authentication with the NFS server.
-   * @param {number} repository.NfsGroupId - Group ID (GID) for authentication with the NFS server.
-   * @param {string} repository.NfsShareName - Name of the NFS share.
-   * @param {boolean} repository.NfsIncludeSubdirectories - Whether to include subdirectories in the NFS share (true or false).
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  writeNFSDataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
-  };
-  /**
-   * Update Data Repository.
-   * @param {Object} repository - Information about the repository object data.
-   * @param {string} repository.Name - Name of the repository.
-   * @param {string} repository.RepositoryType - Type of the repository.
-   * @param {boolean} repository.IncludeSubdirectories - Whether to include subdirectories in the repository (true or false).
-   * @param {string} repository.DiskDirectory - Path to the directory where the files are stored.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise that resolves to the written data repository object, or null if the write fails, or an error response.
-   * @throws {Error} If the repository is null or empty.
-   */
-  updateDataRepository = async (repository, cancelToken) => {
-    if (!repository) {
-      GenExceptionHandlersInstance.ArgumentNullException('repository');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories`;
-    return await this.update(url, repository, DataRepository, cancelToken);
-  };
-  /**
-   * Delete Repository.
-   *
-   * @param {string} guid - The GUID of the repository to delete.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-    @returns {Promise<void|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
-   * @throws {Error} If the guid is null or empty.
-   */
-  deleteDataRepository = async (guid, cancelToken) => {
-    if (!guid) {
-      GenExceptionHandlersInstance.ArgumentNullException('repositoryGuid');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories/${guid}`;
-    return await this.deleteRaw(url, cancelToken);
-  };
-  /**
-   * Check Existence.
-   *
-   * @param {string} guid - GUID of data repository.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean>} A promise that resolves to `true` if the data repository exists, otherwise `false` or an error response if the check fails.
-   * @throws {Error} If the guid is null or empty.
-   */
-  checkExistenceDataRepository = async (guid, cancelToken) => {
-    if (!guid) {
-      GenExceptionHandlersInstance.ArgumentNullException('guid');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories/${guid}`;
-    return await this.exists(url, cancelToken);
+    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories/' + guid;
+    return await this.update(url, dataRepository, DataRepository, cancelToken);
   };
 
   // region Crawl Schedules
@@ -272,7 +178,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlSchedule|null|ApiErrorResponse>} A promise that resolves to the crawl schedule object, or null if not found, or an error response.
    * @throws {Error} If the guid is null or empty.
    */
-  retrieveByIDCrawlSchedules = async (guid, cancelToken) => {
+  retrieveCrawlSchedule = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -298,8 +204,8 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
   };
   /**
    * Update Crawl Schedules.
-   * @param {string} [guid] - GUID of Crawl Schedules
    * @param {Object} scheduleData - Information about the schedule.
+   * @param {string} scheduleData.GUID - GUID of the schedule.
    * @param {string} scheduleData.Name - Name of the schedule.
    * @param {string} scheduleData.Schedule - Type of schedule.
    * @param {number} scheduleData.Interval - The interval value for the schedule.
@@ -307,14 +213,11 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlSchedule|ApiErrorResponse>} A promise that resolves to the updated crawl schedule
    * @throws {Error} If the guid is null or empty or If the scheduleData is null or empty .
    */
-  updateCrawlSchedules = async (guid, scheduleData, cancelToken) => {
-    if (!guid) {
-      GenExceptionHandlersInstance.ArgumentNullException('guid');
-    }
+  updateCrawlSchedules = async (scheduleData, cancelToken) => {
     if (!scheduleData) {
       GenExceptionHandlersInstance.ArgumentNullException('scheduleData');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlschedules/${guid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlschedules/${scheduleData.GUID}`;
     return await this.update(url, scheduleData, CrawlSchedule, cancelToken);
   };
   /**
@@ -340,7 +243,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the Crawl Schedule exists, otherwise `false` or an error response if the check fails.
    * @throws {Error} If the guid is null or empty.
    */
-  checkExistenceCrawlSchedule = async (guid, cancelToken) => {
+  existsCrawlSchedule = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -354,7 +257,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<EnumerationResult<CrawlFilter>|null>} A promise resolving to the enumeration result or null.
    */
-  enumerateCrawlFilter = async (cancelToken) => {
+  enumerateCrawlFilters = async (cancelToken) => {
     const url = `${this.endpoint}/v2.0/tenants/${this.tenantGuid}/crawlfilters/`;
     return await this.retrieve(url, EnumerationResult, cancelToken);
   };
@@ -363,7 +266,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<CrawlFilter[]>} A promise resolving to the created Trigger object or null if creation fails.
    */
-  retrieveAllCrawlFilter = async (cancelToken) => {
+  retrieveCrawlFilters = async (cancelToken) => {
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlfilters/`;
     return await this.retrieveMany(url, CrawlFilter, cancelToken);
   };
@@ -374,7 +277,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter|null|ApiErrorResponse>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {Error} If the guid is null or empty.
    */
-  retrieveByIdFilter = async (guid, cancelToken) => {
+  retrieveCrawlFilter = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -402,27 +305,24 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
   };
   /**
    * Update Crawl Filters.
-   * @param {string} [guid] - GUID of Crawl Filters
-   * @param {Object} scheduleData - Information about the schedule.
-   * @param {string} filterData.Name - Name of the filter (e.g., "My updated filter").
-   * @param {number} filterData.MinimumSize - Minimum file size to include in the filter (e.g., 1 byte).
-   * @param {number} filterData.MaximumSize - Maximum file size to include in the filter (e.g., 134217728 bytes, or 128 MB).
-   * @param {boolean} filterData.IncludeSubdirectories - Whether to include subdirectories in the filter (true or false).
-   * @param {string} filterData.ContentType - The content type to filter (e.g., "*").
+   * @param {Object} crawlFilterData - Information about the schedule.
+   * @param {string} crawlFilterData.GUID - GUID of the filter.
+   * @param {string} crawlFilterData.Name - Name of the filter (e.g., "My updated filter").
+   * @param {number} crawlFilterData.MinimumSize - Minimum file size to include in the filter (e.g., 1 byte).
+   * @param {number} crawlFilterData.MaximumSize - Maximum file size to include in the filter (e.g., 134217728 bytes, or 128 MB).
+   * @param {boolean} crawlFilterData.IncludeSubdirectories - Whether to include subdirectories in the filter (true or false).
+   * @param {string} crawlFilterData.ContentType - The content type to filter (e.g., "*").
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<CrawlFilter|null|ApiErrorResponse>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {Error} If the guid is null or empty or If crawlFiltersData is null or empty.
    */
-  updateCrawlFilter = async (guid, crawlFiltersData, cancelToken) => {
-    if (!guid) {
-      GenExceptionHandlersInstance.ArgumentNullException('guid');
+  updateCrawlFilter = async (crawlFilterData, cancelToken) => {
+    if (!crawlFilterData) {
+      GenExceptionHandlersInstance.ArgumentNullException('crawlFilterData');
     }
-    if (!crawlFiltersData) {
-      GenExceptionHandlersInstance.ArgumentNullException('crawlFiltersData');
-    }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlfilters/${guid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlfilters/${crawlFilterData.GUID}`;
 
-    return await this.update(url, crawlFiltersData, CrawlFilter, cancelToken);
+    return await this.update(url, crawlFilterData, CrawlFilter, cancelToken);
   };
   /**
    * Delete Crawl Filters.
@@ -447,7 +347,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the crawl filter object or null if not found.
    * @throws {Error} If the guid is null or empty.
    */
-  checkExistenceCrawlFilter = async (guid, cancelToken) => {
+  existsCrawlFilter = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -470,7 +370,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    *@returns {Promise<CrawlPlan[]>} A promise resolving to an array of CrawlPlan objects. If creation fails, the promise resolves to null.
    */
-  retrieveAllCrawlPlans = async (cancelToken) => {
+  retrieveCrawlPlans = async (cancelToken) => {
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlplans/`;
     return await this.retrieveMany(url, CrawlPlan, cancelToken);
   };
@@ -481,7 +381,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    *@returns {Promise<CrawlPlan[]>} A promise resolving CrawlPlan objects. If creation fails, the promise resolves to null.
    * @throws {Error} If the guid is null or empty.
    */
-  retrieveByIdCrawlPlan = async (guid, cancelToken) => {
+  retrieveCrawlPlan = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -506,17 +406,17 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    *@returns {Promise<CrawlPlan[]>} A promise resolving CrawlPlan objects. If creation fails, the promise resolves to null.
    * @throws {Error} If the crawlPlansData is null or empty.
    */
-  writeCrawlPlans = async (crawlPlansData, cancelToken) => {
+  createCrawlPlan = async (crawlPlansData, cancelToken) => {
     if (!crawlPlansData) {
       GenExceptionHandlersInstance.ArgumentNullException('crawlPlansData');
     }
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlplans`;
-    return await this.update(url, crawlPlansData, CrawlPlan, cancelToken);
+    return await this.create(url, crawlPlansData, CrawlPlan, cancelToken);
   };
   /**
-   * Update Crawl Plans.
-   * @param {string} [guid] - GUID of Crawl Plans
+   * Update Crawl Plan.
    * @param {Object} crawlPlanData - Information about the crawl plan to update.
+   * @param {string} crawlPlanData.GUID - GUID of the crawl plan to update.
    * @param {string} crawlPlanData.DataRepositoryGUID - GUID of the data repository associated with the crawl plan.
    * @param {string} crawlPlanData.CrawlScheduleGUID - GUID of the crawl schedule for the crawl plan.
    * @param {string} crawlPlanData.CrawlFilterGUID - GUID of the crawl filter applied to the crawl plan.
@@ -532,14 +432,11 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlPlan | null>} A promise resolving of CrawlPlan objects if the update is successful, or null if the update fails.
    * @throws {Error} If the guid is null or empty or If the crawlPlanData is null or empty.
    */
-  updateCrawlPlans = async (guid, crawlPlanData, cancelToken) => {
-    if (!guid) {
-      GenExceptionHandlersInstance.ArgumentNullException('guid');
-    }
+  updateCrawlPlan = async (crawlPlanData, cancelToken) => {
     if (!crawlPlanData) {
       GenExceptionHandlersInstance.ArgumentNullException('crawlPlanData');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlplans/${guid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlplans/${crawlPlanData.GUID}`;
 
     return await this.update(url, crawlPlanData, CrawlPlan, cancelToken);
   };
@@ -551,7 +448,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
    * @throws {Error} If the guid is null or empty.
    */
-  deleteCrawlPlans = async (guid, cancelToken) => {
+  deleteCrawlPlan = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -566,7 +463,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the Node object or null if not found.
    * @throws {Error} If the guid is null or empty.
    */
-  checkExistenceCrawlPlans = async (guid, cancelToken) => {
+  existsCrawlPlan = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -589,7 +486,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<CrawlOperation[] | null>} A promise resolving to an array of CrawlOperation objects if the operation is successful,
    */
-  retrieveAllCrawlOperations = async (cancelToken) => {
+  retrieveCrawlOperations = async (cancelToken) => {
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawloperations/`;
     return await this.retrieveMany(url, CrawlOperation, cancelToken);
   };
@@ -600,7 +497,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlOperation|ApiErrorResponse>}  A promise resolving to a CrawlOperation object if the operation is successful,  or an ApiErrorResponse if an error occurs.
    * @throws {Error} If the guid is null or empty.
    */
-  retrieveByIdCrawlOperations = async (guid, cancelToken) => {
+  retrieveCrawlOperation = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -630,15 +527,15 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlOperation|ApiErrorResponse>}  A promise resolving to a CrawlOperation object if the operation is start,  or an ApiErrorResponse if an error occurs.
    * @throws {Error} If the guid is null or empty or crawlOperationsData null or empty.
    */
-  startCrawlOperations = async (guid, crawlOperationsData, cancelToken) => {
+  startCrawlOperation = async (guid, crawlOperationData, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
-    if (!crawlOperationsData) {
+    if (!crawlOperationData) {
       GenExceptionHandlersInstance.ArgumentNullException('crawlOperationData');
     }
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawloperations/${guid}/start`;
-    return await this.post(url, crawlOperationsData, CrawlOperation, cancelToken);
+    return await this.post(url, crawlOperationData, CrawlOperation, cancelToken);
   };
   /**
    * Stop Crawl Operations.
@@ -649,15 +546,15 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<CrawlOperation|ApiErrorResponse>}  A promise resolving to a CrawlOperation object if the operation is stop,  or an ApiErrorResponse if an error occurs.
    * @throws {Error} If the guid is null or empty or crawlOperationsData null or empty.
    */
-  stopCrawlOperations = async (guid, crawlOperationsData, cancelToken) => {
+  stopCrawlOperation = async (guid, crawlOperationData, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
-    if (!crawlOperationsData) {
+    if (!crawlOperationData) {
       GenExceptionHandlersInstance.ArgumentNullException('crawlOperationData');
     }
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawloperations/${guid}/stop`;
-    return await this.post(url, crawlOperationsData, CrawlOperation, cancelToken);
+    return await this.post(url, crawlOperationData, CrawlOperation, cancelToken);
   };
   /**
    * Delete Crawl Operations.
@@ -667,7 +564,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
    * @throws {Error} If the guid is null or empty.
    */
-  deleteCrawlOperations = async (guid, cancelToken) => {
+  deleteCrawlOperation = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -682,7 +579,7 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the Crawl Operations object or null if not found.
    * @throws {Error} If the guid is null or empty.
    */
-  checkExistenceCrawlOperations = async (guid, cancelToken) => {
+  existsCrawlOperation = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }

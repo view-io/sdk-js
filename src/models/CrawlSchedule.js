@@ -1,78 +1,33 @@
-import { v4 as uuidV4 } from 'uuid';
 import ScheduleIntervalEnum from '../enums/ScheduleIntervalEnum';
 
 /**
  * Represents a crawl schedule with associated interval and GUIDs.
  *
- * @property {number} id - ID of the crawl schedule.
- * @property {string} guid - Globally unique identifier for the crawl schedule.
- * @property {string} tenantGuid - Globally unique identifier for the tenant.
- * @property {string} name - Name of the schedule.
- * @property {ScheduleIntervalEnum} schedule - Schedule interval enumeration.
- * @property {number} interval - Time interval for the schedule.
- * @property {Date} createdUtc - Timestamp when the crawl schedule was created.
+ * @property {string} GUID - Globally unique identifier for the crawl schedule.
+ * @property {string} TenantGUID - Globally unique identifier for the tenant.
+ * @property {string} Name - Name of the schedule.
+ * @property {ScheduleIntervalEnum} Schedule - Schedule interval enumeration.
+ * @property {number} Interval - Time interval for the schedule.
+ * @property {string} CreatedUtc - ISO timestamp when the crawl schedule was created.
  */
 export default class CrawlSchedule {
-  constructor() {
-    /** @type {number} */
-    this._id = 0;
-
-    /** @type {string} */
-    this.guid = uuidV4();
-
-    /** @type {string} */
-    this.tenantGuid = uuidV4();
-
-    /** @type {string} */
-    this.name = 'My schedule';
-
-    /** @type {ScheduleIntervalEnum} */
-    this.schedule = ScheduleIntervalEnum.DaysInterval; // Assuming this enum is defined elsewhere in your system.
-
-    /** @type {number} */
-    this._interval = 1;
-
-    /** @type {Date} */
-    this.createdUtc = new Date();
-  }
-
   /**
-   * Gets the ID of the crawl schedule.
-   * @return {number}
+   * @param {Object} schedule - Crawl schedule data.
+   * @param {string} schedule.GUID
+   * @param {string} schedule.TenantGUID
+   * @param {string} schedule.Name
+   * @param {string} schedule.Schedule
+   * @param {number} schedule.Interval
+   * @param {string} schedule.CreatedUtc
    */
-  get id() {
-    return this._id;
-  }
+  constructor(schedule = {}) {
+    const { GUID, TenantGUID, Name, Schedule, Interval, CreatedUtc } = schedule;
 
-  /**
-   * Sets the ID of the crawl schedule.
-   * @param {number} value
-   * @throws {RangeError} If the ID is less than 1.
-   */
-  set id(value) {
-    if (value < 1) {
-      throw new RangeError('ID must be greater than 0.');
-    }
-    this._id = value;
-  }
-
-  /**
-   * Gets the schedule interval value.
-   * @return {number}
-   */
-  get interval() {
-    return this._interval;
-  }
-
-  /**
-   * Sets the schedule interval.
-   * @param {number} value
-   * @throws {RangeError} If the interval is less than 1.
-   */
-  set interval(value) {
-    if (value < 1) {
-      throw new RangeError('Interval must be greater than 0.');
-    }
-    this._interval = value;
+    this.GUID = GUID;
+    this.TenantGUID = TenantGUID;
+    this.Name = Name;
+    this.Schedule = Schedule;
+    this.Interval = Interval;
+    this.CreatedUtc = CreatedUtc;
   }
 }

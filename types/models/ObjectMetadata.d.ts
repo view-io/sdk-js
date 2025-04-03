@@ -1,105 +1,94 @@
 /**
- * Represents metadata for an object.
- *
- * @property {string} guid - The GUID of the object.
- * @property {string} tenantGUID - The tenant GUID.
- * @property {string} nodeGUID - The node GUID.
- * @property {string} poolGUID - The pool GUID.
- * @property {string} bucketGUID - The bucket GUID.
- * @property {string} ownerGUID - The owner GUID.
- * @property {string} key - The key.
- * @property {string} version - The version.
- * @property {boolean} isLatest - Indicates if this is the latest version.
- * @property {boolean} isDeleteMarker - Indicates if this is a delete marker.
- * @property {boolean} isLocal - Indicates if the object is local.
- * @property {string} contentType - The content type.
- * @property {DocumentTypeEnum} documentType - The document type.
- * @property {string} writeMode - The write mode.
- * @property {string} compressionType - The compression type.
- * @property {number} contentLength - The length of the content.
- * @property {number} compressedLength - The compressed length of the content.
- * @property {number} encryptedLength - The encrypted length of the content.
- * @property {number} compressionRatioPercent - The compression ratio in percentage.
- * @property {number} compressionRatioX - The compression ratio as a multiplier.
- * @property {string} sourceUrl - The source URL.
- * @property {string} md5Hash - The MD5 hash.
- * @property {string} sha1Hash - The SHA1 hash.
- * @property {string} sha256Hash - The SHA256 hash.
- * @property {boolean} isEncrypted - Indicates if the object is encrypted.
- * @property {Date|null} expirationUtc - The expiration timestamp in UTC.
- * @property {Date} lastAccessUtc - The last access timestamp in UTC.
- * @property {Date} lastModifiedUtc - The last modified timestamp in UTC.
- * @property {Date} createdUtc - The creation timestamp in UTC.
+ * Represents metadata for an object stored in a bucket.
  */
 export default class ObjectMetadata {
-    constructor(data?: {});
-    /** @type {string} */
-    guid: string;
-    /** @type {string} */
-    tenantGUID: string;
-    /** @type {string} */
-    nodeGUID: string;
-    /** @type {string} */
-    poolGUID: string;
-    /** @type {string} */
-    bucketGUID: string;
-    /** @type {string} */
-    ownerGUID: string;
-    /** @type {string} */
-    key: string;
-    /** @type {string} */
-    version: string;
-    /** @type {boolean} */
-    isLatest: boolean;
-    /** @type {boolean} */
-    isDeleteMarker: boolean;
-    /** @type {boolean} */
-    isLocal: boolean;
-    /** @type {string} */
-    contentType: string;
-    /** @type {DocumentTypeEnum} */
-    documentType: DocumentTypeEnum;
-    /** @type {string} */
-    writeMode: string;
-    /** @type {string} */
-    compressionType: string;
     /**
-     * Sets the content length.
-     * @param {number} value
-     * @throws {RangeError} If the value is less than 0.
+     * @param {Object} data - Object metadata.
+     * @param {string} data.GUID - Unique object identifier.
+     * @param {string} data.TenantGUID - Tenant identifier.
+     * @param {string} data.NodeGUID - Node identifier.
+     * @param {string} data.PoolGUID - Pool identifier.
+     * @param {string} data.BucketGUID - Bucket identifier.
+     * @param {string} data.OwnerGUID - Owner identifier.
+     * @param {string} data.Key - Object key or name.
+     * @param {string} data.Version - Version of the object.
+     * @param {boolean} data.IsLatest - Whether this is the latest version.
+     * @param {boolean} data.IsDeleteMarker - If this object is marked for deletion.
+     * @param {boolean} data.IsLocal - Whether the object is stored locally.
+     * @param {string} data.ContentType - MIME type of the object.
+     * @param {string} data.DocumentType - Document classification type.
+     * @param {string} data.SourceUrl - Public or internal source URL.
+     * @param {string} data.MD5Hash - MD5 checksum.
+     * @param {string} data.SHA1Hash - SHA1 checksum.
+     * @param {string} data.SHA256Hash - SHA256 checksum.
+     * @param {boolean} data.IsEncrypted - Whether the object is encrypted.
+     * @param {string} data.WriteMode - Write mode used (e.g., GUID).
+     * @param {string} data.CompressionType - Compression type (e.g., None, Gzip).
+     * @param {number} data.ContentLength - Original size in bytes.
+     * @param {number} data.CompressedLength - Compressed size in bytes.
+     * @param {number} data.EncryptedLength - Encrypted size in bytes.
+     * @param {number} data.CompressionRatioPercent - Compression ratio in percentage.
+     * @param {number} data.CompressionRatioX - Compression multiplier.
+     * @param {string} data.LastAccessUtc - Last access timestamp (ISO format).
+     * @param {string} data.LastModifiedUtc - Last modified timestamp (ISO format).
+     * @param {string} data.CreatedUtc - Creation timestamp (ISO format).
      */
-    set contentLength(value: number);
-    /**
-     * Gets the content length.
-     * @return {number}
-     */
-    get contentLength(): number;
-    /** @type {number} */
-    compressedLength: number;
-    /** @type {number} */
-    encryptedLength: number;
-    /** @type {number} */
-    compressionRatioPercent: number;
-    /** @type {number} */
-    compressionRatioX: number;
-    /** @type {string} */
-    sourceUrl: string;
-    /** @type {string} */
-    md5Hash: string;
-    /** @type {string} */
-    sha1Hash: string;
-    /** @type {string} */
-    sha256Hash: string;
-    /** @type {boolean} */
-    isEncrypted: boolean;
-    /** @type {Date|null} */
-    expirationUtc: Date | null;
-    /** @type {Date} */
-    lastAccessUtc: Date;
-    /** @type {Date} */
-    lastModifiedUtc: Date;
-    /** @type {Date} */
-    createdUtc: Date;
-    _contentLength: number;
+    constructor(data?: {
+        GUID: string;
+        TenantGUID: string;
+        NodeGUID: string;
+        PoolGUID: string;
+        BucketGUID: string;
+        OwnerGUID: string;
+        Key: string;
+        Version: string;
+        IsLatest: boolean;
+        IsDeleteMarker: boolean;
+        IsLocal: boolean;
+        ContentType: string;
+        DocumentType: string;
+        SourceUrl: string;
+        MD5Hash: string;
+        SHA1Hash: string;
+        SHA256Hash: string;
+        IsEncrypted: boolean;
+        WriteMode: string;
+        CompressionType: string;
+        ContentLength: number;
+        CompressedLength: number;
+        EncryptedLength: number;
+        CompressionRatioPercent: number;
+        CompressionRatioX: number;
+        LastAccessUtc: string;
+        LastModifiedUtc: string;
+        CreatedUtc: string;
+    });
+    GUID: string;
+    TenantGUID: string;
+    NodeGUID: string;
+    PoolGUID: string;
+    BucketGUID: string;
+    OwnerGUID: string;
+    Key: string;
+    Version: string;
+    IsLatest: boolean;
+    IsDeleteMarker: boolean;
+    IsLocal: boolean;
+    ContentType: string;
+    DocumentType: string;
+    SourceUrl: string;
+    MD5Hash: string;
+    SHA1Hash: string;
+    SHA256Hash: string;
+    IsEncrypted: boolean;
+    WriteMode: string;
+    CompressionType: string;
+    ContentLength: number;
+    CompressedLength: number;
+    EncryptedLength: number;
+    CompressionRatioPercent: number;
+    CompressionRatioX: number;
+    LastAccessUtc: string;
+    LastModifiedUtc: string;
+    CreatedUtc: string;
 }
-import { DocumentTypeEnum } from '../enums/DocumentTypeEnum';

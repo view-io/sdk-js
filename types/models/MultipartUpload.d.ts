@@ -1,22 +1,24 @@
+/**
+ * Represents a multipart upload session for an object.
+ */
 export default class MultipartUpload {
     /**
-     * @param {Object} data - The input data object.
-     * @param {string} data.GUID - Unique identifier (generated if not provided).
-     * @param {string} data.TenantGUID - Identifier for the tenant.
-     * @param {string} data.BucketGUID - Identifier for the bucket.
-     * @param {string} data.PoolGUID - Identifier for the pool.
-     * @param {string} data.NodeGUID - Identifier for the node.
-     * @param {string} data.OwnerGUID - Identifier for the owner.
-     * @param {string} data.UploadGUID - Identifier for the upload.
-     * @param {string} data.Key - Key of the object (e.g., filename).
-     * @param {Date} data.StartedUtc - Start timestamp in UTC.
-     * @param {Date} data.LastAccessUtc - Last access timestamp in UTC.
-     * @param {Date} data.CreatedUtc - Creation timestamp in UTC.
-     * @param {Date} data.ExpirationUtc - Expiration timestamp in UTC.
-     * @param {Object} data.Owner - Information about the owner.
-     * @param {Array} data.Parts - Parts of the object (default is an empty array).
+     * @param {Object} data - Multipart upload metadata.
+     * @param {string} data.GUID - Unique identifier of the multipart upload.
+     * @param {string} data.TenantGUID - Tenant identifier.
+     * @param {string} data.BucketGUID - Bucket identifier.
+     * @param {string} data.PoolGUID - Pool identifier.
+     * @param {string} data.NodeGUID - Node identifier.
+     * @param {string} data.OwnerGUID - Owner identifier.
+     * @param {string} data.UploadGUID - Upload session GUID.
+     * @param {string} data.Key - Object key (e.g. filename).
+     * @param {string} data.StartedUtc - When the upload started (ISO timestamp).
+     * @param {string} data.LastAccessUtc - Last access timestamp.
+     * @param {string} data.CreatedUtc - Creation timestamp.
+     * @param {string} data.ExpirationUtc - Expiration timestamp.
+     * @param {Array} data.Parts - List of parts (currently empty).
      */
-    constructor(data: {
+    constructor(data?: {
         GUID: string;
         TenantGUID: string;
         BucketGUID: string;
@@ -25,36 +27,23 @@ export default class MultipartUpload {
         OwnerGUID: string;
         UploadGUID: string;
         Key: string;
-        StartedUtc: Date;
-        LastAccessUtc: Date;
-        CreatedUtc: Date;
-        ExpirationUtc: Date;
-        Owner: any;
+        StartedUtc: string;
+        LastAccessUtc: string;
+        CreatedUtc: string;
+        ExpirationUtc: string;
         Parts: any[];
     });
-    GUID: any;
-    tenantGUID: string;
-    bucketGUID: string;
-    poolGUID: string;
-    nodeGUID: string;
-    ownerGUID: string;
-    uploadGUID: string;
-    key: string;
-    startedUtc: Date;
-    lastAccessUtc: Date;
-    createdUtc: Date;
-    expirationUtc: Date;
-    owner: UserMaster;
-    parts: any[];
-    /**
-     * ID setter with validation.
-     * @param {number} value - The ID value.
-     */
-    set id(value: number);
-    /**
-     * ID getter.
-     */
-    get id(): number;
-    _id: number;
+    GUID: string;
+    TenantGUID: string;
+    BucketGUID: string;
+    PoolGUID: string;
+    NodeGUID: string;
+    OwnerGUID: string;
+    UploadGUID: string;
+    Key: string;
+    StartedUtc: string;
+    LastAccessUtc: string;
+    CreatedUtc: string;
+    ExpirationUtc: string;
+    Parts: any[];
 }
-import UserMaster from './UserMaster';
