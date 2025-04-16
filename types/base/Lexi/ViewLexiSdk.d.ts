@@ -86,7 +86,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<SourceDocument[]|ApiErrorResponse>} A promise resolving to a list of source documents or an error response.
      * @throws {Error} If the collectionGuid is null or empty.
      */
-    retrieveDocuments: (collectionGuid: string, cancelToken?: object) => Promise<SourceDocument[] | ApiErrorResponse>;
+    retrieveSourceDocuments: (collectionGuid: string, cancelToken?: object) => Promise<SourceDocument[] | ApiErrorResponse>;
     /**
      * Enumerate a collection.
      *
@@ -121,7 +121,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
      * @throws {Error} If the collectionGuid or query is null or empty.
      */
-    enumerateCollection: (collectionGuid: string, query: any, cancelToken?: object) => Promise<EnumerationResult<SourceDocument> | null | ApiErrorResponse>;
+    enumerateCollectionDocument: (collectionGuid: string, query: any, cancelToken?: object) => Promise<EnumerationResult<SourceDocument> | null | ApiErrorResponse>;
     /**
      * Retrieve a specific document from a collection.
      *
@@ -132,7 +132,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<SourceDocument|ApiErrorResponse>} A promise resolving to the source document or an error response.
      * @throws {Error} If the collectionGuid or documentGuid is null or empty.
      */
-    retrieveDocument: (collectionGuid: string, documentGuid: string, includeData?: boolean, cancelToken?: object) => Promise<SourceDocument | ApiErrorResponse>;
+    retrieveSourceDocument: (collectionGuid: string, documentGuid: string, includeData?: boolean, cancelToken?: object) => Promise<SourceDocument | ApiErrorResponse>;
     /**
      * Retrieve statistics for a specific document in a collection.
      *
@@ -142,7 +142,18 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<SourceDocumentStatistics|ApiErrorResponse>} A promise resolving to source document statistics or an error response.
      * @throws {Error} If the collectionGuid or documentGuid is null or empty.
      */
-    retrieveDocumentStatistics: (collectionGuid: string, documentGuid: string, cancelToken?: object) => Promise<SourceDocumentStatistics | ApiErrorResponse>;
+    retrieveSourceDocumentStatistics: (collectionGuid: string, documentGuid: string, cancelToken?: object) => Promise<SourceDocumentStatistics | ApiErrorResponse>;
+    /**
+     * Retrieve top terms for a specific document in a collection.
+     *
+     * @param {string} collectionGuid - The GUID of the collection.
+     * @param {string} documentGuid - The GUID of the document.
+     * @param {number} [maxKeys] - The maximum number of keys to retrieve.
+     * @param {object} [cancelToken] - Optional cancellation token to abort the request.
+     * @returns {Promise<SourceDocumentStatistics|ApiErrorResponse>} A promise resolving to source document statistics or an error response.
+     * @throws {Error} If the collectionGuid or documentGuid is null or empty.
+     */
+    retrieveSourceDocumentTopTerms: (collectionGuid: string, documentGuid: string, maxKeys?: number, cancelToken?: object) => Promise<SourceDocumentStatistics | ApiErrorResponse>;
     /**
      * Upload a source document to a collection.
      *
@@ -173,7 +184,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<SourceDocument|ApiErrorResponse>} A promise resolving to the uploaded document or an error response.
      * @throws {Error} If the document is null.
      */
-    uploadDocument: (document: {
+    uploadSourceDocument: (document: {
         GUID: string;
         TenantGUID: string;
         BucketGUID: string | null;
@@ -206,7 +217,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<void>} A promise that resolves when the document is deleted.
      * @throws {Error} If either `collectionGuid` or `documentGuid` is empty or null.
      */
-    deleteDocument: (collectionGuid: string, documentGuid: string, cancelToken?: object) => Promise<void>;
+    deleteSourceDocument: (collectionGuid: string, documentGuid: string, cancelToken?: object) => Promise<void>;
     /**
      * Deletes a document from a collection using its key and version.
      *
@@ -217,7 +228,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @returns {Promise<void>} A promise that resolves when the document is deleted.
      * @throws {Error} If any of the parameters (`collectionGuid`, `key`, `version`) are empty or null.
      */
-    deleteDocumentFromKey: (collectionGuid: string, key: string, version: string, cancelToken?: object) => Promise<void>;
+    deleteSourceDocumentFromKey: (collectionGuid: string, key: string, version: string, cancelToken?: object) => Promise<void>;
     /**
      * Check if a source documents exists.
      * @param {string} collectionGuid - The collection GUID.
@@ -240,11 +251,14 @@ export default class ViewLexiSdk extends ViewSdkBase {
      * @property {EnumerationOrderEnum} query.ordering - Ordering for the search results.
      * @property {QueryFilter} query.filter - Required terms and search filters for including a document in the results.
      * @property {EmbeddingsRule} query.embeddingsRule - Rule for embeddings.
+     * @param {boolean} includeData - include data
+     * @param {boolean} includeTopTerms - include  top terms
+     * @param {boolean} emitResult - Search and emit result
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<SearchResult|null|ApiErrorResponse>} The search result or null if the request fails.
      * @throws {Error} If the collectionGuid or query is null or empty.
      */
-    searchCollection: (collectionGuid: string, query: any, includedata: any, async: any, cancelToken?: object) => Promise<SearchResult | null | ApiErrorResponse>;
+    searchCollectionDocuments: (collectionGuid: string, query: any, includeData: boolean, includeTopTerms: boolean, emitResult: boolean, cancelToken?: object) => Promise<SearchResult | null | ApiErrorResponse>;
     /**
      * Retrieves all ingest queue.
      * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
@@ -253,33 +267,34 @@ export default class ViewLexiSdk extends ViewSdkBase {
     retrieveAllIngestQueue: (cancelToken?: any) => Promise<IngestQueue[] | ApiErrorResponse>;
     /**
      * Retrieves a specific item from the ingest queue.
-     * @param {string} collectionGuid - The GUID of the item to retrieve.
+     * @param {string} ingestQueueGuid - The GUID of the item to retrieve.
      * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<IngestQueue|ApiErrorResponse>} A promise that resolves to the requested item or an error response if the retrieval fails.
      */
-    retrieveIngestQueue: (collectionGuid: string, cancelToken?: any) => Promise<IngestQueue | ApiErrorResponse>;
+    retrieveIngestQueue: (ingestQueueGuid: string, cancelToken?: any) => Promise<IngestQueue | ApiErrorResponse>;
     /**
      * Checks if a specific item exists in the ingest queue.
-     * @param {string} collectionGuid - The GUID of the item to check.
+     * @param {string} ingestQueueGuid - The GUID of the item to check.
      * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to `true` if the item exists, `false` if it does not, or an error response if the check fails.
-     * @throws {Error} If the collectionGuid argument is null or undefined.
+     * @throws {Error} If the ingestQueueGuid argument is null or undefined.
      */
-    ingestQueueItemExists: (collectionGuid: string, cancelToken?: any) => Promise<boolean | ApiErrorResponse>;
+    existsIngestQueue: (ingestQueueGuid: string, cancelToken?: any) => Promise<boolean | ApiErrorResponse>;
     /**
      * Retrieves statistics for the ingest queue.
+     * @param {string} ingestQueueGuid - The GUID of the item to check.
      * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<IngestQueue|ApiErrorResponse>} A promise that resolves to the statistics of the ingest queue or an error response if the retrieval fails.
      */
-    retrieveIngestQueueStats: (cancelToken?: any) => Promise<IngestQueue | ApiErrorResponse>;
+    retrieveIngestQueueStats: (ingestQueueGuid: string, cancelToken?: any) => Promise<IngestQueue | ApiErrorResponse>;
     /**
      * Deletes a specific item from the ingest queue.
-     * @param {string} collectionGuid - The GUID of the item to delete.
+     * @param {string} ingestQueueGuid - The GUID of the item to delete.
      * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to `true` if the deletion was successful, or an error response if it failed.
-     * @throws {Error} If the collectionGuid argument is null or undefined.
+     * @throws {Error} If the ingestQueueGuid argument is null or undefined.
      */
-    deleteIngestQueueItem: (collectionGuid: string, cancelToken?: any) => Promise<boolean | ApiErrorResponse>;
+    deleteIngestQueue: (ingestQueueGuid: string, cancelToken?: any) => Promise<boolean | ApiErrorResponse>;
     /**
      * Enumerate collection.
      *

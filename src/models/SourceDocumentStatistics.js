@@ -5,30 +5,15 @@ export default class SourceDocumentStatistics {
   /**
    * @param {Object} stats - Information about the source document statistics.
    * @param {SourceDocument} stats.SourceDocument - The source document associated with the statistics.
+   * @param {number} stats.TermCount - Total count
+   * @param {number} stats.KeyValueCount - key value count
    */
   constructor(stats = {}) {
-    const { SourceDocument = null } = stats;
+    const { SourceDocument = null, TermCount, KeyValueCount } = stats;
 
-    this._SourceDocument = SourceDocument; // Source document associated with the statistics
-  }
-
-  /**
-   * Gets or sets the source document.
-   * @returns {Object} The source document.
-   */
-  get SourceDocument() {
-    return this._SourceDocument;
-  }
-
-  /**
-   * Sets the source document.
-   * @param {Object} value - The source document to set.
-   */
-  set SourceDocument(value) {
-    if (value === null) {
-      throw new Error('SourceDocument cannot be null');
-    }
-    this._SourceDocument = value;
+    this.SourceDocument = SourceDocument; // Source document associated with the statistics
+    this.TermCount = TermCount;
+    this.KeyValueCount = KeyValueCount;
   }
 
   /**
@@ -36,7 +21,7 @@ export default class SourceDocumentStatistics {
    * @returns {string} The tenant GUID.
    */
   get TenantGUID() {
-    return this._SourceDocument ? this._SourceDocument.TenantGUID : '';
+    return this.SourceDocument ? this.SourceDocument.TenantGUID : '';
   }
 
   /**
@@ -44,7 +29,7 @@ export default class SourceDocumentStatistics {
    * @returns {string} The collection GUID.
    */
   get CollectionGUID() {
-    return this._SourceDocument ? this._SourceDocument.CollectionGUID : '';
+    return this.SourceDocument ? this.SourceDocument.CollectionGUID : '';
   }
 
   /**
@@ -52,7 +37,7 @@ export default class SourceDocumentStatistics {
    * @returns {string} The source document GUID.
    */
   get SourceDocumentGUID() {
-    return this._SourceDocument ? this._SourceDocument.GUID : '';
+    return this.SourceDocument ? this.SourceDocument.GUID : '';
   }
 
   /**
@@ -60,8 +45,8 @@ export default class SourceDocumentStatistics {
    * @returns {number} The term count.
    */
   get Terms() {
-    return this._SourceDocument && this._SourceDocument.UdrDocument && this._SourceDocument.UdrDocument.Terms
-      ? this._SourceDocument.UdrDocument.Terms.length
+    return this.SourceDocument && this.SourceDocument.UdrDocument && this.SourceDocument.UdrDocument.Terms
+      ? this.SourceDocument.UdrDocument.Terms.length
       : 0;
   }
 
@@ -70,8 +55,8 @@ export default class SourceDocumentStatistics {
    * @returns {number} The distinct term count.
    */
   get DistinctTerms() {
-    if (this._SourceDocument && this._SourceDocument.UdrDocument && this._SourceDocument.UdrDocument.Terms) {
-      const terms = this._SourceDocument.UdrDocument.Terms;
+    if (this.SourceDocument && this.SourceDocument.UdrDocument && this.SourceDocument.UdrDocument.Terms) {
+      const terms = this.SourceDocument.UdrDocument.Terms;
       return [...new Set(terms)].length; // Get unique terms count
     }
     return 0;
@@ -83,12 +68,12 @@ export default class SourceDocumentStatistics {
    */
   get KeyValuePairs() {
     if (
-      this._SourceDocument &&
-      this._SourceDocument.UdrDocument &&
-      this._SourceDocument.UdrDocument.Schema &&
-      this._SourceDocument.UdrDocument.Schema.Flattened
+      this.SourceDocument &&
+      this.SourceDocument.UdrDocument &&
+      this.SourceDocument.UdrDocument.Schema &&
+      this.SourceDocument.UdrDocument.Schema.Flattened
     ) {
-      return this._SourceDocument.UdrDocument.Schema.Flattened.length;
+      return this.SourceDocument.UdrDocument.Schema.Flattened.length;
     }
     return 0;
   }
@@ -99,7 +84,7 @@ export default class SourceDocumentStatistics {
    */
   get SemanticCells() {
     const semanticCells =
-      this._SourceDocument && this._SourceDocument.UdrDocument && this._SourceDocument.UdrDocument.SemanticCells;
+      this.SourceDocument && this.SourceDocument.UdrDocument && this.SourceDocument.UdrDocument.SemanticCells;
     if (semanticCells) {
       return this.countSemanticCells(semanticCells);
     }
@@ -112,7 +97,7 @@ export default class SourceDocumentStatistics {
    */
   get SemanticCellBytes() {
     const semanticCells =
-      this._SourceDocument && this._SourceDocument.UdrDocument && this._SourceDocument.UdrDocument.SemanticCells;
+      this.SourceDocument && this.SourceDocument.UdrDocument && this.SourceDocument.UdrDocument.SemanticCells;
     if (semanticCells) {
       return this.sumSemanticCellBytes(semanticCells);
     }
@@ -125,7 +110,7 @@ export default class SourceDocumentStatistics {
    */
   get SemanticChunks() {
     const semanticCells =
-      this._SourceDocument && this._SourceDocument.UdrDocument && this._SourceDocument.UdrDocument.SemanticCells;
+      this.SourceDocument && this.SourceDocument.UdrDocument && this.SourceDocument.UdrDocument.SemanticCells;
     if (semanticCells) {
       return this.countSemanticChunks(semanticCells);
     }
@@ -138,7 +123,7 @@ export default class SourceDocumentStatistics {
    */
   get SemanticChunkBytes() {
     const semanticCells =
-      this._SourceDocument && this._SourceDocument.UdrDocument && this._SourceDocument.UdrDocument.SemanticCells;
+      this.SourceDocument && this.SourceDocument.UdrDocument && this.SourceDocument.UdrDocument.SemanticCells;
     if (semanticCells) {
       return this.sumSemanticChunkBytes(semanticCells);
     }

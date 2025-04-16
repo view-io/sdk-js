@@ -2737,20 +2737,21 @@ View Lexi SDK.
     * [.deleteCollection](#module_base/Lexi/ViewLexiSdk+deleteCollection) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.retrieveCollectionTopTerms](#module_base/Lexi/ViewLexiSdk+retrieveCollectionTopTerms) ⇒ <code>Promise.&lt;(Object\|ApiErrorResponse)&gt;</code>
     * [.collectionExists](#module_base/Lexi/ViewLexiSdk+collectionExists) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.retrieveDocuments](#module_base/Lexi/ViewLexiSdk+retrieveDocuments) ⇒ <code>Promise.&lt;(Array.&lt;SourceDocument&gt;\|ApiErrorResponse)&gt;</code>
-    * [.enumerateCollection](#module_base/Lexi/ViewLexiSdk+enumerateCollection) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveDocument](#module_base/Lexi/ViewLexiSdk+retrieveDocument) ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
-    * [.retrieveDocumentStatistics](#module_base/Lexi/ViewLexiSdk+retrieveDocumentStatistics) ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
-    * [.uploadDocument](#module_base/Lexi/ViewLexiSdk+uploadDocument) ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
-    * [.deleteDocument](#module_base/Lexi/ViewLexiSdk+deleteDocument) ⇒ <code>Promise.&lt;void&gt;</code>
-    * [.deleteDocumentFromKey](#module_base/Lexi/ViewLexiSdk+deleteDocumentFromKey) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.retrieveSourceDocuments](#module_base/Lexi/ViewLexiSdk+retrieveSourceDocuments) ⇒ <code>Promise.&lt;(Array.&lt;SourceDocument&gt;\|ApiErrorResponse)&gt;</code>
+    * [.enumerateCollectionDocument](#module_base/Lexi/ViewLexiSdk+enumerateCollectionDocument) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveSourceDocument](#module_base/Lexi/ViewLexiSdk+retrieveSourceDocument) ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
+    * [.retrieveSourceDocumentStatistics](#module_base/Lexi/ViewLexiSdk+retrieveSourceDocumentStatistics) ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
+    * [.retrieveSourceDocumentTopTerms](#module_base/Lexi/ViewLexiSdk+retrieveSourceDocumentTopTerms) ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
+    * [.uploadSourceDocument](#module_base/Lexi/ViewLexiSdk+uploadSourceDocument) ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
+    * [.deleteSourceDocument](#module_base/Lexi/ViewLexiSdk+deleteSourceDocument) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.deleteSourceDocumentFromKey](#module_base/Lexi/ViewLexiSdk+deleteSourceDocumentFromKey) ⇒ <code>Promise.&lt;void&gt;</code>
     * [.sourceDocumentsExists](#module_base/Lexi/ViewLexiSdk+sourceDocumentsExists) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
-    * [.searchCollection](#module_base/Lexi/ViewLexiSdk+searchCollection) ⇒ <code>Promise.&lt;(SearchResult\|null\|ApiErrorResponse)&gt;</code>
+    * [.searchCollectionDocuments](#module_base/Lexi/ViewLexiSdk+searchCollectionDocuments) ⇒ <code>Promise.&lt;(SearchResult\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveAllIngestQueue](#module_base/Lexi/ViewLexiSdk+retrieveAllIngestQueue) ⇒ <code>Promise.&lt;(Array.&lt;IngestQueue&gt;\|ApiErrorResponse)&gt;</code>
     * [.retrieveIngestQueue](#module_base/Lexi/ViewLexiSdk+retrieveIngestQueue) ⇒ <code>Promise.&lt;(IngestQueue\|ApiErrorResponse)&gt;</code>
-    * [.ingestQueueItemExists](#module_base/Lexi/ViewLexiSdk+ingestQueueItemExists) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+    * [.existsIngestQueue](#module_base/Lexi/ViewLexiSdk+existsIngestQueue) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.retrieveIngestQueueStats](#module_base/Lexi/ViewLexiSdk+retrieveIngestQueueStats) ⇒ <code>Promise.&lt;(IngestQueue\|ApiErrorResponse)&gt;</code>
-    * [.deleteIngestQueueItem](#module_base/Lexi/ViewLexiSdk+deleteIngestQueueItem) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+    * [.deleteIngestQueue](#module_base/Lexi/ViewLexiSdk+deleteIngestQueue) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
     * [.searchAndEnumerate](#module_base/Lexi/ViewLexiSdk+searchAndEnumerate) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
 
 <a name="module_base/Lexi/ViewLexiSdk+retrieveCollections"></a>
@@ -2867,9 +2868,9 @@ Check if a collection exists.
 | collectionGuid | <code>string</code> | The GUID of the collection to check for existence. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+retrieveDocuments"></a>
+<a name="module_base/Lexi/ViewLexiSdk+retrieveSourceDocuments"></a>
 
-### base/Lexi/ViewLexiSdk.retrieveDocuments ⇒ <code>Promise.&lt;(Array.&lt;SourceDocument&gt;\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.retrieveSourceDocuments ⇒ <code>Promise.&lt;(Array.&lt;SourceDocument&gt;\|ApiErrorResponse)&gt;</code>
 Retrieve documents from a specified collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -2884,9 +2885,9 @@ Retrieve documents from a specified collection.
 | collectionGuid | <code>string</code> | The GUID of the collection to retrieve documents from. |
 | [cancelToken] | <code>object</code> | Optional object with an abort method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+enumerateCollection"></a>
+<a name="module_base/Lexi/ViewLexiSdk+enumerateCollectionDocument"></a>
 
-### base/Lexi/ViewLexiSdk.enumerateCollection ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.enumerateCollectionDocument ⇒ <code>Promise.&lt;(EnumerationResult.&lt;SourceDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
 Enumerate a collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -2932,9 +2933,9 @@ Enumerate a collection.
 | query.filters | <code>Array.&lt;SearchFilter&gt;</code> | Search filters to apply. |
 | query.ordering | <code>EnumerationOrderEnum</code> | Ordering for the enumeration results. |
 
-<a name="module_base/Lexi/ViewLexiSdk+retrieveDocument"></a>
+<a name="module_base/Lexi/ViewLexiSdk+retrieveSourceDocument"></a>
 
-### base/Lexi/ViewLexiSdk.retrieveDocument ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.retrieveSourceDocument ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
 Retrieve a specific document from a collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -2951,9 +2952,9 @@ Retrieve a specific document from a collection.
 | [includeData] | <code>boolean</code> | <code>false</code> | Flag to indicate whether or not to include document data. |
 | [cancelToken] | <code>object</code> |  | Optional object with an abort method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+retrieveDocumentStatistics"></a>
+<a name="module_base/Lexi/ViewLexiSdk+retrieveSourceDocumentStatistics"></a>
 
-### base/Lexi/ViewLexiSdk.retrieveDocumentStatistics ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.retrieveSourceDocumentStatistics ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
 Retrieve statistics for a specific document in a collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -2969,9 +2970,28 @@ Retrieve statistics for a specific document in a collection.
 | documentGuid | <code>string</code> | The GUID of the document. |
 | [cancelToken] | <code>object</code> | Optional cancellation token to abort the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+uploadDocument"></a>
+<a name="module_base/Lexi/ViewLexiSdk+retrieveSourceDocumentTopTerms"></a>
 
-### base/Lexi/ViewLexiSdk.uploadDocument ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.retrieveSourceDocumentTopTerms ⇒ <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code>
+Retrieve top terms for a specific document in a collection.
+
+**Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
+**Returns**: <code>Promise.&lt;(SourceDocumentStatistics\|ApiErrorResponse)&gt;</code> - A promise resolving to source document statistics or an error response.  
+**Throws**:
+
+- <code>Error</code> If the collectionGuid or documentGuid is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collectionGuid | <code>string</code> | The GUID of the collection. |
+| documentGuid | <code>string</code> | The GUID of the document. |
+| [maxKeys] | <code>number</code> | The maximum number of keys to retrieve. |
+| [cancelToken] | <code>object</code> | Optional cancellation token to abort the request. |
+
+<a name="module_base/Lexi/ViewLexiSdk+uploadSourceDocument"></a>
+
+### base/Lexi/ViewLexiSdk.uploadSourceDocument ⇒ <code>Promise.&lt;(SourceDocument\|ApiErrorResponse)&gt;</code>
 Upload a source document to a collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -3008,9 +3028,9 @@ Upload a source document to a collection.
 | document.UdrDocument | <code>UdrDocument</code> \| <code>null</code> | The UDR document associated with the source document. |
 | [cancelToken] | <code>object</code> | Optional cancellation token to abort the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+deleteDocument"></a>
+<a name="module_base/Lexi/ViewLexiSdk+deleteSourceDocument"></a>
 
-### base/Lexi/ViewLexiSdk.deleteDocument ⇒ <code>Promise.&lt;void&gt;</code>
+### base/Lexi/ViewLexiSdk.deleteSourceDocument ⇒ <code>Promise.&lt;void&gt;</code>
 Deletes a document from a collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -3026,9 +3046,9 @@ Deletes a document from a collection.
 | documentGuid | <code>string</code> | The document GUID. |
 | [cancelToken] | <code>object</code> | Optional cancellation token to abort the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+deleteDocumentFromKey"></a>
+<a name="module_base/Lexi/ViewLexiSdk+deleteSourceDocumentFromKey"></a>
 
-### base/Lexi/ViewLexiSdk.deleteDocumentFromKey ⇒ <code>Promise.&lt;void&gt;</code>
+### base/Lexi/ViewLexiSdk.deleteSourceDocumentFromKey ⇒ <code>Promise.&lt;void&gt;</code>
 Deletes a document from a collection using its key and version.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -3063,9 +3083,9 @@ Check if a source documents exists.
 | documentGuid | <code>string</code> | The document GUID. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+searchCollection"></a>
+<a name="module_base/Lexi/ViewLexiSdk+searchCollectionDocuments"></a>
 
-### base/Lexi/ViewLexiSdk.searchCollection ⇒ <code>Promise.&lt;(SearchResult\|null\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.searchCollectionDocuments ⇒ <code>Promise.&lt;(SearchResult\|null\|ApiErrorResponse)&gt;</code>
 Search a collection.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
@@ -3079,6 +3099,9 @@ Search a collection.
 | --- | --- | --- |
 | collectionGuid | <code>string</code> | The GUID of the collection to search. |
 | query | <code>Object</code> | The query to use for searching. |
+| includeData | <code>boolean</code> | include data |
+| includeTopTerms | <code>boolean</code> | include  top terms |
+| emitResult | <code>boolean</code> | Search and emit result |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 **Properties**
@@ -3116,24 +3139,24 @@ Retrieves a specific item from the ingest queue.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| collectionGuid | <code>string</code> | The GUID of the item to retrieve. |
+| ingestQueueGuid | <code>string</code> | The GUID of the item to retrieve. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+ingestQueueItemExists"></a>
+<a name="module_base/Lexi/ViewLexiSdk+existsIngestQueue"></a>
 
-### base/Lexi/ViewLexiSdk.ingestQueueItemExists ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.existsIngestQueue ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
 Checks if a specific item exists in the ingest queue.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
 **Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise that resolves to `true` if the item exists, `false` if it does not, or an error response if the check fails.  
 **Throws**:
 
-- <code>Error</code> If the collectionGuid argument is null or undefined.
+- <code>Error</code> If the ingestQueueGuid argument is null or undefined.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| collectionGuid | <code>string</code> | The GUID of the item to check. |
+| ingestQueueGuid | <code>string</code> | The GUID of the item to check. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/Lexi/ViewLexiSdk+retrieveIngestQueueStats"></a>
@@ -3146,23 +3169,24 @@ Retrieves statistics for the ingest queue.
 
 | Param | Type | Description |
 | --- | --- | --- |
+| ingestQueueGuid | <code>string</code> | The GUID of the item to check. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/Lexi/ViewLexiSdk+deleteIngestQueueItem"></a>
+<a name="module_base/Lexi/ViewLexiSdk+deleteIngestQueue"></a>
 
-### base/Lexi/ViewLexiSdk.deleteIngestQueueItem ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+### base/Lexi/ViewLexiSdk.deleteIngestQueue ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
 Deletes a specific item from the ingest queue.
 
 **Kind**: instance property of [<code>base/Lexi/ViewLexiSdk</code>](#module_base/Lexi/ViewLexiSdk)  
 **Returns**: <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code> - A promise that resolves to `true` if the deletion was successful, or an error response if it failed.  
 **Throws**:
 
-- <code>Error</code> If the collectionGuid argument is null or undefined.
+- <code>Error</code> If the ingestQueueGuid argument is null or undefined.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| collectionGuid | <code>string</code> | The GUID of the item to delete. |
+| ingestQueueGuid | <code>string</code> | The GUID of the item to delete. |
 | [cancelToken] | <code>Object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/Lexi/ViewLexiSdk+searchAndEnumerate"></a>

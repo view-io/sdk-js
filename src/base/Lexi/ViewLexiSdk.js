@@ -149,7 +149,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument[]|ApiErrorResponse>} A promise resolving to a list of source documents or an error response.
    * @throws {Error} If the collectionGuid is null or empty.
    */
-  retrieveDocuments = async (collectionGuid, cancelToken) => {
+  retrieveSourceDocuments = async (collectionGuid, cancelToken) => {
     if (!collectionGuid) {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
@@ -191,7 +191,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
    * @throws {Error} If the collectionGuid or query is null or empty.
    */
-  enumerateCollection = async (collectionGuid, query, cancelToken) => {
+  enumerateCollectionDocument = async (collectionGuid, query, cancelToken) => {
     if (!query) {
       GenExceptionHandlersInstance.ArgumentNullException('query');
     }
@@ -199,7 +199,8 @@ export default class ViewLexiSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
 
-    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGUID + '/collections/' + collectionGuid + '?enumerate'; //endpomt update
+    const url =
+      this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/collections/' + collectionGuid + '/documents?enumerate'; //endpomt update
     return await this.post(url, query, EnumerationResult, cancelToken);
   };
 
@@ -213,7 +214,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument|ApiErrorResponse>} A promise resolving to the source document or an error response.
    * @throws {Error} If the collectionGuid or documentGuid is null or empty.
    */
-  retrieveDocument = async (collectionGuid, documentGuid, includeData = false, cancelToken) => {
+  retrieveSourceDocument = async (collectionGuid, documentGuid, includeData = false, cancelToken) => {
     if (!collectionGuid) {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
@@ -245,7 +246,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocumentStatistics|ApiErrorResponse>} A promise resolving to source document statistics or an error response.
    * @throws {Error} If the collectionGuid or documentGuid is null or empty.
    */
-  retrieveDocumentStatistics = async (collectionGuid, documentGuid, cancelToken) => {
+  retrieveSourceDocumentStatistics = async (collectionGuid, documentGuid, cancelToken) => {
     if (!collectionGuid) {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
@@ -264,6 +265,38 @@ export default class ViewLexiSdk extends ViewSdkBase {
       '?stats';
 
     return await this.retrieve(url, SourceDocumentStatistics, cancelToken);
+  };
+
+  /**
+   * Retrieve top terms for a specific document in a collection.
+   *
+   * @param {string} collectionGuid - The GUID of the collection.
+   * @param {string} documentGuid - The GUID of the document.
+   * @param {number} [maxKeys] - The maximum number of keys to retrieve.
+   * @param {object} [cancelToken] - Optional cancellation token to abort the request.
+   * @returns {Promise<SourceDocumentStatistics|ApiErrorResponse>} A promise resolving to source document statistics or an error response.
+   * @throws {Error} If the collectionGuid or documentGuid is null or empty.
+   */
+  retrieveSourceDocumentTopTerms = async (collectionGuid, documentGuid, maxKeys = 10, cancelToken) => {
+    if (!collectionGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
+    }
+    if (!documentGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('documentGuid');
+    }
+
+    const url =
+      this.endpoint +
+      '/v1.0/tenants/' +
+      this.tenantGuid +
+      '/collections/' +
+      collectionGuid +
+      '/documents/' +
+      documentGuid +
+      '/topterms?max-keys=' +
+      maxKeys;
+
+    return await this.retrieve(url, undefined, cancelToken);
   };
 
   /**
@@ -296,7 +329,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument|ApiErrorResponse>} A promise resolving to the uploaded document or an error response.
    * @throws {Error} If the document is null.
    */
-  uploadDocument = async (document, cancelToken) => {
+  uploadSourceDocument = async (document, cancelToken) => {
     if (!document) {
       GenExceptionHandlersInstance.ArgumentNullException('document');
     }
@@ -316,7 +349,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<void>} A promise that resolves when the document is deleted.
    * @throws {Error} If either `collectionGuid` or `documentGuid` is empty or null.
    */
-  deleteDocument = async (collectionGuid, documentGuid, cancelToken) => {
+  deleteSourceDocument = async (collectionGuid, documentGuid, cancelToken) => {
     if (!collectionGuid) {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
@@ -345,7 +378,7 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @returns {Promise<void>} A promise that resolves when the document is deleted.
    * @throws {Error} If any of the parameters (`collectionGuid`, `key`, `version`) are empty or null.
    */
-  deleteDocumentFromKey = async (collectionGuid, key, version, cancelToken) => {
+  deleteSourceDocumentFromKey = async (collectionGuid, key, version, cancelToken) => {
     if (!collectionGuid) {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
@@ -422,11 +455,14 @@ export default class ViewLexiSdk extends ViewSdkBase {
    * @property {EnumerationOrderEnum} query.ordering - Ordering for the search results.
    * @property {QueryFilter} query.filter - Required terms and search filters for including a document in the results.
    * @property {EmbeddingsRule} query.embeddingsRule - Rule for embeddings.
+   * @param {boolean} includeData - include data
+   * @param {boolean} includeTopTerms - include  top terms
+   * @param {boolean} emitResult - Search and emit result
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<SearchResult|null|ApiErrorResponse>} The search result or null if the request fails.
    * @throws {Error} If the collectionGuid or query is null or empty.
    */
-  searchCollection = async (collectionGuid, query, includedata, async, cancelToken) => {
+  searchCollectionDocuments = async (collectionGuid, query, includeData, includeTopTerms, emitResult, cancelToken) => {
     if (!query) {
       GenExceptionHandlersInstance.ArgumentNullException('query');
     }
@@ -434,11 +470,15 @@ export default class ViewLexiSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
     }
 
-    let url = this.endpoint + '/v1.0/tenants/' + this.tenantGUID + '/collections/' + collectionGuid + '?search'; //endpomt update
-    if (includedata) {
+    let url =
+      this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/collections/' + collectionGuid + '/documents?search'; //endpomt update
+    if (includeData) {
       url += '&incldata';
     }
-    if (async) {
+    if (includeTopTerms) {
+      url += '&incltopterms';
+    }
+    if (emitResult) {
       url += '&async';
     }
     return await this.post(url, query, SearchResult, cancelToken);
@@ -459,56 +499,60 @@ export default class ViewLexiSdk extends ViewSdkBase {
 
   /**
    * Retrieves a specific item from the ingest queue.
-   * @param {string} collectionGuid - The GUID of the item to retrieve.
+   * @param {string} ingestQueueGuid - The GUID of the item to retrieve.
    * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<IngestQueue|ApiErrorResponse>} A promise that resolves to the requested item or an error response if the retrieval fails.
    */
-  retrieveIngestQueue = async (collectionGuid, cancelToken) => {
-    if (!collectionGuid) {
+  retrieveIngestQueue = async (ingestQueueGuid, cancelToken) => {
+    if (!ingestQueueGuid) {
       throw new Error('Item GUID cannot be null or undefined.');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${collectionGuid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
     return await this.retrieve(url, IngestQueue, cancelToken);
   };
 
   /**
    * Checks if a specific item exists in the ingest queue.
-   * @param {string} collectionGuid - The GUID of the item to check.
+   * @param {string} ingestQueueGuid - The GUID of the item to check.
    * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to `true` if the item exists, `false` if it does not, or an error response if the check fails.
-   * @throws {Error} If the collectionGuid argument is null or undefined.
+   * @throws {Error} If the ingestQueueGuid argument is null or undefined.
    */
-  ingestQueueItemExists = async (collectionGuid, cancelToken) => {
-    if (!collectionGuid) {
-      GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
+  existsIngestQueue = async (ingestQueueGuid, cancelToken) => {
+    if (!ingestQueueGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('ingestQueueGuid');
     }
 
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${collectionGuid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
     return await this.exists(url, IngestQueue, cancelToken);
   };
 
   /**
    * Retrieves statistics for the ingest queue.
+   * @param {string} ingestQueueGuid - The GUID of the item to check.
    * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<IngestQueue|ApiErrorResponse>} A promise that resolves to the statistics of the ingest queue or an error response if the retrieval fails.
    */
-  retrieveIngestQueueStats = async (cancelToken) => {
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/stats`;
+  retrieveIngestQueueStats = async (ingestQueueGuid, cancelToken) => {
+    if (!ingestQueueGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('ingestQueueGuid');
+    }
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${ingestQueueGuid}?stats`;
     return await this.retrieve(url, IngestQueue, cancelToken);
   };
 
   /**
    * Deletes a specific item from the ingest queue.
-   * @param {string} collectionGuid - The GUID of the item to delete.
+   * @param {string} ingestQueueGuid - The GUID of the item to delete.
    * @param {Object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to `true` if the deletion was successful, or an error response if it failed.
-   * @throws {Error} If the collectionGuid argument is null or undefined.
+   * @throws {Error} If the ingestQueueGuid argument is null or undefined.
    */
-  deleteIngestQueueItem = async (collectionGuid, cancelToken) => {
-    if (!collectionGuid) {
-      GenExceptionHandlersInstance.ArgumentNullException('collectionGuid');
+  deleteIngestQueue = async (ingestQueueGuid, cancelToken) => {
+    if (!ingestQueueGuid) {
+      GenExceptionHandlersInstance.ArgumentNullException('ingestQueueGuid');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${collectionGuid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
     return await this.deleteRaw(url, cancelToken);
   };
 

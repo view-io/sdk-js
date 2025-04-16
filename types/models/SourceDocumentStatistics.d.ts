@@ -5,21 +5,17 @@ export default class SourceDocumentStatistics {
     /**
      * @param {Object} stats - Information about the source document statistics.
      * @param {SourceDocument} stats.SourceDocument - The source document associated with the statistics.
+     * @param {number} stats.TermCount - Total count
+     * @param {number} stats.KeyValueCount - key value count
      */
     constructor(stats?: {
         SourceDocument: any;
+        TermCount: number;
+        KeyValueCount: number;
     });
-    _SourceDocument: any;
-    /**
-     * Sets the source document.
-     * @param {Object} value - The source document to set.
-     */
-    set SourceDocument(value: any);
-    /**
-     * Gets or sets the source document.
-     * @returns {Object} The source document.
-     */
-    get SourceDocument(): any;
+    SourceDocument: any;
+    TermCount: number;
+    KeyValueCount: number;
     /**
      * Gets the tenant GUID.
      * @returns {string} The tenant GUID.

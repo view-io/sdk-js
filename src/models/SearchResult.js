@@ -12,16 +12,16 @@ export default class SearchResult {
    */
   constructor(searchResult = {}) {
     const {
-      Success = false,
-      Timestamp = Date.now(),
-      DataFlowRequestGUID = null,
-      EndOfResults = true,
-      ContinuationToken = null,
-      RecordsRemaining = 0,
-      Documents = [],
-      Embeddings = [],
-      MaxResults = 0,
-      TotalRecords = 0,
+      Success,
+      Timestamp,
+      DataFlowRequestGUID,
+      EndOfResults,
+      ContinuationToken,
+      RecordsRemaining,
+      Documents,
+      Embeddings,
+      MaxResults,
+      TotalRecords,
     } = searchResult;
 
     this.Success = Success;
