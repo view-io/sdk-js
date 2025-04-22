@@ -1,7 +1,7 @@
 /**
  * Embeddings document.
  */
-export default class EmbeddingsDocument {
+export default class VectorSearch {
     /**
      * @param {Object} options Embeddings document data.
      * @param {string} options.DocumentGUID

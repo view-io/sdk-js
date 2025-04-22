@@ -81,21 +81,21 @@ describe('ViewOrchestratorSdk', () => {
     });
     //retrieveByGUID
     it('retrieves a data flow by GUID', async () => {
-      const data = await api.retrieveByGUIDWithSteps(mockFlowIdInclude);
+      const data = await api.retrieveDataFlowWithSteps(mockFlowIdInclude);
       expect(data instanceof DataFlow).toBe(true);
     });
     it('throws an error when retrieving a data flow with an invalid GUID', async () => {
-      await expect(api.retrieveByGUIDWithSteps()).rejects.toThrow(Error);
-      await expect(api.retrieveByGUIDWithSteps()).rejects.toThrow('GUID is required');
+      await expect(api.retrieveDataFlowWithSteps()).rejects.toThrow(Error);
+      await expect(api.retrieveDataFlowWithSteps()).rejects.toThrow('GUID is required');
     });
     // issue: fail api test case
     it('retrieves request performance data', async () => {
-      const data = await api.retrieveRequestPerformanceData(mockFlowId);
+      const data = await api.retrieveDataFlowPerformanceData(mockFlowId);
       expect(data instanceof DataFlow).toBe(true);
     });
     it('throws an error when retrieving request performance data with an invalid request ID', async () => {
-      await expect(api.retrieveRequestPerformanceData()).rejects.toThrow(Error);
-      await expect(api.retrieveRequestPerformanceData()).rejects.toThrow('GUID is required');
+      await expect(api.retrieveDataFlowPerformanceData()).rejects.toThrow(Error);
+      await expect(api.retrieveDataFlowPerformanceData()).rejects.toThrow('GUID is required');
     });
     it('deletes a data flow', async () => {
       const guid = 'flow123';
@@ -145,14 +145,14 @@ describe('ViewOrchestratorSdk', () => {
     it('retrieves data flow logfile content', async () => {
       const dataFlowGuid = 'flow1';
       const requestGuid = 'request1';
-      const logfile = await api.retrieveDataFlowLogfile(dataFlowGuid, requestGuid);
+      const logfile = await api.retrieveDataFlowLogFile(dataFlowGuid, requestGuid);
       expect(typeof logfile).toBe('string');
       expect(logfile).toContain('INFO: 2024-11-01T10:00:00Z - Data flow started successfully');
     });
 
     it('throws error when retrieving data flow logfile without guids', async () => {
       try {
-        await api.retrieveDataFlowLogfile(null, null);
+        await api.retrieveDataFlowLogFile(null, null);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.message).toBe('Both dataFlowGuid and requestGuid must be provided.');
@@ -161,7 +161,7 @@ describe('ViewOrchestratorSdk', () => {
 
     it('returns 404 for nonexistent data flow logfile', async () => {
       try {
-        await api.retrieveDataFlowLogfile('nonexistentFlow', 'nonexistentRequest');
+        await api.retrieveDataFlowLogFile('nonexistentFlow', 'nonexistentRequest');
       } catch (err) {
         expect(err instanceof Error).toBe(false);
         expect(err).toBe('Not Found');

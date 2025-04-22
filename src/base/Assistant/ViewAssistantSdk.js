@@ -4,6 +4,8 @@ import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHa
 import ViewSdkBase from '../ViewSDKBase';
 import { LoggerInstance } from '../../utils/Logger';
 import { SeverityEnum } from '../../enums/SeverityEnum';
+import AssistantConfigList from '../../models/AssistantConfigList ';
+import AssistantConfig from '../../models/AssistantConfig';
 
 export default class ViewAssistantSdk extends ViewSdkBase {
   /**
@@ -296,4 +298,149 @@ export default class ViewAssistantSdk extends ViewSdkBase {
       return []; // Return an empty array in case of error
     }
   }
+  /**
+   * Retrieve assistant configurations.
+   *
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<Array<AssistantConfig>|ApiErrorResponse>} A promise resolving to an array of AssistantConfig objects, or an error response.
+   */
+  retrieveAssistantConfigs = async (cancelToken) => {
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/configs`;
+    return await this.retrieveMany(url, AssistantConfigList, cancelToken);
+  };
+
+  /**
+   * Retrieve an assistant configuration by GUID.
+   *
+   * @param {string} guid - The GUID of the assistant configuration to retrieve.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<AssistantConfig|ApiErrorResponse>} A promise resolving to an AssistantConfig object, or an error response.
+   */
+  retrieveAssistantConfig = async (guid, cancelToken) => {
+    if (!guid) {
+      GenExceptionHandlersInstance.ArgumentNullException('guid');
+    }
+
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/configs/${guid}`;
+    return await this.retrieve(url, AssistantConfig, cancelToken);
+  };
+  /**
+   * Check if an assistant configuration exists.
+   *
+   * @param {string} guid - The GUID of the assistant configuration to check.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<boolean>} A promise resolving to `true` if the assistant configuration exists, otherwise `false`.
+   * @throws {Error} If the `guid` is null or empty.
+   */
+  existsAssistantConfig = async (guid, cancelToken) => {
+    if (!guid) {
+      GenExceptionHandlersInstance.ArgumentNullException('guid');
+    }
+
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/configs/${guid}`;
+    return await this.exists(url, cancelToken);
+  };
+
+  /**
+   * Create a new assistant configuration.
+   *
+   * @param {Object} config - The assistant configuration object
+   * @param {string} config.Name - Name of the assistant
+   * @param {string} config.Description - Description of the assistant
+   * @param {string} config.SystemPrompt - System prompt for the assistant
+   * @param {string} config.EmbeddingModel - Model used for embeddings
+   * @param {number} config.MaxResults - Maximum number of results to return
+   * @param {string} config.VectorDatabaseName - Name of the vector database
+   * @param {string} config.VectorDatabaseTable - Table name in vector database
+   * @param {string} config.VectorDatabaseHostname - Hostname of vector database
+   * @param {number} config.VectorDatabasePort - Port number of vector database
+   * @param {string} config.VectorDatabaseUser - Username for vector database
+   * @param {string} config.VectorDatabasePassword - Password for vector database
+   * @param {string} config.GenerationProvider - Provider for text generation
+   * @param {string} config.GenerationApiKey - API key for generation provider
+   * @param {string} config.GenerationModel - Model used for text generation
+   * @param {string} config.HuggingFaceApiKey - API key for HuggingFace
+   * @param {number} config.Temperature - Temperature parameter for generation
+   * @param {number} config.TopP - Top-p parameter for generation
+   * @param {number} config.MaxTokens - Maximum tokens for generation
+   * @param {string} config.OllamaHostname - Hostname for Ollama service
+   * @param {number} config.OllamaPort - Port number for Ollama service
+   * @param {boolean} config.ContextSort - Enable context sorting
+   * @param {boolean} config.SortByMaxSimilarity - Sort by maximum similarity
+   * @param {number} config.ContextScope - Scope for context retrieval
+   * @param {boolean} config.Rerank - Enable reranking
+   * @param {string} config.RerankModel - Model used for reranking
+   * @param {number} config.RerankTopK - Top K results for reranking
+   * @param {boolean} config.ChatOnly - Enable chat-only mode
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+   * @returns {Promise<AssistantConfig|ApiErrorResponse>} A promise resolving to the created AssistantConfig object, or an error response
+   */
+  createAssistantConfig = async (config, cancelToken) => {
+    if (!config) {
+      GenExceptionHandlersInstance.ArgumentNullException('config');
+    }
+
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/configs`;
+    return await this.post(url, config, AssistantConfig, cancelToken);
+  };
+
+  /**
+   * Update an existing assistant configuration.
+   *
+   * @param {Object} config - The assistant configuration object
+   * @param {string} config.GUID - GUID of the assistant configuration to update
+   * @param {string} config.Name - Name of the assistant
+   * @param {string} config.Description - Description of the assistant
+   * @param {string} config.SystemPrompt - System prompt for the assistant
+   * @param {string} config.EmbeddingModel - Model used for embeddings
+   * @param {number} config.MaxResults - Maximum number of results to return
+   * @param {string} config.VectorDatabaseName - Name of the vector database
+   * @param {string} config.VectorDatabaseTable - Table name in vector database
+   * @param {string} config.VectorDatabaseHostname - Hostname of vector database
+   * @param {number} config.VectorDatabasePort - Port number of vector database
+   * @param {string} config.VectorDatabaseUser - Username for vector database
+   * @param {string} config.VectorDatabasePassword - Password for vector database
+   * @param {string} config.GenerationProvider - Provider for text generation
+   * @param {string} config.GenerationApiKey - API key for generation provider
+   * @param {string} config.GenerationModel - Model used for text generation
+   * @param {string} config.HuggingFaceApiKey - API key for HuggingFace
+   * @param {number} config.Temperature - Temperature parameter for generation
+   * @param {number} config.TopP - Top-p parameter for generation
+   * @param {number} config.MaxTokens - Maximum tokens for generation
+   * @param {string} config.OllamaHostname - Hostname for Ollama service
+   * @param {number} config.OllamaPort - Port number for Ollama service
+   * @param {boolean} config.ContextSort - Enable context sorting
+   * @param {boolean} config.SortByMaxSimilarity - Sort by maximum similarity
+   * @param {number} config.ContextScope - Scope for context retrieval
+   * @param {boolean} config.Rerank - Enable reranking
+   * @param {string} config.RerankModel - Model used for reranking
+   * @param {number} config.RerankTopK - Top K results for reranking
+   * @param {boolean} config.ChatOnly - Enable chat-only mode
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+   * @returns {Promise<AssistantConfig|ApiErrorResponse>} A promise resolving to the updated AssistantConfig object, or an error response
+   */
+  updateAssistantConfig = async (config, cancelToken) => {
+    if (!config || !config.GUID) {
+      GenExceptionHandlersInstance.ArgumentNullException('config or config.GUID');
+    }
+
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/configs/${config.GUID}`;
+    return await this.create(url, config, AssistantConfig, cancelToken);
+  };
+
+  /**
+   * Delete an existing assistant configuration.
+   *
+   * @param {string} guid - GUID of the assistant configuration to delete
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+   * @returns {Promise<boolean>} A promise resolving to true if deletion was successful, false otherwise
+   */
+  deleteAssistantConfig = async (guid, cancelToken) => {
+    if (!guid) {
+      GenExceptionHandlersInstance.ArgumentNullException('guid');
+    }
+
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/configs/${guid}`;
+    return await this.delete(url, undefined, cancelToken);
+  };
 }

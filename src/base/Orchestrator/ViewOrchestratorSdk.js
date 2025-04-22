@@ -124,7 +124,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
     }
 
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/triggers/${guid}`;
-    await this.delete(url, Trigger, cancelToken);
+    await this.deleteRaw(url, cancelToken);
   };
   //endregion
 
@@ -200,7 +200,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<StepMetadata>|ApiErrorResponse} A promise resolving to an array of StepMetadata objects, or an error response.
    */
-  retrievebyGUIDwithsubordinatesAndpackages = async (guid, cancelToken) => {
+  retrieveStepsWithSubordinatesAndPackages = async (guid, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
@@ -221,7 +221,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
     }
 
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/steps/${guid}`;
-    await this.delete(url, StepMetadata, cancelToken);
+    await this.deleteRaw(url, cancelToken);
   };
   //endregion
 
@@ -294,7 +294,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Array<DataFlow>|ApiErrorResponse>} A promise resolving to an array of DataFlow objects, or an error response.
    */
-  retrieveByGUIDWithSteps = async (guid, cancelToken) => {
+  retrieveDataFlowWithSteps = async (guid, cancelToken) => {
     if (!guid) {
       throw new Error('GUID is required');
     }
@@ -303,15 +303,16 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
   };
   /**
    *Retrieve request performance data.
-   * @param {string} guid - The GUID of the data flow to performance.
+   * @param {string} dataFlowGuid - The GUID of the data flow to performance.
+   * @param {string} requestGuid - The GUID of the request associated with the data flow.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<DataFlow>|ApiErrorResponse} A promise resolving to an array of DataFlow objects, or an error response.
    */
-  retrieveRequestPerformanceData = async (guid, cancelToken) => {
-    if (!guid) {
-      throw new Error('GUID is required');
+  retrieveDataFlowPerformanceData = async (dataFlowGuid, requestGuid, cancelToken) => {
+    if (!dataFlowGuid || !requestGuid) {
+      throw new Error('dataFlowGuid and requestGuid are required');
     }
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/dataflows/processor/performance?request=${guid}`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/dataflows/${dataFlowGuid}/performance?request=${requestGuid}`;
     return await this.retrieve(url, DataFlow, cancelToken);
   };
 
@@ -329,7 +330,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
     }
 
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/dataflows/${guid}`;
-    return await this.delete(url, DataFlow, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
   //endregion
 
@@ -361,7 +362,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
    * @returns {Promise<string|null|ApiErrorResponse>} A promise resolving to the log file content as a string, or null if an error occurred.
    * @throws {Error} If either `dataFlowGuid` or `requestGuid` are null or empty.
    */
-  retrieveDataFlowLogfile = async (dataFlowGuid, requestGuid, cancelToken) => {
+  retrieveDataFlowLogFile = async (dataFlowGuid, requestGuid, cancelToken) => {
     if (!dataFlowGuid || !requestGuid) {
       throw new Error('Both dataFlowGuid and requestGuid must be provided.');
     }

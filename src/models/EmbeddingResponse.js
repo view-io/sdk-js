@@ -13,20 +13,14 @@ export default class EmbeddingResponse {
    * @param {Array<Object>} data.Existing - The list of existing embeddings.
    * @param {Array<Object>} data.Missing - The list of missing embeddings.
    */
-  constructor({ Timestamp = {}, Existing = [], Missing = [] } = {}) {
-    const { Start = new Date().toISOString(), TotalMs = 0, Messages = {} } = Timestamp;
-
-    /** @type {Object} */
-    this.timestamp = {
-      start: Start,
-      totalMs: TotalMs,
-      messages: Messages,
+  constructor(data) {
+    this.Timestamp = {
+      Start: data.Timestamp.Start,
+      TotalMs: data.Timestamp.TotalMs,
+      Messages: data.Timestamp.Messages,
     };
 
-    /** @type {Array<ExistingEmbedding>} */
-    this.existing = Existing.map((item) => new ExistingMetaData(item));
-
-    /** @type {Array<MissingEmbedding>} */
-    this.missing = Missing.map((item) => new ExistingMetaData(item));
+    this.Existing = data.Existing;
+    this.Missing = data.Missing;
   }
 }

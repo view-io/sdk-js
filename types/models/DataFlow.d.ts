@@ -13,7 +13,8 @@ export default class DataFlow {
      * @param {string} [dataFlow.Notes] - Optional notes for the data flow.
      * @param {Date} [dataFlow.CreatedUtc] - Optional creation timestamp in UTC (default is current UTC time).
      * @param {number} [dataFlow.LogRetentionDays] - The number of days to retain log entries and files (default is 7).
-     * @param {StepMetadata} [dataFlow.Step] - The entry step of the data flow.
+     * @param {object} [dataFlow.Map] - The map  of the data flow.
+     * @param {StepMetadata[]} [dataFlow.Steps] - The steps of the data flow.
      */
     constructor(dataFlow?: {
         GUID: string;
@@ -24,25 +25,18 @@ export default class DataFlow {
         Notes?: string;
         CreatedUtc?: Date;
         LogRetentionDays?: number;
-        Step?: StepMetadata;
+        Map?: object;
+        Steps?: StepMetadata[];
     });
-    _LogRetentionDays: number;
-    GUID: any;
-    TenantGUID: any;
-    TriggerGUID: any;
-    StepGUID: any;
+    LogRetentionDays: number;
+    GUID: string;
+    TenantGUID: string;
+    TriggerGUID: string;
+    StepGUID: string;
     Name: string;
     Notes: string;
     CreatedUtc: Date;
-    Step: any;
-    /**
-     * LogRetentionDays setter with validation.
-     * @param {number} value - The number of days for log retention.
-     * @throws {Error} If the value is less than 0.
-     */
-    set LogRetentionDays(value: number);
-    /**
-     * LogRetentionDays getter.
-     */
-    get LogRetentionDays(): number;
+    Map: any;
+    Steps: StepMetadata[];
 }
+import StepMetadata from './StepMetadata';

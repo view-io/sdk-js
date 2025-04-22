@@ -128,7 +128,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<StepMetadata>|ApiErrorResponse} A promise resolving to an array of StepMetadata objects, or an error response.
      */
-    retrievebyGUIDwithsubordinatesAndpackages: (guid: string, cancelToken?: object) => Promise<StepMetadata> | ApiErrorResponse;
+    retrieveStepsWithSubordinatesAndPackages: (guid: string, cancelToken?: object) => Promise<StepMetadata> | ApiErrorResponse;
     /**
      * Delete a step.
      *
@@ -187,14 +187,15 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<Array<DataFlow>|ApiErrorResponse>} A promise resolving to an array of DataFlow objects, or an error response.
      */
-    retrieveByGUIDWithSteps: (guid: string, cancelToken?: object) => Promise<Array<DataFlow> | ApiErrorResponse>;
+    retrieveDataFlowWithSteps: (guid: string, cancelToken?: object) => Promise<Array<DataFlow> | ApiErrorResponse>;
     /**
      *Retrieve request performance data.
-     * @param {string} guid - The GUID of the data flow to performance.
+     * @param {string} dataFlowGuid - The GUID of the data flow to performance.
+     * @param {string} requestGuid - The GUID of the request associated with the data flow.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<DataFlow>|ApiErrorResponse} A promise resolving to an array of DataFlow objects, or an error response.
      */
-    retrieveRequestPerformanceData: (guid: string, cancelToken?: object) => Promise<DataFlow> | ApiErrorResponse;
+    retrieveDataFlowPerformanceData: (dataFlowGuid: string, requestGuid: string, cancelToken?: object) => Promise<DataFlow> | ApiErrorResponse;
     /**
      * Delete a data flow.
      *
@@ -223,7 +224,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
      * @returns {Promise<string|null|ApiErrorResponse>} A promise resolving to the log file content as a string, or null if an error occurred.
      * @throws {Error} If either `dataFlowGuid` or `requestGuid` are null or empty.
      */
-    retrieveDataFlowLogfile: (dataFlowGuid: string, requestGuid: string, cancelToken?: object) => Promise<string | null | ApiErrorResponse>;
+    retrieveDataFlowLogFile: (dataFlowGuid: string, requestGuid: string, cancelToken?: object) => Promise<string | null | ApiErrorResponse>;
 }
 import ViewSdkBase from '../ViewSDKBase';
 import Trigger from '../../models/Trigger';

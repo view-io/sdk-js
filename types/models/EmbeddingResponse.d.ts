@@ -11,7 +11,7 @@ export default class EmbeddingResponse {
      * @param {Array<Object>} data.Existing - The list of existing embeddings.
      * @param {Array<Object>} data.Missing - The list of missing embeddings.
      */
-    constructor({ Timestamp, Existing, Missing }?: {
+    constructor(data: {
         Timestamp: {
             Start: string;
             TotalMs: number;
@@ -20,10 +20,11 @@ export default class EmbeddingResponse {
         Existing: Array<any>;
         Missing: Array<any>;
     });
-    /** @type {Object} */
-    timestamp: any;
-    /** @type {Array<ExistingEmbedding>} */
-    existing: Array<ExistingEmbedding>;
-    /** @type {Array<MissingEmbedding>} */
-    missing: Array<MissingEmbedding>;
+    Timestamp: {
+        Start: string;
+        TotalMs: number;
+        Messages: any;
+    };
+    Existing: any[];
+    Missing: any[];
 }
