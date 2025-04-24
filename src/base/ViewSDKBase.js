@@ -943,7 +943,11 @@ export default class ViewSdkBase {
             // Return parsed JSON response
             // resolve(response.body);
             // Returns parsed JSON response in the given Modal
-            resolve(Serializer.deserializeJson(response.text, Model));
+            if (Model) {
+              resolve(Serializer.deserializeJson(response.text, Model));
+            } else {
+              resolve(response.text);
+            }
           } else {
             LoggerInstance.log(
               SeverityEnum.Warn,
