@@ -81,26 +81,20 @@
 ## Functions
 
 <dl>
-<dt><a href="#processRag">processRag(ragRequest, onToken, cancelToken)</a></dt>
+<dt><a href="#chatRagQuestion_LEGACY">chatRagQuestion_LEGACY(ragRequest, onToken, cancelToken)</a></dt>
 <dd><p>AssistantRagRequest request.</p>
 </dd>
-<dt><a href="#processChat">processChat(chatRequest, onToken, cancelToken)</a></dt>
+<dt><a href="#chatRagMessages">chatRagMessages(ragRequest, onToken, cancelToken)</a></dt>
+<dd><p>AssistantRagRequest request.</p>
+</dd>
+<dt><a href="#assistantConfigChat">assistantConfigChat(assistantConfigGuid, chatRequest, onToken, cancelToken)</a></dt>
 <dd><p>Process a chat request.</p>
 </dd>
-<dt><a href="#_createStreamParser">_createStreamParser(onToken)</a> ⇒ <code>Writable</code></dt>
-<dd><p>Create a writable stream to parse SSE data.</p>
+<dt><a href="#chatOnly">chatOnly(chatRequest, onToken, cancelToken)</a></dt>
+<dd><p>Process a chat request.</p>
 </dd>
-<dt><a href="#_extractToken">_extractToken(json)</a> ⇒ <code>string</code> | <code>null</code></dt>
-<dd><p>Extract a token from JSON string.</p>
-</dd>
-<dt><a href="#retrieveModel">retrieveModel(model, onToken, cancelToken)</a></dt>
-<dd><p>Retrieve a model.</p>
-</dd>
-<dt><a href="#deleteModel">deleteModel(model, onToken, cancelToken)</a></dt>
-<dd><p>Delete a model.</p>
-</dd>
-<dt><a href="#retrieveModelList">retrieveModelList(model, onToken, cancelToken)</a></dt>
-<dd><p>Retrieve model list.</p>
+<dt><a href="#retrieveModel">retrieveModel(guid, [cancelToken], model, onToken, cancelToken)</a></dt>
+<dd><p>Retrieve a chat thread by GUID.</p>
 </dd>
 <dt><a href="#cleanupStorageServer">cleanupStorageServer(tenant, collection, pool, bucket, obj, mdRule, embedRule, vectorRepo, graphRepo, token)</a></dt>
 <dd><p>Cleanup a document. This variant is used by the storage server.</p>
@@ -4594,26 +4588,20 @@ View Vector Proxy SDK.
 * [base/ViewVectorProxySdk](#module_base/ViewVectorProxySdk)
     * [module.exports](#exp_module_base/ViewVectorProxySdk--module.exports) ⏏
         * [new module.exports(tenantGuid, accessKey, endpoint)](#new_module_base/ViewVectorProxySdk--module.exports_new)
-        * [.writeDocument](#module_base/ViewVectorProxySdk--module.exports+writeDocument) ⇒ <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
-        * [.deleteDocument](#module_base/ViewVectorProxySdk--module.exports+deleteDocument) ⇒ <code>Promise.&lt;boolean&gt;</code>
-        * [.truncateTable](#module_base/ViewVectorProxySdk--module.exports+truncateTable) ⇒ <code>Promise.&lt;boolean&gt;</code>
-        * [.enumerateTable](#module_base/ViewVectorProxySdk--module.exports+enumerateTable) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;EmbeddingsDocument&gt;\|null)&gt;</code>
-        * [.similaritySearch](#module_base/ViewVectorProxySdk--module.exports+similaritySearch) ⇒ <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null)&gt;</code>
-        * [.rawQuery](#module_base/ViewVectorProxySdk--module.exports+rawQuery) ⇒ <code>Promise.&lt;(string\|null)&gt;</code>
-        * [.vectorSearch](#module_base/ViewVectorProxySdk--module.exports+vectorSearch) ⇒ <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null)&gt;</code>
+        * [.vectorSearch](#module_base/ViewVectorProxySdk--module.exports+vectorSearch) ⇒ <code>Promise.&lt;(Array.&lt;VectorSearch&gt;\|null)&gt;</code>
         * [.findEmbeddings](#module_base/ViewVectorProxySdk--module.exports+findEmbeddings) ⇒ <code>Promise.&lt;(EmbeddingResponse\|null)&gt;</code>
         * [.enumerateVectorRepositories](#module_base/ViewVectorProxySdk--module.exports+enumerateVectorRepositories) ⇒ <code>Array.&lt;Promise&gt;</code>
         * [.retrieveVectorRepositoryStatistics](#module_base/ViewVectorProxySdk--module.exports+retrieveVectorRepositoryStatistics) ⇒ <code>Promise.&lt;CollectionStatistics&gt;</code>
         * [.deleteVectorRepository](#module_base/ViewVectorProxySdk--module.exports+deleteVectorRepository) ⇒ <code>Promise.&lt;void&gt;</code>
-        * [.writeDoc](#module_base/ViewVectorProxySdk--module.exports+writeDoc) ⇒ <code>Promise.&lt;EmbeddingsDocument&gt;</code>
-        * [.readDoc](#module_base/ViewVectorProxySdk--module.exports+readDoc) ⇒ <code>Promise.&lt;EmbeddingsDocument&gt;</code>
-        * [.deleteDoc](#module_base/ViewVectorProxySdk--module.exports+deleteDoc) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+        * [.writeDocument](#module_base/ViewVectorProxySdk--module.exports+writeDocument) ⇒ <code>Promise.&lt;EmbeddingDocument&gt;</code>
+        * [.readDocument](#module_base/ViewVectorProxySdk--module.exports+readDocument) ⇒ <code>Promise.&lt;EmbeddingDocument&gt;</code>
+        * [.deleteDocument](#module_base/ViewVectorProxySdk--module.exports+deleteDocument) ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
         * [.documentExists](#module_base/ViewVectorProxySdk--module.exports+documentExists) ⇒ <code>Promise.&lt;void&gt;</code>
-        * [.getSemanticCells](#module_base/ViewVectorProxySdk--module.exports+getSemanticCells) ⇒ <code>Promise.&lt;Array.&lt;SemanticCell&gt;&gt;</code>
-        * [.getSemanticCell](#module_base/ViewVectorProxySdk--module.exports+getSemanticCell) ⇒ <code>Promise.&lt;SemanticCell&gt;</code>
+        * [.retrieveSemanticCells](#module_base/ViewVectorProxySdk--module.exports+retrieveSemanticCells) ⇒ <code>Promise.&lt;Array.&lt;SemanticCell&gt;&gt;</code>
+        * [.retrieveSemanticCell](#module_base/ViewVectorProxySdk--module.exports+retrieveSemanticCell) ⇒ <code>Promise.&lt;SemanticCell&gt;</code>
         * [.semanticCellExists](#module_base/ViewVectorProxySdk--module.exports+semanticCellExists) ⇒ <code>Promise.&lt;void&gt;</code>
-        * [.getSemanticChunks](#module_base/ViewVectorProxySdk--module.exports+getSemanticChunks) ⇒ <code>Promise.&lt;Array.&lt;SemanticChunk&gt;&gt;</code>
-        * [.getSemanticChunk](#module_base/ViewVectorProxySdk--module.exports+getSemanticChunk) ⇒ <code>Promise.&lt;SemanticChunk&gt;</code>
+        * [.retrieveSemanticChunks](#module_base/ViewVectorProxySdk--module.exports+retrieveSemanticChunks) ⇒ <code>Promise.&lt;Array.&lt;SemanticChunk&gt;&gt;</code>
+        * [.retrieveSemanticChunk](#module_base/ViewVectorProxySdk--module.exports+retrieveSemanticChunk) ⇒ <code>Promise.&lt;SemanticChunk&gt;</code>
         * [.semanticChunkExists](#module_base/ViewVectorProxySdk--module.exports+semanticChunkExists) ⇒ <code>Promise.&lt;void&gt;</code>
 
 <a name="exp_module_base/ViewVectorProxySdk--module.exports"></a>
@@ -4632,185 +4620,13 @@ Constructs a new ViewVectorProxySdk.
 | accessKey | <code>string</code> |  | Access key. |
 | endpoint | <code>string</code> | <code>&quot;http://localhost:8311/&quot;</code> | Endpoint URL (default is "http://localhost:8311/"). |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+writeDocument"></a>
-
-#### module.exports.writeDocument ⇒ <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null\|ApiErrorResponse)&gt;</code>
-Write a document.
-
-**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to a list of EmbeddingsDocuments or null.  
-**Throws**:
-
-- <code>Error</code> If the document is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| document | <code>EmbeddingsDocument</code> | The embeddings document to write. |
-| document.success | <code>boolean</code> | Indicates if the parser was successful. |
-| document.exception | <code>Error</code> | Exception, if any. |
-| document.guid | <code>string</code> | Unique identifier (auto-generated if not provided). |
-| document.tenantGUID | <code>string</code> | Tenant's unique identifier. |
-| document.collectionGUID | <code>string</code> | Collection's unique identifier. |
-| document.sourceDocumentGUID | <code>string</code> | Source document's unique identifier. |
-| document.bucketGUID | <code>string</code> | Bucket's unique identifier. |
-| document.vectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
-| document.graphRepositoryGUID | <code>string</code> | Graph repository's unique identifier. |
-| document.graphNodeIdentifier | <code>string</code> | Graph node identifier. |
-| document.objectGUID | <code>string</code> | Object's unique identifier. |
-| document.objectKey | <code>string</code> | Object key. |
-| document.objectVersion | <code>string</code> | Object version. |
-| document.model | <code>string</code> | Model identifier. |
-| document.embeddingsRule | <code>EmbeddingsRule</code> | Embeddings rule configuration. |
-| document.content | <code>string</code> | Content of the document. |
-| document.score | <code>number</code> | Score of the embedding. |
-| document.distance | <code>number</code> | Distance of the embedding. |
-| document.semanticCells | <code>Array.&lt;SemanticCell&gt;</code> | List of semantic cells. |
-| document.createdUtc | <code>Date</code> | Creation timestamp in UTC (default: current time). |
-| [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
-
-<a name="module_base/ViewVectorProxySdk--module.exports+deleteDocument"></a>
-
-#### module.exports.deleteDocument ⇒ <code>Promise.&lt;boolean&gt;</code>
-Delete a document.
-
-**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;boolean&gt;</code> - A promise resolving to true if successful, false otherwise.  
-**Throws**:
-
-- <code>Error</code> If the delete request is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| delReq | <code>VectorDeleteRequest</code> | Delete request parameters. |
-| delReq.TenantGUID | <code>string</code> | Tenant's unique identifier. |
-| delReq.GUID | <code>string</code> | Document's unique identifier. |
-| delReq.CollectionGUID | <code>string</code> | Collection's unique identifier. |
-| delReq.SourceDocumentGUID | <code>string</code> | Source document's unique identifier. |
-| delReq.BucketGUID | <code>string</code> | Bucket's unique identifier. |
-| delReq.ObjectGUID | <code>string</code> | Object's unique identifier. |
-| delReq.VectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
-| delReq.Key | <code>string</code> | Key identifier. |
-| delReq.Version | <code>string</code> | Version identifier. |
-| [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
-
-<a name="module_base/ViewVectorProxySdk--module.exports+truncateTable"></a>
-
-#### module.exports.truncateTable ⇒ <code>Promise.&lt;boolean&gt;</code>
-Truncate table.
-
-**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;boolean&gt;</code> - A promise resolving to true if successful, false otherwise.  
-**Throws**:
-
-- <code>Error</code> If the delete request is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| delReq | <code>VectorDeleteRequest</code> | Delete request parameters. |
-| delReq.TenantGUID | <code>string</code> | Tenant's unique identifier. |
-| delReq.GUID | <code>string</code> | Document's unique identifier. |
-| delReq.CollectionGUID | <code>string</code> | Collection's unique identifier. |
-| delReq.SourceDocumentGUID | <code>string</code> | Source document's unique identifier. |
-| delReq.BucketGUID | <code>string</code> | Bucket's unique identifier. |
-| delReq.ObjectGUID | <code>string</code> | Object's unique identifier. |
-| delReq.VectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
-| delReq.Key | <code>string</code> | Key identifier. |
-| delReq.Version | <code>string</code> | Version identifier. |
-| [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
-
-<a name="module_base/ViewVectorProxySdk--module.exports+enumerateTable"></a>
-
-#### module.exports.enumerateTable ⇒ <code>Promise.&lt;(EnumerationResult.&lt;EmbeddingsDocument&gt;\|null)&gt;</code>
-Enumerate a table.
-
-**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;(EnumerationResult.&lt;EmbeddingsDocument&gt;\|null)&gt;</code> - A promise resolving to the enumeration result or null.  
-**Throws**:
-
-- <code>Error</code> If the query is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| query | <code>EnumerationQuery</code> | Enumeration query parameters. |
-| query.timestamp | <code>number</code> | Query timestamp. |
-| query.tenant | <code>TenantMetadata</code> | Tenant metadata. |
-| query.tenantGuid | <code>string</code> | Tenant's unique identifier. |
-| query.bucket | <code>BucketMetadata</code> | Bucket metadata. |
-| query.bucketGuid | <code>string</code> | Bucket's unique identifier. |
-| query.collection | <code>Collection</code> | Collection information. |
-| query.collectionGuid | <code>string</code> | Collection's unique identifier. |
-| query.sourceDocument | <code>SourceDocument</code> | Source document information. |
-| query.sourceDocumentGuid | <code>string</code> | Source document's unique identifier. |
-| query.vectorRepository | <code>VectorRepository</code> | Vector repository information. |
-| query.vectorRepositoryGuid | <code>string</code> | Vector repository's unique identifier. |
-| query.graphRepository | <code>GraphRepository</code> | Graph repository information. |
-| query.graphRepositoryGuid | <code>string</code> | Graph repository's unique identifier. |
-| query.graphNodeIdentifier | <code>string</code> | Graph node identifier. |
-| query.maxResults | <code>number</code> | Maximum number of results to retrieve (1-1000, default: 1000). |
-| query.continuationToken | <code>string</code> | Token for pagination. |
-| query.prefix | <code>string</code> | Prefix filter for results. |
-| query.suffix | <code>string</code> | Suffix filter for results. |
-| query.marker | <code>string</code> | Marker for result set. |
-| query.delimiter | <code>string</code> | Delimiter for grouping results. |
-| query.token | <code>string</code> | Authorization token. |
-| query.includeData | <code>boolean</code> | Whether to include subordinate data. |
-| query.includeOwners | <code>boolean</code> | Whether to include owner information (default: true). |
-| query.filters | <code>Array.&lt;SearchFilter&gt;</code> | Search filters to apply. |
-| query.ordering | <code>EnumerationOrderEnum</code> | Ordering for the enumeration results (default: CreatedDescending). |
-| [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
-
-<a name="module_base/ViewVectorProxySdk--module.exports+similaritySearch"></a>
-
-#### module.exports.similaritySearch ⇒ <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null)&gt;</code>
-Similarity search.
-
-**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null)&gt;</code> - A promise resolving to a list of EmbeddingsDocuments or null.  
-**Throws**:
-
-- <code>Error</code> If the search request is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| searchReq | <code>VectorSearchRequest</code> | Search request parameters. |
-| searchReq.SearchType | <code>VectorSearchTypeEnum</code> | Search type (default: InnerProduct). |
-| searchReq.VectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
-| searchReq.StartIndex | <code>number</code> | Starting index for results. |
-| searchReq.MaxResults | <code>number</code> | Maximum number of results. |
-| searchReq.Embeddings | <code>Array.&lt;number&gt;</code> | Vector embeddings to search against. |
-| [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
-
-<a name="module_base/ViewVectorProxySdk--module.exports+rawQuery"></a>
-
-#### module.exports.rawQuery ⇒ <code>Promise.&lt;(string\|null)&gt;</code>
-Raw query.
-
-**Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;(string\|null)&gt;</code> - A promise resolving to the query result as a string or null.  
-**Throws**:
-
-- <code>Error</code> If the query request is null.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| queryReq | <code>VectorQueryRequest</code> | Query request parameters. |
-| queryReq.Query | <code>string</code> | Raw query string. |
-| queryReq.VectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
-| [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
-
 <a name="module_base/ViewVectorProxySdk--module.exports+vectorSearch"></a>
 
-#### module.exports.vectorSearch ⇒ <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null)&gt;</code>
+#### module.exports.vectorSearch ⇒ <code>Promise.&lt;(Array.&lt;VectorSearch&gt;\|null)&gt;</code>
 search.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;(Array.&lt;EmbeddingsDocument&gt;\|null)&gt;</code> - A promise resolving to a list of EmbeddingsDocuments or null.  
+**Returns**: <code>Promise.&lt;(Array.&lt;VectorSearch&gt;\|null)&gt;</code> - A promise resolving to a list of VectorSearchs or null.  
 **Throws**:
 
 - <code>Error</code> If the search request is null.
@@ -4818,9 +4634,9 @@ search.
 
 | Param | Type | Description |
 | --- | --- | --- |
+| vectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
 | searchReq | <code>VectorSearchRequest</code> | Search request parameters. |
 | searchReq.SearchType | <code>VectorSearchTypeEnum</code> | Search type (default: InnerProduct). |
-| searchReq.VectorRepositoryGUID | <code>string</code> | Vector repository's unique identifier. |
 | searchReq.MaxResults | <code>number</code> | Maximum number of results. |
 | searchReq.Embeddings | <code>Array.&lt;number&gt;</code> | Vector embeddings to search against. |
 | [cancelToken] | <code>Object</code> | Optional cancellation token with an `abort` method. |
@@ -4904,13 +4720,13 @@ Empty repository.
 | VectorRepositoryGUID | <code>string</code> | GUID for the vector repository. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+writeDoc"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+writeDocument"></a>
 
-#### module.exports.writeDoc ⇒ <code>Promise.&lt;EmbeddingsDocument&gt;</code>
+#### module.exports.writeDocument ⇒ <code>Promise.&lt;EmbeddingDocument&gt;</code>
 Write a document.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;EmbeddingsDocument&gt;</code> - A promise resolving to the EmbeddingsDocument object.  
+**Returns**: <code>Promise.&lt;EmbeddingDocument&gt;</code> - A promise resolving to the EmbeddingDocument object.  
 **Throws**:
 
 - <code>Error</code> If the document is null.
@@ -4918,11 +4734,11 @@ Write a document.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| doc | <code>EmbeddingsDocument</code> | Document to write. |
+| doc | <code>EmbeddingDocument</code> | Document to write. |
 | doc.TenantGuid | <code>string</code> | GUID for the  tenant. |
 | doc.BucketGuid | <code>string</code> | GUID for the bucket. |
 | doc.CollectionGuid | <code>string</code> | GUID for the collection. |
-| doc.VectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| doc.VectorRepositoryGUID | <code>string</code> | GUID for the vector repository. |
 | doc.ObjectGuid | <code>string</code> | GUID for the object. |
 | doc.SourceDocumentGuid | <code>string</code> | GUID for the source document. |
 | doc.ObjectKey | <code>string</code> | Object key. |
@@ -4931,13 +4747,13 @@ Write a document.
 | options.createdUtc | <code>Date</code> | Date and time the document was created (default: current time). |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+readDoc"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+readDocument"></a>
 
-#### module.exports.readDoc ⇒ <code>Promise.&lt;EmbeddingsDocument&gt;</code>
+#### module.exports.readDocument ⇒ <code>Promise.&lt;EmbeddingDocument&gt;</code>
 Read a document.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
-**Returns**: <code>Promise.&lt;EmbeddingsDocument&gt;</code> - A promise resolving to the EmbeddingsDocument object.  
+**Returns**: <code>Promise.&lt;EmbeddingDocument&gt;</code> - A promise resolving to the EmbeddingDocument object.  
 **Throws**:
 
 - <code>Error</code> If the documentGuid is null or empty.
@@ -4945,13 +4761,13 @@ Read a document.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| documentGuid | <code>string</code> | GUID for the Document. |
 | VectorRepositoryGUID | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the Document. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+deleteDoc"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+deleteDocument"></a>
 
-#### module.exports.deleteDoc ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
+#### module.exports.deleteDocument ⇒ <code>Promise.&lt;(Boolean\|ApiErrorResponse)&gt;</code>
 Delete a document.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
@@ -4963,8 +4779,8 @@ Delete a document.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewVectorProxySdk--module.exports+documentExists"></a>
@@ -4981,13 +4797,13 @@ Document exists.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+getSemanticCells"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+retrieveSemanticCells"></a>
 
-#### module.exports.getSemanticCells ⇒ <code>Promise.&lt;Array.&lt;SemanticCell&gt;&gt;</code>
+#### module.exports.retrieveSemanticCells ⇒ <code>Promise.&lt;Array.&lt;SemanticCell&gt;&gt;</code>
 Get semantic cells.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
@@ -4999,13 +4815,13 @@ Get semantic cells.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+getSemanticCell"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+retrieveSemanticCell"></a>
 
-#### module.exports.getSemanticCell ⇒ <code>Promise.&lt;SemanticCell&gt;</code>
+#### module.exports.retrieveSemanticCell ⇒ <code>Promise.&lt;SemanticCell&gt;</code>
 Get a semantic cell.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
@@ -5013,9 +4829,9 @@ Get a semantic cell.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
+| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewVectorProxySdk--module.exports+semanticCellExists"></a>
@@ -5032,14 +4848,14 @@ Semantic cell exists.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
+| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+getSemanticChunks"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+retrieveSemanticChunks"></a>
 
-#### module.exports.getSemanticChunks ⇒ <code>Promise.&lt;Array.&lt;SemanticChunk&gt;&gt;</code>
+#### module.exports.retrieveSemanticChunks ⇒ <code>Promise.&lt;Array.&lt;SemanticChunk&gt;&gt;</code>
 Get semantic chunks.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
@@ -5047,14 +4863,14 @@ Get semantic chunks.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
+| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewVectorProxySdk--module.exports+getSemanticChunk"></a>
+<a name="module_base/ViewVectorProxySdk--module.exports+retrieveSemanticChunk"></a>
 
-#### module.exports.getSemanticChunk ⇒ <code>Promise.&lt;SemanticChunk&gt;</code>
+#### module.exports.retrieveSemanticChunk ⇒ <code>Promise.&lt;SemanticChunk&gt;</code>
 Get a semantic chunk.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewVectorProxySdk--module.exports)  
@@ -5062,10 +4878,10 @@ Get a semantic chunk.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| semanticChunkGuid | <code>string</code> | GUID for the semantic chunk. |
-| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
+| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
+| semanticChunkGuid | <code>string</code> | GUID for the semantic chunk. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewVectorProxySdk--module.exports+semanticChunkExists"></a>
@@ -5082,10 +4898,10 @@ Semantic chunk exists.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| semanticChunkGuid | <code>string</code> | GUID for the semantic chunk. |
-| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
-| documentGuid | <code>string</code> | GUID for the document. |
 | vectorRepositoryGuid | <code>string</code> | GUID for the vector repository. |
+| documentGuid | <code>string</code> | GUID for the document. |
+| semanticCellGuid | <code>string</code> | GUID for the semantic cell. |
+| semanticChunkGuid | <code>string</code> | GUID for the semantic chunk. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_vector/ViewVoyageAiSdk"></a>
@@ -7867,126 +7683,136 @@ Create an object via POST request to the specified URL.
 | obj | <code>T</code> | The object to send in the request body. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="processRag"></a>
+<a name="chatRagQuestion_LEGACY"></a>
 
-## processRag(ragRequest, onToken, cancelToken)
+## chatRagQuestion\_LEGACY(ragRequest, onToken, cancelToken)
 AssistantRagRequest request.
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ragRequest | <code>Object</code> | Information about the RAG request. |
-| ragRequest.PromptPrefix | <code>string</code> | The prompt prefix for the assistant. |
-| ragRequest.Question | <code>string</code> | The question being asked. |
-| ragRequest.MaxResults | <code>number</code> | The maximum number of documents to retrieve (between 1 and 100). |
-| ragRequest.Temperature | <code>number</code> | The temperature value between 0 and 1. |
-| ragRequest.TopP | <code>number</code> | The top P value for sampling (between 0 and 1). |
-| ragRequest.MaxTokens | <code>number</code> | The maximum number of tokens to generate (between 1 and 16384). |
-| ragRequest.GenerationModel | <code>string</code> | The generation model and tag (default: 'llama3.1:latest'). |
-| ragRequest.GenerationProvider | <code>string</code> | The generation provider (default: 'ollama'). |
-| ragRequest.OllamaHostname | <code>string</code> | The hostname for the Ollama service (default: 'localhost'). |
-| ragRequest.OllamaPort | <code>number</code> | The TCP port for the Ollama service (default: 11434). |
-| ragRequest.VectorDatabaseHostname | <code>string</code> | The hostname for the vector database (default: 'localhost'). |
-| ragRequest.VectorDatabasePort | <code>number</code> | The port for the vector database (default: 5432). |
-| ragRequest.VectorDatabaseName | <code>string</code> | The name of the vector database (default: 'vectors'). |
-| ragRequest.VectorDatabaseUser | <code>string</code> | The user for the vector database (default: 'postgres'). |
-| ragRequest.VectorDatabasePassword | <code>string</code> | The password for the vector database. |
-| ragRequest.Stream | <code>boolean</code> | Whether streaming is enabled (default: true). |
-| ragRequest.ContextSort | <code>boolean</code> | Whether contextual sorting is enabled (default: true). |
-| ragRequest.ContextScope | <code>number</code> | The number of neighboring data elements to retrieve (between 1 and 16). |
-| ragRequest.Rerank | <code>boolean</code> | Whether re-ranking is enabled (default: true). |
-| ragRequest.RerankTopK | <code>number</code> | The number of top chunks or documents to re-rank (between 1 and 16). |
+| ragRequest | <code>Object</code> | Configuration object for query and generation. |
+| ragRequest.Question | <code>string</code> | The input question to process. |
+| ragRequest.EmbeddingModel | <code>string</code> | The model used for embedding. |
+| ragRequest.MaxResults | <code>number</code> | Maximum number of results to return. |
+| ragRequest.VectorDatabaseName | <code>string</code> | Name of the vector database. |
+| ragRequest.VectorDatabaseTable | <code>string</code> | Table name in the vector database. |
+| ragRequest.VectorDatabaseHostname | <code>string</code> | Hostname of the vector database. |
+| ragRequest.VectorDatabasePort | <code>number</code> | Port number of the vector database. |
+| ragRequest.VectorDatabaseUser | <code>string</code> | Username for the vector database. |
+| ragRequest.VectorDatabasePassword | <code>string</code> | Password for the vector database. |
+| ragRequest.GenerationProvider | <code>string</code> | The LLM generation provider (e.g., "ollama"). |
+| ragRequest.GenerationApiKey | <code>string</code> | API key for the generation provider. |
+| ragRequest.GenerationModel | <code>string</code> | Model used for response generation. |
+| ragRequest.HuggingFaceApiKey | <code>string</code> | API key for Hugging Face (if used). |
+| ragRequest.Temperature | <code>number</code> | Temperature setting for randomness in generation. |
+| ragRequest.MaxTokens | <code>number</code> | Maximum number of tokens to generate. |
+| ragRequest.Stream | <code>boolean</code> | Whether to stream the generation output. |
+| ragRequest.OllamaHostname | <code>string</code> | Hostname for the Ollama service. |
+| ragRequest.OllamaPort | <code>number</code> | Port for the Ollama service. |
+| ragRequest.TopP | <code>number</code> | Nucleus sampling value (top-p). |
+| ragRequest.PromptPrefix | <code>string</code> | Prefix added to the prompt (e.g., a style like "talk like a pirate"). |
+| ragRequest.ContextSort | <code>boolean</code> | Whether to sort context passages. |
+| ragRequest.SortByMaxSimilarity | <code>boolean</code> | Whether to sort context by max similarity. |
+| ragRequest.ContextScope | <code>number</code> | Scope or depth of the context. |
+| ragRequest.Rerank | <code>boolean</code> | Whether to rerank results. |
+| ragRequest.RerankModel | <code>string</code> | Model used for reranking. |
+| ragRequest.RerankTopK | <code>number</code> | Number of top results to keep after reranking. |
 | onToken | <code>function</code> | Callback to handle tokens as they are emitted. |
 | cancelToken | <code>AbortSignal</code> | Optional. The cancellation token to cancel the request if needed. |
 
-<a name="processChat"></a>
+<a name="chatRagMessages"></a>
 
-## processChat(chatRequest, onToken, cancelToken)
+## chatRagMessages(ragRequest, onToken, cancelToken)
+AssistantRagRequest request.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ragRequest | <code>Object</code> | Configuration for the retrieval and generation process. |
+| ragRequest.Messages | <code>Array.&lt;{role: string, content: string}&gt;</code> | The message history between user and assistant. |
+| ragRequest.EmbeddingModel | <code>string</code> | The embedding model to use for vectorization (e.g., sentence-transformers model). |
+| ragRequest.MaxResults | <code>number</code> | The maximum number of results to retrieve from the vector database. |
+| ragRequest.VectorDatabaseName | <code>string</code> | The name of the vector database to connect to. |
+| ragRequest.VectorDatabaseTable | <code>string</code> | The table name in the vector database. |
+| ragRequest.VectorDatabaseHostname | <code>string</code> | The hostname of the vector database server. |
+| ragRequest.VectorDatabasePort | <code>number</code> | The port of the vector database server. |
+| ragRequest.VectorDatabaseUser | <code>string</code> | The username for the vector database. |
+| ragRequest.VectorDatabasePassword | <code>string</code> | The password for the vector database. |
+| ragRequest.GenerationProvider | <code>string</code> | The text generation provider (e.g., ollama, openai). |
+| ragRequest.GenerationApiKey | <code>string</code> | The API key for the generation provider (if applicable). |
+| ragRequest.GenerationModel | <code>string</code> | The name of the model used for text generation. |
+| ragRequest.HuggingFaceApiKey | <code>string</code> | The Hugging Face API key (if needed for embeddings or generation). |
+| ragRequest.Temperature | <code>number</code> | Sampling temperature for generation; higher values increase randomness. |
+| ragRequest.TopP | <code>number</code> | The nucleus sampling value (top-p) for controlling diversity of generated output. |
+| ragRequest.MaxTokens | <code>number</code> | The maximum number of tokens to generate. |
+| ragRequest.Stream | <code>boolean</code> | Whether to stream the output tokens (if supported by provider). |
+| ragRequest.OllamaHostname | <code>string</code> | Hostname of the Ollama inference server. |
+| ragRequest.OllamaPort | <code>number</code> | Port of the Ollama inference server. |
+| ragRequest.PromptPrefix | <code>string</code> | A prefix to prepend to the prompt before generation. |
+| ragRequest.ContextSort | <code>boolean</code> | Whether to sort context documents before generation. |
+| ragRequest.SortByMaxSimilarity | <code>boolean</code> | Whether to sort context documents by similarity score. |
+| ragRequest.ContextScope | <code>number</code> | How far back in the message history to consider for context. |
+| ragRequest.Rerank | <code>boolean</code> | Whether to rerank results after retrieval. |
+| ragRequest.RerankModel | <code>string</code> | The model used for reranking results. |
+| ragRequest.RerankTopK | <code>number</code> | The number of top results to keep after reranking. |
+| onToken | <code>function</code> | Callback to handle tokens as they are emitted. |
+| cancelToken | <code>AbortSignal</code> | Optional. The cancellation token to cancel the request if needed. |
+
+<a name="assistantConfigChat"></a>
+
+## assistantConfigChat(assistantConfigGuid, chatRequest, onToken, cancelToken)
 Process a chat request.
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chatRequest | <code>Object</code> | Information about the assistant chat request. |
-| chatRequest.Question | <code>string</code> | The question being asked. |
-| chatRequest.Temperature | <code>number</code> | The temperature value between 0 and 1. |
-| chatRequest.MaxTokens | <code>number</code> | The maximum number of tokens to generate (between 1 and 16384). |
-| chatRequest.GenerationModel | <code>string</code> | The model tag for generation (default: 'llama3.1:latest'). |
-| chatRequest.GenerationProvider | <code>string</code> | The provider for generation (default: 'ollama'). |
-| chatRequest.OllamaHostname | <code>string</code> | The hostname for Ollama (default: 'localhost'). |
-| chatRequest.OllamaPort | <code>number</code> | The port for Ollama (default: 11434). |
-| chatRequest.Stream | <code>boolean</code> | Whether streaming is enabled (default: true).* |
+| assistantConfigGuid | <code>string</code> | The GUID of the assistant configuration to use for the chat. |
+| chatRequest | <code>Object</code> | Configuration for a simple chat interaction. |
+| chatRequest.messages | <code>Array.&lt;{role: string, content: string}&gt;</code> | An array of chat messages, each with a role ('user' or 'assistant') and message content. |
+| chatRequest.stream | <code>boolean</code> | Whether to stream the output (e.g., real-time token generation). |
 | onToken | <code>function</code> | Callback to handle tokens as they are emitted. |
 | cancelToken | <code>AbortSignal</code> | Optional. The cancellation token to cancel the request if needed. |
 
-<a name="_createStreamParser"></a>
+<a name="chatOnly"></a>
 
-## \_createStreamParser(onToken) ⇒ <code>Writable</code>
-Create a writable stream to parse SSE data.
+## chatOnly(chatRequest, onToken, cancelToken)
+Process a chat request.
 
 **Kind**: global function  
-**Returns**: <code>Writable</code> - - A writable stream for parsing.  
 
 | Param | Type | Description |
 | --- | --- | --- |
+| chatRequest | <code>Object</code> | Configuration for generating a response to a single question. |
+| chatRequest.Question | <code>string</code> | The prompt or question to generate a response for. |
+| chatRequest.ModelName | <code>string</code> | The name of the model to use for generation (e.g., llama3.1:latest). |
+| chatRequest.Temperature | <code>number</code> | Sampling temperature; controls randomness in output (lower is more deterministic). |
+| chatRequest.TopP | <code>number</code> | Top-p (nucleus) sampling parameter to control diversity. |
+| chatRequest.MaxTokens | <code>number</code> | Maximum number of tokens to generate in the response. |
+| chatRequest.GenerationProvider | <code>string</code> | The provider used for text generation (e.g., ollama). |
+| chatRequest.GenerationApiKey | <code>string</code> | API key for the generation provider (if required). |
+| chatRequest.OllamaHostname | <code>string</code> | Hostname or IP address of the Ollama inference server. |
+| chatRequest.OllamaPort | <code>number</code> | Port on which the Ollama server is running. |
+| chatRequest.Stream | <code>boolean</code> | Whether to stream generated tokens as they are produced. |
 | onToken | <code>function</code> | Callback to handle tokens as they are emitted. |
-
-<a name="_extractToken"></a>
-
-## \_extractToken(json) ⇒ <code>string</code> \| <code>null</code>
-Extract a token from JSON string.
-
-**Kind**: global function  
-**Returns**: <code>string</code> \| <code>null</code> - - The extracted token or null if not found.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| json | <code>string</code> | The JSON string. |
+| cancelToken | <code>AbortSignal</code> | Optional. The cancellation token to cancel the request if needed. |
 
 <a name="retrieveModel"></a>
 
-## retrieveModel(model, onToken, cancelToken)
-Retrieve a model.
+## retrieveModel(guid, [cancelToken], model, onToken, cancelToken)
+Retrieve a chat thread by GUID.
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
+| guid | <code>string</code> | The GUID of the chat thread to retrieve |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request   //endregion   //region Model   /** Retrieve a model. |
 | model | <code>Object</code> | Information about the assistant chat request. |
 | model.ModelName | <code>string</code> | The question being asked. |
-| model.OllamaHostname | <code>number</code> | The temperature value between 0 and 1. |
-| model.OllamaPort | <code>number</code> | The maximum number of tokens to generate (between 1 and 16384). |
-| onToken | <code>function</code> | Callback to handle tokens as they are emitted. |
-| cancelToken | <code>AbortSignal</code> | Optional. The cancellation token to cancel the request if needed. |
-
-<a name="deleteModel"></a>
-
-## deleteModel(model, onToken, cancelToken)
-Delete a model.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| model | <code>Object</code> | Information about the assistant chat request. |
-| model.ModelName | <code>string</code> | The name of the model. |
-| model.OllamaHostname | <code>number</code> | The temperature value between 0 and 1. |
-| model.OllamaPort | <code>number</code> | The maximum number of tokens to generate (between 1 and 16384). |
-| onToken | <code>function</code> | Callback to handle tokens as they are emitted. |
-| cancelToken | <code>AbortSignal</code> | Optional. The cancellation token to cancel the request if needed. |
-
-<a name="retrieveModelList"></a>
-
-## retrieveModelList(model, onToken, cancelToken)
-Retrieve model list.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| model | <code>Object</code> | Information about the assistant chat request. |
 | model.OllamaHostname | <code>number</code> | The temperature value between 0 and 1. |
 | model.OllamaPort | <code>number</code> | The maximum number of tokens to generate (between 1 and 16384). |
 | onToken | <code>function</code> | Callback to handle tokens as they are emitted. |

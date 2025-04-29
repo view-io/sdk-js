@@ -342,24 +342,34 @@ export default class ViewAssistantSdk extends ViewSdkBase {
     }
 
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/threads/${guid}`;
-    return await this.get(url, ChatThread, cancelToken);
+    return await this.retrieve(url, ChatThread, cancelToken);
   };
 
   /**
    * Update a chat thread.
    *
    * @param {string} guid - The GUID of the chat thread to update
-   * @param {Object} config - The updated chat thread configuration
+   * @param {Object} response - The assistant's response with metadata.
+   * @param {string} response.role - The role of the message sender (typically "assistant").
+   * @param {string} response.content - The generated content or reply.
+   * @param {Object} response.metadata - Metadata about the response.
+   * @param {Array<{content: string, similarity: number}>} response.metadata.source_documents - Source documents used to generate the response, with similarity scores.
+   * @param {Object} response.metadata.generation_metrics - Metrics related to the generation process.
+   * @param {number} response.metadata.generation_metrics.tokens - Number of tokens used in the generated content.
+   * @param {number} response.metadata.generation_metrics.generation_time - Time taken to generate the response (in seconds).
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
    * @returns {Promise<ChatThread|ApiErrorResponse>} A promise resolving to the updated ChatThread object, or an error response
    */
-  updateChatThread = async (guid, config, cancelToken) => {
+  appendChatThread = async (guid, config, cancelToken) => {
     if (!guid) {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
+    if (!config) {
+      GenExceptionHandlersInstance.ArgumentNullException('config');
+    }
 
-    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/threads/${guid}`;
-    return await this.put(url, config, ChatThread, cancelToken);
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/threads/${guid}/messages`;
+    return await this.post(url, config, ChatThread, cancelToken);
   };
 
   /**
@@ -386,7 +396,7 @@ export default class ViewAssistantSdk extends ViewSdkBase {
    */
   retrieveAllChatThreads = async (cancelToken) => {
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/threads`;
-    return await this.get(url, ChatThreadList, cancelToken);
+    return await this.retrieveMany(url, ChatThreadList, cancelToken);
   };
 
   /**
@@ -425,7 +435,7 @@ export default class ViewAssistantSdk extends ViewSdkBase {
   retrieveModel(model, onToken = () => {}, cancelToken = null) {
     if (!model) throw new Error('model cannot be null');
 
-    const url = `${this.endpoint}v1.0/tenants/${this.tenantGuid}/assistant/models/pull`;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/models/pull`;
     const json = JSON.stringify(model);
 
     if (this.logRequests) {
@@ -461,40 +471,15 @@ export default class ViewAssistantSdk extends ViewSdkBase {
    * @param {string} model.ModelName - The name of the model.
    * @param {number} model.OllamaHostname - The temperature value between 0 and 1.
    * @param {number} model.OllamaPort - The maximum number of tokens to generate (between 1 and 16384).
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
    * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<boolean>} A promise resolving to `true` if the model was deleted, otherwise `false`
+   * @throws {Error} If the `model` is null or empty.
    */
-  deleteModel(model, onToken = () => {}, cancelToken = null) {
-    if (!model) throw new Error('model cannot be null');
-
-    const url = `${this.endpoint}v1.0/tenants/${this.tenantGuid}/assistant/models/pull`;
-    const json = JSON.stringify(model);
-
-    if (this.logRequests) {
-      LoggerInstance.log(SeverityEnum.Debug, `${this.header} request body: \n${json}`);
-    }
-
-    try {
-      const request = superagent
-        .post(url)
-        .send(model)
-        .set('Content-Type', 'application/json')
-        .on('error', (error) => {
-          LoggerInstance.log(SeverityEnum.Warn, `${this.header} Error processing chat request:`, error);
-        })
-        .pipe(this._createStreamParser(onToken));
-
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-    } catch (error) {
-      LoggerInstance.log(SeverityEnum.Error, `${this.header} Error processing RAG request:`, error);
-      return []; // Return an empty array in case of error
-    }
-  }
+  deleteModel = async (model, cancelToken = null) => {
+    if (!model) throw new GenExceptionHandlersInstance.ArgumentNullException('model');
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/models/delete`;
+    return await this.deleteRaw(url, cancelToken);
+  };
 
   /**
    *Retrieve model list.
@@ -502,40 +487,37 @@ export default class ViewAssistantSdk extends ViewSdkBase {
    * @param {Object} model - Information about the assistant chat request.
    * @param {number} model.OllamaHostname - The temperature value between 0 and 1.
    * @param {number} model.OllamaPort - The maximum number of tokens to generate (between 1 and 16384).
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
    * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<Array<{ModelName: string,  ModelFamily: string, ParameterSize: string}>>} A promise resolving to an array of model names
+   * @throws {Error} If the `model` is null or empty.
    */
-  retrieveModelList(model, onToken = () => {}, cancelToken = null) {
+  retrieveLocalModels = async (model, cancelToken = null) => {
     if (!model) throw new Error('model cannot be null');
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/models`;
+    return await this.post(url, model, undefined, cancelToken);
+  };
 
-    const url = `${this.endpoint}v1.0/tenants/${this.tenantGuid}/assistant/models/pull`;
-    const json = JSON.stringify(model);
+  /**
+   *Preload Model.
+   *
+   * @param {Object} model - Information about the assistant chat request.
+   * @param {string} model.ModelName - The name of the model.
+   * @param {number} model.OllamaHostname - The temperature value between 0 and 1.
+   * @param {number} model.OllamaPort - The maximum number of tokens to generate (between 1 and 16384).
+   * @param {boolean} model.Unload - The action to perform (load or unload).
+   * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<{message: string, details: {model: string, created_at: string, message: {role: string, content: string}, done_reason: string, done: boolean}}>} A promise resolving to a model load response
+   * @throws {Error} If the `model` is null or empty.
+   */
+  loadUnloadModel = async (model, cancelToken = null) => {
+    if (!model) throw new Error('model cannot be null');
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/assistant/models/load`;
+    return await this.post(url, model, undefined, cancelToken);
+  };
 
-    if (this.logRequests) {
-      LoggerInstance.log(SeverityEnum.Debug, `${this.header} request body: \n${json}`);
-    }
+  //endregion Model
 
-    try {
-      const request = superagent
-        .post(url)
-        .send(model)
-        .set('Content-Type', 'application/json')
-        .on('error', (error) => {
-          LoggerInstance.log(SeverityEnum.Warn, `${this.header} Error processing chat request:`, error);
-        })
-        .pipe(this._createStreamParser(onToken));
-
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-    } catch (error) {
-      LoggerInstance.log(SeverityEnum.Error, `${this.header} Error processing RAG request:`, error);
-      return []; // Return an empty array in case of error
-    }
-  }
+  //region Assistant Config
   /**
    * Retrieve assistant configurations.
    *

@@ -190,45 +190,6 @@ export default class ViewAssistantSdk extends ViewSdkBase {
         Stream: boolean;
     }>;
     /**
-     * Process a chat request.
-     * @param {Object} chatRequest - Configuration for generating a response to a single question.
-     * @param {string} chatRequest.Question - The prompt or question to generate a response for.
-     * @param {string} chatRequest.ModelName - The name of the model to use for generation (e.g., llama3.1:latest).
-     * @param {number} chatRequest.Temperature - Sampling temperature; controls randomness in output (lower is more deterministic).
-     * @param {number} chatRequest.TopP - Top-p (nucleus) sampling parameter to control diversity.
-     * @param {number} chatRequest.MaxTokens - Maximum number of tokens to generate in the response.
-     * @param {string} chatRequest.GenerationProvider - The provider used for text generation (e.g., ollama).
-     * @param {string} chatRequest.GenerationApiKey - API key for the generation provider (if required).
-     * @param {string} chatRequest.OllamaHostname - Hostname or IP address of the Ollama inference server.
-     * @param {number} chatRequest.OllamaPort - Port on which the Ollama server is running.
-     * @param {boolean} chatRequest.Stream - Whether to stream generated tokens as they are produced.
-     * @param {function} onToken - Callback to handle tokens as they are emitted.
-     * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
-     */
-    ChatOnlyQuestion(chatRequest: {
-        Question: string;
-        ModelName: string;
-        Temperature: number;
-        TopP: number;
-        MaxTokens: number;
-        GenerationProvider: string;
-        GenerationApiKey: string;
-        OllamaHostname: string;
-        OllamaPort: number;
-        Stream: boolean;
-    }, onToken?: Function, cancelToken?: AbortSignal): Promise<any[] | import("../../models/ApiErrorResponse").default | {
-        Question: string;
-        ModelName: string;
-        Temperature: number;
-        TopP: number;
-        MaxTokens: number;
-        GenerationProvider: string;
-        GenerationApiKey: string;
-        OllamaHostname: string;
-        OllamaPort: number;
-        Stream: boolean;
-    }>;
-    /**
      * Create a writable stream to parse SSE data.
      * @private
      * @param {function} onToken - Callback to handle tokens as they are emitted.
@@ -243,6 +204,81 @@ export default class ViewAssistantSdk extends ViewSdkBase {
      */
     private _extractToken;
     /**
+     * Create a new chat thread.
+     *
+     * @param {Object} config - The chat thread configuration
+     * @param {string} config.Title - Title of the chat thread
+     * @param {string} config.Description - Description of the chat thread
+     * @param {Array<Object>} config.Messages - Initial messages in the thread
+     * @param {string} config.Messages[].role - Role of message sender (e.g. "user", "assistant")
+     * @param {string} config.Messages[].content - Content of the message
+     * @param {Object} config.Messages[].metadata - Additional metadata for the message
+     * @param {string} config.AssistantConfigGUID - GUID of the associated assistant configuration
+     * @param {Object} config.Metadata - Additional metadata for the chat thread
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+     * @returns {Promise<ChatThread|ApiErrorResponse>} A promise resolving to the created ChatThread object, or an error response
+     */
+    createChatThread: (config: {
+        Title: string;
+        Description: string;
+        Messages: Array<any>;
+    }, cancelToken?: object) => Promise<ChatThread | ApiErrorResponse>;
+    /**
+     * Retrieve a chat thread by GUID.
+     *
+     * @param {string} guid - The GUID of the chat thread to retrieve
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+     * @returns {Promise<ChatThread|ApiErrorResponse>} A promise resolving to the retrieved ChatThread object, or an error response
+     */
+    retrieveChatThread: (guid: string, cancelToken?: object) => Promise<ChatThread | ApiErrorResponse>;
+    /**
+     * Update a chat thread.
+     *
+     * @param {string} guid - The GUID of the chat thread to update
+     * @param {Object} response - The assistant's response with metadata.
+     * @param {string} response.role - The role of the message sender (typically "assistant").
+     * @param {string} response.content - The generated content or reply.
+     * @param {Object} response.metadata - Metadata about the response.
+     * @param {Array<{content: string, similarity: number}>} response.metadata.source_documents - Source documents used to generate the response, with similarity scores.
+     * @param {Object} response.metadata.generation_metrics - Metrics related to the generation process.
+     * @param {number} response.metadata.generation_metrics.tokens - Number of tokens used in the generated content.
+     * @param {number} response.metadata.generation_metrics.generation_time - Time taken to generate the response (in seconds).
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+     * @returns {Promise<ChatThread|ApiErrorResponse>} A promise resolving to the updated ChatThread object, or an error response
+     */
+    appendChatThread: (guid: string, config: any, cancelToken?: object) => Promise<ChatThread | ApiErrorResponse>;
+    /**
+     * Delete a chat thread.
+     *
+     * @param {string} guid - The GUID of the chat thread to delete
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+     * @returns {Promise<boolean>} A promise resolving to an error response
+     */
+    deleteChatThread: (guid: string, cancelToken?: object) => Promise<boolean>;
+    /**
+     * Retrieve all chat threads.
+     *
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+     * @returns {Promise<Array<ChatThread>>} A promise resolving to an array of ChatThread objects
+     */
+    retrieveAllChatThreads: (cancelToken?: object) => Promise<Array<ChatThread>>;
+    /**
+     * Check if a chat thread exists.
+     *
+     * @param {string} guid - The GUID of the chat thread to check
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+     * @returns {Promise<boolean>} A promise resolving to `true` if the chat thread exists, otherwise `false`
+     */
+    existsChatThread: (guid: string, cancelToken?: object) => Promise<boolean>;
+    /**
+     * Retrieve a chat thread by GUID.
+     *
+     * @param {string} guid - The GUID of the chat thread to retrieve
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+    //endregion
+  
+    //region Model
+    /**
      *Retrieve a model.
      *
      * @param {Object} model - Information about the assistant chat request.
@@ -256,7 +292,7 @@ export default class ViewAssistantSdk extends ViewSdkBase {
         ModelName: string;
         OllamaHostname: number;
         OllamaPort: number;
-    }, onToken?: Function, cancelToken?: AbortSignal): any[];
+    }, onToken?: Function, cancelToken?: object): any[];
     /**
      *Delete a model.
      *
@@ -264,27 +300,63 @@ export default class ViewAssistantSdk extends ViewSdkBase {
      * @param {string} model.ModelName - The name of the model.
      * @param {number} model.OllamaHostname - The temperature value between 0 and 1.
      * @param {number} model.OllamaPort - The maximum number of tokens to generate (between 1 and 16384).
-     * @param {function} onToken - Callback to handle tokens as they are emitted.
      * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+     * @returns {Promise<boolean>} A promise resolving to `true` if the model was deleted, otherwise `false`
+     * @throws {Error} If the `model` is null or empty.
      */
-    deleteModel(model: {
+    deleteModel: (model: {
         ModelName: string;
         OllamaHostname: number;
         OllamaPort: number;
-    }, onToken?: Function, cancelToken?: AbortSignal): any[];
+    }, cancelToken?: AbortSignal) => Promise<boolean>;
     /**
      *Retrieve model list.
      *
      * @param {Object} model - Information about the assistant chat request.
      * @param {number} model.OllamaHostname - The temperature value between 0 and 1.
      * @param {number} model.OllamaPort - The maximum number of tokens to generate (between 1 and 16384).
-     * @param {function} onToken - Callback to handle tokens as they are emitted.
      * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+     * @returns {Promise<Array<{ModelName: string,  ModelFamily: string, ParameterSize: string}>>} A promise resolving to an array of model names
+     * @throws {Error} If the `model` is null or empty.
      */
-    retrieveModelList(model: {
+    retrieveLocalModels: (model: {
         OllamaHostname: number;
         OllamaPort: number;
-    }, onToken?: Function, cancelToken?: AbortSignal): any[];
+    }, cancelToken?: AbortSignal) => Promise<Array<{
+        ModelName: string;
+        ModelFamily: string;
+        ParameterSize: string;
+    }>>;
+    /**
+     *Preload Model.
+     *
+     * @param {Object} model - Information about the assistant chat request.
+     * @param {string} model.ModelName - The name of the model.
+     * @param {number} model.OllamaHostname - The temperature value between 0 and 1.
+     * @param {number} model.OllamaPort - The maximum number of tokens to generate (between 1 and 16384).
+     * @param {boolean} model.Unload - The action to perform (load or unload).
+     * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+     * @returns {Promise<{message: string, details: {model: string, created_at: string, message: {role: string, content: string}, done_reason: string, done: boolean}}>} A promise resolving to a model load response
+     * @throws {Error} If the `model` is null or empty.
+     */
+    loadUnloadModel: (model: {
+        ModelName: string;
+        OllamaHostname: number;
+        OllamaPort: number;
+        Unload: boolean;
+    }, cancelToken?: AbortSignal) => Promise<{
+        message: string;
+        details: {
+            model: string;
+            created_at: string;
+            message: {
+                role: string;
+                content: string;
+            };
+            done_reason: string;
+            done: boolean;
+        };
+    }>;
     /**
      * Retrieve assistant configurations.
      *
@@ -447,4 +519,5 @@ export default class ViewAssistantSdk extends ViewSdkBase {
     deleteAssistantConfig: (guid: string, cancelToken?: object) => Promise<boolean>;
 }
 import ViewSdkBase from '../ViewSDKBase';
+import ChatThread from '../../models/ChatThread';
 import AssistantConfig from '../../models/AssistantConfig';
