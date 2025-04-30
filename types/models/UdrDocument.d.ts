@@ -1,34 +1,58 @@
-export default class UdrDocument {
+export class UdrDocument {
     /**
-     * Constructor to initialize UdrDocument with provided values or defaults.
-     * @param {Object} params - Parameters to initialize the UdrDocument instance.
+     * Constructs a new UdrDocument instance.
+     * @param {Object} data - The data to be used to create the UdrDocument.
+     * @param {string} data.GUID - The GUID of the UdrDocument.
+     * @param {boolean} data.Success - Whether the UdrDocument was created successfully.
+     * @param {Object} data.Timestamp - The timestamp of the UdrDocument.
+     * @param {string} data.Timestamp.Start - The start time of the UdrDocument.
+     * @param {string} data.Timestamp.End - The end time of the UdrDocument.
+     * @param {number} data.Timestamp.TotalMs - The total time taken to create the UdrDocument.
+     * @param {Object} data.Timestamp.Messages - The messages of the UdrDocument.
+     * @param {string} data.AdditionalData - The additional data of the UdrDocument.
+     * @param {Object} data.Metadata - The metadata of the UdrDocument.
+     * @param {string} data.Key - The key of the UdrDocument.
+     * @param {string} data.Type - The type of the UdrDocument.
+     * @param {Object} data.Terms - The terms of the UdrDocument.
+     * @param {number} data.TopTerms - The top terms of the UdrDocument.
+     * @param {Object} data.Schema - The schema of the UdrDocument.
+     * @param {Object} data.Postings - The postings of the UdrDocument.
+     * @param {Object} data.SemanticCells - The semantic cells of the UdrDocument.
      */
-    constructor({ GUID, Success, Timestamp, Error, AdditionalData, Metadata, Key, Type, Terms, Schema, TopTerms, Postings, SemanticCells, }?: any);
-    GUID: any;
-    Success: any;
-    Timestamp: any;
-    Error: any;
-    AdditionalData: any;
-    set Metadata(value: any);
-    get Metadata(): any;
-    Key: any;
-    Type: any;
-    set Terms(value: any);
-    get Terms(): any;
-    TopTerms: any;
+    constructor(data: {
+        GUID: string;
+        Success: boolean;
+        Timestamp: {
+            Start: string;
+            End: string;
+            TotalMs: number;
+            Messages: any;
+        };
+        AdditionalData: string;
+        Metadata: any;
+        Key: string;
+        Type: string;
+        Terms: any;
+        TopTerms: number;
+        Schema: any;
+        Postings: any;
+        SemanticCells: any;
+    });
+    GUID: string;
+    Success: boolean;
+    Timestamp: {
+        Start: string;
+        End: string;
+        TotalMs: number;
+        Messages: any;
+    };
+    AdditionalData: string;
+    Metadata: any;
+    Key: string;
+    Type: string;
+    Terms: any;
+    TopTerms: number;
     Schema: any;
-    set Postings(value: any);
-    get Postings(): any;
-    set SemanticCells(value: any);
-    get SemanticCells(): any;
-    /**
-     * Retrieve top terms and their counts.
-     * @param {number} count - Number of top terms to retrieve (default is 10).
-     * @returns {Object} Dictionary containing terms and their counts.
-     */
-    getTopTerms(count?: number): any;
-    _Metadata: any;
-    _Terms: any;
-    _Postings: any;
-    _SemanticCells: any;
+    Postings: any;
+    SemanticCells: any;
 }

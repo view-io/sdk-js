@@ -38,12 +38,11 @@ export default class ViewDirectorSdk extends ViewSdkBase {
 
   /**
    * Retrieve Connections.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Array<Connection>|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {Error} If the trigger is null or invalid.
    */
-  retrieveConnections = async (token, cancelToken) => {
+  retrieveConnections = async (cancelToken) => {
     const url = `${this.endpoint}/v1.0/connections/`;
-    return await this.retrieve(url, DataRepository, cancelToken, { 'x-token': token });
+    return await this.retrieve(url, DataRepository, cancelToken);
   };
 }

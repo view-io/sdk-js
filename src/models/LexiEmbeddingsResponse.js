@@ -1,71 +1,23 @@
 export default class LexiEmbeddingsResponse {
-  // Public Members
-
   /**
-   * Data flow request GUID.
-   * @type {string|null}
+   * Constructs a new instance of LexiEmbeddingsResponse.
+   * @param {object} params - The parameters for the LexiEmbeddingsResponse.
+   * @param {string} params.GUID - The GUID of the response.
+   * @param {boolean} params.Success - Whether the processing was successful.
+   * @param {boolean} params.Async - Whether the processing was asynchronous.
+   * @param {object} params.Timestamp - Timing information about the processing.
+   * @param {string} params.Timestamp.Start - The UTC start time of processing.
+   * @param {number} params.Timestamp.TotalMs - Total processing time in milliseconds.
+   * @param {object} params.Timestamp.Messages - Any timing-related messages.
    */
-  dataFlowRequestGUID = null;
-
-  /**
-   * Boolean indicating success.
-   * @type {boolean}
-   */
-  success = true;
-
-  /**
-   * Timestamps.
-   * @type {Timestamp}
-   */
-  timestamp = new Date().toISOString; // Assuming Timestamp is imported from a separate module.
-
-  /**
-   * Error response, if any.
-   * @type {ApiErrorResponse|null}
-   */
-  error = null;
-
-  /**
-   * Embeddings documents (Vector).
-   * @type {Array[]}
-   */
-  vector = [];
-
-  // Private Members
-
-  /**
-   * Private Request GUID.
-   * @type {string}
-   */
-  _requestGuid = null;
-
-  /**
-   * Private list of embeddings documents.
-   * @type {Array[]}
-   */
-  _vectors = [];
-
-  // Constructors
-
-  /**
-   * Instantiate LexiEmbeddingsResponse.
-   * @param {string|null} dataFlowRequestGUID - Data flow request GUID.
-   * @param {boolean} success - Boolean indicating success.
-   * @param {Timestamp} timestamp - Timestamps.
-   * @param {ApiErrorResponse|null} error - Error response, if any.
-   * @param {Array[]} vector - List of embeddings documents.
-   */
-  constructor(
-    dataFlowRequestGUID = null,
-    success = true,
-    timestamp = new Date().toISOString,
-    error = null,
-    vector = []
-  ) {
-    this.dataFlowRequestGUID = dataFlowRequestGUID;
-    this.success = success;
-    this.timestamp = timestamp;
-    this.error = error;
-    this.vector = vector; // Using the setter to ensure proper assignment and handling of null values
+  constructor({ GUID, Success, Async, Timestamp }) {
+    this.GUID = GUID;
+    this.Success = Success;
+    this.Async = Async;
+    this.Timestamp = {
+      Start: Timestamp.Start,
+      TotalMs: Timestamp.TotalMs,
+      Messages: Timestamp.Messages,
+    };
   }
 }

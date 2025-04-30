@@ -3,11 +3,7 @@ import ViewLexiSdk from './base/Lexi/ViewLexiSdk';
 import ViewOrchestratorSdk from './base/Orchestrator/ViewOrchestratorSdk';
 import UserMaster from './models/UserMaster';
 import ViewAssistantSdk from './base/Assistant/ViewAssistantSdk';
-import ViewCleanupSdk from './base/Processor/ViewCleanupSdk';
-import ViewLexiEmbeddingsSdk from './base/Processor/ViewLexiEmbeddingsSdk';
 import ViewProcessorSdk from './base/Processor/ViewProcessorSdk';
-import ViewTypeDetectorSdk from './base/Processor/ViewTypeDetectorSdk';
-import ViewUdrGeneratorSdk from './base/Processor/ViewUdrGeneratorSdk';
 import ViewSemanticCellSdk from './base/Semantic/ViewSemanticCellSdk';
 import ViewEmbeddingsSdk from './base/Vector/ViewEmbeddingsSdk';
 import ViewLcproxySdk from './base/Vector/ViewLcproxySdk';
@@ -49,30 +45,10 @@ export {
    */
   ViewAssistantSdk,
   /**
-   * The ViewCleanupSdk service constructor.
-   * @property {module:base/Processor/ViewCleanupSdk}
-   */
-  ViewCleanupSdk,
-  /**
-   * The ViewLexiEmbeddingsSdk service constructor.
-   * @property {module:base/Processor/ViewLexiEmbeddingsSdk}
-   */
-  ViewLexiEmbeddingsSdk,
-  /**
    * The ViewProcessorSdk service constructor.
    * @property {module:base/Processor/ViewProcessorSdk}
    */
   ViewProcessorSdk,
-  /**
-   * The ViewTypeDetectorSdk service constructor.
-   * @property {module:base/Processor/ViewTypeDetectorSdk}
-   */
-  ViewTypeDetectorSdk,
-  /**
-   * The ViewUdrGeneratorSdk service constructor.
-   * @property {module:base/Processor/ViewUdrGeneratorSdk}
-   */
-  ViewUdrGeneratorSdk,
   /**
    * The ViewSemanticCellSdk service constructor.
    * @property {module:base/Semantic/ViewSemanticCellSdk}

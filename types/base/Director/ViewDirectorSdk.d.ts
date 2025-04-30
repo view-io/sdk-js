@@ -22,11 +22,10 @@ export default class ViewDirectorSdk extends ViewSdkBase {
     }, cancelToken?: object) => Promise<DirectorEmbeddingResponse | null | ApiErrorResponse>;
     /**
      * Retrieve Connections.
-     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<Array<Connection>|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
      * @throws {Error} If the trigger is null or invalid.
      */
-    retrieveConnections: (token: any, cancelToken?: object) => Promise<Array<Connection> | null | ApiErrorResponse>;
+    retrieveConnections: (cancelToken: any) => Promise<Array<Connection> | null | ApiErrorResponse>;
 }
 import ViewSdkBase from '../ViewSDKBase';
 import DirectorEmbeddingResponse from '../../models/DirectorEmbeddingResponse';

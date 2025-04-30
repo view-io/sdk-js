@@ -1,46 +1,31 @@
 export default class LexiEmbeddingsResponse {
     /**
-     * Instantiate LexiEmbeddingsResponse.
-     * @param {string|null} dataFlowRequestGUID - Data flow request GUID.
-     * @param {boolean} success - Boolean indicating success.
-     * @param {Timestamp} timestamp - Timestamps.
-     * @param {ApiErrorResponse|null} error - Error response, if any.
-     * @param {Array[]} vector - List of embeddings documents.
+     * Constructs a new instance of LexiEmbeddingsResponse.
+     * @param {object} params - The parameters for the LexiEmbeddingsResponse.
+     * @param {string} params.GUID - The GUID of the response.
+     * @param {boolean} params.Success - Whether the processing was successful.
+     * @param {boolean} params.Async - Whether the processing was asynchronous.
+     * @param {object} params.Timestamp - Timing information about the processing.
+     * @param {string} params.Timestamp.Start - The UTC start time of processing.
+     * @param {number} params.Timestamp.TotalMs - Total processing time in milliseconds.
+     * @param {object} params.Timestamp.Messages - Any timing-related messages.
      */
-    constructor(dataFlowRequestGUID?: string | null, success?: boolean, timestamp?: Timestamp, error?: ApiErrorResponse | null, vector?: any[][]);
-    /**
-     * Data flow request GUID.
-     * @type {string|null}
-     */
-    dataFlowRequestGUID: string | null;
-    /**
-     * Boolean indicating success.
-     * @type {boolean}
-     */
-    success: boolean;
-    /**
-     * Timestamps.
-     * @type {Timestamp}
-     */
-    timestamp: Timestamp;
-    /**
-     * Error response, if any.
-     * @type {ApiErrorResponse|null}
-     */
-    error: ApiErrorResponse | null;
-    /**
-     * Embeddings documents (Vector).
-     * @type {Array[]}
-     */
-    vector: any[][];
-    /**
-     * Private Request GUID.
-     * @type {string}
-     */
-    _requestGuid: string;
-    /**
-     * Private list of embeddings documents.
-     * @type {Array[]}
-     */
-    _vectors: any[][];
+    constructor({ GUID, Success, Async, Timestamp }: {
+        GUID: string;
+        Success: boolean;
+        Async: boolean;
+        Timestamp: {
+            Start: string;
+            TotalMs: number;
+            Messages: object;
+        };
+    });
+    GUID: string;
+    Success: boolean;
+    Async: boolean;
+    Timestamp: {
+        Start: string;
+        TotalMs: number;
+        Messages: any;
+    };
 }

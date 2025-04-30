@@ -14,25 +14,9 @@ export default class DirectorEmbeddingResponse {
         Contents: Array<string>;
         Embeddings: Array<Array<number>>;
     });
-    /** @type {string} */
-    GUID: string;
-    /** @type {string} */
     Model: string;
-    /** @type {string|null} */
-    ApiKey: string | null;
-    /** @type {Array<string>} */
-    Contents: Array<string>;
-    /**
-     * Set the embeddings associated with the response.
-     * @param {Array<Array<number>>} value List of embedding arrays.
-     */
-    set Embeddings(value: Array<Array<number>>);
-    /**
-     * Get the embeddings associated with the response.
-     * @returns {Array<Array<number>>} Embeddings of the response.
-     */
-    get Embeddings(): Array<Array<number>>;
-    /** @type {boolean|null} */
-    Success: boolean | null;
-    _Embeddings: number[][];
+    ApiKey: string;
+    Contents: string[];
+    Embeddings: number[][];
+    Success: boolean;
 }
