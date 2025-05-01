@@ -212,7 +212,7 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the step to delete.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void>} A promise that resolves when the step is deleted.
+   * @returns {Promise<string>} A promise that resolves when the step is deleted.
    * @throws {Error} If the `guid` is null or empty.
    */
   deleteStep = async (guid, cancelToken) => {

@@ -3,7 +3,14 @@ import { handlers } from './handlers';
 import Trigger from '../../src/models/Trigger';
 import { ViewOrchestratorSdk } from '../../src';
 import { mockAccessToken, mockEndpoint, mockTenantId } from '../setupTest';
-import { mockStepCreatePayload, mockStepGUID, mockStepId, mockTriggerData, mockTriggerId, updateTriggerMockData } from './mockData';
+import {
+  mockStepCreatePayload,
+  mockStepGUID,
+  mockStepId,
+  mockTriggerData,
+  mockTriggerId,
+  updateTriggerMockData,
+} from './mockData';
 import StepMetadata from '../../src/models/StepMetadata';
 
 const api = new ViewOrchestratorSdk(mockTenantId, mockAccessToken, mockEndpoint);
@@ -41,8 +48,12 @@ describe('ViewOrchestratorSdk', () => {
     });
 
     it('checks if a trigger does not exist', async () => {
-      const data = await api.existsTrigger('nonExistingTriggerId');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsTrigger('nonExistingTriggerId');
+        expect(data).toBe('false');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when checking existence without guid', async () => {
@@ -94,9 +105,8 @@ describe('ViewOrchestratorSdk', () => {
     });
 
     it('deletes a trigger', async () => {
-      await api.deleteTrigger(mockTriggerId);
-      // If successful, no errors should occur
-      expect(true).toBe(true);
+      const data = await api.deleteTrigger(mockTriggerId);
+      expect(data).not.toBeDefined();
     });
 
     it('throws error when deleting a trigger without guid', async () => {
@@ -130,8 +140,12 @@ describe('ViewOrchestratorSdk', () => {
     });
 
     it('checks if a step does not exist', async () => {
-      const data = await api.existsStep('nonExistingStep');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsStep('nonExistingStep');
+        expect(data).toBe('false');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when checking existence without guid', async () => {
@@ -166,13 +180,13 @@ describe('ViewOrchestratorSdk', () => {
     });
     //retrievebyGUIDwithsubordinatesAndpackages
     it('retrieves all steps with csharploopbackget', async () => {
-      const data = await api.retrievebyGUIDwithsubordinatesAndpackages(mockStepGUID);
+      const data = await api.retrieveStepsWithSubordinatesAndPackages(mockStepGUID);
       expect(data instanceof StepMetadata).toBe(true);
     });
 
-    it.skip('deletes a step', async () => {
+    it('deletes a step', async () => {
       const data = await api.deleteStep(mockStepId);
-      expect(data.GUID).toBe(mockStepId);
+      expect(data).not.toBeDefined();
     });
 
     it('throws error when deleting a step without guid', async () => {

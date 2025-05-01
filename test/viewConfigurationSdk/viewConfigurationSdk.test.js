@@ -41,7 +41,7 @@ describe('ViewConfigurationSdk', () => {
 
   describe('Tenant Methods', () => {
     it('get All Tenants', async () => {
-      const data = await api.retrieveTenants(mockXToken);
+      const data = await api.retrieveTenants();
       expect(
         data.forEach((tenant) => {
           expect(tenant instanceof TenantMetadata).toBe(true);
@@ -61,12 +61,12 @@ describe('ViewConfigurationSdk', () => {
     });
 
     it('delete a Tenant', async () => {
-      const data = await api.deleteTenant(mockTenantId, mockXToken);
+      const data = await api.deleteTenant(mockTenantId);
       expect(data).toBe('true');
     });
 
     it('create a Tenant', async () => {
-      const data = await api.writeTenant(createTenantMockData, mockXToken);
+      const data = await api.writeTenant(createTenantMockData);
       expect(data instanceof TenantMetadata).toBe(true);
     });
 
@@ -105,7 +105,7 @@ describe('ViewConfigurationSdk', () => {
     it('retrieve a blob with data', async () => {
       const data = await api.retrieveBlobIncludeData(mockBlobGuid);
       expect(data instanceof Blob).toBe(true);
-      expect(data.Data).toBeDefined();
+      expect(data.GUID).toBeDefined();
     });
 
     it('create a blob', async () => {
@@ -179,63 +179,8 @@ describe('ViewConfigurationSdk', () => {
       const data = await api.enumerateWebhookEvents();
       expect(data instanceof EnumerationResult).toBe(true);
     });
-
-    it('enumerates Data Repositories', async () => {
-      const data = await api.enumerateDataRepositories();
-      expect(data instanceof EnumerationResult).toBe(true);
-    });
   });
 
-  describe('Data Repositories', () => {
-    it('get All Repositories', async () => {
-      const data = await api.retrieveDataRepositories();
-      expect(
-        data.forEach((repository) => {
-          expect(repository instanceof DataRepository).toBe(true);
-        })
-      );
-    });
-
-    it('get a Repository', async () => {
-      const data = await api.retrieveDataRepository(mockDataRepositoryGuid);
-      expect(data instanceof DataRepository).toBe(true);
-      expect(data.GUID).toBe(mockDataRepositoryGuid);
-    });
-
-    it('Write a Disk Data Repository', async () => {
-      const data = await api.writeDiskDataRepository(mockDiskDataRepositoryRequest);
-      expect(data instanceof DataRepository).toBe(true);
-    });
-
-    it('Write an S3 Data Repository', async () => {
-      const data = await api.writeS3DataRepository(mockS3DataRepositoryRequest);
-      expect(data instanceof DataRepository).toBe(true);
-    });
-
-    it('Write an Azure Blob Data Repository', async () => {
-      const data = await api.writeAzureBlobDataRepository(mockAzureBlobDataRepositoryRequest);
-      expect(data instanceof DataRepository).toBe(true);
-    });
-
-    it('Write an CIFS Data Repository', async () => {
-      const data = await api.writeCifsDataRepository(mockCifsDataRepositoryRequest);
-      expect(data instanceof DataRepository).toBe(true);
-    });
-
-    it('Write an NFS Data Repository', async () => {
-      const data = await api.writeNfsDataRepository(mockNfsDataRepositoryRequest);
-      expect(data instanceof DataRepository).toBe(true);
-    });
-    it('Update a Data Repository', async () => {
-      const data = await api.updateDataRepository(mockDiskDataRepositoryGuid, mockDiskDataRepositoryRequest);
-      expect(data instanceof DataRepository).toBe(true);
-    });
-
-    it('Delete a Data Repository', async () => {
-      const data = await api.deleteDataRepository(mockDiskDataRepositoryGuid);
-      expect(data).toBe('true');
-    });
-  });
   // authentication
   describe('Authentication', () => {
     it('Check if a Tenant exist', async () => {

@@ -29,7 +29,7 @@ export const handlers = [
     if (mockTriggerData[guid]) {
       return HttpResponse.text('Found', { status: 200 });
     }
-    return HttpResponse.text('Not Found', { status: 400 });
+    return HttpResponse.text('Not Found', { status: 404 });
   }),
 
   // Retrieve a Trigger
@@ -92,9 +92,9 @@ export const handlers = [
   http.delete(`${mockEndpoint}v1.0/tenants/${mockTenantId}/steps/:guid`, (req, res, ctx) => {
     const { guid } = req.params;
     if (!mockStepData[guid]) {
-      return HttpResponse.text('Not Found', { status: 404 });
+      return HttpResponse.text('Not Found', { status: 200 });
     }
-    return HttpResponse.json(mockStepData[guid], { status: 200 });
+    return HttpResponse.json('Deleted', { status: 200 });
   }),
 
   // Create Step

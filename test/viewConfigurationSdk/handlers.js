@@ -1,5 +1,18 @@
 import { http, HttpResponse } from 'msw';
-import { mockTenantList, mockEmbeddingResult, mockBlobResult, mockBlobGuid, mockBlobResultData, mockDataRepositoryResult, mockDataRepositoryGuid, mockDiskDataRepositoryResult, mockS3DataRepositoryResult, mockDiskDataRepositoryGuid, authTentents, mockTokenResponse } from './mockData';
+import {
+  mockTenantList,
+  mockEmbeddingResult,
+  mockBlobResult,
+  mockBlobGuid,
+  mockBlobResultData,
+  mockDataRepositoryResult,
+  mockDataRepositoryGuid,
+  mockDiskDataRepositoryResult,
+  mockS3DataRepositoryResult,
+  mockDiskDataRepositoryGuid,
+  authTentents,
+  mockTokenResponse,
+} from './mockData';
 import { mockEndpoint, mockTenantId } from '../setupTest';
 
 export const handlers = [
@@ -64,7 +77,6 @@ export const handlers = [
     return HttpResponse.json(mockEmbeddingResult);
   }),
 
-
   http.get(`${mockEndpoint}v2.0/tenants/${mockTenantId}/encryptionkeys/`, ({ request, params, cookies }) => {
     return HttpResponse.json(mockEmbeddingResult);
   }),
@@ -101,33 +113,6 @@ export const handlers = [
     return HttpResponse.json(mockEmbeddingResult);
   }),
 
-  http.get(`${mockEndpoint}v2.0/tenants/${mockTenantId}/datarepositories/`, ({ request, params, cookies }) => {
-    return HttpResponse.json(mockEmbeddingResult);
-  }),
-
-  http.get(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/`, ({ request, params, cookies }) => {
-    return HttpResponse.json(mockDataRepositoryResult);
-  }),
-
-  http.get(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/${mockDataRepositoryGuid}`, ({ request, params, cookies }) => {
-    return HttpResponse.json(mockDataRepositoryResult[0]);
-  }),
-
-  // http.put(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories`, ({ request, params, cookies }) => {
-  //   return HttpResponse.json(mockDiskDataRepositoryResult);
-  // }),
-
-  http.put(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories`, ({ request, params, cookies }) => {
-    return HttpResponse.json(mockS3DataRepositoryResult);
-  }),
-
-  http.put(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/${mockDiskDataRepositoryGuid}`, ({ request, params, cookies }) => {
-    return HttpResponse.json(mockDiskDataRepositoryResult);
-  }),
-
-  http.delete(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/${mockDiskDataRepositoryGuid}`, ({ request, params, cookies }) => {
-    return HttpResponse.text('true');
-  }),
   // authentication
   http.get(`${mockEndpoint}v1.0/token/tenants`, ({ request, params, cookies }) => {
     return HttpResponse.json(authTentents);
@@ -142,5 +127,4 @@ export const handlers = [
     return HttpResponse.json(mockTokenResponse);
   }),
   // generateAuthenticationTokenByPassword
-
 ];

@@ -113,7 +113,17 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
      * @throws {Error} If the GUID is null or empty.
      */
     existsDataRepository: (guid: string, cancelToken?: object) => Promise<boolean | ApiErrorResponse>;
-    updateDataRepository: (guid: any, dataRepository: any, cancelToken: any) => Promise<any>;
+    /**
+     * Update a data repository by its GUID.
+     * @param {Object} dataRepository - The updated data repository object.
+     * @param {string} dataRepository.GUID - The GUID of the data repository to update.
+     * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+     * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the updated DataRepository object or null.
+     * @throws {Error} If the dataRepository is null or empty.
+     */
+    updateDataRepository: (dataRepository: {
+        GUID: string;
+    }, cancelToken?: object) => Promise<DataRepository | null | ApiErrorResponse>;
     /**
      * Enumerate Crawl Schedules.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.

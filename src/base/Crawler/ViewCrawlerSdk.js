@@ -144,11 +144,19 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
     return await this.exists(url, DataRepository, cancelToken);
   };
 
-  updateDataRepository = async (guid, dataRepository, cancelToken) => {
-    if (!dataRepository) {
+  /**
+   * Update a data repository by its GUID.
+   * @param {Object} dataRepository - The updated data repository object.
+   * @param {string} dataRepository.GUID - The GUID of the data repository to update.
+   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the updated DataRepository object or null.
+   * @throws {Error} If the dataRepository is null or empty.
+   */
+  updateDataRepository = async (dataRepository, cancelToken) => {
+    if (!dataRepository || !dataRepository.GUID) {
       GenExceptionHandlersInstance.ArgumentNullException('dataRepository');
     }
-    const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/datarepositories/' + guid;
+    const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/datarepositories/${dataRepository.GUID}`;
     return await this.update(url, dataRepository, DataRepository, cancelToken);
   };
 
@@ -317,8 +325,8 @@ export default class ViewCrawlerSdk extends ViewSdkBase {
    * @throws {Error} If the guid is null or empty or If crawlFiltersData is null or empty.
    */
   updateCrawlFilter = async (crawlFilterData, cancelToken) => {
-    if (!crawlFilterData) {
-      GenExceptionHandlersInstance.ArgumentNullException('crawlFilterData');
+    if (!crawlFilterData || !crawlFilterData.GUID) {
+      GenExceptionHandlersInstance.ArgumentNullException('crawlFilterData or crawlFilterData.GUID');
     }
     const url = `${this.endpoint}/v1.0/tenants/${this.tenantGuid}/crawlfilters/${crawlFilterData.GUID}`;
 
