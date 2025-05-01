@@ -69,6 +69,7 @@ export default class ViewSdkBase {
    */
   set accessKey(value) {
     if (!value) {
+      console.log(value, 'AccessKey log');
       GenExceptionHandlersInstance.ArgumentNullException('AccessKey');
     }
     this.defaultHeaders = Object.assign({}, this.defaultHeaders, {

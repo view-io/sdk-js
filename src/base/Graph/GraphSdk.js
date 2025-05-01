@@ -2051,16 +2051,16 @@ export default class GraphSdk {
    * Initialize the GraphDriver based on the repository type.
    */
   initializeGraphDriver = () => {
-    switch (this.GraphRepository.repositoryType) {
+    switch (this.GraphRepository.RepositoryType) {
       case GraphRepositoryTypeEnum.LiteGraph:
         this._GraphDriver = new LiteGraphDriver(
-          this.GraphRepository.endpointUrl,
-          this.GraphRepository.tenantGUID,
-          this.GraphRepository.apiKey
+          this.GraphRepository.EndpointUrl,
+          this.GraphRepository.TenantGUID,
+          this.GraphRepository.ApiKey
         );
         break;
       default:
-        throw new Error(`Unknown graph repository type '${this.GraphRepository.repositoryType}'.`);
+        throw new Error(`Unknown graph repository type '${this.GraphRepository.RepositoryType}'.`);
     }
   };
   /**

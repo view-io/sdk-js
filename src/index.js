@@ -4,19 +4,13 @@ import ViewOrchestratorSdk from './base/Orchestrator/ViewOrchestratorSdk';
 import UserMaster from './models/UserMaster';
 import ViewAssistantSdk from './base/Assistant/ViewAssistantSdk';
 import ViewProcessorSdk from './base/Processor/ViewProcessorSdk';
-import ViewSemanticCellSdk from './base/Semantic/ViewSemanticCellSdk';
-import ViewEmbeddingsSdk from './base/Vector/ViewEmbeddingsSdk';
-import ViewLcproxySdk from './base/Vector/ViewLcproxySdk';
+import ViewEmbeddingsSdk from './base/Embeddings/ViewEmbeddingsSdk';
 import GraphSdk from './base/Graph/GraphSdk';
-import ViewOllamaSdk from './base/Vector/ViewOllamaSdk';
-import ViewOpenAiSdk from './base/Vector/ViewOpenAiSdk';
 import ViewVectorProxySdk from './base/Vector/ViewVectorProxySdk';
-import ViewVoyageAiSdk from './base/Vector/ViewVoyageAiSdk';
 import ViewHealthcheckSdk from './base/HealthCheck/ViewHealthcheckSdk';
 import ViewStorageSdk from './base/Storage/ViewStorageSdk';
 import ViewDirectorSdk from './base/Director/ViewDirectorSdk';
 import ViewCrawlerSdk from './base/Crawler/ViewCrawlerSdk';
-import EmbeddingsSdk from './base/Embeddings/EmbeddingsSdk';
 
 export {
   /**
@@ -50,40 +44,15 @@ export {
    */
   ViewProcessorSdk,
   /**
-   * The ViewSemanticCellSdk service constructor.
-   * @property {module:base/Semantic/ViewSemanticCellSdk}
-   */
-  ViewSemanticCellSdk,
-  /**
    * The ViewEmbeddingsSdk service constructor.
    * @property {module:base/Vector/ViewEmbeddingsSdk}
    */
   ViewEmbeddingsSdk,
   /**
-   * The ViewLcproxySdk service constructor.
-   * @property {module:base/Vector/ViewLcproxySdk}
-   */
-  ViewLcproxySdk,
-  /**
-   * The ViewOllamaSdk service constructor.
-   * @property {module:base/Vector/ViewOllamaSdk}
-   */
-  ViewOllamaSdk,
-  /**
-   * The ViewOpenAiSdk service constructor.
-   * @property {module:base/Vector/ViewOpenAiSdk}
-   */
-  ViewOpenAiSdk,
-  /**
    * The ViewVectorProxySdk service constructor.
    * @property {module:base/Vector/ViewVectorProxySdk}
    */
   ViewVectorProxySdk,
-  /**
-   * The ViewVoyageAiSdk service constructor.
-   * @property {module:base/Vector/ViewVoyageAiSdk}
-   */
-  ViewVoyageAiSdk,
   // /**
   //  * The GraphSdk service constructor.
   //  * @property {module:base/Graph/GraphSdk}
@@ -109,9 +78,4 @@ export {
    * @property {module:base/Crawler/ViewCrawlerSdk}
    */
   ViewCrawlerSdk,
-  /**
-   * The EmbeddingsSdk service constructor.
-   * @property {module:base/Embeddings/EmbeddingsSdk}
-   */
-  EmbeddingsSdk,
 };

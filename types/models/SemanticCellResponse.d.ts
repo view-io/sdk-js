@@ -18,11 +18,7 @@ export default class SemanticCellResponse {
     });
     DataFlowRequestGUID: string;
     Success: boolean;
-    Timestamp: {
-        start: any;
-        totalMs: any;
-        messages: any;
-    };
+    Timestamp: string;
     Error: any;
     SemanticCells: any[];
     Data: Uint8Array<ArrayBufferLike>;

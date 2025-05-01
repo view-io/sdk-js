@@ -9,22 +9,11 @@ export default class SemanticCellResponse {
    * @param {Uint8Array} semanticCellResponse.Data - The additional data (default is null).
    */
   constructor(semanticCellResponse = {}) {
-    const {
-      DataFlowRequestGUID = null,
-      Success = true,
-      Timestamp = Date.now(),
-      Error = null,
-      SemanticCells = null,
-      Data = null,
-    } = semanticCellResponse;
+    const { DataFlowRequestGUID, Success, Timestamp, Error, SemanticCells, Data } = semanticCellResponse;
 
     this.DataFlowRequestGUID = DataFlowRequestGUID;
     this.Success = Success;
-    this.Timestamp = {
-      start: Timestamp.Start || new Date().toISOString(),
-      totalMs: Timestamp.TotalMs || 0,
-      messages: Timestamp.Messages || {},
-    };
+    this.Timestamp = Timestamp;
     this.Error = Error;
     this.SemanticCells = SemanticCells;
     this.Data = Data;

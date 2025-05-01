@@ -1,4 +1,4 @@
-import ViewEmbeddingsSdk from '../../../src/base/Vector/ViewEmbeddingsSdk';
+import ViewEmbeddingsSdk from '../../../src/base/Embeddings/ViewEmbeddingsSdk';
 import { EmbeddingsGeneratorEnum } from '../../../src/enums/EmbeddingsGeneratorEnum';
 import { mockSemanticCell, mockSemanticCells, mockModel } from './mockData';
 import { handlers } from './handler';
