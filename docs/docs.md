@@ -92,6 +92,7 @@ Crawler service.
     * [.deleteDataRepository](#module_base/ViewCrawlerSdk+deleteDataRepository) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.enumerateDataRepositories](#module_base/ViewCrawlerSdk+enumerateDataRepositories) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
     * [.existsDataRepository](#module_base/ViewCrawlerSdk+existsDataRepository) ⇒ <code>Promise.&lt;(boolean\|ApiErrorResponse)&gt;</code>
+    * [.updateDataRepository](#module_base/ViewCrawlerSdk+updateDataRepository) ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
     * [.enumerateCrawlSchedules](#module_base/ViewCrawlerSdk+enumerateCrawlSchedules) ⇒ <code>Promise.&lt;(EnumerationResult.&lt;CrawlSchedule&gt;\|null)&gt;</code>
     * [.retrieveAllCrawlSchedules](#module_base/ViewCrawlerSdk+retrieveAllCrawlSchedules) ⇒ <code>Promise.&lt;Array.&lt;CrawlSchedule&gt;&gt;</code>
     * [.retrieveCrawlSchedule](#module_base/ViewCrawlerSdk+retrieveCrawlSchedule) ⇒ <code>Promise.&lt;(CrawlSchedule\|null\|ApiErrorResponse)&gt;</code>
@@ -245,6 +246,24 @@ Check if a data repository exists by its GUID.
 | Param | Type | Description |
 | --- | --- | --- |
 | guid | <code>string</code> | The GUID of the data repository. |
+| [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
+
+<a name="module_base/ViewCrawlerSdk+updateDataRepository"></a>
+
+### base/ViewCrawlerSdk.updateDataRepository ⇒ <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code>
+Update a data repository by its GUID.
+
+**Kind**: instance property of [<code>base/ViewCrawlerSdk</code>](#module_base/ViewCrawlerSdk)  
+**Returns**: <code>Promise.&lt;(DataRepository\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the updated DataRepository object or null.  
+**Throws**:
+
+- <code>Error</code> If the dataRepository is null or empty.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dataRepository | <code>Object</code> | The updated data repository object. |
+| dataRepository.GUID | <code>string</code> | The GUID of the data repository to update. |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
 <a name="module_base/ViewCrawlerSdk+enumerateCrawlSchedules"></a>
@@ -3117,7 +3136,7 @@ Storage service.
     * [.updateStoragePool](#module_base/ViewStorageSdk+updateStoragePool) ⇒ <code>Promise.&lt;(StoragePool\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteStoragePool](#module_base/ViewStorageSdk+deleteStoragePool) ⇒ <code>Promise.&lt;(void\|ApiErrorResponse)&gt;</code>
     * [.retrieveBuckets](#module_base/ViewStorageSdk+retrieveBuckets) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
-    * [.enumerateBucketObjects](#module_base/ViewStorageSdk+enumerateBucketObjects) ⇒ <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveBucketObjects](#module_base/ViewStorageSdk+retrieveBucketObjects) ⇒ <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveBucketMetadata](#module_base/ViewStorageSdk+retrieveBucketMetadata) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.createBucket](#module_base/ViewStorageSdk+createBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
     * [.updateBucket](#module_base/ViewStorageSdk+updateBucket) ⇒ <code>Promise.&lt;(BucketMetadata\|null\|ApiErrorResponse)&gt;</code>
@@ -3306,9 +3325,9 @@ Retrieve List of Buckets.
 | --- | --- | --- |
 | [cancelToken] | <code>object</code> | Optional object with an `abort` method to cancel the request. |
 
-<a name="module_base/ViewStorageSdk+enumerateBucketObjects"></a>
+<a name="module_base/ViewStorageSdk+retrieveBucketObjects"></a>
 
-### base/ViewStorageSdk.enumerateBucketObjects ⇒ <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewStorageSdk.retrieveBucketObjects ⇒ <code>Promise.&lt;(Array.&lt;BucketMetadata&gt;\|null\|ApiErrorResponse)&gt;</code>
 Enumerate all buckets in the tenant.
 
 **Kind**: instance property of [<code>base/ViewStorageSdk</code>](#module_base/ViewStorageSdk)  
@@ -4331,7 +4350,7 @@ Configuration service.
     * [.enumerateBlobs](#module_base/ViewConfigurationSdk+enumerateBlobs) ⇒ <code>Promise.&lt;(EnumerationResult\|null\|ApiErrorResponse)&gt;</code>
     * [.retrieveBlobs](#module_base/ViewConfigurationSdk+retrieveBlobs) ⇒ <code>Promise.&lt;(Array.&lt;Blob&gt;\|ApiErrorResponse)&gt;</code>
     * [.retrieveBlob](#module_base/ViewConfigurationSdk+retrieveBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
-    * [.retrieveBlobIncludeData](#module_base/ViewConfigurationSdk+retrieveBlobIncludeData) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
+    * [.retrieveBlobIncludeData](#module_base/ViewConfigurationSdk+retrieveBlobIncludeData) ⇒ <code>Promise.&lt;Blob&gt;</code>
     * [.writeBlob](#module_base/ViewConfigurationSdk+writeBlob) ⇒ <code>Promise.&lt;(Node\|null\|ApiErrorResponse)&gt;</code>
     * [.updateBlob](#module_base/ViewConfigurationSdk+updateBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
     * [.deleteBlob](#module_base/ViewConfigurationSdk+deleteBlob) ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
@@ -5908,11 +5927,11 @@ Retrieve a blob by its GUID.
 
 <a name="module_base/ViewConfigurationSdk+retrieveBlobIncludeData"></a>
 
-### base/ViewConfigurationSdk.retrieveBlobIncludeData ⇒ <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code>
+### base/ViewConfigurationSdk.retrieveBlobIncludeData ⇒ <code>Promise.&lt;Blob&gt;</code>
 Retrieve a blob with data by its GUID.
 
 **Kind**: instance property of [<code>base/ViewConfigurationSdk</code>](#module_base/ViewConfigurationSdk)  
-**Returns**: <code>Promise.&lt;(Blob\|null\|ApiErrorResponse)&gt;</code> - A promise resolving to the Blob object or null if not found.  
+**Returns**: <code>Promise.&lt;Blob&gt;</code> - A promise resolving to the Blob object or null if not found.  
 **Throws**:
 
 - <code>Error</code> If the guid is null or empty.
@@ -6600,7 +6619,7 @@ ViewSdk Base service.
         * [.retrieve](#module_base/ViewSdkBase--module.exports+retrieve) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
         * [.retrieveMany](#module_base/ViewSdkBase--module.exports+retrieveMany) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
         * [.delete](#module_base/ViewSdkBase--module.exports+delete) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
-        * [.deleteRaw](#module_base/ViewSdkBase--module.exports+deleteRaw) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
+        * [.deleteRaw](#module_base/ViewSdkBase--module.exports+deleteRaw) ⇒ <code>Promise.&lt;string&gt;</code>
         * [.deleteWithPayload](#module_base/ViewSdkBase--module.exports+deleteWithPayload) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
         * [.post](#module_base/ViewSdkBase--module.exports+post) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
         * [.postContentType](#module_base/ViewSdkBase--module.exports+postContentType) ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
@@ -6801,14 +6820,14 @@ Delete single data from the given URL with optional cancellation support using s
 
 <a name="module_base/ViewSdkBase--module.exports+deleteRaw"></a>
 
-#### module.exports.deleteRaw ⇒ <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code>
+#### module.exports.deleteRaw ⇒ <code>Promise.&lt;string&gt;</code>
 Delete single data from the given URL with optional cancellation support using superagent's abort method.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_base/ViewSdkBase--module.exports)  
-**Returns**: <code>Promise.&lt;(T\|null\|ApiErrorResponse)&gt;</code> - The parsed JSON data from the response or null if the request fails.  
+**Returns**: <code>Promise.&lt;string&gt;</code> - The parsed JSON data from the response or null if the request fails.  
 **Throws**:
 
-- <code>Error</code> If the URL is null or empty.
+- <code>Error</code><code>ApiErrorResponse</code> If the URL is null or empty.
 
 
 | Param | Type | Description |

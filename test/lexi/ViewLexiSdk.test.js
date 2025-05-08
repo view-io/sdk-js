@@ -80,8 +80,7 @@ describe('View.IO SDK', () => {
 
     it('deletes a CollectionMetadata', async () => {
       const data = await apiViewLexiSdk.deleteCollection(mockCollectionGuid);
-      expect(data instanceof Collection).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new Collection(collectionsData[mockCollectionGuid])));
+      expect(data).toBe(true);
     });
     // issue: max-keys
     //retrieveTopTerms
@@ -90,7 +89,7 @@ describe('View.IO SDK', () => {
     //   // expect(data).toBe("true"); // Adjust based on the expected output of the method
     // });
     it('throws error when checking if a Collection exists', async () => {
-      await expect(apiViewLexiSdk.retrieveTopTerms()).rejects.toThrow(Error);
+      await expect(apiViewLexiSdk.retrieveCollectionTopTerms()).rejects.toThrow(Error);
     });
     //collectionExists
     it('returns true if the collection exists', async () => {
@@ -126,7 +125,7 @@ describe('View.IO SDK', () => {
 
   describe('SourceDocument', () => {
     it('retrieves a SourceDocument', async () => {
-      const data = await apiViewLexiSdk.retrieveDocument(mockCollectionGuid, mockDocumentGuid);
+      const data = await apiViewLexiSdk.retrieveSourceDocument(mockCollectionGuid, mockDocumentGuid);
       expect(data instanceof SourceDocument).toBe(true);
 
       // Compare the received data with the mock data
@@ -136,7 +135,7 @@ describe('View.IO SDK', () => {
 
     it('throws error when missing guid while retrieving a SourceDocument', async () => {
       try {
-        await apiViewLexiSdk.retrieveDocument(mockCollectionGuid);
+        await apiViewLexiSdk.retrieveSourceDocument(mockCollectionGuid);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: documentGuid is null or empty');
@@ -144,7 +143,7 @@ describe('View.IO SDK', () => {
     });
 
     it('retrieves all Documents for a Collection', async () => {
-      const data = await apiViewLexiSdk.retrieveDocuments(mockCollectionGuid);
+      const data = await apiViewLexiSdk.retrieveSourceDocuments(mockCollectionGuid);
       data.forEach((document, index) => {
         const expected = new SourceDocument(Object.values(mockSourceDocument)[index]);
         expect(JSON.stringify(document)).toBe(JSON.stringify(expected));
@@ -226,14 +225,14 @@ describe('View.IO SDK', () => {
           },
         },
       };
-      const data = await apiViewLexiSdk.uploadDocument(newDocument);
+      const data = await apiViewLexiSdk.uploadSourceDocument(newDocument);
       expect(true).toBe(data instanceof SourceDocument);
       expect(JSON.stringify(data)).toBe(JSON.stringify(new SourceDocument(mockSourceDocument[mockDocumentGuid])));
     });
 
     it('throws error when creating a SourceDocument with missing parameters', async () => {
       try {
-        await apiViewLexiSdk.uploadDocument();
+        await apiViewLexiSdk.uploadSourceDocument();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: document is null or empty');
@@ -241,13 +240,13 @@ describe('View.IO SDK', () => {
     });
 
     it('deletes a document from a collection', async () => {
-      const result = await apiViewLexiSdk.deleteDocument(mockCollectionGuid, mockDocumentGuid);
-      expect(result).toBe('');
+      const result = await apiViewLexiSdk.deleteSourceDocument(mockCollectionGuid, mockDocumentGuid);
+      expect(result).toBe(true);
     });
 
     it('throws an error when missing collectionGuid while deleting a document', async () => {
       try {
-        await apiViewLexiSdk.deleteDocument(null, mockDocumentGuid);
+        await apiViewLexiSdk.deleteSourceDocument(null, mockDocumentGuid);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: collectionGuid is null or empty');
@@ -256,7 +255,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing documentGuid while deleting a document', async () => {
       try {
-        await apiViewLexiSdk.deleteDocument(mockCollectionGuid, null);
+        await apiViewLexiSdk.deleteSourceDocument(mockCollectionGuid, null);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: documentGuid is null or empty');
@@ -264,13 +263,17 @@ describe('View.IO SDK', () => {
     });
 
     it('deletes a document using key and version', async () => {
-      const result = await apiViewLexiSdk.deleteDocumentFromKey(mockCollectionGuid, mockDocumentKey, mockDocVersionId);
-      expect(result).toBe('');
+      const result = await apiViewLexiSdk.deleteSourceDocumentFromKey(
+        mockCollectionGuid,
+        mockDocumentKey,
+        mockDocVersionId
+      );
+      expect(result).toBe(true);
     });
 
     it('throws an error when missing collectionGuid while deleting document with key', async () => {
       try {
-        await apiViewLexiSdk.deleteDocumentFromKey(null, mockDocumentKey, mockDocVersionId);
+        await apiViewLexiSdk.deleteSourceDocumentFromKey(null, mockDocumentKey, mockDocVersionId);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: collectionGuid is null or empty');
@@ -279,7 +282,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing key while deleting document with key', async () => {
       try {
-        await apiViewLexiSdk.deleteDocumentFromKey(mockCollectionGuid, null, mockDocVersionId);
+        await apiViewLexiSdk.deleteSourceDocumentFromKey(mockCollectionGuid, null, mockDocVersionId);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: key is null or empty');
@@ -288,7 +291,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing version while deleting document with key', async () => {
       try {
-        await apiViewLexiSdk.deleteDocumentFromKey(mockCollectionGuid, mockDocumentKey, null);
+        await apiViewLexiSdk.deleteSourceDocumentFromKey(mockCollectionGuid, mockDocumentKey, null);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: version is null or empty');
@@ -303,7 +306,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing collectionGuid while enumerating', async () => {
       try {
-        await apiViewLexiSdk.enumerateCollection(null, mockEnumerateCollection);
+        await apiViewLexiSdk.enumerateCollectionDocument(null, mockEnumerateCollection);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: collectionGuid is null or empty');
@@ -312,7 +315,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing query while enumerating', async () => {
       try {
-        await apiViewLexiSdk.enumerateCollection(mockCollectionGuid, null);
+        await apiViewLexiSdk.enumerateCollectionDocument(mockCollectionGuid, null);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: query is null or empty');
@@ -327,7 +330,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing collectionGuid while searching', async () => {
       try {
-        await apiViewLexiSdk.searchCollection(null, mockSearchCollection);
+        await apiViewLexiSdk.searchCollectionDocuments(null, mockSearchCollection);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: collectionGuid is null or empty');
@@ -336,7 +339,7 @@ describe('View.IO SDK', () => {
 
     it('throws an error when missing query while searching', async () => {
       try {
-        await apiViewLexiSdk.searchCollection(mockCollectionGuid, null);
+        await apiViewLexiSdk.searchCollectionDocuments(mockCollectionGuid, null);
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: query is null or empty');

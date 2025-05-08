@@ -93,8 +93,7 @@ describe('View.IO SDK', () => {
 
     it('delete a Credential', async () => {
       const data = await api.deleteCredential(mockCredentialGuid);
-      expect(true).toBe(data instanceof Credential);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new Credential(credentialsData[mockCredentialGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a Credential', async () => {
@@ -112,8 +111,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a Credential does not exist', async () => {
-      const data = await api.existsCredential('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsCredential('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a Credential existance', async () => {

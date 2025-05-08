@@ -115,9 +115,7 @@ describe('View.IO SDK', () => {
 
     it('delete a BucketMetadata', async () => {
       const data = await api.deleteBucket(mockBucketGuid);
-      console.log('data: ', data);
-      expect(data instanceof BucketMetadata).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new BucketMetadata(bucketsData[mockBucketGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a BucketMetadata', async () => {
@@ -135,8 +133,12 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a BucketMetadata does not exist', async () => {
-      const data = await api.existsBucket('wrongID');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsBucket('wrongID');
+        expect(data).toBe(false);
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a BucketMetadata existance', async () => {

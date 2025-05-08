@@ -24,7 +24,7 @@ export const handlers = [
   http.delete(
     `${mockEndpoint}v1.0/tenants/${mockTenantId}/credentials/${mockCredentialGuid}`,
     ({ request, params, cookies }) => {
-      return HttpResponse.json(credentialsData[mockCredentialGuid]);
+      return HttpResponse.text('deleted');
     }
   ),
   http.head(
@@ -34,6 +34,6 @@ export const handlers = [
     }
   ),
   http.head(`${mockEndpoint}v1.0/tenants/${mockTenantId}/credentials/${'wrongID'}`, ({ request, params, cookies }) => {
-    return HttpResponse.text('false').status(404);
+    return HttpResponse.text('false', { status: 404 });
   }),
 ];

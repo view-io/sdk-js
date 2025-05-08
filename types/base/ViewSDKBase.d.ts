@@ -152,12 +152,12 @@ export default class ViewSdkBase {
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @param {object} [headers] - Optional object with an `abort` method to cancel the request
      * @param {string} [headers.token] - headers token for authorization.
-     * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-     * @throws {Error} If the URL is null or empty.
+     * @returns {Promise<string>} The parsed JSON data from the response or null if the request fails.
+     * @throws {Error | ApiErrorResponse} If the URL is null or empty.
      */
     deleteRaw: <T>(url: string, cancelToken?: object, headers?: {
         token?: string;
-    }) => Promise<T | null | ApiErrorResponse>;
+    }) => Promise<string>;
     /**
      * Delete single data from the given URL with optional cancellation support using superagent's abort method.
      *

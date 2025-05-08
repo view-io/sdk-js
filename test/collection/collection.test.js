@@ -94,9 +94,7 @@ describe('View.IO SDK', () => {
 
     it('delete a Collection', async () => {
       const data = await api.deleteCollection(mockCollectionGuid);
-      console.log('data: ', data);
-      expect(data instanceof Collection).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new Collection(collectionsData[mockCollectionGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a Collection', async () => {

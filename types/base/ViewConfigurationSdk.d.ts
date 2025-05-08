@@ -1554,10 +1554,10 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
      *
      * @param {string} guid - The GUID of the blob to retrieve.
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-     * @returns {Promise<Blob|null|ApiErrorResponse>} A promise resolving to the Blob object or null if not found.
+     * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
      * @throws {Error} If the guid is null or empty.
      */
-    retrieveBlobIncludeData: (guid: string, cancelToken?: object) => Promise<Blob | null | ApiErrorResponse>;
+    retrieveBlobIncludeData: (guid: string, cancelToken?: object) => Promise<Blob>;
     /**
      * Write BLOB data.
      * @param {Object} blob Information about the blob.

@@ -18,13 +18,13 @@ export const handlers = [
   http.delete(
     `${mockEndpoint}v1.0/tenants/${mockTenantId}/buckets/${mockBucketGuid}`,
     ({ request, params, cookies }) => {
-      return HttpResponse.json(bucketsData[mockBucketGuid]);
+      return HttpResponse.text('deleted');
     }
   ),
   http.head(`${mockEndpoint}v1.0/tenants/${mockTenantId}/buckets/${mockBucketGuid}`, ({ request, params, cookies }) => {
     return HttpResponse.text('true');
   }),
   http.head(`${mockEndpoint}v1.0/tenants/${mockTenantId}/buckets/${'wrongID'}`, ({ request, params, cookies }) => {
-    return HttpResponse.text('false').status(404);
+    return HttpResponse.text('false', { status: 404 });
   }),
 ];

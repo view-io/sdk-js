@@ -792,7 +792,7 @@ export default class ViewSdkBase {
             // Return parsed JSON response
             // resolve(response.body);
             // Returns parsed JSON response in the given Modal
-            resolve(response.text);
+            resolve(true);
           } else {
             LoggerInstance.log(
               SeverityEnum.Warn,

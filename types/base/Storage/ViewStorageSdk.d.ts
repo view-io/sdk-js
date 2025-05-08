@@ -162,7 +162,7 @@ export default class ViewStorageSdk extends ViewSdkBase {
      * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
      * @returns {Promise<BucketMetadata[]|null|ApiErrorResponse>} A promise resolving to an array of BucketMetadata objects or null.
      */
-    enumerateBucketObjects: (guid: any, cancelToken?: object) => Promise<BucketMetadata[] | null | ApiErrorResponse>;
+    retrieveBucketObjects: (guid: any, cancelToken?: object) => Promise<BucketMetadata[] | null | ApiErrorResponse>;
     /**
      * Retrieve bucket by Guid.
      *

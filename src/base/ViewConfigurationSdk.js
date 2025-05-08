@@ -1051,7 +1051,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/buckets/' + guid;
-    return await this.delete(url, BucketMetadata, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   //region Collections

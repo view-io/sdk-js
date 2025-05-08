@@ -416,7 +416,7 @@ const readAllBuckets = async () => {
 
 const enumerateBuckets = async () => {
   try {
-    const response = await storage.enumerateBucketObjects('00000000-0000-0000-0000-000000000000');
+    const response = await storage.retrieveBucketObjects('00000000-0000-0000-0000-000000000000');
     console.log(response, 'Buckets fetched successfully');
   } catch (err) {
     console.log('Error fetching buckets:', err);
