@@ -49,8 +49,8 @@ describe('View.IO SDK', () => {
   });
 
   it('deletes a tenant', async () => {
-    const r = await api.deleteTenant(mockTenantId, 'token');
+    const r = await api.deleteTenant(mockTenantId);
     // If successful, no errors should occur
-    expect(r).toBe('true');
+    expect(r).toBe(true);
   });
 });

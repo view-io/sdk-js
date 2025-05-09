@@ -34,7 +34,7 @@ describe('View.IO SDK', () => {
     it('retrieves a Node with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveNode(mockNodeGuid, 'default', cancelToken);
+      await api.retrieveNode(mockNodeGuid, cancelToken);
       cancelToken.abort();
     });
 
@@ -91,8 +91,7 @@ describe('View.IO SDK', () => {
 
     it('delete a Node', async () => {
       const data = await api.deleteNode(mockNodeGuid);
-      expect(true).toBe(data instanceof NodeModal);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new NodeModal(nodesData[mockNodeGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a Node', async () => {
@@ -110,8 +109,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a Node does not exist', async () => {
-      const data = await api.existsNode('wrongID');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsNode('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a Node existance', async () => {

@@ -7,25 +7,23 @@ import DirectorEmbeddingResponse from '../../src/models/DirectorEmbeddingRespons
 const server = getServer(handlers);
 
 describe('ViewDirectorSdk', () => {
-    beforeAll(() => {
-        server.listen();
+  beforeAll(() => {
+    server.listen();
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  afterAll(() => server.close());
+
+  describe('Embedding', () => {
+    it('generate embedding', async () => {
+      const data = await apiDirectorSdk.generateEmbedding(mockDirectorEmbeddingRequest);
+      expect(data instanceof DirectorEmbeddingResponse).toBe(true);
     });
-    afterEach(() => {
-        server.resetHandlers();
+
+    it('retrieve connection', async () => {
+      const data = await apiDirectorSdk.retrieveConnections();
+      expect(typeof data).toBe('object');
     });
-    afterAll(() => server.close());
-
-    describe('Embedding', () => {
-        it('generate embedding', async () => {
-            const data = await apiDirectorSdk.generateEmbedding(mockDirectorEmbeddingRequest);
-            expect(data instanceof DirectorEmbeddingResponse).toBe(true);
-        });
-
-        it('retrieve connection', async () => {
-            const data = await apiDirectorSdk.retrieveConnections(xtoken);
-            expect(typeof data).toBe('object');
-        });
-
-
-    });
+  });
 });

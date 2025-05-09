@@ -36,7 +36,7 @@ export const handlers = [
   http.head(
     `${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/${'wrongID'}`,
     ({ request, params, cookies }) => {
-      return HttpResponse.text('false').status(404);
+      return HttpResponse.text('false', { status: 404 });
     }
   ),
 ];

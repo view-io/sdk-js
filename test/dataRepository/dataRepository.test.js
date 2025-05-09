@@ -1,7 +1,7 @@
 import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockDataRepositoryGuid, dataRepositorysData, dataRepositorysMockApiResponse } from './mockData';
-import { api } from '../setupTest';
+import { apiCrowalerSDK as api } from '../setupTest';
 import DataRepository from '../../src/models/DataRepository';
 
 const server = getServer(handlers);
@@ -104,7 +104,7 @@ describe('View.IO SDK', () => {
 
     it('delete a DataRepository', async () => {
       const data = await api.deleteDataRepository(mockDataRepositoryGuid);
-      expect(data).toBe('true');
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed repositoryGuid while deleting a DataRepository', async () => {
@@ -116,23 +116,26 @@ describe('View.IO SDK', () => {
       }
     });
 
-    // it('Check if a DataRepository exist', async () => {
-    //     const data = await api.existsDataRepository(mockDataRepositoryGuid);
-    //     expect(data).toBe('true');
-    // });
+    it('Check if a DataRepository exist', async () => {
+      const data = await api.existsDataRepository(mockDataRepositoryGuid);
+      expect(data).toBe('true');
+    });
 
-    // it('Check if a DataRepository does not exist', async () => {
-    //     const data = await api.existsDataRepository('wrongID');
-    //     expect(data).toBe('false');
-    // });
+    it('Check if a DataRepository does not exist', async () => {
+      try {
+        const data = await api.existsDataRepository('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
+    });
 
-    // it('throws error when if missed repositoryGuid while checking a DataRepository existance', async () => {
-    //     try {
-    //         await api.existsDataRepository();
-    //     } catch (err) {
-    //         expect(err instanceof Error).toBe(true);
-    //         expect(err.toString()).toBe('Error: ArgumentNullException: repositoryGuid is null or empty');
-    //     }
-    // });
+    it('throws error when if missed repositoryGuid while checking a DataRepository existance', async () => {
+      try {
+        await api.existsDataRepository();
+      } catch (err) {
+        expect(err instanceof Error).toBe(true);
+        expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
+      }
+    });
   });
 });

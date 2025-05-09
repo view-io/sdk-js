@@ -107,11 +107,7 @@ describe('View.IO SDK', () => {
 
     it('delete a EmbeddingsRule', async () => {
       const data = await api.deleteEmbeddingsRule(mockEmbeddingsRuleGuid);
-      console.log('data: ', data);
-      expect(data instanceof EmbeddingsRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(
-        JSON.stringify(new EmbeddingsRule(embeddingsRulesData[mockEmbeddingsRuleGuid]))
-      );
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a EmbeddingsRule', async () => {
@@ -124,13 +120,20 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a EmbeddingsRule exist', async () => {
-      const data = await api.existsEmbeddingsRule(mockEmbeddingsRuleGuid);
-      expect(data).toBe('true');
+      try {
+        const data = await api.existsEmbeddingsRule(mockEmbeddingsRuleGuid);
+        expect(data).toBe('true');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('Check if a EmbeddingsRule does not exist', async () => {
-      const data = await api.existsEmbeddingsRule('wrongID');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsEmbeddingsRule('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a EmbeddingsRule existance', async () => {

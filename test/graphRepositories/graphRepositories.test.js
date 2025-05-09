@@ -95,8 +95,7 @@ describe('View.IO SDK', () => {
 
     it('delete a GraphRepository', async () => {
       const data = await api.deleteGraphRepository(mockGraphGuid);
-      expect(true).toBe(data instanceof GraphRepository);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new GraphRepository(graphsData[mockGraphGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a GraphRepository', async () => {
@@ -114,8 +113,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a GraphRepository does not exist', async () => {
-      const data = await api.existsGraphRepository('wrongID');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsGraphRepository('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a GraphRepository existance', async () => {

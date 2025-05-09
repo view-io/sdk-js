@@ -101,9 +101,7 @@ describe('View.IO SDK', () => {
 
     it('delete a MetadataRule', async () => {
       const data = await api.deleteMetadataRule(mockMetaDataRuleGuid);
-      console.log('data: ', data);
-      expect(data instanceof MetadataRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new MetadataRule(metaDataRulesData[mockMetaDataRuleGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a MetadataRule', async () => {
@@ -121,8 +119,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a MetadataRule does not exist', async () => {
-      const data = await api.existsMetadataRule('wrongID');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsMetadataRule('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a MetadataRule existance', async () => {

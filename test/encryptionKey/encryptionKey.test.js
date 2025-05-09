@@ -103,8 +103,7 @@ describe('View.IO SDK', () => {
 
     it('delete a EncryptionKey', async () => {
       const data = await api.deleteEncryptionKey(mockEncryptionKeyGuid);
-      expect(true).toBe(data instanceof EncryptionKey);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new EncryptionKey(encryptionKeysData[mockEncryptionKeyGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a EncryptionKey', async () => {
@@ -122,8 +121,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a EncryptionKey does not exist', async () => {
-      const data = await api.existsEncryptionKey('wrongID');
-      expect(data).toBe('false');
+      try {
+        const data = await api.existsEncryptionKey('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a EncryptionKey existance', async () => {

@@ -136,7 +136,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/nodes/' + guid;
-    return await this.delete(url, NodeModal, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   /**
