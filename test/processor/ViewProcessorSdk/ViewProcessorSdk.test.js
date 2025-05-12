@@ -11,9 +11,15 @@ import {
   mockVectorRepo,
   mockGraphRepo,
   mockProcessorResponse,
+  mockTypeResult,
+  mockSemanticCellResponse,
+  mockUdrDocument,
 } from './mockData';
 import { apiViewProcessorSdk } from '../../setupTest';
 import ProcessorResponse from '../../../src/models/ProcessorResponse';
+import TypeResult from '../../../src/models/TypeResult';
+import SemanticCellResponse from '../../../src/models/SemanticCellResponse';
+import { UdrDocument } from '../../../src/models/UdrDocument';
 
 const server = getServer(handlers);
 
@@ -30,110 +36,70 @@ describe('ViewProcessorSdk', () => {
 
   describe('Storage Server Processing', () => {
     it('successfully processes storage server request', async () => {
-      const response = await apiViewProcessorSdk.processStorageServer(
-        mockTenant,
-        mockCollection,
-        mockPool,
-        mockBucket,
-        mockObject,
-        mockMetadataRule,
-        mockEmbeddingsRule,
-        mockVectorRepo,
-        mockGraphRepo
-      );
+      const response = await apiViewProcessorSdk.processingPipeline({
+        Tenant: mockTenant,
+        Collection: mockCollection,
+        Pool: mockPool,
+        Bucket: mockBucket,
+        Object: mockObject,
+        MetadataRule: mockMetadataRule,
+        EmbeddingsRule: mockEmbeddingsRule,
+        VectorRepository: mockVectorRepo,
+        GraphRepository: mockGraphRepo,
+      });
 
       expect(JSON.stringify(response)).toBe(JSON.stringify(new ProcessorResponse(mockProcessorResponse)));
-    });
-
-    it('throws error when object metadata is missing', async () => {
-      try {
-        await apiViewProcessorSdk.process(
-          mockTenant,
-          mockCollection,
-          mockPool,
-          mockBucket,
-          null,
-          mockMetadataRule,
-          mockEmbeddingsRule,
-          mockVectorRepo,
-          mockGraphRepo
-        );
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('TypeError: _setupTest.apiViewProcessorSdk.process is not a function');
-      }
-    });
-
-    it('throws error when metadata rule is missing', async () => {
-      try {
-        await apiViewProcessorSdk.process(
-          mockTenant,
-          mockCollection,
-          mockPool,
-          mockBucket,
-          mockObject,
-          null,
-          mockEmbeddingsRule,
-          mockVectorRepo,
-          mockGraphRepo
-        );
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('TypeError: _setupTest.apiViewProcessorSdk.process is not a function');
-      }
     });
   });
 
   describe('Crawler Processing', () => {
     it('successfully processes crawler request', async () => {
-      const response = await apiViewProcessorSdk.processCrawler(
-        mockTenant,
-        mockCollection,
-        mockPool,
-        mockObject,
-        mockMetadataRule,
-        mockEmbeddingsRule,
-        mockVectorRepo,
-        mockGraphRepo
-      );
+      const response = await apiViewProcessorSdk.processingPipeline({
+        Tenant: mockTenant,
+        Collection: mockCollection,
+        Pool: mockPool,
+        Object: mockObject,
+        MetadataRule: null,
+        EmbeddingsRule: mockEmbeddingsRule,
+        VectorRepository: mockVectorRepo,
+        GraphRepository: mockGraphRepo,
+      });
 
       expect(JSON.stringify(response)).toBe(JSON.stringify(new ProcessorResponse(mockProcessorResponse)));
     });
+  });
 
-    it('throws error when object metadata is missing in crawler request', async () => {
-      try {
-        await apiViewProcessorSdk.processCrawler(
-          mockTenant,
-          mockCollection,
-          mockPool,
-          null,
-          mockMetadataRule,
-          mockEmbeddingsRule,
-          mockVectorRepo,
-          mockGraphRepo
-        );
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: Object metadata is required.');
-      }
+  describe('Cleanup Pipeline', () => {
+    it('successfully cleans up the pipeline', async () => {
+      const response = await apiViewProcessorSdk.cleanupPipeline({
+        Tenant: mockTenant,
+        Collection: mockCollection,
+        Pool: mockPool,
+        Bucket: mockBucket,
+        Object: mockObject,
+      });
+      expect(JSON.stringify(response)).toBe(JSON.stringify(new ProcessorResponse(mockProcessorResponse)));
     });
+  });
 
-    it('throws error when metadata rule is missing in crawler request', async () => {
-      try {
-        await apiViewProcessorSdk.processCrawler(
-          mockTenant,
-          mockCollection,
-          mockPool,
-          mockObject,
-          null,
-          mockEmbeddingsRule,
-          mockVectorRepo,
-          mockGraphRepo
-        );
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: Metadata rule is required.');
-      }
+  describe('Type Detection', () => {
+    it('successfully detects the type of the object', async () => {
+      const response = await apiViewProcessorSdk.typeDetection(mockObject);
+      expect(JSON.stringify(response)).toBe(JSON.stringify(new TypeResult(mockTypeResult)));
+    });
+  });
+
+  describe('Extract Semantic Cells', () => {
+    it('successfully extracts the semantic cells of the object', async () => {
+      const response = await apiViewProcessorSdk.extractSemanticCells(mockObject);
+      expect(JSON.stringify(response)).toBe(JSON.stringify(new SemanticCellResponse(mockSemanticCellResponse)));
+    });
+  });
+
+  describe('Generate UDR', () => {
+    it('successfully generates the UDR of the object', async () => {
+      const response = await apiViewProcessorSdk.generateUdr(mockObject);
+      expect(JSON.stringify(response)).toBe(JSON.stringify(new UdrDocument(mockUdrDocument)));
     });
   });
 });

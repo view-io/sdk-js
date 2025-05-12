@@ -166,7 +166,7 @@ export const handlers = [
   }),
   // Retrieve request performance data
   http.get(
-    `${mockEndpoint}v1.0/tenants/${mockTenantId}/dataflows/processor/performance?request=${requestID}`,
+    `${mockEndpoint}v1.0/tenants/${mockTenantId}/dataflows/:guid/performance?request=${requestID}`,
     (req, res, ctx) => {
       return HttpResponse.json(mockDataFlowData[mockFlowId], { status: 200 });
     }

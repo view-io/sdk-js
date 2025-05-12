@@ -40,3 +40,11 @@ export const mockConfig = {
   maxFailures: 3,
   timeoutMs: 300000,
 };
+
+export const mockEmbeddings = {
+  Success: true,
+  StatusCode: 200,
+  BatchCount: 1,
+  SemanticCells: mockSemanticCells,
+  ContentEmbeddings: mockSemanticCells,
+};

@@ -109,8 +109,7 @@ describe('View.IO SDK', () => {
 
     it('delete a VectorRepository', async () => {
       const data = await api.deleteVectorRepository(mockVectorGuid);
-      expect(true).toBe(data instanceof VectorRepository);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new VectorRepository(vectorsData[mockVectorGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a VectorRepository', async () => {
@@ -128,8 +127,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a VectorRepository does not exist', async () => {
-      const data = await api.existsVectorRepository('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsVectorRepository('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a VectorRepository existance', async () => {

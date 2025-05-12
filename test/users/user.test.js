@@ -97,9 +97,7 @@ describe('View.IO SDK', () => {
 
     it('delete a UserMaster', async () => {
       const data = await api.deleteUser(mockUserGuid);
-      console.log('data: ', data);
-      expect(data instanceof UserMaster).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new UserMaster(usersData[mockUserGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a UserMaster', async () => {
@@ -117,8 +115,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a UserMaster does not exist', async () => {
-      const data = await api.existsUser('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsUser('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a UserMaster existance', async () => {

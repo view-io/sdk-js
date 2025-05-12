@@ -93,20 +93,50 @@ export const mockGraphRepo = {
 };
 
 export const mockProcessorResponse = {
-  success: true,
-  error: null,
-  metadata: {
-    guid: 'default',
-    contentType: 'text/plain',
-    contentLength: 1024,
-    processingTime: 1.5,
-    timestamp: new Date().toISOString(),
+  GUID: 'default',
+  Success: true,
+  Async: false,
+  Timestamp: {
+    Start: new Date().toISOString(),
+    TotalMs: 1000,
+    Messages: [],
   },
-  results: [
-    {
-      type: 'text',
-      content: 'Processed content',
-      confidence: 0.95,
-    },
-  ],
+};
+
+export const mockTypeResult = {
+  MimeType: 'text/plain',
+  Extension: 'txt',
+  Type: 'Text',
+};
+
+export const mockSemanticCellResponse = {
+  DataFlowRequestGUID: 'default',
+  Success: true,
+  Timestamp: {
+    Start: new Date().toISOString(),
+    TotalMs: 1000,
+    Messages: [],
+  },
+  Error: null,
+  SemanticCells: [],
+  Data: null,
+};
+
+export const mockUdrDocument = {
+  GUID: 'default',
+  Success: true,
+  Timestamp: {
+    Start: new Date().toISOString(),
+    TotalMs: 1000,
+    Messages: [],
+  },
+  AdditionalData: null,
+  Metadata: null,
+  Key: 'sample-object',
+  Type: 'Text',
+  Terms: [],
+  TopTerms: [],
+  Schema: [],
+  Postings: [],
+  SemanticCells: [],
 };

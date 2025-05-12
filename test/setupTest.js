@@ -49,11 +49,6 @@ export const apiViewEmbeddingsSdk = new sdk.ViewEmbeddingsSdk(
   mockAccessToken, //access token
   mockEndpoint //endpoint
 );
-export const apiViewEmbeddingsOllamaSdk = new sdk.ViewEmbeddingsSdk(
-  mockTenantId, //tenant Id
-  mockAccessToken, //access token
-  mockEndpoint //endpoint
-);
 
 export const apiGraphSdk = new sdk.GraphSdk({
   GUID: 'default',

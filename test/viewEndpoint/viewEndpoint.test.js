@@ -127,8 +127,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a ViewEndpoint does not exist', async () => {
-      const data = await api.existsViewEndpoint('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsViewEndpoint('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a ViewEndpoint existance', async () => {

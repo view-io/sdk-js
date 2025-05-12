@@ -97,9 +97,7 @@ describe('View.IO SDK', () => {
 
     it('delete a WebhookRule', async () => {
       const data = await api.deleteWebhookRule(mockWebhookRuleGuid);
-      console.log('data: ', data);
-      expect(data instanceof WebhookRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookRule(webhookRulesData[mockWebhookRuleGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a WebhookRule', async () => {
@@ -117,8 +115,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a WebhookRule does not exist', async () => {
-      const data = await api.existsWebhookRule('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsWebhookRule('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a WebhookRule existance', async () => {

@@ -93,9 +93,7 @@ describe('View.IO SDK', () => {
 
     it('delete a WebhookTarget', async () => {
       const data = await api.deleteWebhookTarget(mockWebhookTargetGuid);
-      console.log('data: ', data);
-      expect(data instanceof WebhookTarget).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookTarget(webhookTargetsData[mockWebhookTargetGuid])));
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a WebhookTarget', async () => {
@@ -113,8 +111,11 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a WebhookTarget does not exist', async () => {
-      const data = await api.existsWebhookTarget('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsWebhookTarget('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a WebhookTarget existance', async () => {

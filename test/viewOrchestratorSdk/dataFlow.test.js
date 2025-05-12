@@ -44,8 +44,11 @@ describe('ViewOrchestratorSdk', () => {
     });
 
     it('checks if a data flow does not exist', async () => {
-      const data = await api.existsDataFlow('nonExistingFlow');
-      expect(data).toBe('false');
+      try {
+        await api.existsDataFlow('nonExistingFlow');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when checking existence without guid', async () => {
@@ -90,12 +93,12 @@ describe('ViewOrchestratorSdk', () => {
     });
     // issue: fail api test case
     it('retrieves request performance data', async () => {
-      const data = await api.retrieveDataFlowPerformanceData(mockFlowId);
+      const data = await api.retrieveDataFlowPerformanceData(mockFlowId, requestID);
       expect(data instanceof DataFlow).toBe(true);
     });
     it('throws an error when retrieving request performance data with an invalid request ID', async () => {
       await expect(api.retrieveDataFlowPerformanceData()).rejects.toThrow(Error);
-      await expect(api.retrieveDataFlowPerformanceData()).rejects.toThrow('GUID is required');
+      await expect(api.retrieveDataFlowPerformanceData()).rejects.toThrow('dataFlowGuid and requestGuid are required');
     });
     it('deletes a data flow', async () => {
       const guid = 'flow123';

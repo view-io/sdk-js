@@ -504,7 +504,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
    * @returns {Promise<UserMaster|null|ApiErrorResponse>} A promise resolving to the updated UserMaster object or null.
    * @throws {Error} If the user object is null.
    */
-  updateUser = async (guid, user, cancelToken) => {
+  updateUser = async (user, cancelToken) => {
     if (!user) {
       GenExceptionHandlersInstance.ArgumentNullException('user');
     }
@@ -1206,7 +1206,7 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
       GenExceptionHandlersInstance.ArgumentNullException('guid');
     }
     const url = this.endpoint + '/v1.0/tenants/' + this.tenantGuid + '/objectlocks/' + guid;
-    return await this.delete(url, ObjectLock, cancelToken);
+    return await this.deleteRaw(url, cancelToken);
   };
 
   //region Metadata-Rules

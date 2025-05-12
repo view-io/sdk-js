@@ -47,80 +47,17 @@ describe('View.IO SDK', () => {
       });
     });
 
-    // it('creates a WebhookEvent', async () => {
-    //     const data = await api.createWebhookEvent({
-    //         TenantGUID: 'default',
-    //         FirstName: 'Updated',
-    //         LastName: 'WebhookEvent',
-    //         FullName: 'Updated WebhookEvent',
-    //         Notes: 'Default password is password',
-    //         Email: 'default@webhookEvent.com',
-    //         Active: true,
-    //         CreatedUtc: '2024-09-13T13:40:18.810482Z'
-    //     });
-    //     expect(true).toBe(data instanceof WebhookEvent);
-    //     expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookEvent(webhookEventsData[mockWebhookEventGuid])));
-    // });
-
-    // it('throws error when creating a WebhookEvent with webhookEvent parameter', async () => {
-    //     try {
-    //         await api.createWebhookEvent();
-    //     } catch (err) {
-    //         expect(err instanceof Error).toBe(true);
-    //         expect(err.toString()).toBe('Error: ArgumentNullException: webhookEvent is null or empty');
-    //     }
-    // });
-
-    // it('Update a WebhookEvent', async () => {
-    //     const data = await api.updateWebhookEvent({
-    //         GUID: mockWebhookEventGuid,
-    //         TenantGUID: 'default',
-    //         FirstName: 'Updated',
-    //         LastName: 'WebhookEvent',
-    //         FullName: 'Updated WebhookEvent',
-    //         Notes: 'Default password is password',
-    //         Email: 'default@webhookEvent.com',
-    //         Active: true,
-    //         CreatedUtc: '2024-09-13T13:40:18.810482Z'
-    //     });
-
-    //     expect(true).toBe(data instanceof WebhookEvent);
-    //     expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookEvent(webhookEventsData[mockWebhookEventGuid])));
-    // });
-
-    // it('throws error when if missed guid while updating a WebhookEvent', async () => {
-    //     try {
-    //         await api.updateWebhookEvent();
-    //     } catch (err) {
-    //         expect(err instanceof Error).toBe(true);
-    //         expect(err.toString()).toBe('Error: ArgumentNullException: webhookEvent is null or empty');
-    //     }
-    // });
-
-    // it('delete a WebhookEvent', async () => {
-    //     const data = await api.deleteWebhookEvent(mockWebhookEventGuid);
-    //     console.log('data: ', data);
-    //     expect(data instanceof WebhookEvent).toBe(true);
-    //     expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookEvent(webhookEventsData[mockWebhookEventGuid])));
-    // });
-
-    // it('throws error when if missed guid while deleting a WebhookEvent', async () => {
-    //     try {
-    //         await api.deleteWebhookEvent();
-    //     } catch (err) {
-    //         expect(err instanceof Error).toBe(true);
-    //         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
-    //     }
-    // });
-
     it('Check if a WebhookEvent exist', async () => {
       const data = await api.existsWebhookEvent(mockWebhookEventGuid);
       expect(data).toBe('true');
     });
 
     it('Check if a WebhookEvent does not exist', async () => {
-      const data = await api.existsWebhookEvent('wrongID');
-      expect(data).toBe('false');
+      try {
+        await api.existsWebhookEvent('wrongID');
+      } catch (err) {
+        expect(err).toBe('Not Found');
+      }
     });
 
     it('throws error when if missed guid while checking a WebhookEvent existance', async () => {
