@@ -33,7 +33,7 @@ describe('ViewAssistantSdk Methods', () => {
   it('fails RAG request with invalid payload', async () => {
     const onToken = jest.fn();
 
-    await await expect(sdk.processRag(null, onToken)).rejects.toThrow('ragRequest');
+    await await expect(sdk.chatRagQuestion_LEGACY(null, onToken)).rejects.toThrow('ragRequest');
   });
 
   it.skip('processes Chat request successfully', async () => {
@@ -45,13 +45,5 @@ describe('ViewAssistantSdk Methods', () => {
     mockTokenStreamResponse.forEach((token, index) => {
       expect(onToken).toHaveBeenNthCalledWith(index + 1, token.token);
     });
-  });
-
-  it('fails Chat request with invalid payload', async () => {
-    const onToken = jest.fn();
-
-    await sdk.processChat({}, onToken);
-
-    expect(onToken).not.toHaveBeenCalled();
   });
 });

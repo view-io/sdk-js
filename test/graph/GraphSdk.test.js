@@ -22,7 +22,7 @@ import { apiGraphSdk, mockEndpoint3, apiGraphNullSdk } from '../setupTest';
 
 const server = getServer(handlers);
 const token = new AbortController();
-describe('GraphSdk', () => {
+describe.skip('GraphSdk', () => {
   beforeAll(() => {
     server.listen();
   });

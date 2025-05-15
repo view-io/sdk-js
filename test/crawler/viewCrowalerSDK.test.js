@@ -230,7 +230,7 @@ describe('Crawler SDK', () => {
     });
     it('Delete Crawl Filters', async () => {
       const data = await apiCrowalerSDK.deleteCrawlFilter(CrawlFilterGUID);
-      expect(data).toBe('true');
+      expect(data).toBe(true);
     });
     it('throws an error when deleting a Crawl Filter with invalid data', async () => {
       expect(apiCrowalerSDK.deleteCrawlFilter()).rejects.toThrow(Error);
@@ -294,7 +294,7 @@ describe('Crawler SDK', () => {
     });
     it('Delete Crawl Plans', async () => {
       const data = await apiCrowalerSDK.deleteCrawlPlan(CrawlPlansGUID);
-      expect(data).toBe('true');
+      expect(data).toBe(true);
     });
     it('throws an error when deleting a Crawl Plan with invalid data', async () => {
       expect(apiCrowalerSDK.deleteCrawlPlan()).rejects.toThrow(Error);
@@ -372,7 +372,7 @@ describe('Crawler SDK', () => {
     });
     it('Delete Crawl Operations', async () => {
       const data = await apiCrowalerSDK.deleteCrawlOperation(CrawlOperationGUID);
-      expect(data).toBe('true');
+      expect(data).toBe(true);
     });
     it('throws an error when deleting a Crawl Operation', async () => {
       expect(apiCrowalerSDK.deleteCrawlOperation()).rejects.toThrow(Error);

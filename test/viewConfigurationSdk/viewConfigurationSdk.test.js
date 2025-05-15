@@ -62,7 +62,7 @@ describe('ViewConfigurationSdk', () => {
 
     it('delete a Tenant', async () => {
       const data = await api.deleteTenant(mockTenantId);
-      expect(data).toBe('true');
+      expect(data).toBe(true);
     });
 
     it('create a Tenant', async () => {
@@ -115,7 +115,7 @@ describe('ViewConfigurationSdk', () => {
 
     it('delete a blob', async () => {
       const data = await api.deleteBlob(mockBlobGuid);
-      expect(data).toBe('true');
+      expect(data).toBe(true);
     });
 
     it('Check if a blob exist', async () => {
