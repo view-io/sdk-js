@@ -2,8 +2,10 @@ export default class GenericExceptionHandlers {
   /**
    * @param {string} argName
    */
-  ArgumentNullException = (argName) => {
+  static ArgumentNullException = (argName: string) => {
     throw Error(`ArgumentNullException: ${argName} is null or empty`);
   };
+  static GenericException = (message: string) => {
+    throw Error(message);
+  };
 }
-export const GenExceptionHandlersInstance = new GenericExceptionHandlers();

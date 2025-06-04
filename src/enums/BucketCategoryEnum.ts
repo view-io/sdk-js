@@ -1,9 +1,10 @@
 /**
  * Enum for BucketCategory.
+ * @readonly
  * @enum {string}
  */
-export const BucketCategoryEnum = Object.freeze({
-  Data: 'Data',
-  Metadata: 'Metadata',
-  Embeddings: 'Embeddings',
-});
+export enum BucketCategoryEnum {
+  Data = 'Data',
+  Metadata = 'Metadata',
+  Embeddings = 'Embeddings',
+}

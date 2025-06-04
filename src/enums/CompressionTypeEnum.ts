@@ -1,13 +1,11 @@
 /**
  * Enum for CompressionType.
+ * @readonly
  * @enum {string}
  */
-export const CompressionTypeEnum = Object.freeze({
-  NONE: 'None',
-  GZIP: 'Gzip',
-  DEFLATE: 'Deflate',
-  ADAPTIVE: 'Adaptive',
-});
-
-// Export the enum for use in other modules
-// module.exports = CompressionTypeEnum;
+export enum CompressionTypeEnum {
+  None = 'None',
+  Gzip = 'Gzip',
+  Deflate = 'Deflate',
+  Adaptive = 'Adaptive',
+}

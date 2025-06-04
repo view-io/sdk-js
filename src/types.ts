@@ -1,6 +1,14 @@
 import { ApiErrorEnum } from './enums/ApiErrorEnum';
+import { DataTypeEnum } from './enums/DataTypeEnum';
+import { DocumentTypeEnum } from './enums/DocumentTypeEnum';
+import { EnumerationOrderEnum } from './enums/EnumerationOrderEnum';
+import { GraphNodeTypeEnum } from './enums/GraphNodeTypeEnum';
+import { VectorRepositoryTypeEnum } from './enums/VectorRepositoryTypeEnum';
+import { VectorSearchTypeEnum } from './enums/VectorSearchTypeEnum';
+import { WebhookEventStatusEnum } from './enums/WebhookEventStatusEnum';
+import { WebhookEventTypeEnum } from './enums/WebhookEventTypeEnum';
 
-export interface AclEntryData {
+export interface AclEntry {
   GUID: string;
   TenantGUID: string;
   BucketGUID: string;
@@ -15,7 +23,7 @@ export interface AclEntryData {
   CreatedUtc: string; // ISO timestamp
 }
 
-export interface UserMasterData {
+export interface UserMaster {
   GUID: string;
   TenantGUID: string;
   FirstName: string;
@@ -28,27 +36,27 @@ export interface UserMasterData {
   IsProtected: boolean;
 }
 
-export interface AclMetaDataData {
-  Owner: UserMasterData;
-  Users: UserMasterData[];
-  Entries: AclEntryData[];
+export interface AclMetaData {
+  Owner: UserMaster;
+  Users: UserMaster[];
+  Entries: AclEntry[];
 }
 
-export interface ApiErrorResponseData {
-  error: ApiErrorEnum;
-  context: Record<string, any> | null;
-  message: string | null;
-  description: string | null;
+export interface ApiErrorResponse {
+  Error: ApiErrorEnum;
+  StatusCode: number;
+  Message?: string | null;
+  Description?: string | null;
 }
 
-export interface AssistantChatResponseData {
+export interface AssistantChatResponse {
   response: string;
   source_documents: object[];
   context: string;
   CitationMap: any;
 }
 
-export interface AssistantConfigData {
+export interface AssistantConfig {
   GUID: string;
   Name: string;
   Description: string | null;
@@ -86,11 +94,11 @@ export interface AssistantConfigData {
   ChatOnly: boolean;
 }
 
-export interface AssistantConfigListData {
-  AssistantConfigs: AssistantConfigData[];
+export interface AssistantConfigList {
+  AssistantConfigs: AssistantConfig[];
 }
 
-export type AssistantRagRequestData = {
+export type AssistantRagRequest = {
   PromptPrefix?: string;
   Question?: string;
   MaxResults?: number;
@@ -113,7 +121,7 @@ export type AssistantRagRequestData = {
   RerankTopK?: number;
 };
 
-export interface BlobData {
+export interface Blob {
   GUID: string;
   TenantGUID: string;
   ContentType: string;
@@ -128,7 +136,6 @@ export interface BlobData {
   SHA1Hash: string;
   SHA256Hash: string;
   CreatedUtc: string;
-  Data: string;
 }
 
 export interface BucketMetadata {
@@ -496,12 +503,24 @@ export interface DataFlow {
   CreatedUtc: string;
   LogRetentionDays: number;
   Map: any;
-  Steps: any[];
+  Steps: StepMetadata[];
+}
+
+export interface DataFlowLog {
+  GUID: string;
+  TenantGUID: string;
+  TriggerGUID: string;
+  StepGUID: string;
+  Name: string;
+  Notes: string | null;
+  CreatedUtc: Date;
+  LogRetentionDays: number;
+  Step: StepMetadata | null;
 }
 
 export interface DataNode {
   key: string | null;
-  type: string;
+  type: DataTypeEnum;
   data: any;
 }
 
@@ -668,7 +687,7 @@ export interface EnumerationQuery {
   ordering: any;
 }
 
-export interface EnumerationResult {
+export interface EnumerationResult<T> {
   success: boolean;
   timestamp: {
     start: string;
@@ -680,7 +699,7 @@ export interface EnumerationResult {
   endOfResults: boolean;
   totalRecords: number;
   recordsRemaining: number;
-  objects: any[];
+  objects: T[];
   sharedPrefixes: any[];
   statistics: any;
 }
@@ -697,7 +716,7 @@ export interface Graph {
 }
 
 export interface GraphData {
-  Type: string;
+  Type: GraphNodeTypeEnum;
   Tenant: any;
   StoragePool: any;
   Bucket: any;
@@ -928,11 +947,6 @@ export interface OpenAiEmbeddingsResult {
   Data: OpenAiEmbeddings[];
 }
 
-export interface EmbeddingsMap {
-  Content: string | null;
-  Embeddings: number[];
-}
-
 export interface PdfOptions {
   Mode: string;
   ReturnMarkup: boolean;
@@ -987,7 +1001,7 @@ export interface QueryFilter {
 }
 
 export interface SchemaResult {
-  type: string;
+  type: DocumentTypeEnum;
   irregular: boolean | null;
   schema: { [key: string]: string };
   metadata: { [key: string]: any };
@@ -1169,24 +1183,383 @@ export interface Trigger {
 export interface TypeResult {
   MimeType: string | null;
   Extension: string | null;
-  Type: string;
+  Type: typeof DocumentTypeEnum;
 }
 
-export interface SourceDocumentData {
+export interface UdrDataTableRequest {
   GUID: string;
+  DatabaseType: string;
+  Hostname: string | null;
+  Port: number;
+  Username: string | null;
+  Password: string | null;
+  DatabaseName: string | null;
+  Query: string | null;
+  IncludeFlattened: boolean;
+  CaseInsensitive: boolean;
+  TopTerms: number;
+  AdditionalData: string | null;
+  Metadata: object;
+  SqliteFileData: Uint8Array;
+}
+
+export interface UdrDocument {
+  GUID: string;
+  Success: boolean;
+  Timestamp: {
+    Start: string;
+    End: string;
+    TotalMs: number;
+    Messages: object;
+  };
+  AdditionalData: string;
+  Metadata: object;
+  Key: string;
+  Type: string;
+  Terms: object;
+  TopTerms: number;
+  Schema: object;
+  Postings: object;
+  SemanticCells: object;
+}
+
+export interface UdrDocumentRequest {
+  GUID: string;
+  Type: typeof DocumentTypeEnum;
+  Key: string | null;
+  ContentType: string | null;
+  SemanticCellSplitCharacter: string;
+  MaxChunkContentLength: number;
+  IncludeFlattened: boolean;
+  CaseInsensitive: boolean;
+  TopTerms: number;
+  AdditionalData: string | null;
+  Metadata: object;
+  Data: Uint8Array;
+  MetadataRule: object | null;
+}
+
+export interface VectorDeleteRequest {
+  TenantGUID: string | null;
+  GUID: string | null;
+  CollectionGUID: string | null;
+  SourceDocumentGUID: string | null;
+  BucketGUID: string | null;
+  ObjectGUID: string | null;
+  VectorRepositoryGUID: string | null;
+  Key: string | null;
+  Version: string | null;
+}
+
+export interface VectorQueryRequest {
+  Query: string | null;
+  VectorRepositoryGUID: string | null;
+}
+
+export interface VectorQueryResult {
+  Success: boolean;
+  Timestamp: number;
+  StatusCode: number;
+  Query: string | null;
+  Result: object | null;
+}
+
+export interface VectorRepository {
+  GUID: string | undefined;
+  TenantGUID: string | undefined;
+  Name: string | undefined;
+  RepositoryType: VectorRepositoryTypeEnum | undefined;
+  Model: string | undefined;
+  Dimensionality: number | undefined;
+  DatabaseHostname: string | undefined;
+  DatabaseName: string | undefined;
+  SchemaName: string | undefined;
+  DatabaseTable: string | undefined;
+  DatabasePort: number | undefined;
+  DatabaseUser: string | undefined;
+  DatabasePassword: string | undefined;
+  CreatedUtc: Date | string | undefined;
+}
+
+export interface VectorSearch {
+  DocumentGUID: string;
   TenantGUID: string;
-  BucketGUID: string;
   CollectionGUID: string;
+  SourceDocumentGUID: string;
+  BucketGUID: string;
+  VectorRepositoryGUID: string;
+  GraphNodeIdentifier: string;
   ObjectGUID: string;
   ObjectKey: string;
   ObjectVersion: string;
+  Model: string;
+  CellGUID: string;
+  CellType: string;
+  CellMD5Hash: string;
+  CellSHA1Hash: string;
+  CellSHA256Hash: string;
+  CellPosition: number;
+  ChunkGUID: string;
+  ChunkMD5Hash: string;
+  ChunkSHA1Hash: string;
+  ChunkSHA256Hash: string;
+  ChunkPosition: number;
+  ChunkLength: number;
+  Content: string;
+  Score: number;
+  Distance: number;
+  CreatedUtc: string;
+  Embeddings: number[];
+}
+
+export interface VectorSearchRequest {
+  VectorRepositoryGUID: string | null;
+  SearchType: VectorSearchTypeEnum;
+  StartIndex: number;
+  MaxResults: number;
+  Embeddings: number[];
+}
+
+export interface ViewEndpoint {
+  GUID: string;
+  TenantGUID: string;
+  OwnerGUID: string;
+  Name: string;
+  UseSsl: boolean;
+  S3Url: string;
+  S3BaseUrl: string;
+  RestUrl: string;
+  BucketName: string;
+  Region: string;
+  AccessKey: string | null;
+  SecretKey: string | null;
+  ApiKey: string | null;
+  CreatedUtc: Date;
+}
+
+export interface VoyageAiEmbeddings {
+  Embeddings: number[];
+  Index: number;
+  ObjectType: string | null;
+}
+
+export interface VoyageAiEmbeddingsResult {
+  Object: string | null;
+  Data: VoyageAiEmbeddings[];
+}
+
+export interface WebhookEvent {
+  GUID: string;
+  TenantGUID: string;
+  TargetGUID: string;
+  RuleGUID: string;
+  EventType: string;
+  ContentLength: number;
+  TimeoutMs: number;
+  Url: string;
   ContentType: string;
-  DocumentType: string;
-  SourceUrl: string;
+  ExpectStatus: number;
+  RetryIntervalMs: number;
+  Attempt: number;
+  MaxAttempts: number;
+  HttpStatus: number;
+  CreatedUtc: Date;
+  AddedUtc: Date;
+  LastAttemptUtc: Date | null;
+  NextAttemptUtc: Date | null;
+  LastFailureUtc: Date | null;
+  SuccessUtc: Date | null;
+  FailedUtc: Date | null;
+}
+
+export interface WebhookEventArgs {
+  event: WebhookEvent | null;
+  status: WebhookEventStatusEnum;
+}
+
+export interface WebhookRule {
+  GUID: string;
+  TenantGUID: string;
+  TargetGUID: string;
+  Name: string;
+  EventType: WebhookEventTypeEnum;
+  MaxAttempts: number;
+  RetryIntervalMs: number;
+  TimeoutMs: number;
+  CreatedUtc: string;
+}
+
+export interface WebhookTarget {
+  GUID: string;
+  TenantGUID: string;
+  Name: string;
+  Url: string;
+  ContentType: string;
+  ExpectStatus: number;
+  CreatedUtc: string;
+}
+
+export interface RagRequest {
+  Question?: string;
+  EmbeddingModel?: string;
+  MaxResults?: number;
+  VectorDatabaseName?: string;
+  VectorDatabaseTable?: string;
+  VectorDatabaseHostname?: string;
+  VectorDatabasePort?: number;
+  VectorDatabaseUser?: string;
+  VectorDatabasePassword?: string;
+  GenerationProvider?: string;
+  GenerationApiKey?: string;
+  GenerationModel?: string;
+  HuggingFaceApiKey?: string;
+  Temperature?: number;
+  MaxTokens?: number;
+  Stream?: boolean;
+  OllamaHostname?: string;
+  OllamaPort?: number;
+  TopP?: number;
+  PromptPrefix?: string;
+  ContextSort?: boolean;
+  SortByMaxSimilarity?: boolean;
+  ContextScope?: number;
+  Rerank?: boolean;
+  RerankModel?: string;
+  RerankTopK?: number;
+}
+
+export interface ChatMessage {
+  role: string;
+  content: string;
+}
+
+export interface ChatRequest {
+  messages?: ChatMessage[];
+  Question?: string;
+  ModelName?: string;
+  Temperature?: number;
+  TopP?: number;
+  MaxTokens?: number;
+  GenerationProvider?: string;
+  GenerationApiKey?: string;
+  OllamaHostname?: string;
+  OllamaPort?: number;
+  Stream?: boolean;
+}
+
+export interface ChatMessageWithMetadata {
+  role?: string;
+  content?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface CreateChatThreadRequest {
+  Title?: string;
+  Description?: string;
+  Messages?: ChatMessageWithMetadata[];
+  AssistantConfigGUID?: string;
+  Metadata?: Record<string, any>;
+}
+
+export interface AppendChatThreadRequest {
+  ThreadId?: string;
+  response?: {
+    role?: string; // Typically "assistant"
+    content?: string;
+    metadata?: {
+      source_documents?: Array<{
+        content: string;
+        similarity: number;
+      }>;
+      generation_metrics?: {
+        tokens?: number;
+        generation_time?: number;
+      };
+      [key: string]: any; // Additional metadata fields
+    };
+  };
+}
+
+export interface ModelRequest {
+  ModelName?: string;
+  OllamaHostname: string;
+  OllamaPort: number;
+  Unload?: boolean;
+}
+
+export interface EmbeddingDirectoryRequest {
+  EmbeddingsRule?: {
+    EmbeddingsGenerator?: string;
+    EmbeddingsGeneratorUrl?: string;
+    EmbeddingsGeneratorApiKey?: string;
+    BatchSize?: number;
+    MaxGeneratorTasks?: number;
+    MaxRetries?: number;
+    MaxFailures?: number;
+  };
+  Model?: string;
+  ApiKey?: string;
+  Contents?: string[];
+}
+
+export interface ModelsConfigRequest {
+  Models?: string[];
+  ApiKey?: string;
+}
+
+export interface SourceDocumentRequest {
+  GUID: string;
+  TenantGUID: string;
+  BucketGUID: string | null;
+  CollectionGUID: string;
+  ObjectGUID: string;
+  DataFlowRequestGUID: string | null;
+  GraphRepositoryGUID: string | null;
+  GraphNodeIdentifier: string | null;
+  DataRepositoryGUID: string | null;
+  ObjectKey: string | null;
+  ObjectVersion: string;
+  ContentType: string;
+  DocumentType: DocumentTypeEnum;
+  SourceUrl: string | null;
   ContentLength: number;
   MD5Hash: string;
-  SHA1Hash: string;
-  SHA256Hash: string;
-  CreatedUtc: string;
-  UdrDocument: object;
+  SHA1Hash: string | null;
+  SHA256Hash: string | null;
+  CreatedUtc: Date;
+  ExpirationUtc: Date | null;
+  Score: any | null;
+  UdrDocument: UdrDocument | null;
+}
+
+export interface SearchCollectionDocumentsQuery {
+  guid: string;
+  tenantGuid: string;
+  collectionGuid: string;
+  maxResults: number;
+  continuationToken: string;
+  ordering: EnumerationOrderEnum;
+  filter: QueryFilter;
+  embeddingsRule: EmbeddingsRule;
+}
+
+export interface EnumerateRequest {
+  query?: {
+    search?: boolean;
+    incldata?: boolean;
+    async?: boolean;
+    enumerate?: boolean;
+  };
+  searchData?: {
+    MaxResults?: number;
+    Skip?: number;
+    ContinuationToken?: string;
+    Ordering?: string;
+    EmbeddingsRule?: any;
+    Filters?: Array<{
+      field?: string;
+      operator?: string;
+      value?: string | number | boolean;
+    }>;
+  };
 }

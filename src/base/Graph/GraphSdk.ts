@@ -8,7 +8,7 @@ import TenantMetadata from '../../models/TenantMetadata';
 import StoragePool from '../../models/StoragePool';
 import BucketMetadata from '../../models/BucketMetadata';
 import Collection from '../../models/Collection';
-import SourceDocument from '../../models/SourceDocument';
+import { SourceDocument } from '../../types';
 import SemanticCell from '../../models/SemanticCell';
 import SemanticChunk from '../../models/SemanticChunk';
 import DataRepository from '../../models/DataRepository';

@@ -4,6 +4,7 @@
  * @readonly
  * @enum {string}
  */
-export const GraphRepositoryTypeEnum = Object.freeze({
-  LiteGraph: 'LiteGraph',
-});
+
+export enum GraphRepositoryTypeEnum {
+  LiteGraph = 'LiteGraph',
+}

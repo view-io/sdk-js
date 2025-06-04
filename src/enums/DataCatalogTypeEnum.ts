@@ -1,7 +1,6 @@
 /**
  * Enum for DataCatalogType.
- * @enum {string}
  */
-export const DataCatalogTypeEnum = Object.freeze({
-  Lexi: 'Lexi',
-});
+export enum DataCatalogTypeEnum {
+  Lexi = 'Lexi',
+}

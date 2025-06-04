@@ -1,9 +1,10 @@
 import superagent from 'superagent';
-import { GenExceptionHandlersInstance } from '../exception/GenericExceptionHandlers';
-import { LoggerInstance } from '../utils/Logger';
+import GenericExceptionHandlers from '../exception/GenericExceptionHandlers';
+import Logger from '../utils/Logger';
 import { SeverityEnum } from '../enums/SeverityEnum';
-import ApiErrorResponse from '../models/ApiErrorResponse';
+import { ApiErrorResponse } from '../types';
 import Serializer from '../utils/Serializer';
+import { SdkConfiguration } from './SdkConfiguration';
 
 /**
  * ViewSdk Base service.
@@ -11,127 +12,59 @@ import Serializer from '../utils/Serializer';
  * @version 0.1.0
  */
 export default class ViewSdkBase {
-  logResponses = false;
+  protected logger: Logger;
+  protected config: SdkConfiguration;
   /**
-   * @constructor
-   * @param {string} tenantGuid
-   * @param {string} accessKey
-   * @param {string} endpoint
+   * Creates an instance of SdkBase.
+   * @param {SdkConfiguration} config - The SDK configuration.
+   * @throws {Error} Throws an error if the config is null.
    */
-  constructor(tenantGuid, accessKey, endpoint) {
-    if (!endpoint) {
-      GenExceptionHandlersInstance.ArgumentNullException('endpoint');
+  constructor(config: SdkConfiguration) {
+    if (!config) {
+      GenericExceptionHandlers.ArgumentNullException('config');
     }
-
-    this.tenantGuid = tenantGuid;
-    this.accessKey = accessKey;
-    /**
-     * The base URL against which to resolve every API call's (relative) path.
-     * @type {String}
-     * @default http://localhost
-     */
-    this.endpoint = endpoint.replace(/\/+$/, '');
-
-    /**
-     * The default HTTP headers to be included for all API calls.
-     * @type {Array.<String>}
-     * @default {}
-     */
-    this.defaultHeaders = {
-      // 'User-Agent': 'OpenAPI-Generator/0.1.0/Javascript',
-      Authorization: `Bearer ${this.accessKey}`,
-    };
-
-    /**
-     * The default HTTP timeout for all API calls.
-     * @type {Number}
-     * @default 60000
-     */
-    this.timeout = 60000;
-
-    /*
-     * Used to save and return cookies in a node.js (non-browser) setting,
-     * if this.enableCookies is set to true.
-     */
-    if (typeof window === 'undefined') {
-      this.agent = new superagent.agent();
-    }
-  }
-
-  get accessKey() {
-    return this._accessKey;
+    this.config = config;
+    this.logger = new Logger(this.config);
   }
 
   /**
-   * Setter for the access key.
-   * @param {string} value - The access key.
-   * @throws {Error} Throws an error if the access key is null or empty.
+   * Logs a message with a severity level.
+   * @param {string} sev - The severity level (e.g., SeverityEnum.Debug, 'warn').
+   * @param {string} msg - The message to log.
    */
-  set accessKey(value) {
-    if (!value) {
-      console.log(value, 'AccessKey log');
-      GenExceptionHandlersInstance.ArgumentNullException('AccessKey');
-    }
-    this.defaultHeaders = Object.assign({}, this.defaultHeaders, {
-      Authorization: `Bearer ${value}`,
-    });
-    this._accessKey = value;
-  }
-
-  /**
-   * Getter for the access token.
-   * @return {string} The access token.
-   */
-  get accessToken() {
-    return this._accessToken;
-  }
-
-  /**
-   * Setter for the access token.
-   * @param {string} value - The access token.
-   * @throws {Error} Throws an error if the access token is null or empty.
-   */
-  set accessToken(value) {
-    if (!value) {
-      GenExceptionHandlersInstance.ArgumentNullException('AccessToken');
-    }
-
-    this.defaultHeaders = Object.assign({}, this.defaultHeaders, {
-      'x-token': value,
-    });
-    this._accessToken = value;
+  protected log(sev: SeverityEnum, msg: string) {
+    if (!msg) return;
+    this.logger.log(sev, this.config.header + msg);
   }
 
   /**
    * Create an object via PUT request to the specified URL.
    *
-   * @template T
    * @param {string} url - The URL to send the PUT request to.
-   * @param {T} [obj] - The object to send in the request body.
-   * @param {Class} [Model] - Modal to deserialize on
+   * @param {object} [obj] - The object to send in the request body.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
-   * @throws {Error} If the URL or object is null or empty.
+   * @returns {Promise<T>} The created object as the response or null if the request fails.
+   * @throws {Error<ApiErrorResponse>} If the URL or object is null or empty.
    */
-  create = (url, obj, Model, cancelToken) => {
+  create = <T>(url: string, obj: object, cancelToken: AbortController): Promise<T> => {
     if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
+      GenericExceptionHandlers.ArgumentNullException('url');
     }
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
       const jsonPayload = obj ? JSON.stringify(obj) : '';
       // Prepare the PUT request using superagent
       const request = superagent('PUT', url) // use PUT here as per c# flow
-        .set(this.defaultHeaders)
+        .set(this.config.defaultHeaders)
         .set('Content-Type', 'application/json')
-        .timeout(this.timeout)
+        .timeout(this.config.timeoutMs)
         .send(obj ? jsonPayload : undefined); // Send JSON data in the request body
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
+          this.logger.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
 
@@ -139,23 +72,17 @@ export default class ViewSdkBase {
       request
         .then((response) => {
           // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
+          this.logger.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
 
           // Handle successful response (status codes 200-299)
           if (response.ok) {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            if (!Model) {
-              resolve(response.text);
-            } else {
-              resolve(Serializer.deserializeJson(response.text, Model));
-            }
+            resolve(Serializer.deserializeJson(response.text));
           } else {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
@@ -164,19 +91,13 @@ export default class ViewSdkBase {
         })
         .catch((error) => {
           if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
+            this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
+            this.logger.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
           if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
+            reject(errorResponse as ApiErrorResponse);
           } else {
             reject(error.message ? error.message : null);
           }
@@ -189,24 +110,24 @@ export default class ViewSdkBase {
    *
    * @template T
    * @param {string} url - The URL to request data from.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error} If the URL is null or empty.
+   * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
+   * @throws {Error<ApiErrorResponse>} If the URL is null or empty.
    */
-  exists = (url, cancelToken) => {
+  exists = (url: string, cancelToken: AbortController): Promise<boolean> => {
     if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
+      GenericExceptionHandlers.ArgumentNullException('url');
     }
 
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
-      const request = superagent('HEAD', url).set(this.defaultHeaders).timeout(this.timeout);
+      const request = superagent('HEAD', url).set(this.config.defaultHeaders).timeout(this.config.timeoutMs);
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
+          this.logger.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
 
@@ -214,22 +135,20 @@ export default class ViewSdkBase {
       request
         .then((response) => {
           // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
+          this.logger.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
 
           // Handle successful response (status codes 200-299)
           // if (response.ok) {
           if (response.status >= 200 && response.status <= 299) {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
             // Return parsed JSON response
             // resolve(response.body);
-            resolve('true');
+            resolve(true);
           } else {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
@@ -239,22 +158,19 @@ export default class ViewSdkBase {
         })
         .catch((error) => {
           if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
+            this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
+            this.logger.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
 
           if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
+            if (errorResponse?.StatusCode === 404) {
+              resolve(false);
+            } else {
+              reject(errorResponse as ApiErrorResponse);
+            }
           } else {
-            // reject(null);
             reject(error?.message ? error?.message : 'Something went wrong.');
           }
         });
@@ -264,24 +180,19 @@ export default class ViewSdkBase {
   /**
    * Update an object via PUT request to the specified URL.
    *
-   * @template T
    * @param {string} url - The URL to send the PUT request to.
-   * @param {T} obj - The object to send in the request body.
-   * @param {Class} Model - Modal to deserialize on
+   * @param {object} obj - The object to send in the request body.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @param {Object} [headers] - Additional headers for the request.
-   * @param {string} [headers.token] - headers token for authorization.
-   * @param {string} [headers.Range] - headers range for the request.
-   * @param {string} [headers.email] - headers email for the request.
    * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
    * @throws {Error} If the URL or object is null or empty.
    */
-  update = (url, obj, Model, cancelToken, headers) => {
+  update = <T>(url: string, obj: object, cancelToken?: AbortController, headers?: any): Promise<T> => {
     if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
+      GenericExceptionHandlers.ArgumentNullException('url');
     }
     if (!obj) {
-      GenExceptionHandlersInstance.ArgumentNullException('obj');
+      GenericExceptionHandlers.ArgumentNullException('obj');
     }
 
     return new Promise((resolve, reject) => {
@@ -289,16 +200,19 @@ export default class ViewSdkBase {
       const jsonPayload = JSON.stringify(obj);
       // Prepare the PUT request using superagent
       const request = superagent('PUT', url)
-        .set(Object.assign({}, this.defaultHeaders, headers || {}))
+        .set({
+          ...this.config.defaultHeaders,
+          ...headers,
+        })
         .set('Content-Type', 'application/json')
-        .timeout(this.timeout)
+        .timeout(this.config.timeoutMs)
         .send(jsonPayload); // Send JSON data in the request body
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
+          this.logger.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
 
@@ -306,44 +220,32 @@ export default class ViewSdkBase {
       request
         .then((response) => {
           // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
+          this.logger.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
 
           // Handle successful response (status codes 200-299)
           if (response.ok) {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-
-            // Return parsed JSON response
-            // resolve(response.body);
-            // Returns parsed JSON response in the given Modal
-            resolve(Serializer.deserializeJson(response.text, Model));
+            resolve(Serializer.deserializeJson(response.text));
           } else {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(null);
+            reject(new Error('Something went wrong.'));
           }
         })
         .catch((error) => {
           if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
+            this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
+            this.logger.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
           if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
+            reject(errorResponse as ApiErrorResponse);
           } else {
             reject(error.message ? error.message : null);
           }
@@ -354,33 +256,28 @@ export default class ViewSdkBase {
   /**
    * Retrieve single data from the given URL with optional cancellation support using superagent's abort method.
    *
-   * @template T
    * @param {string} url - The URL to request data from.
-   * @param {Class} Model - Modal to deserialize on
+   * @param {AbortController} [cancelToken] - Optional headers with an `abort` method to cancel the request.
    * @param {Object} [headers] - Additional headers for the request.
-   * @param {string} [headers.token] - headers token for authorization.
-   * @param {string} [headers.Range] - headers range for the request.
-   * @param {string} [headers.email] - headers email for the request.
-   * @param {{}} [cancelToken] - Optional headers with an `abort` method to cancel the request.
    * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
    * @throws {Error} If the URL is null or empty.
    */
-  retrieve = (url, Model, cancelToken, headers) => {
+  retrieve = <T>(url: string, cancelToken?: AbortController, headers?: any): Promise<T> => {
     if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
+      GenericExceptionHandlers.ArgumentNullException('url');
     }
 
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
       const request = superagent('GET', url)
-        .set(Object.assign({}, this.defaultHeaders, headers || {}))
-        .timeout(this.timeout);
+        .set(Object.assign({}, this.config.defaultHeaders, headers || {}))
+        .timeout(this.config.timeoutMs);
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
+          this.logger.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
 
@@ -388,389 +285,71 @@ export default class ViewSdkBase {
       request
         .then((response) => {
           // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
+          this.logger.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
 
           // Handle successful response (status codes 200-299)
           if (response.ok) {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            if (!Model) {
-              resolve(response.text);
-            } else {
-              resolve(Serializer.deserializeJson(response.text, Model));
-            }
+            resolve(Serializer.deserializeJson(response.text));
           } else {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(null);
+            reject(new Error('Something went wrong.'));
           }
         })
         .catch((error) => {
           if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
+            this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
+            this.logger.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
           if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
+            reject(errorResponse as ApiErrorResponse);
           } else {
             reject(error.message ? error.message : null);
           }
         });
     });
   };
-
-  retrieveRaw = (url, cancelToken) => {
-    if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-
-    return new Promise((resolve, reject) => {
-      // Prepare the request using the shorthand method for GET
-      const request = superagent('GET', url).set(this.defaultHeaders).timeout(this.timeout);
-
-      // If a cancelToken is provided, attach the abort method
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-
-      // Send the request and handle the promise chain
-      request
-        .then((response) => {
-          // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
-
-          // Handle successful response (status codes 200-299)
-          if (response.ok) {
-            LoggerInstance.log(
-              SeverityEnum.Debug,
-              `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-
-            // Return the raw response text (string) instead of deserializing it
-            resolve(response.text);
-          } else {
-            LoggerInstance.log(
-              SeverityEnum.Warn,
-              `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            reject(null);
-          }
-        })
-        .catch((error) => {
-          if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-          } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-          }
-
-          const errorResponse = error?.response?.body || null;
-          if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
-          } else {
-            reject(error.message ? error.message : null);
-          }
-        });
-    });
-  };
-
-  /**
-   * Retrieve all data from the given URL with optional cancellation support using superagent's abort method.
-   *
-   * @template T
-   * @param {string} url - The URL to request data from.
-   * @param {Class} Model - Modal to deserialize on
-   * @param {{}} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @param {object} [headers] - Optional object with an `abort` method to cancel the request
-   * @param {string} [headers.token] - headers token for authorization.
-   * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error} If the URL is null or empty.
-   */
-  retrieveMany = (url, Model, cancelToken, headers) => {
-    if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-    if (!Model) {
-      GenExceptionHandlersInstance.ArgumentNullException('Model Class');
-    }
-
-    return new Promise((resolve, reject) => {
-      const request = superagent('GET', url)
-        .set(Object.assign({}, this.defaultHeaders, headers || {}))
-        .timeout(this.timeout);
-
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-
-      request
-        .then((response) => {
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
-
-          if (response.ok) {
-            LoggerInstance.log(
-              SeverityEnum.Debug,
-              `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-
-            // Handle potential array or single object response
-            let responseData = JSON.parse(response.text);
-            if (!Array.isArray(responseData)) {
-              responseData = [responseData]; // Wrap single object in an array
-            }
-
-            // Deserialize each item in the array into the Model class
-            const deserializedData = responseData.map((item) => {
-              const instance = new Model(item);
-              return instance;
-            });
-            resolve(deserializedData); // Return the deserialized data
-          } else {
-            LoggerInstance.log(
-              SeverityEnum.Warn,
-              `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            reject(null);
-          }
-        })
-        .catch((error) => {
-          if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-          } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-          }
-
-          const errorResponse = error?.response?.body || null;
-          if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
-          } else {
-            reject(error.message ? error.message : null);
-          }
-        });
-    });
-  };
-
-  // /**
-  //  * Retrieve all data from the given URL with optional cancellation support using superagent's abort method.
-  //  *
-  //  * @template T
-  //  * @param {string} url - The URL to request data from.
-  //  * @param {Class} Model - Modal to deserialize on
-  //  * @param {{}} [cancelToken] - Optional object with an `abort` method to cancel the request.
-  //  * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-  //  * @throws {Error} If the URL is null or empty.
-  //  */
-  // retrieveMany = (url, Model, cancelToken) => {
-  //   if (!url) {
-  //     GenExceptionHandlersInstance.ArgumentNullException('url');
-  //   }
-  //   if (!Model) {
-  //     GenExceptionHandlersInstance.ArgumentNullException('Modal Class');
-  //   }
-
-  //   return new Promise((resolve, reject) => {
-  //     // Prepare the request using the shorthand method for GET
-  //     const request = superagent('GET', url).set(this.defaultHeaders).timeout(this.timeout);
-
-  //     // If a cancelToken is provided, attach the abort method
-  //     if (cancelToken) {
-  //       cancelToken.abort = () => {
-  //         request.abort();
-  //         LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-  //       };
-  //     }
-
-  //     // Send the request and handle the promise chain
-  //     request
-  //       .then((response) => {
-  //         // Log the response if needed
-  //         if (this.logResponses) {
-  //           LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-  //         }
-
-  //         // Handle successful response (status codes 200-299)
-  //         if (response.ok) {
-  //           LoggerInstance.log(
-  //             SeverityEnum.Debug,
-  //             `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-  //           );
-
-  //           // Return parsed JSON response
-  //           resolve(Serializer.deserializeJson(response.text, Model));
-  //         } else {
-  //           LoggerInstance.log(
-  //             SeverityEnum.Warn,
-  //             `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-  //           );
-  //           reject(null);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         if (error?.timeout) {
-  //           LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-  //         } else {
-  //           LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-  //         }
-  //         const errorResponse = error?.response?.body || null;
-  //         if (errorResponse && errorResponse?.Error) {
-  //           const apiErrorResponse = new ApiErrorResponse(
-  //             errorResponse?.Error,
-  //             errorResponse?.Context,
-  //             errorResponse?.Message
-  //           );
-  //           reject(apiErrorResponse);
-  //         } else {
-  //           reject(null);
-  //         }
-  //       });
-  //   });
-  // };
 
   /**
    * Delete single data from the given URL with optional cancellation support using superagent's abort method.
    *
-   * @template T
    * @param {string} url - The URL to delete data from.
-   * @param {Class} Model - Modal to deserialize on
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @param {object} [obj] - Optional object with an `abort` method to cancel the request.
+   * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @param {object} [headers] - Optional object with an `abort` method to cancel the request
-   * @param {string} [headers.token] - headers token for authorization.
-   * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error} If the URL is null or empty.
+   * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
+   * @throws {Error<ApiErrorResponse>} If the URL is null or empty.
    */
-  delete = (url, Model, cancelToken, headers) => {
+  delete = (url: string, obj?: object, cancelToken?: AbortController, headers?: any): Promise<boolean> => {
     if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
+      GenericExceptionHandlers.ArgumentNullException('url');
     }
 
     return new Promise((resolve, reject) => {
+      const jsonPayload = obj ? JSON.stringify(obj) : undefined;
+
       // Prepare the request using the shorthand method for GET
       const request = superagent('DELETE', url)
-        .set(Object.assign({}, this.defaultHeaders, headers || {}))
-        .timeout(this.timeout);
-
-      // If a cancelToken is provided, attach the abort method
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-
-      // Send the request and handle the promise chain
-      request
-        .then((response) => {
-          // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
-
-          // Handle successful response (status codes 200-299)
-          if (response.ok) {
-            LoggerInstance.log(
-              SeverityEnum.Debug,
-              `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-
-            // Return parsed JSON response
-            // resolve(response.body);
-            // Returns parsed JSON response in the given Modal
-            if (Model) {
-              resolve(Serializer.deserializeJson(response.text, Model));
-            } else {
-              resolve(response.text);
-            }
-          } else {
-            LoggerInstance.log(
-              SeverityEnum.Warn,
-              `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            reject(null);
-          }
+        .set({
+          ...this.config.defaultHeaders,
+          ...headers,
         })
-        .catch((error) => {
-          if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-          } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-          }
-          const errorResponse = error?.response?.body || null;
-          if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
-          } else {
-            reject(error.message ? error.message : null);
-          }
-        });
-    });
-  };
-  /**
-   * Delete single data from the given URL with optional cancellation support using superagent's abort method.
-   *
-   * @template T
-   * @param {string} url - The URL to delete data from.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @param {object} [headers] - Optional object with an `abort` method to cancel the request
-   * @param {string} [headers.token] - headers token for authorization.
-   * @returns {Promise<string>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error | ApiErrorResponse} If the URL is null or empty.
-   */
-  deleteRaw = (url, cancelToken, headers) => {
-    if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-
-    return new Promise((resolve, reject) => {
-      // Prepare the request using the shorthand method for GET
-      const request = superagent('DELETE', url)
-        .set(Object.assign({}, this.defaultHeaders, headers || {}))
-        .timeout(this.timeout);
+        .timeout(this.config.timeoutMs)
+        .send(jsonPayload);
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
+          this.logger.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
 
@@ -778,200 +357,32 @@ export default class ViewSdkBase {
       request
         .then((response) => {
           // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
+          this.logger.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
 
           // Handle successful response (status codes 200-299)
           if (response.ok) {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-
-            // Return parsed JSON response
-            // resolve(response.body);
-            // Returns parsed JSON response in the given Modal
             resolve(true);
           } else {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(null);
+            reject(new Error('Something went wrong.'));
           }
         })
         .catch((error) => {
           if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
+            this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
+            this.logger.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
           if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
-          } else {
-            reject(error.message ? error.message : null);
-          }
-        });
-    });
-  };
-  /**
-   * Delete single data from the given URL with optional cancellation support using superagent's abort method.
-   *
-   * @template T
-   * @param {string} url - The URL to delete data from.
-   * @param {T} obj - The object to send in the request body.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error} If the URL is null or empty.
-   */
-  deleteWithPayload = (url, obj, cancelToken) => {
-    if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-
-    return new Promise((resolve, reject) => {
-      // Prepare the request using the shorthand method for GET
-      const jsonPayload = JSON.stringify(obj);
-      // Prepare the request using the shorthand method for GET
-      const request = superagent('DELETE', url).set(this.defaultHeaders).timeout(this.timeout).send(jsonPayload);
-
-      // If a cancelToken is provided, attach the abort method
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-
-      // Send the request and handle the promise chain
-      request
-        .then((response) => {
-          // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
-
-          // Handle successful response (status codes 200-299)
-          if (response.ok) {
-            LoggerInstance.log(
-              SeverityEnum.Debug,
-              `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            resolve('true');
-          } else {
-            LoggerInstance.log(
-              SeverityEnum.Warn,
-              `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            reject('false');
-          }
-        })
-        .catch((error) => {
-          if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-          } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-          }
-          const errorResponse = error?.response?.body || null;
-          if (errorResponse && errorResponse?.Error) {
-            reject('false');
-          } else {
-            reject('false');
-          }
-        });
-    });
-  };
-
-  /**
-   * Create an object via POST request to the specified URL.
-   *
-   * @template T
-   * @param {string} url - The URL to send the PUT request to.
-   * @param {T} obj - The object to send in the request body.
-   * @param {Class} Model - Modal to deserialize on
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
-   * @throws {Error} If the URL or object is null or empty.
-   */
-  post = (url, obj, Model, cancelToken) => {
-    if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-    if (!obj) {
-      GenExceptionHandlersInstance.ArgumentNullException('obj');
-    }
-
-    return new Promise((resolve, reject) => {
-      // Prepare the request using the shorthand method for GET
-      const jsonPayload = JSON.stringify(obj);
-      // Prepare the PUT request using superagent
-      const request = superagent('POST', url) // use PUT here as per c# flow
-        .set(this.defaultHeaders)
-        .set('Content-Type', 'application/json')
-        .timeout(this.timeout)
-        .send(jsonPayload); // Send JSON data in the request body
-
-      // If a cancelToken is provided, attach the abort method
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-      // Send the request and handle the promise chain
-      request
-        .then((response) => {
-          // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
-
-          // Handle successful response (status codes 200-299)
-          if (response.ok) {
-            LoggerInstance.log(
-              SeverityEnum.Debug,
-              `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-
-            // Return parsed JSON response
-            // resolve(response.body);
-            // Returns parsed JSON response in the given Modal
-            if (Model) {
-              resolve(Serializer.deserializeJson(response.text, Model));
-            } else {
-              resolve(response.text);
-            }
-          } else {
-            LoggerInstance.log(
-              SeverityEnum.Warn,
-              `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            reject(null);
-          }
-        })
-        .catch((error) => {
-          if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-          } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-          }
-          const errorResponse = error?.response?.body || null;
-          if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
+            reject(errorResponse as ApiErrorResponse);
           } else {
             reject(error.message ? error.message : null);
           }
@@ -980,167 +391,65 @@ export default class ViewSdkBase {
   };
 
   /**
-   * Create an object via POST request to the specified URL.
-   *
-   * @template T
-   * @param {string} url - The URL to send the POST request to.
-   * @param {T} obj - The object to send in the request body.
-   * @param {Class} Model - Class to deserialize the response body into.
-   * @param {string} contentType - The content type of the request (e.g., 'application/json').
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or an `ApiErrorResponse` if the request fails.
-   * @throws {Error} If the URL or object is null or empty.
+   * Put create method
+   * @param {string} url - The URL to create data from.
+   * @param {object} obj - The object to send in the request body.
+   * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @param {object} [headers] - Optional object with an `abort` method to cancel the request
+   * @returns {Promise<T>} The parsed JSON data from the response or null if the request fails.
+   * @throws {Error<ApiErrorResponse>} If the URL is null or empty.
    */
-  postContentType = (url, obj, Model, contentType, cancelToken) => {
+  postCreate = <T>(url: string, obj: any, cancelToken: AbortController, headers?: any): Promise<T> => {
     if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-    if (!obj) {
-      GenExceptionHandlersInstance.ArgumentNullException('obj');
+      GenericExceptionHandlers.ArgumentNullException('url');
     }
 
     return new Promise((resolve, reject) => {
-      // Prepare the request using the shorthand method for POST
-      const jsonPayload = JSON.stringify(obj);
-      // Prepare the POST request using superagent
+      const jsonPayload = obj ? JSON.stringify(obj) : undefined;
+
       const request = superagent('POST', url)
-        .set(this.defaultHeaders)
-        .set('Content-Type', contentType)
-        .timeout(this.timeout)
-        .send(jsonPayload); // Send JSON data in the request body
-
-      // If a cancelToken is provided, attach the abort method
-      if (cancelToken) {
-        cancelToken.abort = () => {
-          request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
-        };
-      }
-
-      // Send the request and handle the promise chain
-      request
-        .then((response) => {
-          // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
-
-          // Handle successful response (status codes 200-299)
-          if (response.ok) {
-            LoggerInstance.log(
-              SeverityEnum.Debug,
-              `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-
-            // Return parsed JSON response in the given Model
-            resolve(Serializer.deserializeJson(response.text, Model));
-          } else {
-            LoggerInstance.log(
-              SeverityEnum.Warn,
-              `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
-            );
-            reject(null);
-          }
+        .set({
+          ...this.config.defaultHeaders,
+          ...headers,
         })
-        .catch((error) => {
-          if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
-          } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
-          }
-          const errorResponse = error?.response?.body || null;
-          if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
-          } else {
-            reject(error.message ? error.message : null);
-          }
-        });
-    });
-  };
-
-  /**
-   * Create an object via POST request to the specified URL.
-   *
-   * @template T
-   * @param {string} url - The URL to send the POST request to.
-   * @param {T} obj - The object to send in the request body.
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<object|null|ApiErrorResponse>} The raw response data from the API or an error response.
-   * @throws {Error} If the URL or object is null or empty.
-   */
-  createRaw = (url, obj, cancelToken) => {
-    if (!url) {
-      GenExceptionHandlersInstance.ArgumentNullException('url');
-    }
-    if (!obj) {
-      GenExceptionHandlersInstance.ArgumentNullException('obj');
-    }
-
-    return new Promise((resolve, reject) => {
-      // Prepare the request using the shorthand method for POST
-      const jsonPayload = JSON.stringify(obj);
-
-      // Prepare the POST request using superagent
-      const request = superagent('POST', url)
-        .set(this.defaultHeaders)
         .set('Content-Type', 'application/json')
-        .timeout(this.timeout)
-        .send(jsonPayload); // Send JSON data in the request body
+        .timeout(this.config.timeoutMs)
+        .send(jsonPayload);
 
-      // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
         cancelToken.abort = () => {
           request.abort();
-          LoggerInstance.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
+          this.logger.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
 
-      // Send the request and handle the promise chain
       request
         .then((response) => {
-          // Log the response if needed
-          if (this.logResponses) {
-            LoggerInstance.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
-          }
+          this.logger.log(SeverityEnum.Debug, `response (status ${response.status}): \n${response.text}`);
 
-          // Handle successful response (status codes 200-299)
           if (response.ok) {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Debug,
               `Success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-
-            // Return the raw response body (no deserialization)
-            resolve(response.body); // Return raw API response data (no deserialization)
+            resolve(Serializer.deserializeJson(response.text));
           } else {
-            LoggerInstance.log(
+            this.logger.log(
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(null);
+            reject(new Error('Something went wrong.'));
           }
         })
         .catch((error) => {
           if (error?.timeout) {
-            LoggerInstance.log(SeverityEnum.Warn, `Request to ${url} timed out`);
+            this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {
-            LoggerInstance.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
+            this.logger.log(SeverityEnum.Warn, `No response from ${url}: ${error.message}`);
           }
           const errorResponse = error?.response?.body || null;
           if (errorResponse && errorResponse?.Error) {
-            const apiErrorResponse = new ApiErrorResponse(
-              errorResponse?.Error,
-              errorResponse?.Context,
-              errorResponse?.Message,
-              errorResponse?.Description
-            );
-            reject(apiErrorResponse);
+            reject(errorResponse as ApiErrorResponse);
           } else {
             reject(error.message ? error.message : null);
           }
