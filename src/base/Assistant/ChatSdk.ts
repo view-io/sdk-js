@@ -6,6 +6,8 @@ import ViewSdkBase from '../ViewSDKBase';
 import { RagRequest, ChatRequest } from '../../types';
 import { Writable } from 'stream';
 
+export type OnToken = (token: string) => void;
+
 export class ChatSdk extends ViewSdkBase {
   /**
    * Constructs a new ChatSdk.
@@ -19,14 +21,16 @@ export class ChatSdk extends ViewSdkBase {
   /**
    * AssistantRagRequest request.
    * @param {RagRequest} ragRequest - Configuration object for query and generation.
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
    * @param {AbortController} cancelToken - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<any>} - A promise resolving to an array of tokens.
+   * @throws {MethodError}
    */
-  async chatRagQuestion_LEGACY(
+  chatRagQuestion_LEGACY = async (
     ragRequest: RagRequest,
-    onToken: Function = (token: string) => {},
+    onToken: OnToken,
     cancelToken?: AbortController
-  ) {
+  ): Promise<any> => {
     if (ragRequest == null) {
       GenericExceptionHandlers.ArgumentNullException('ragRequest');
     }
@@ -56,15 +60,17 @@ export class ChatSdk extends ViewSdkBase {
       this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request:`);
       return []; // Return an empty array in case of error
     }
-  }
+  };
 
   /**
    * AssistantRagRequest request.
    * @param {RagRequest} ragRequest - Configuration for the retrieval and generation process.
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
    * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<any>} - A promise resolving to an array of tokens.
+   * @throws {MethodError}
    */
-  async chatRagMessages(ragRequest: RagRequest, onToken: Function = (_token: string) => {}, cancelToken: any) {
+  chatRagMessages = async (ragRequest: RagRequest, onToken: OnToken, cancelToken: any): Promise<any> => {
     if (ragRequest == null) {
       GenericExceptionHandlers.ArgumentNullException('ragRequest');
     }
@@ -94,21 +100,23 @@ export class ChatSdk extends ViewSdkBase {
       this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request:`);
       return []; // Return an empty array in case of error
     }
-  }
+  };
 
   /**
    * Process a chat request.
    *@param {string} assistantConfigGuid - The GUID of the assistant configuration to use for the chat.
    * @param {ChatRequest} chatRequest - Configuration for a simple chat interaction.
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
    * @param {AbortController} [cancelToken] - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<any>} - A promise resolving to an array of tokens.
+   * @throws {MethodError}
    */
-  async assistantConfigChat(
+  assistantConfigChat = async (
     assistantConfigGuid: string,
     chatRequest: ChatRequest,
-    onToken: Function = () => {},
+    onToken: OnToken,
     cancelToken: AbortController
-  ) {
+  ): Promise<any> => {
     if (!assistantConfigGuid) {
       GenericExceptionHandlers.ArgumentNullException('assistantConfigGuid');
     }
@@ -146,15 +154,17 @@ export class ChatSdk extends ViewSdkBase {
     } else {
       return this.create(url, chatRequest, cancelToken);
     }
-  }
+  };
 
   /**
    * Process a chat request.
    * @param {ChatRequest} chatRequest - Configuration for generating a response to a single question.
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
-   * @param {AbortSignal} cancelToken - Optional. The cancellation token to cancel the request if needed.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
+   * @param {AbortSignal} cancelToken - Optional cancellation token to cancel the request if needed.
+   * @returns {Promise<any>} - A promise resolving to an array of tokens.
+   * @throws {MethodError}
    */
-  async chatOnly(chatRequest: ChatRequest, onToken = () => {}, cancelToken: AbortController) {
+  chatOnly = async (chatRequest: ChatRequest, onToken: OnToken, cancelToken: AbortController): Promise<any> => {
     if (!chatRequest) GenericExceptionHandlers.ArgumentNullException('question');
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${JSON.stringify(chatRequest)}`);
@@ -184,17 +194,17 @@ export class ChatSdk extends ViewSdkBase {
     } else {
       return this.postCreate(url, chatRequest, cancelToken);
     }
-  }
+  };
 
   //endregion Chat
 
   /**
    * Create a writable stream to parse SSE data.
    * @private
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
    * @returns {Writable} - A writable stream for parsing.
    */
-  private _createStreamParser(onToken: Function) {
+  private _createStreamParser(onToken: OnToken) {
     return new Writable({
       write: (chunk: any, encoding: any, callback: any) => {
         const dataString = chunk.toString();

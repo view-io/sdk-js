@@ -149,6 +149,7 @@ export interface BucketMetadata {
   MaxMultipartUploadSeconds: number;
   LastAccessUtc: string;
   CreatedUtc: string;
+  RetentionMinutes: number;
 }
 
 export interface BucketObject {
@@ -504,6 +505,7 @@ export interface DataFlow {
   LogRetentionDays: number;
   Map: any;
   Steps: StepMetadata[];
+  Description: string;
 }
 
 export interface DataFlowLog {
@@ -564,6 +566,14 @@ export interface DirectorEmbeddingResponse {
   ApiKey: string | null;
   Contents: string[];
   Embeddings: number[][];
+}
+
+export interface DirectorConnection {
+  GUID: string;
+  TenantGUID: string;
+  Name: string;
+  Type: string;
+  CreatedUtc: string;
 }
 
 export interface Embedding {
@@ -684,7 +694,7 @@ export interface EnumerationQuery {
   includeData: boolean;
   includeOwners: boolean;
   filters: any[];
-  ordering: any;
+  ordering: EnumerationOrderEnum;
 }
 
 export interface EnumerationResult<T> {
@@ -756,6 +766,9 @@ export interface GraphRepository {
   RepositoryType: string;
   EndpointUrl: string;
   ApiKey: string;
+  Username: string;
+  Password: string;
+  Hostname: string;
   Port: number;
   Ssl: boolean;
   GraphIdentifier: string;
@@ -916,6 +929,7 @@ export interface ObjectMetadata {
   LastAccessUtc: string;
   LastModifiedUtc: string;
   CreatedUtc: string;
+  ExpirationUtc: string;
 }
 
 export interface OllamaEmbeddingsResult {
@@ -1071,6 +1085,12 @@ export interface SemanticChunk {
   Embeddings: number[];
 }
 
+export interface AssistantModel {
+  ModelName: string;
+  ModelFamily: string;
+  ParameterSize: string;
+}
+
 export interface SourceDocument {
   GUID: string;
   TenantGUID: string;
@@ -1156,6 +1176,7 @@ export interface TagMetadata {
 }
 
 export interface TenantMetadata {
+  id: number;
   GUID: string;
   ParentGUID: string | null;
   AccountGUID: string | null;
@@ -1178,6 +1199,7 @@ export interface Trigger {
   HttpMethod: string;
   HttpUrlPrefix: string;
   CreatedUtc: Date;
+  Notes: string;
 }
 
 export interface TypeResult {
@@ -1562,4 +1584,181 @@ export interface EnumerateRequest {
       value?: string | number | boolean;
     }>;
   };
+}
+
+export type MethodError = ApiErrorResponse | Error;
+
+export interface CreateTriggerRequest {
+  id?: string;
+  name?: string;
+  type?: string;
+  configuration?: string;
+}
+
+export interface ProcessorConfig {
+  Async: boolean;
+  Tenant: {
+    GUID: string;
+    Name: string;
+    Region: string;
+    S3BaseDomain: string;
+    DefaultPoolGUID: string;
+    Active: boolean;
+  };
+  Collection: {
+    GUID: string;
+    TenantGUID: string;
+    Name: string;
+    AllowOverwrites: boolean;
+    AdditionalData: string;
+  };
+
+  Bucket: {
+    GUID: string;
+    TenantGUID: string;
+    PoolGUID: string;
+    OwnerGUID: string;
+    Category: string;
+    Name: string;
+    RegionString: string;
+    Versioning: boolean;
+    MaxMultipartUploadSeconds: number;
+  };
+
+  Pool: {
+    GUID: string;
+    TenantGUID: string;
+    Name: string;
+    Provider: string;
+    WriteMode: string;
+    UseSsl: boolean;
+    DiskDirectory: string;
+    Compress: string;
+    EnableReadCaching: boolean;
+  };
+
+  Object: {
+    GUID: string;
+    ParentGUID: string | null;
+    TenantGUID: string;
+    TenantName: string;
+    PoolGUID: string;
+    BucketGUID: string;
+    BucketName: string;
+    OwnerGUID: string;
+    Key: string;
+    Version: string;
+    ContentType: string;
+    DocumentType: string;
+    ContentLength: number;
+  };
+
+  MetadataRule: {
+    GUID: string;
+    TenantGUID: string;
+    BucketGUID: string;
+    OwnerGUID: string;
+    Name: string;
+    ContentType: string;
+    MaxContentLength: number;
+    DataFlowEndpoint: string;
+    TypeDetectorEndpoint: string;
+    SemanticCellEndpoint: string;
+    MaxChunkContentLength: number;
+    ShiftSize: number;
+    UdrEndpoint: string;
+    TopTerms: number;
+    CaseInsensitive: boolean;
+    IncludeFlattened: boolean;
+    DataCatalogEndpoint: string;
+    DataCatalogType: string;
+    DataCatalogCollection: string;
+    GraphRepositoryGUID: string;
+    TargetBucketGUID: string;
+  };
+
+  EmbeddingsRule: {
+    GUID: string;
+    TenantGUID: string;
+    BucketGUID: string;
+    OwnerGUID: string;
+    Name: string;
+    ContentType: string;
+    GraphRepositoryGUID: string;
+    VectorRepositoryGUID: string;
+    DataFlowEndpoint: string;
+    EmbeddingsGenerator: string;
+    GeneratorUrl: string;
+    GeneratorApiKey: string;
+    VectorStoreUrl: string;
+    MaxContentLength: number;
+  };
+
+  VectorRepository: {
+    GUID: string;
+    Name: string;
+    RepositoryType: string;
+    Model: string;
+    Dimensionality: number;
+    DatabaseHostname: string;
+    DatabaseName: string;
+    DatabaseTable: string;
+    DatabasePort: number;
+    DatabaseUser: string;
+    DatabasePassword: string;
+  };
+
+  GraphRepository: {
+    GUID: string;
+    TenantGUID: string;
+    Name: string;
+    RepositoryType: string;
+    EndpointUrl: string;
+    ApiKey: string;
+    GraphIdentifier: string;
+  };
+}
+
+export interface VectorSearchRequest {
+  SearchType: VectorSearchTypeEnum;
+  MaxResults: number;
+  Embeddings: number[];
+}
+
+export interface NodeRequest {
+  id: number;
+  GUID: string;
+  name: string;
+  hostname: string;
+  InstanceType: string;
+  LastStartUtc: Date;
+  CreatedUtc: Date;
+}
+
+export interface VectorRepositoryRequest {
+  GUID: string;
+  TenantGUID: string;
+  name: string;
+  repositoryType: string;
+  endpointUrl: string;
+  apiKey: string;
+  model: string;
+  dimensionality: number;
+  databaseHostname: string;
+  databaseName: string;
+  databaseTable: string;
+  databasePort: number;
+  databaseUser: string;
+  databasePassword: string;
+  promptPrefix: string;
+  promptSuffix: string;
+  createdUtc: Date;
+}
+
+export interface HeaderRequest {
+  email: string;
+  password: string;
+  tenantGUID: string;
+  passwordSHA256: string;
+  token: string;
 }

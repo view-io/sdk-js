@@ -1,7 +1,13 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EnumerationQuery, SourceDocumentRequest } from '../../types';
+import {
+  EnumerationQuery,
+  EnumerationResult,
+  SourceDocument,
+  SourceDocumentRequest,
+  SourceDocumentStatistics,
+} from '../../types';
 
 export class SourceDocumentSdk extends ViewSdkBase {
   /**
@@ -19,10 +25,10 @@ export class SourceDocumentSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to retrieve documents from.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
-   * @returns {Promise<SourceDocument[]|ApiErrorResponse>} A promise resolving to a list of source documents or an error response.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty.
+   * @returns {Promise<SourceDocument[]>} A promise resolving to a list of source documents or an error response.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  retrieveSourceDocuments = async (collectionGuid: string, cancelToken: AbortController) => {
+  retrieveSourceDocuments = async (collectionGuid: string, cancelToken: AbortController): Promise<SourceDocument[]> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -42,14 +48,14 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} collectionGuid - The GUID of the collection to enumerate.
    * @param {EnumerationQuery} query - The query to use for enumeration.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
-   * @throws {Error} If the collectionGuid or query is null or empty.
+   * @returns {Promise<EnumerationResult<SourceDocument>>} The enumeration result or null if the request fails.
+   * @throws {MethodError} If the collectionGuid or query is null or empty.
    */
   enumerateCollectionDocument = async (
     collectionGuid: string,
     query: EnumerationQuery,
     cancelToken: AbortController
-  ) => {
+  ): Promise<EnumerationResult<SourceDocument>> => {
     if (!query) {
       GenericExceptionHandlers.ArgumentNullException('query');
     }
@@ -74,15 +80,15 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} documentGuid - The GUID of the document to retrieve.
    * @param {boolean} [includeData=false] - Flag to indicate whether or not to include document data.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
-   * @returns {Promise<SourceDocument|ApiErrorResponse>} A promise resolving to the source document or an error response.
-   * @throws {Error} If the collectionGuid or documentGuid is null or empty.
+   * @returns {Promise<SourceDocument>} A promise resolving to the source document or an error response.
+   * @throws {MethodError} If the collectionGuid or documentGuid is null or empty.
    */
   retrieveSourceDocument = async (
     collectionGuid: string,
     documentGuid: string,
     includeData = false,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SourceDocument> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -111,14 +117,14 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} collectionGuid - The GUID of the collection.
    * @param {string} documentGuid - The GUID of the document.
    * @param {AbortController} [cancelToken] - Optional cancellation token to abort the request.
-   * @returns {Promise<SourceDocumentStatistics|ApiErrorResponse>} A promise resolving to source document statistics or an error response.
-   * @throws {Error} If the collectionGuid or documentGuid is null or empty.
+   * @returns {Promise<SourceDocumentStatistics>} A promise resolving to source document statistics or an error response.
+   * @throws {MethodError} If the collectionGuid or documentGuid is null or empty.
    */
   retrieveSourceDocumentStatistics = async (
     collectionGuid: string,
     documentGuid: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SourceDocumentStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -146,15 +152,15 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} documentGuid - The GUID of the document.
    * @param {number} [maxKeys] - The maximum number of keys to retrieve.
    * @param {AbortController} [cancelToken] - Optional cancellation token to abort the request.
-   * @returns {Promise<SourceDocumentStatistics|ApiErrorResponse>} A promise resolving to source document statistics or an error response.
-   * @throws {Error} If the collectionGuid or documentGuid is null or empty.
+   * @returns {Promise<SourceDocumentStatistics>} A promise resolving to source document statistics or an error response.
+   * @throws {MethodError} If the collectionGuid or documentGuid is null or empty.
    */
   retrieveSourceDocumentTopTerms = async (
     collectionGuid: string,
     documentGuid: string,
     maxKeys = 10,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SourceDocumentStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -181,10 +187,13 @@ export class SourceDocumentSdk extends ViewSdkBase {
    *
    * @param {SourceDocumentRequest} document - Information about the source document.
    * @param {AbortController} [cancelToken] - Optional cancellation token to abort the request.
-   * @returns {Promise<SourceDocument|ApiErrorResponse>} A promise resolving to the uploaded document or an error response.
-   * @throws {Error} If the document is null.
+   * @returns {Promise<SourceDocument>} A promise resolving to the uploaded document or an error response.
+   * @throws {MethodError} If the document is null.
    */
-  uploadSourceDocument = async (document: SourceDocumentRequest, cancelToken: AbortController) => {
+  uploadSourceDocument = async (
+    document: SourceDocumentRequest,
+    cancelToken: AbortController
+  ): Promise<SourceDocument> => {
     if (!document) {
       GenericExceptionHandlers.ArgumentNullException('document');
     }
@@ -206,10 +215,14 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} collectionGuid - The collection GUID.
    * @param {string} documentGuid - The document GUID.
    * @param {AbortController} [cancelToken] - Optional cancellation token to abort the request.
-   * @returns {Promise<void>} A promise that resolves when the document is deleted.
-   * @throws {Error} If either `collectionGuid` or `documentGuid` is empty or null.
+   * @returns {Promise<boolean>} A promise that resolves when the document is deleted.
+   * @throws {MethodError} If either `collectionGuid` or `documentGuid` is empty or null.
    */
-  deleteSourceDocument = async (collectionGuid: string, documentGuid: string, cancelToken: AbortController) => {
+  deleteSourceDocument = async (
+    collectionGuid: string,
+    documentGuid: string,
+    cancelToken: AbortController
+  ): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -235,15 +248,15 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} key - The document key.
    * @param {string} version - The document version.
    * @param {AbortController} [cancelToken] - Optional cancellation token to abort the request.
-   * @returns {Promise<void>} A promise that resolves when the document is deleted.
-   * @throws {Error} If any of the parameters (`collectionGuid`, `key`, `version`) are empty or null.
+   * @returns {Promise<boolean>} A promise that resolves when the document is deleted.
+   * @throws {MethodError} If any of the parameters (`collectionGuid`, `key`, `version`) are empty or null.
    */
   deleteSourceDocumentFromKey = async (
     collectionGuid: string,
     key: string,
     version: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -272,10 +285,14 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @param {string} collectionGuid - The collection GUID.
    * @param {string} documentGuid - The document GUID.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
-   * @throws {Error} If the collectionGuid argument is null or undefined or If the documentGuid argument is null or undefined.
+   * @returns {Promise<boolean>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
+   * @throws {MethodError} If the collectionGuid argument is null or undefined or If the documentGuid argument is null or undefined.
    */
-  sourceDocumentsExists = async (collectionGuid: string, documentGuid: string, cancelToken: AbortController) => {
+  sourceDocumentsExists = async (
+    collectionGuid: string,
+    documentGuid: string,
+    cancelToken: AbortController
+  ): Promise<boolean> => {
     if (!collectionGuid) {
       throw new Error('Collection GUID cannot be null or undefined.');
     }

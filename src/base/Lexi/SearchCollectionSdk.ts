@@ -24,8 +24,8 @@ export class SearchCollectionSdk extends ViewSdkBase {
    * @param {boolean} includeTopTerms - include  top terms
    * @param {boolean} emitResult - Search and emit result
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<SearchResult|null|ApiErrorResponse>} The search result or null if the request fails.
-   * @throws {Error} If the collectionGuid or query is null or empty.
+   * @returns {Promise<SearchResult>} The search result or null if the request fails.
+   * @throws {MethodError} If the collectionGuid or query is null or empty.
    */
   searchCollectionDocuments = async (
     collectionGuid: string,
@@ -34,7 +34,7 @@ export class SearchCollectionSdk extends ViewSdkBase {
     includeTopTerms: boolean,
     emitResult: boolean,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SearchResult> => {
     if (!query) {
       GenericExceptionHandlers.ArgumentNullException('query');
     }

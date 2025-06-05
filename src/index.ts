@@ -1,7 +1,6 @@
-import ViewConfigurationSdk from './base/ViewConfigurationSdk';
+import ViewConfigurationSdk from './base/Configuration/ViewConfigurationSdk';
 import ViewLexiSdk from './base/Lexi/ViewLexiSdk';
 import ViewOrchestratorSdk from './base/Orchestrator/ViewOrchestratorSdk';
-import UserMaster from './models/UserMaster';
 import ViewAssistantSdk from './base/Assistant/ViewAssistantSdk';
 import ViewProcessorSdk from './base/Processor/ViewProcessorSdk';
 import ViewEmbeddingsSdk from './base/Embeddings/ViewEmbeddingsSdk';
@@ -23,11 +22,6 @@ export {
    * @property {module:base/Orchestrator/ViewOrchestratorSdk}
    */
   ViewOrchestratorSdk,
-  /**
-   * The UserMaster model constructor.
-   * @property {module:models/UserMaster}
-   */
-  UserMaster,
   /**
    * The ViewLexiSdk model constructor.
    * @property {module:base/Lexi/ViewLexiSdk}

@@ -1,12 +1,19 @@
+// @ts-nocheck
 //eslint-disable-next-line node/no-extraneous-import, node/no-missing-import
 import { LiteGraphSdk } from 'litegraphdb';
-import GraphConverters from '../models/GraphConverters';
+import GraphConverters from '../utils/GraphConverter';
+import { Graph } from '../types';
 
 /**
  * LiteGraphDriver class provides methods for interacting with a LiteGraph endpoint.
  * It allows managing graphs, nodes, edges, and traversals.
  */
 export default class LiteGraphDriver {
+  private _Endpoint: string;
+  private _TenantGuid: string;
+  private _AccessKey: string;
+  private _Sdk: LiteGraphSdk;
+  private _TimeoutMs: number;
   /**
    * Initializes the LiteGraphDriver instance.
    * @param {string} endpoint - The LiteGraph endpoint URL.
@@ -15,7 +22,7 @@ export default class LiteGraphDriver {
    * @throws {Error} If the endpoint is null or empty.
    */
 
-  constructor(endpoint = 'http://localhost:8701/', tenantGuid, accessKey) {
+  constructor(endpoint = 'http://localhost:8701/', tenantGuid: string, accessKey: string) {
     if (!endpoint) throw new Error('Endpoint cannot be null or empty');
 
     this._Endpoint = endpoint;
@@ -56,7 +63,7 @@ export default class LiteGraphDriver {
    * @param {string|null} [token=null] - Optional authentication token.
    * @returns {Promise<boolean>} Returns true if connectivity is valid, false otherwise.
    */
-  async validateConnectivity(token = null) {
+  async validateConnectivity(token = null): Promise<boolean> {
     return await this._Sdk.validateConnectivity(token);
   }
 
@@ -66,7 +73,7 @@ export default class LiteGraphDriver {
    * @param {string|null} [token=null] - Optional authentication token.
    * @returns {Promise<boolean>} Returns true if the graph exists, false otherwise.
    */
-  async graphExists(guid, token = null) {
+  async graphExists(guid: string, token = null): Promise<boolean> {
     return await this._Sdk.graphExists(guid, token);
   }
 
@@ -78,7 +85,7 @@ export default class LiteGraphDriver {
    * @returns {Promise<Graph|null>} The created graph or null if creation failed.
    * @throws {Error} If the graph name is null or empty.
    */
-  async createGraph(guid, name, token = null) {
+  async createGraph(guid: string, name: string, token = null): Promise<Graph> {
     if (!name) throw new Error('Graph name cannot be null or empty');
     const graph = await this._Sdk.createGraph(guid, name, token);
     if (graph) {
@@ -93,7 +100,7 @@ export default class LiteGraphDriver {
    * @param {string|null} [token=null] - Optional authentication token.
    * @returns {Promise<Graph|null>} The graph or null if not found.
    */
-  async readGraph(guid, token = null) {
+  async readGraph(guid: string, token = null): Promise<Graph> {
     const graph = await this._Sdk.readGraph(guid, token);
     if (graph) {
       return GraphConverters.lgGraphToGraph(graph);
@@ -106,7 +113,7 @@ export default class LiteGraphDriver {
    * @param {string|null} [token=null] - Optional authentication token.
    * @returns {Promise<Graph[]>} A list of all graphs.
    */
-  async readGraphs(token = null) {
+  async readGraphs(token = null): Promise<Graph[]> {
     const graphs = await this._Sdk.readGraphs(token);
     if (graphs) {
       return GraphConverters.lgGraphListToGraphList(graphs);

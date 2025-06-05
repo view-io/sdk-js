@@ -1,7 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EnumerateRequest } from '../../types';
+import { EnumerateRequest, EnumerationResult, SourceDocument } from '../../types';
 
 export class SearchEnumrateSdk extends ViewSdkBase {
   /**
@@ -20,15 +20,15 @@ export class SearchEnumrateSdk extends ViewSdkBase {
    * @param {EnumerateRequest['query']} query - The query parameters for enumeration.
    * @param {EnumerateRequest['searchData']} searchData - The body of the request containing search and enumeration parameters.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult<SourceDocument>|null|ApiErrorResponse>} The enumeration result or null if the request fails.
-   * @throws {Error} If the collectionGuid or query is null or empty.
+   * @returns {Promise<EnumerationResult<SourceDocument>>} The enumeration result or null if the request fails.
+   * @throws {MethodError} If the collectionGuid or query is null or empty.
    */
   searchAndEnumerate = async (
     collectionGuid: string,
     { search = false, incldata = false, async = false, enumerate = false }: EnumerateRequest['query'] = {},
     searchData: EnumerateRequest['searchData'],
     cancelToken: AbortController
-  ) => {
+  ): Promise<EnumerationResult<SourceDocument>> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }

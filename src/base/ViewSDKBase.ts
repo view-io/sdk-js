@@ -2,9 +2,11 @@ import superagent from 'superagent';
 import GenericExceptionHandlers from '../exception/GenericExceptionHandlers';
 import Logger from '../utils/Logger';
 import { SeverityEnum } from '../enums/SeverityEnum';
-import { ApiErrorResponse } from '../types';
+import { ApiErrorResponse, MethodError } from '../types';
 import Serializer from '../utils/Serializer';
 import { SdkConfiguration } from './SdkConfiguration';
+
+const DEFAULT_ERROR_MESSAGE = 'Something went wrong.';
 
 /**
  * ViewSdk Base service.
@@ -44,7 +46,7 @@ export default class ViewSdkBase {
    * @param {object} [obj] - The object to send in the request body.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<T>} The created object as the response or null if the request fails.
-   * @throws {Error<ApiErrorResponse>} If the URL or object is null or empty.
+   * @throws {MethodError} If the URL or object is null or empty.
    */
   create = <T>(url: string, obj: object, cancelToken: AbortController): Promise<T> => {
     if (!url) {
@@ -86,7 +88,7 @@ export default class ViewSdkBase {
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(null);
+            reject(new Error(DEFAULT_ERROR_MESSAGE));
           }
         })
         .catch((error) => {
@@ -99,7 +101,7 @@ export default class ViewSdkBase {
           if (errorResponse && errorResponse?.Error) {
             reject(errorResponse as ApiErrorResponse);
           } else {
-            reject(error.message ? error.message : null);
+            reject(error.message ? error.message : DEFAULT_ERROR_MESSAGE);
           }
         });
     });
@@ -112,7 +114,7 @@ export default class ViewSdkBase {
    * @param {string} url - The URL to request data from.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error<ApiErrorResponse>} If the URL is null or empty.
+   * @throws {MethodError} If the URL is null or empty.
    */
   exists = (url: string, cancelToken: AbortController): Promise<boolean> => {
     if (!url) {
@@ -153,7 +155,7 @@ export default class ViewSdkBase {
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
             // reject(null);
-            reject(new Error('Something went wrong.'));
+            reject(new Error(DEFAULT_ERROR_MESSAGE));
           }
         })
         .catch((error) => {
@@ -171,7 +173,7 @@ export default class ViewSdkBase {
               reject(errorResponse as ApiErrorResponse);
             }
           } else {
-            reject(error?.message ? error?.message : 'Something went wrong.');
+            reject(error?.message ? error?.message : DEFAULT_ERROR_MESSAGE);
           }
         });
     });
@@ -184,10 +186,10 @@ export default class ViewSdkBase {
    * @param {object} obj - The object to send in the request body.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @param {Object} [headers] - Additional headers for the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The created object as the response or null if the request fails.
-   * @throws {Error} If the URL or object is null or empty.
+   * @returns {Promise<T>} The created object as the response or null if the request fails.
+   * @throws {MethodError} If the URL or object is null or empty.
    */
-  update = <T>(url: string, obj: object, cancelToken?: AbortController, headers?: any): Promise<T> => {
+  update = <T>(url: string, obj: object | string, cancelToken?: AbortController, headers?: any): Promise<T> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -234,7 +236,7 @@ export default class ViewSdkBase {
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(new Error('Something went wrong.'));
+            reject(new Error(DEFAULT_ERROR_MESSAGE));
           }
         })
         .catch((error) => {
@@ -247,7 +249,7 @@ export default class ViewSdkBase {
           if (errorResponse && errorResponse?.Error) {
             reject(errorResponse as ApiErrorResponse);
           } else {
-            reject(error.message ? error.message : null);
+            reject(error.message ? error.message : DEFAULT_ERROR_MESSAGE);
           }
         });
     });
@@ -259,8 +261,8 @@ export default class ViewSdkBase {
    * @param {string} url - The URL to request data from.
    * @param {AbortController} [cancelToken] - Optional headers with an `abort` method to cancel the request.
    * @param {Object} [headers] - Additional headers for the request.
-   * @returns {Promise<T|null|ApiErrorResponse>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error} If the URL is null or empty.
+   * @returns {Promise<T>} The parsed JSON data from the response or null if the request fails.
+   * @throws {MethodError} If the URL is null or empty.
    */
   retrieve = <T>(url: string, cancelToken?: AbortController, headers?: any): Promise<T> => {
     if (!url) {
@@ -299,7 +301,7 @@ export default class ViewSdkBase {
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(new Error('Something went wrong.'));
+            reject(new Error(DEFAULT_ERROR_MESSAGE));
           }
         })
         .catch((error) => {
@@ -312,7 +314,7 @@ export default class ViewSdkBase {
           if (errorResponse && errorResponse?.Error) {
             reject(errorResponse as ApiErrorResponse);
           } else {
-            reject(error.message ? error.message : null);
+            reject(error.message ? error.message : DEFAULT_ERROR_MESSAGE);
           }
         });
     });
@@ -326,7 +328,7 @@ export default class ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @param {object} [headers] - Optional object with an `abort` method to cancel the request
    * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error<ApiErrorResponse>} If the URL is null or empty.
+   * @throws {MethodError} If the URL is null or empty.
    */
   delete = (url: string, obj?: object, cancelToken?: AbortController, headers?: any): Promise<boolean> => {
     if (!url) {
@@ -371,7 +373,7 @@ export default class ViewSdkBase {
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(new Error('Something went wrong.'));
+            reject(new Error(DEFAULT_ERROR_MESSAGE));
           }
         })
         .catch((error) => {
@@ -384,7 +386,7 @@ export default class ViewSdkBase {
           if (errorResponse && errorResponse?.Error) {
             reject(errorResponse as ApiErrorResponse);
           } else {
-            reject(error.message ? error.message : null);
+            reject(error.message ? error.message : DEFAULT_ERROR_MESSAGE);
           }
         });
     });
@@ -397,7 +399,7 @@ export default class ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @param {object} [headers] - Optional object with an `abort` method to cancel the request
    * @returns {Promise<T>} The parsed JSON data from the response or null if the request fails.
-   * @throws {Error<ApiErrorResponse>} If the URL is null or empty.
+   * @throws {MethodError} If the URL is null or empty.
    */
   postCreate = <T>(url: string, obj: any, cancelToken: AbortController, headers?: any): Promise<T> => {
     if (!url) {
@@ -438,7 +440,7 @@ export default class ViewSdkBase {
               SeverityEnum.Warn,
               `Non-success reported from ${url}: ${response.status}, ${response.header['content-length']} bytes`
             );
-            reject(new Error('Something went wrong.'));
+            reject(new Error(DEFAULT_ERROR_MESSAGE));
           }
         })
         .catch((error) => {
@@ -451,7 +453,7 @@ export default class ViewSdkBase {
           if (errorResponse && errorResponse?.Error) {
             reject(errorResponse as ApiErrorResponse);
           } else {
-            reject(error.message ? error.message : null);
+            reject(error.message ? error.message : DEFAULT_ERROR_MESSAGE);
           }
         });
     });

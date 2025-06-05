@@ -1,11 +1,11 @@
 import { SeverityEnum } from '../../enums/SeverityEnum';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
-import LoggerInstance from '../../utils/Logger';
 import superagent from 'superagent';
-import { ApiErrorResponse, ModelInformation, ModelRequest } from '../../types';
+import { AssistantModel, MethodError, ModelRequest } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 import { Writable } from 'stream';
+import { OnToken } from './ChatSdk';
 
 export class ModelSdk extends ViewSdkBase {
   /**
@@ -21,10 +21,12 @@ export class ModelSdk extends ViewSdkBase {
    *Retrieve a model.
    *
    * @param {ModelRequest} model - Information about the assistant chat request.
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
    * @param {AbortController} [cancelToken] - Optional. The cancellation token to cancel the request if needed.
+   * @returns {Promise<void>} A promise resolving to a string.
+   * @throws {MethodError} If the `model` is null or empty.
    */
-  retrieveModel(model: any, onToken: Function = (token: string) => {}, cancelToken: AbortController) {
+  retrieveModel = async (model: ModelRequest, onToken: OnToken, cancelToken: AbortController): Promise<void> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -52,9 +54,9 @@ export class ModelSdk extends ViewSdkBase {
       }
     } catch (error) {
       this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request: ${error}`);
-      return []; // Return an empty array in case of error
+      throw new Error('Something went wrong.');
     }
-  }
+  };
 
   /**
    *Delete a model.
@@ -62,9 +64,9 @@ export class ModelSdk extends ViewSdkBase {
    * @param {ModelRequest} model - Information about the assistant chat request.
    * @param {AbortController} [cancelToken] - Optional. The cancellation token to cancel the request if needed.
    * @returns {Promise<boolean>} A promise resolving to a boolean value.
-   * @throws {ApiErrorResponse} If the `model` is null or empty.
+   * @throws {MethodError} If the `model` is null or empty.
    */
-  deleteModel = async (model: ModelRequest, cancelToken?: AbortController) => {
+  deleteModel = async (model: ModelRequest, cancelToken?: AbortController): Promise<boolean> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -77,10 +79,10 @@ export class ModelSdk extends ViewSdkBase {
    *
    * @param {ModelRequest} model - The model configuration.
    * @param {AbortController} [cancelToken] - Optional. The cancellation token to cancel the request if needed.
-   * @returns {Promise<Array<{ModelName: string,  ModelFamily: string, ParameterSize: string}>>} A promise resolving to an array of model names
-   * @throws {ApiErrorResponse} If the `model` is null or empty.
+   * @returns {Promise<AssistantModel[]>} A promise resolving to an array of model names
+   * @throws {MethodError} If the `model` is null or empty.
    */
-  retrieveLocalModels = async (model: ModelRequest, cancelToken: AbortController) => {
+  retrieveLocalModels = async (model: ModelRequest, cancelToken: AbortController): Promise<AssistantModel[]> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -94,9 +96,9 @@ export class ModelSdk extends ViewSdkBase {
    * @param {ModelRequest} model - The model configuration.
    * @param {AbortController} cancelToken - Optional. The cancellation token to cancel the request if needed.
    * @returns {Promise<ModelRequest>} A promise resolving to a model load response
-   * @throws {ApiErrorResponse} If the `model` is null or empty.
+   * @throws {MethodError} If the `model` is null or empty.
    */
-  loadUnloadModel = async (model: ModelRequest, cancelToken: AbortController) => {
+  loadUnloadModel = async (model: ModelRequest, cancelToken: AbortController): Promise<ModelRequest> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -109,10 +111,10 @@ export class ModelSdk extends ViewSdkBase {
   /**
    * Create a writable stream to parse SSE data.
    * @private
-   * @param {function} onToken - Callback to handle tokens as they are emitted.
+   * @param {OnToken} onToken - Callback to handle tokens as they are emitted.
    * @returns {Writable} - A writable stream for parsing.
    */
-  private _createStreamParser(onToken: Function) {
+  private _createStreamParser(onToken: OnToken) {
     return new Writable({
       write: (chunk: any, encoding: any, callback: any) => {
         const dataString = chunk.toString();
@@ -140,7 +142,7 @@ export class ModelSdk extends ViewSdkBase {
    * @param {string} json - The JSON string.
    * @returns {string|null} - The extracted token or null if not found.
    */
-  _extractToken(json: any) {
+  private _extractToken(json: string): string | null {
     try {
       const obj = JSON.parse(json);
       return obj.token || null;

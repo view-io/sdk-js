@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { DataRepository } from '../../types';
+import { DataRepository, EnumerationResult } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -17,9 +17,10 @@ export class DataRepositorySdk extends ViewSdkBase {
   /**
    * Retrieve a list of data repositories.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<DataRepository>|ApiErrorResponse>} A promise resolving to an array of DataRepository objects.
+   * @returns {Promise<Array<DataRepository>>} A promise resolving to an array of DataRepository objects.
+   * @throws {MethodError} If the request fails.
    */
-  retrieveDataRepositories = async (cancelToken: AbortController) => {
+  retrieveDataRepositories = async (cancelToken: AbortController): Promise<DataRepository[]> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/';
     return await this.retrieve(url, cancelToken);
   };
@@ -29,10 +30,10 @@ export class DataRepositorySdk extends ViewSdkBase {
    *
    * @param {string} repositoryGuid - The GUID of the data repository to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the DataRepository object or null.
-   * @throws {ApiErrorResponse} If the repositoryGuid is null or empty.
+   * @returns {Promise<DataRepository>} A promise resolving to the DataRepository object or null.
+   * @throws {MethodError} If the repositoryGuid is null or empty.
    */
-  retrieveDataRepository = async (repositoryGuid: string, cancelToken: AbortController) => {
+  retrieveDataRepository = async (repositoryGuid: string, cancelToken: AbortController): Promise<DataRepository> => {
     if (!repositoryGuid) {
       GenericExceptionHandlers.ArgumentNullException('repositoryGuid');
     }
@@ -46,10 +47,13 @@ export class DataRepositorySdk extends ViewSdkBase {
    *
    * @param {DataRepository} dataRepository Information about the data repository.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the created DataRepository object or null.
-   * @throws {ApiErrorResponse} If the repository is null.
+   * @returns {Promise<DataRepository>} A promise resolving to the created DataRepository object or null.
+   * @throws {MethodError} If the repository is null.
    */
-  createDataRepository = async (dataRepository: DataRepository, cancelToken: AbortController) => {
+  createDataRepository = async (
+    dataRepository: DataRepository,
+    cancelToken: AbortController
+  ): Promise<DataRepository> => {
     if (!dataRepository) {
       GenericExceptionHandlers.ArgumentNullException('repository');
     }
@@ -62,10 +66,10 @@ export class DataRepositorySdk extends ViewSdkBase {
    *
    * @param {string} repositoryGuid - The GUID of the data repository to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if the deletion is successful.
-   * @throws {Error} If the repositoryGuid is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to void if the deletion is successful.
+   * @throws {MethodError} If the repositoryGuid is null or empty.
    */
-  deleteDataRepository = async (repositoryGuid: string, cancelToken: AbortController) => {
+  deleteDataRepository = async (repositoryGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!repositoryGuid) {
       GenericExceptionHandlers.ArgumentNullException('repositoryGuid');
     }
@@ -77,10 +81,10 @@ export class DataRepositorySdk extends ViewSdkBase {
   /**
    * Enumerate Data Repositories.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created EnumerationResult object or null if creation fails.
-   * @throws {Error} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<DataRepository>>} A promise resolving to the created EnumerationResult object or null if creation fails.
+   * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerateDataRepositories = async (cancelToken: AbortController) => {
+  enumerateDataRepositories = async (cancelToken: AbortController): Promise<EnumerationResult<DataRepository>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/datarepositories/`;
     return await this.retrieve(url, cancelToken);
   };
@@ -90,10 +94,10 @@ export class DataRepositorySdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the data repository.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the data repository exists, false otherwise.
-   * @throws {Error} If the GUID is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if the data repository exists, false otherwise.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  existsDataRepository = async (guid: string, cancelToken: AbortController) => {
+  existsDataRepository = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -107,10 +111,13 @@ export class DataRepositorySdk extends ViewSdkBase {
    * @param {DataRepository} dataRepository - The updated data repository object.
    * @param {string} dataRepository.GUID - The GUID of the data repository to update.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<DataRepository|null|ApiErrorResponse>} A promise resolving to the updated DataRepository object or null.
-   * @throws {Error} If the dataRepository is null or empty.
+   * @returns {Promise<DataRepository>} A promise resolving to the updated DataRepository object or null.
+   * @throws {MethodError} If the dataRepository is null or empty.
    */
-  updateDataRepository = async (dataRepository: DataRepository, cancelToken: AbortController) => {
+  updateDataRepository = async (
+    dataRepository: DataRepository,
+    cancelToken: AbortController
+  ): Promise<DataRepository> => {
     if (!dataRepository || !dataRepository.GUID) {
       GenericExceptionHandlers.ArgumentNullException('dataRepository');
     }

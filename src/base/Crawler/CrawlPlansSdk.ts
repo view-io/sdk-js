@@ -1,6 +1,6 @@
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
-import { CrawlPlan } from '../../types';
+import { CrawlPlan, EnumerationResult } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 export class CrawlPlansSdk extends ViewSdkBase {
   /**
@@ -14,9 +14,10 @@ export class CrawlPlansSdk extends ViewSdkBase {
   /**
    * Enumerate Crawl Plans.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult<CrawlPlan>|null>} A promise resolving to the enumeration result or null.
+   * @returns {Promise<EnumerationResult<CrawlPlan>>} A promise resolving to the enumeration result or null.
+   * @throws {MethodError} If the request fails.
    */
-  enumerateCrawlPlans = async (cancelToken: AbortController) => {
+  enumerateCrawlPlans = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlPlan>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlplans/`;
     return await this.retrieve(url, cancelToken);
   };
@@ -24,8 +25,9 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * Retrieve All Crawl Plans.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    *@returns {Promise<CrawlPlan[]>} A promise resolving to an array of CrawlPlan objects. If creation fails, the promise resolves to null.
+   * @throws {MethodError} If the request fails.
    */
-  retrieveCrawlPlans = async (cancelToken: AbortController) => {
+  retrieveCrawlPlans = async (cancelToken: AbortController): Promise<CrawlPlan[]> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/`;
     return await this.retrieve(url, cancelToken);
   };
@@ -34,9 +36,9 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @param {string} [guid] - GUID of crawl Plans
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    *@returns {Promise<CrawlPlan[]>} A promise resolving CrawlPlan objects. If creation fails, the promise resolves to null.
-   * @throws {Error} If the guid is null or empty.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveCrawlPlan = async (guid: string, cancelToken: AbortController) => {
+  retrieveCrawlPlan = async (guid: string, cancelToken: AbortController): Promise<CrawlPlan> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -48,9 +50,9 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @param {CrawlPlan} crawlPlanData - An object containing information about the crawl plan.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    *@returns {Promise<CrawlPlan[]>} A promise resolving CrawlPlan objects. If creation fails, the promise resolves to null.
-   * @throws {Error} If the crawlPlansData is null or empty.
+   * @throws {MethodError} If the crawlPlansData is null or empty.
    */
-  createCrawlPlan = async (crawlPlansData: CrawlPlan, cancelToken: AbortController) => {
+  createCrawlPlan = async (crawlPlansData: CrawlPlan, cancelToken: AbortController): Promise<CrawlPlan> => {
     if (!crawlPlansData) {
       GenericExceptionHandlers.ArgumentNullException('crawlPlansData');
     }
@@ -61,10 +63,10 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * Update Crawl Plan.
    * @param {CrawlPlan} crawlPlanData - Information about the crawl plan to update.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<CrawlPlan | null>} A promise resolving of CrawlPlan objects if the update is successful, or null if the update fails.
-   * @throws {Error} If the guid is null or empty or If the crawlPlanData is null or empty.
+   * @returns {Promise<CrawlPlan>} A promise resolving of CrawlPlan objects if the update is successful, or null if the update fails.
+   * @throws {MethodError} If the guid is null or empty or If the crawlPlanData is null or empty.
    */
-  updateCrawlPlan = async (crawlPlanData: CrawlPlan, cancelToken: AbortController) => {
+  updateCrawlPlan = async (crawlPlanData: CrawlPlan, cancelToken: AbortController): Promise<CrawlPlan> => {
     if (!crawlPlanData) {
       GenericExceptionHandlers.ArgumentNullException('crawlPlanData');
     }
@@ -77,10 +79,10 @@ export class CrawlPlansSdk extends ViewSdkBase {
    *
    * @param {string} [guid] - GUID of Crawl Plans
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
-   * @throws {Error} If the guid is null or empty.
+   @returns {Promise<boolean>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteCrawlPlan = async (guid: string, cancelToken: AbortController) => {
+  deleteCrawlPlan = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -93,9 +95,9 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @param {string} [guid] - GUID of Crawl Plans
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean>} A promise resolving to the Node object or null if not found.
-   * @throws {Error} If the guid is null or empty.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  existsCrawlPlan = async (guid: string, cancelToken: AbortController) => {
+  existsCrawlPlan = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }

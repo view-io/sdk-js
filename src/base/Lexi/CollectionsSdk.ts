@@ -1,7 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { Collection } from '../../types';
+import { Collection, CollectionStatistics } from '../../types';
 
 export class CollectionsSdk extends ViewSdkBase {
   /**
@@ -17,10 +17,10 @@ export class CollectionsSdk extends ViewSdkBase {
    * Retrieve collections.
    *
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<Collection>|null|ApiErrorResponse>} A promise resolving to an array of collections or null if not found.
-   * @throws {ApiErrorResponse} If an error occurs during retrieval.
+   * @returns {Promise<Array<Collection>>} A promise resolving to an array of collections or null if not found.
+   * @throws {MethodError} If an error occurs during retrieval.
    */
-  retrieveCollections = async (cancelToken: AbortController) => {
+  retrieveCollections = async (cancelToken: AbortController): Promise<Collection[]> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections';
     return await this.retrieve(url, cancelToken);
   };
@@ -30,10 +30,10 @@ export class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Collection|null|ApiErrorResponse>} A promise that resolves to the retrieved collection, or null if not found.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty, or if an error occurs during retrieval.
+   * @returns {Promise<Collection>} A promise that resolves to the retrieved collection, or null if not found.
+   * @throws {MethodError} If the collectionGuid is null or empty, or if an error occurs during retrieval.
    */
-  retrieveCollection = async (collectionGuid: string, cancelToken: AbortController) => {
+  retrieveCollection = async (collectionGuid: string, cancelToken: AbortController): Promise<Collection> => {
     if (!collectionGuid || collectionGuid.trim() === '') {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -47,9 +47,13 @@ export class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The collection GUID.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
-   * @returns {Promise<CollectionStatistics|ApiErrorResponse>} A promise resolving to collection statistics.
+   * @returns {Promise<CollectionStatistics>} A promise resolving to collection statistics.
+   * @throws {MethodError} If the collectionGuid is null or empty, or if an error occurs during retrieval.
    */
-  retrieveCollectionStatistics = async (collectionGuid: string, cancelToken: AbortController) => {
+  retrieveCollectionStatistics = async (
+    collectionGuid: string,
+    cancelToken: AbortController
+  ): Promise<CollectionStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -63,9 +67,10 @@ export class CollectionsSdk extends ViewSdkBase {
    *
    * @param {Collection} collection - Information about the collection.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
-   * @returns {Promise<Collection|ApiErrorResponse>} A promise resolving to the created collection.
+   * @returns {Promise<Collection>} A promise resolving to the created collection.
+   * @throws {MethodError} If the collection is null or empty.
    */
-  createCollection = async (collection: Collection, cancelToken: AbortController) => {
+  createCollection = async (collection: Collection, cancelToken: AbortController): Promise<Collection> => {
     if (!collection) {
       GenericExceptionHandlers.ArgumentNullException('collection');
     }
@@ -78,9 +83,10 @@ export class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to delete.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
-   * @returns {Promise<void|ApiErrorResponse>} A promise resolving when the collection is deleted.
+   * @returns {Promise<boolean>} A promise resolving when the collection is deleted.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  deleteCollection = async (collectionGuid: string, cancelToken: AbortController) => {
+  deleteCollection = async (collectionGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -93,10 +99,14 @@ export class CollectionsSdk extends ViewSdkBase {
    * @param {string} collectionGuid - The collection GUID.
    * @param {number} maxKeys - The maximum number of keys to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
-   * @returns {Promise<Object|ApiErrorResponse>} A promise resolving to collection statistics.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty.
+   * @returns {Promise<Object>} A promise resolving to collection statistics.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  retrieveCollectionTopTerms = async (collectionGuid: string, maxKeys = 10, cancelToken: AbortController) => {
+  retrieveCollectionTopTerms = async (
+    collectionGuid: string,
+    maxKeys = 10,
+    cancelToken: AbortController
+  ): Promise<Object> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -107,10 +117,10 @@ export class CollectionsSdk extends ViewSdkBase {
    * Check if a collection exists.
    * @param {string} collectionGuid - The GUID of the collection to check for existence.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
-   * @throws {ApiErrorResponse} If the collectionGuid argument is null or undefined.
+   * @returns {Promise<boolean>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
+   * @throws {MethodError} If the collectionGuid argument is null or undefined.
    */
-  collectionExists = async (collectionGuid: string, cancelToken: AbortController) => {
+  collectionExists = async (collectionGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }

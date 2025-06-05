@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LoggerInstance } from '../../utils/Logger';
 import { GenExceptionHandlersInstance } from '../../exception/GenericExceptionHandlers';
 import { GraphRepositoryTypeEnum } from '../../enums/GraphRepositoryTypeEnum';
