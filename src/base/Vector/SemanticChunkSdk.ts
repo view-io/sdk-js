@@ -1,6 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
+import { SemanticChunk } from '../../types';
 
 export default class SemanticChunkSdk extends ViewSdkBase {
   /**
@@ -20,12 +21,12 @@ export default class SemanticChunkSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<SemanticChunk[]>} A promise resolving to the SemanticChunk array.
    */
-  retrieveSemanticChunks = async (
+  readAll = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SemanticChunk[]> => {
     if (!semanticCellGuid) {
       GenericExceptionHandlers.ArgumentNullException('semanticCellGuid');
     }
@@ -46,7 +47,7 @@ export default class SemanticChunkSdk extends ViewSdkBase {
       '/cells/' +
       semanticCellGuid +
       '/chunks';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -58,13 +59,13 @@ export default class SemanticChunkSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<SemanticChunk>} A promise resolving to the SemanticChunk.
    */
-  retrieveSemanticChunk = async (
+  read = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
     semanticChunkGuid: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SemanticChunk> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -89,7 +90,7 @@ export default class SemanticChunkSdk extends ViewSdkBase {
       semanticCellGuid +
       '/chunks/' +
       semanticChunkGuid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -100,15 +101,15 @@ export default class SemanticChunkSdk extends ViewSdkBase {
    * @param {string} semanticChunkGuid - GUID for the semantic chunk.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<void>} A promise resolving to a void indicating whether the semantic chunk exists.
-   * @throws {ApiErrorResponse} If the semanticChunkGuid is null or empty.
+   * @throws {MethodError} If the semanticChunkGuid is null or empty.
    */
-  semanticChunkExists = async (
+  exists = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
     semanticChunkGuid: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<boolean> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -133,7 +134,7 @@ export default class SemanticChunkSdk extends ViewSdkBase {
       semanticCellGuid +
       '/chunks/' +
       semanticChunkGuid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
   //endregion
 }

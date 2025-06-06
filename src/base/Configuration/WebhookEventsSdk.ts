@@ -1,4 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
+import { EnumerationResult, WebhookEvent } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -17,15 +18,15 @@ export default class WebhookEventsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the webhook event.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the webhook event exists.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if the webhook event exists.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  existsWebhookEvent = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookevents/' + guid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -33,36 +34,37 @@ export default class WebhookEventsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the webhook event to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<WebhookEvent|null|ApiErrorResponse>} A promise resolving to the WebhookEvent object or null.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<WebhookEvent>} A promise resolving to the WebhookEvent object or null.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveWebhookEvent = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<WebhookEvent> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookevents/' + guid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Retrieve a list of webhook events.
    *
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<WebhookEvent>|ApiErrorResponse>} A promise resolving to an array of WebhookEvent objects.
+   * @returns {Promise<Array<WebhookEvent>>} A promise resolving to an array of WebhookEvent objects.
+   * @throws {MethodError} If the webhook events are null.
    */
-  retrieveWebhookEvents = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<WebhookEvent> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookevents';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Enumerate Webhook events.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created EnumerationResult object or null if creation fails.
-   * @throws {Error} If the EnumerationResult is null or invalid.
+   * @returns {Promise<EnumerationResult<WebhookEvent>>} A promise resolving to the created EnumerationResult object.
+   * @throws {MethodError} If the webhook events are null.
    */
-  enumerateWebhookEvents = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<WebhookEvent>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/webhookevents/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 }

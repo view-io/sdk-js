@@ -1,4 +1,4 @@
-import { UserMaster } from '../../types';
+import { EnumerationResult, UserMaster } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
@@ -19,16 +19,16 @@ export default class UserSdk extends ViewSdkBase {
    *
    * @param {UserMaster} user Information about the user.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<UserMaster|null|ApiErrorResponse>} A promise resolving to the created UserMaster object or null.
-   * @throws {ApiErrorResponse} If the user object is null.
+   * @returns {Promise<UserMaster>} A promise resolving to the created UserMaster object or null.
+   * @throws {MethodError} If the user object is null.
    */
-  createUser = async (user: UserMaster, cancelToken: AbortController) => {
+  create = async (user: UserMaster, cancelToken: AbortController): Promise<UserMaster> => {
     if (!user) {
       GenericExceptionHandlers.ArgumentNullException('user');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users';
     // Use the `create` method for posting the user
-    return await this.create(url, user, cancelToken);
+    return await this.createResource(url, user, cancelToken);
   };
 
   /**
@@ -36,16 +36,16 @@ export default class UserSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the user.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the user exists, false otherwise.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if the user exists, false otherwise.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  existsUser = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
     // Use the `exists` method to check for the user
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -53,16 +53,16 @@ export default class UserSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the user to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<UserMaster|null|ApiErrorResponse>} A promise resolving to the UserMaster object or null if not found.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<UserMaster>} A promise resolving to the UserMaster object or null if not found.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  retrieveUser = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<UserMaster> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
     // Use the `retrieve` method to get the user
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -70,11 +70,12 @@ export default class UserSdk extends ViewSdkBase {
    *
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Array<UserMaster>|null|ApiErrorResponse>} A promise resolving to the list of Users or null if not found.
+   * @throws {MethodError} If the users are null.
    */
-  retrieveUsers = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<UserMaster> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users';
     // Use the `retrieveMany` method for fetching the list of users
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -83,15 +84,15 @@ export default class UserSdk extends ViewSdkBase {
    * @param {UserMaster} user Information about the user.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<UserMaster|null|ApiErrorResponse>} A promise resolving to the updated UserMaster object or null.
-   * @throws {ApiErrorResponse} If the user object is null.
+   * @throws {MethodError} If the user object is null.
    */
-  updateUser = async (user: UserMaster, cancelToken: AbortController) => {
+  update = async (user: UserMaster, cancelToken: AbortController): Promise<UserMaster> => {
     if (!user) {
       GenericExceptionHandlers.ArgumentNullException('user');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + user.GUID;
     // Use the `update` method to update the user
-    return await this.update(url, user, cancelToken);
+    return await this.updateResource(url, user, cancelToken);
   };
 
   /**
@@ -99,26 +100,26 @@ export default class UserSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the user to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void|ApiErrorResponse>} A promise resolving when the user is deleted.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<boolean>} A promise resolving when the user is deleted.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  deleteUser = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
     // Use the `delete` method to remove the user
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
    * Enumerate Users.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {Error} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<UserMaster>>} A promise resolving to the created EnumerationResult object.
+   * @throws {MethodError} If the users are null.
    */
-  enumerateUsers = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<UserMaster>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/users`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 }

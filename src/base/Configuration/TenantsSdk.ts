@@ -1,6 +1,6 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
-import { TenantMetadata } from '../../types';
+import { EnumerationResult, TenantMetadata } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 
 export default class TenantsSdk extends ViewSdkBase {
@@ -19,42 +19,44 @@ export default class TenantsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the tenant to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
+   * @returns {Promise<TenantMetadata>} A promise resolving to the TenantMetadata object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveTenant = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<TenantMetadata> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + guid;
     // Use the `retrieve` method to get the tenant metadata
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Retrieve all tenants.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
+   * @returns {Promise<TenantMetadata>} A promise resolving to the TenantMetadata object or null if not found.
+   * @throws {MethodError} If the tenants are null.
    */
-  retrieveTenants = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<TenantMetadata> => {
     const url = this.config.endpoint + '/v1.0/tenants/';
     // Use the `retrieveMany` method for fetching the list of tenants
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Delete tenant metadata.
    * @param {string} guid - The GUID of the tenant to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the TenantMetadata object or null if not found.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to the TenantMetadata object or null if not found.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  deleteTenant = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + guid;
     // Use the `retrieveMany` method for fetching the list of tenants
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -62,16 +64,16 @@ export default class TenantsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the tenant.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the tenant exists, false otherwise.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if the tenant exists, false otherwise.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  existsTenant = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + guid;
     // Use the `exists` method to check for the tenant
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -79,16 +81,16 @@ export default class TenantsSdk extends ViewSdkBase {
    *
    * @param {TenantMetadata} tenant Information about the tenants.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the updated TenantMetadata object or null.
-   * @throws {ApiErrorResponse} If the tenant object is null.
+   * @returns {Promise<TenantMetadata>} A promise resolving to the updated TenantMetadata object or null.
+   * @throws {MethodError} If the tenant object is null.
    */
-  writeTenant = async (tenant: TenantMetadata, cancelToken: AbortController) => {
+  create = async (tenant: TenantMetadata, cancelToken: AbortController): Promise<TenantMetadata> => {
     if (!tenant) {
       GenericExceptionHandlers.ArgumentNullException('tenant');
     }
     const url = this.config.endpoint + '/v1.0/tenants';
     // Use the `update` method to write the tenant metadata
-    return await this.update(url, tenant, cancelToken);
+    return await this.updateResource(url, tenant, cancelToken);
   };
 
   /**
@@ -96,10 +98,10 @@ export default class TenantsSdk extends ViewSdkBase {
    *
    * @param {TenantMetadata} tenant Information about the tenants.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TenantMetadata|null|ApiErrorResponse>} A promise resolving to the updated TenantMetadata object or null.
-   * @throws {ApiErrorResponse} If the tenant object is null.
+   * @returns {Promise<TenantMetadata>} A promise resolving to the updated TenantMetadata object or null.
+   * @throws {MethodError} If the tenant object is null.
    */
-  updateTenant = async (guid: string, tenant: TenantMetadata, cancelToken: AbortController) => {
+  update = async (guid: string, tenant: TenantMetadata, cancelToken: AbortController): Promise<TenantMetadata> => {
     if (!tenant) {
       GenericExceptionHandlers.ArgumentNullException('tenant');
     }
@@ -108,17 +110,17 @@ export default class TenantsSdk extends ViewSdkBase {
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + guid;
     // Use the `update` method to update the tenant metadata
-    return await this.update(url, tenant, cancelToken);
+    return await this.updateResource(url, tenant, cancelToken);
   };
 
   /**
    * Enumerate Tenants.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {ApiErrorResponse} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<TenantMetadata>>} A promise resolving to the EnumerationResult object.
+   * @throws {MethodError} If the tenants are null.
    */
-  enumerateTenants = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<TenantMetadata>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 }

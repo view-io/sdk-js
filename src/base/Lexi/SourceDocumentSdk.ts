@@ -28,7 +28,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument[]>} A promise resolving to a list of source documents or an error response.
    * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  retrieveSourceDocuments = async (collectionGuid: string, cancelToken: AbortController): Promise<SourceDocument[]> => {
+  readAll = async (collectionGuid: string, cancelToken: AbortController): Promise<SourceDocument[]> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -39,7 +39,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       '/collections/' +
       collectionGuid +
       '/documents';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -51,7 +51,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<SourceDocument>>} The enumeration result or null if the request fails.
    * @throws {MethodError} If the collectionGuid or query is null or empty.
    */
-  enumerateCollectionDocument = async (
+  enumerate = async (
     collectionGuid: string,
     query: EnumerationQuery,
     cancelToken: AbortController
@@ -70,7 +70,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       '/collections/' +
       collectionGuid +
       '/documents?enumerate'; //endpomt update
-    return await this.postCreate(url, query, cancelToken);
+    return await this.postCreateResource(url, query, cancelToken);
   };
 
   /**
@@ -83,7 +83,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument>} A promise resolving to the source document or an error response.
    * @throws {MethodError} If the collectionGuid or documentGuid is null or empty.
    */
-  retrieveSourceDocument = async (
+  read = async (
     collectionGuid: string,
     documentGuid: string,
     includeData = false,
@@ -108,7 +108,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       url += '?incldata';
     }
 
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -120,7 +120,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocumentStatistics>} A promise resolving to source document statistics or an error response.
    * @throws {MethodError} If the collectionGuid or documentGuid is null or empty.
    */
-  retrieveSourceDocumentStatistics = async (
+  readStatistics = async (
     collectionGuid: string,
     documentGuid: string,
     cancelToken: AbortController
@@ -142,7 +142,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       documentGuid +
       '?stats';
 
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -155,7 +155,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocumentStatistics>} A promise resolving to source document statistics or an error response.
    * @throws {MethodError} If the collectionGuid or documentGuid is null or empty.
    */
-  retrieveSourceDocumentTopTerms = async (
+  readTopTerms = async (
     collectionGuid: string,
     documentGuid: string,
     maxKeys = 10,
@@ -179,7 +179,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       '/topterms?max-keys=' +
       maxKeys;
 
-    return await this.retrieve(url, undefined, cancelToken);
+    return await this.retrieveResource(url, undefined, cancelToken);
   };
 
   /**
@@ -190,10 +190,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument>} A promise resolving to the uploaded document or an error response.
    * @throws {MethodError} If the document is null.
    */
-  uploadSourceDocument = async (
-    document: SourceDocumentRequest,
-    cancelToken: AbortController
-  ): Promise<SourceDocument> => {
+  upload = async (document: SourceDocumentRequest, cancelToken: AbortController): Promise<SourceDocument> => {
     if (!document) {
       GenericExceptionHandlers.ArgumentNullException('document');
     }
@@ -206,7 +203,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       document.CollectionGUID +
       '/documents';
 
-    return await this.create(url, document, cancelToken);
+    return await this.createResource(url, document, cancelToken);
   };
 
   /**
@@ -218,11 +215,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves when the document is deleted.
    * @throws {MethodError} If either `collectionGuid` or `documentGuid` is empty or null.
    */
-  deleteSourceDocument = async (
-    collectionGuid: string,
-    documentGuid: string,
-    cancelToken: AbortController
-  ): Promise<boolean> => {
+  delete = async (collectionGuid: string, documentGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -238,7 +231,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       '/documents/' +
       documentGuid;
 
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -251,7 +244,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves when the document is deleted.
    * @throws {MethodError} If any of the parameters (`collectionGuid`, `key`, `version`) are empty or null.
    */
-  deleteSourceDocumentFromKey = async (
+  deleteFromKey = async (
     collectionGuid: string,
     key: string,
     version: string,
@@ -278,7 +271,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       '&versionId=' +
       version;
 
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
   /**
    * Check if a source documents exists.
@@ -288,11 +281,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
    * @throws {MethodError} If the collectionGuid argument is null or undefined or If the documentGuid argument is null or undefined.
    */
-  sourceDocumentsExists = async (
-    collectionGuid: string,
-    documentGuid: string,
-    cancelToken: AbortController
-  ): Promise<boolean> => {
+  exists = async (collectionGuid: string, documentGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       throw new Error('Collection GUID cannot be null or undefined.');
     }
@@ -300,7 +289,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       throw new Error('document GUID cannot be null or undefined.');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/documents/${documentGuid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   // endregion

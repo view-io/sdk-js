@@ -3,7 +3,7 @@ import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 
-export default class ViewEndpointsSdk extends ViewSdkBase {
+export default class EndpointsSdk extends ViewSdkBase {
   /**
    * Constructs a new ViewEndpointsSdk.
    * @param {SdkConfiguration} config - The SDK configuration.
@@ -18,13 +18,14 @@ export default class ViewEndpointsSdk extends ViewSdkBase {
    * @param {ViewEndpoint} endpoint - The view endpoint to create.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<ViewEndpoint>} - View endpoint.
+   * @throws {MethodError} If the endpoint is null.
    */
-  createViewEndpoint = async (endpoint: ViewEndpoint, cancelToken: AbortController) => {
+  create = async (endpoint: ViewEndpoint, cancelToken: AbortController): Promise<ViewEndpoint> => {
     if (!endpoint) {
       GenericExceptionHandlers.ArgumentNullException('endpoint');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints';
-    return await this.create(url, endpoint, cancelToken);
+    return await this.createResource(url, endpoint, cancelToken);
   };
 
   /**
@@ -32,13 +33,14 @@ export default class ViewEndpointsSdk extends ViewSdkBase {
    * @param {string} guid - GUID.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean>} - True if exists.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  existsViewEndpoint = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -46,23 +48,25 @@ export default class ViewEndpointsSdk extends ViewSdkBase {
    * @param {string} guid - GUID.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<ViewEndpoint>} - View endpoint.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveViewEndpoint = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<ViewEndpoint> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Read View endpoints.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<ViewEndpoint[]>} - View endpoints.
+   * @throws {MethodError} If the view endpoints are null.
    */
-  retrieveViewEndpoints = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<Array<ViewEndpoint>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -70,26 +74,28 @@ export default class ViewEndpointsSdk extends ViewSdkBase {
    * @param {ViewEndpoint} endpoint - The view endpoint to update.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<ViewEndpoint>} - View endpoint.
+   * @throws {MethodError} If the endpoint is null.
    */
-  updateViewEndpoint = async (endpoint: ViewEndpoint, cancelToken: AbortController) => {
+  update = async (endpoint: ViewEndpoint, cancelToken: AbortController): Promise<ViewEndpoint> => {
     if (!endpoint) {
       GenericExceptionHandlers.ArgumentNullException('endpoint');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + endpoint.GUID;
-    return await this.update(url, endpoint, cancelToken);
+    return await this.updateResource(url, endpoint, cancelToken);
   };
 
   /**
    * Delete a View endpoint.
    * @param {string} guid - GUID.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void>}
+   * @returns {Promise<boolean>} A promise resolving to true if the deletion is successful.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteViewEndpoint = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 }

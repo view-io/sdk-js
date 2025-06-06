@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { MultipartUpload } from '../../types';
+import { MultipartUpload, TagMetadata } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -16,13 +16,16 @@ export default class MultipartUploadSdk extends ViewSdkBase {
   /**
    * Create a Multipart Upload.
    * @param {MultipartUpload} multipartUpload Information about the multipart upload.
-   * @param {string} multipartUpload.key - The key of the tag to retrieve.
+   * @param {string} multipartUpload.bucketGUID - The GUID of the bucket to retrieve.
+   * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<MultipartUpload>} A promise resolving to the MultipartUpload object or null if not found.
+   * @throws {MethodError} If the multipartUpload is null or empty.
    */
-  createMultipartUpload = async (
+  create = async (
     bucketGUID: string,
     multipartUpload: MultipartUpload,
     cancelToken: AbortController
-  ) => {
+  ): Promise<MultipartUpload> => {
     if (!multipartUpload) {
       GenericExceptionHandlers.ArgumentNullException('multipartUpload');
     }
@@ -31,7 +34,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads';
-    return await this.create(url, multipartUpload, cancelToken);
+    return await this.createResource(url, multipartUpload, cancelToken);
   };
 
   /**
@@ -39,17 +42,17 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    *
    * @param {string} bucketGUID - The GUID of the bucket to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<MultipartUpload|null|ApiErrorResponse>} A promise resolving to the MultipartUpload object or null if not found.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<MultipartUpload>} A promise resolving to the MultipartUpload object or null if not found.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  retrieveMultipartUploads = async (bucketGUID: string, cancelToken: AbortController) => {
+  readAll = async (bucketGUID: string, cancelToken: AbortController): Promise<MultipartUpload[]> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads';
     // Use the `retrieve` method to get list of Multipart Upload
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -58,10 +61,10 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @param {string} bucketGUID - The GUID of the bucket to retrieve.
    * @param {string} key - The key of the tag to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<MultipartUpload|null|ApiErrorResponse>} A promise resolving to the MultipartUpload object or null if not found.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<MultipartUpload>} A promise resolving to the MultipartUpload object or null if not found.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  retrieveMultipartUpload = async (bucketGUID: string, key: string, cancelToken: AbortController) => {
+  read = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<MultipartUpload> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -71,7 +74,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
     // Use the `retrieve` method to get the object
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -81,15 +84,15 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @param {number} partNumber - The part number of the Multipart Upload to retrieve.
    * @param {string} key - The key of the Multipart Upload to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<MultipartUpload|null|ApiErrorResponse>} A promise resolving to the MultipartUpload object or null if not found.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<MultipartUpload>} A promise resolving to the MultipartUpload object or null if not found.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  retrievePartOfMultipartUpload = async (
+  readPart = async (
     bucketGUID: string,
     key: string,
     partNumber: number,
     cancelToken: AbortController
-  ) => {
+  ): Promise<MultipartUpload> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -110,7 +113,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       '?partNumber=' +
       partNumber;
     // Use the `retrieve` method to get the object
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -120,15 +123,15 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @param {number} partNumber - The part number of the Multipart Upload to retrieve.
    * @param {string} key - The key of the Multipart Upload to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void|ApiErrorResponse>} A promise resolving when the user is deleted.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<void | boolean>} A promise resolving when the user is deleted.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  deletePartOfMultipartUpload = async (
+  deletePart = async (
     bucketGUID: string,
     key: string,
     partNumber: number,
     cancelToken: AbortController
-  ) => {
+  ): Promise<void | boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -149,7 +152,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       '?partNumber=' +
       partNumber;
     // Use the `delete` method to remove the Multipart Upload
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -158,10 +161,10 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @param {string} bucketGUID - The GUID of the bucket to retrieve.
    * @param {string} key - The key of the Multipart Upload to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Boolean|ApiErrorResponse>} A promise resolving when the user is deleted.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<Boolean>} A promise resolving when the user is deleted.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  deleteMultipartUpload = async (bucketGUID: string, key: string, cancelToken: AbortController) => {
+  delete = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -171,7 +174,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
     // Use the `delete` method to remove the Multipart Upload
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -181,16 +184,16 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @param {Number} partNumber - Part number.
    * @param {string} data Information about the Object .
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TagMetaData|null|ApiErrorResponse>} A promise resolving to the created TagMetaData object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the node is null or empty.
+   * @returns {Promise<TagMetadata>} A promise resolving to the created TagMetaData object or null if the creation fails.
+   * @throws {MethodError} If the node is null or empty.
    */
-  uploadPartOfMultipartUpload = async (
+  uploadPart = async (
     bucketGUID: string,
     key: string,
     partNumber: number,
     data: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<TagMetadata> => {
     if (!partNumber) {
       GenericExceptionHandlers.ArgumentNullException('partNumber');
     }
@@ -213,7 +216,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       key +
       '/parts?partNumber' +
       partNumber;
-    return await this.update(url, data, cancelToken);
+    return await this.updateResource(url, data, cancelToken);
   };
 
   /**
@@ -222,10 +225,10 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @param {string} bucketGUID - The GUID of the bucket to retrieve.
    * @param {string} key - The key of the Multipart Upload to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Boolean|ApiErrorResponse>} A promise resolving when the user is deleted.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<Boolean>} A promise resolving when the user is deleted.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  completeMultipartUpload = async (bucketGUID: string, key: string, cancelToken: AbortController) => {
+  complete = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -235,6 +238,6 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
     // Use the `delete` method to remove the Multipart Upload
-    return await this.create(url, {}, cancelToken);
+    return await this.createResource(url, {}, cancelToken);
   };
 }

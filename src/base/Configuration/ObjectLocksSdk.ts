@@ -1,4 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
+import { EnumerationResult, ObjectLock } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -17,36 +18,38 @@ export default class ObjectLocksSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the object lock to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<ObjectLock|null|ApiErrorResponse>} A promise resolving to the ObjectLock object or null if not found.
-   * @throws {Error} If the guid is null or empty.
+   * @returns {Promise<ObjectLock>} A promise resolving to the ObjectLock object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveObjectLock = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<ObjectLock> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/objectlocks/' + guid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Retrieve all object locks.
    *
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<ObjectLock>|ApiErrorResponse>} A promise resolving to an array of ObjectLock objects.
+   * @returns {Promise<Array<ObjectLock>>} A promise resolving to an array of ObjectLock objects.
+   * @throws {MethodError} If the object locks are null.
    */
-  retrieveObjectLocks = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<Array<ObjectLock>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/objectlocks';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Enumerate object locks.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|ApiErrorResponse>} A promise resolving to the enumeration result.
+   * @returns {Promise<EnumerationResult<ObjectLock>>} A promise resolving to the enumeration result.
+   * @throws {MethodError} If the object locks are null.
    */
-  enumerateObjectLocks = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<ObjectLock>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/objectlocks`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -54,14 +57,14 @@ export default class ObjectLocksSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the object lock to delete.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if the deletion is successful.
-   * @throws {Error} If the guid is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if the deletion is successful.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteObjectLock = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/objectlocks/' + guid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 }

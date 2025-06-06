@@ -21,13 +21,13 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<DataFlow>} A promise resolving to the created DataFlow object.
    * @throws {MethodError} If the `flow` is null or invalid.
    */
-  createDataFlow = async (flow: DataFlow, cancelToken: AbortController): Promise<DataFlow> => {
+  create = async (flow: DataFlow, cancelToken: AbortController): Promise<DataFlow> => {
     if (!flow) {
       GenericExceptionHandlers.ArgumentNullException('flow');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows`;
-    return await this.create(url, flow, cancelToken);
+    return await this.createResource(url, flow, cancelToken);
   };
   /**
    * Check if a data flow exists.
@@ -37,13 +37,13 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to `true` if the data flow exists, otherwise `false`.
    * @throws {MethodError} If the `guid` is null or empty.
    */
-  existsDataFlow = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${guid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
   /**
    * Read a data flow.
@@ -53,13 +53,13 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<DataFlow>} A promise resolving to the retrieved DataFlow object.
    * @throws {MethodError} If the `guid` is null or empty.
    */
-  retrieveDataFlow = async (guid: string, cancelToken: AbortController): Promise<DataFlow> => {
+  read = async (guid: string, cancelToken: AbortController): Promise<DataFlow> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${guid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Read data flows.
@@ -68,9 +68,9 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<Array<DataFlow>>} A promise resolving to an array of DataFlow objects.
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
-  retrieveDataFlows = async (cancelToken: AbortController): Promise<Array<DataFlow>> => {
+  readAll = async (cancelToken: AbortController): Promise<Array<DataFlow>> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve by GUID with steps.
@@ -79,12 +79,12 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<Array<DataFlow>>} A promise resolving to an array of DataFlow objects.
    * @throws {MethodError} If the `guid` is null or empty.
    */
-  retrieveDataFlowWithSteps = async (guid: string, cancelToken: AbortController): Promise<Array<DataFlow>> => {
+  readWithSteps = async (guid: string, cancelToken: AbortController): Promise<Array<DataFlow>> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${guid}?inclsub`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    *Retrieve request performance data.
@@ -94,7 +94,7 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<DataFlow>} A promise resolving to an array of DataFlow objects.
    * @throws {MethodError} If the `dataFlowGuid` or `requestGuid` is null or empty.
    */
-  retrieveDataFlowPerformanceData = async (
+  readPerformanceData = async (
     dataFlowGuid: string,
     requestGuid: string,
     cancelToken: AbortController
@@ -103,7 +103,7 @@ export class DataFlowsSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('dataFlowGuid and requestGuid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${dataFlowGuid}/performance?request=${requestGuid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -114,12 +114,12 @@ export class DataFlowsSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to `true` if the data flow was deleted successfully, otherwise `false`.
    * @throws {MethodError} If the `guid` is null or empty.
    */
-  deleteDataFlow = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${guid}`;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 }

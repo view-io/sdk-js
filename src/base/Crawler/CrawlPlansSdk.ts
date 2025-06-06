@@ -17,9 +17,9 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<CrawlPlan>>} A promise resolving to the enumeration result or null.
    * @throws {MethodError} If the request fails.
    */
-  enumerateCrawlPlans = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlPlan>> => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlPlan>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlplans/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve All Crawl Plans.
@@ -27,9 +27,9 @@ export class CrawlPlansSdk extends ViewSdkBase {
    *@returns {Promise<CrawlPlan[]>} A promise resolving to an array of CrawlPlan objects. If creation fails, the promise resolves to null.
    * @throws {MethodError} If the request fails.
    */
-  retrieveCrawlPlans = async (cancelToken: AbortController): Promise<CrawlPlan[]> => {
+  readAll = async (cancelToken: AbortController): Promise<CrawlPlan[]> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve By Id Crawl Plans.
@@ -38,12 +38,12 @@ export class CrawlPlansSdk extends ViewSdkBase {
    *@returns {Promise<CrawlPlan[]>} A promise resolving CrawlPlan objects. If creation fails, the promise resolves to null.
    * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveCrawlPlan = async (guid: string, cancelToken: AbortController): Promise<CrawlPlan> => {
+  read = async (guid: string, cancelToken: AbortController): Promise<CrawlPlan> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Write Crawl Plans.
@@ -52,12 +52,12 @@ export class CrawlPlansSdk extends ViewSdkBase {
    *@returns {Promise<CrawlPlan[]>} A promise resolving CrawlPlan objects. If creation fails, the promise resolves to null.
    * @throws {MethodError} If the crawlPlansData is null or empty.
    */
-  createCrawlPlan = async (crawlPlansData: CrawlPlan, cancelToken: AbortController): Promise<CrawlPlan> => {
+  create = async (crawlPlansData: CrawlPlan, cancelToken: AbortController): Promise<CrawlPlan> => {
     if (!crawlPlansData) {
       GenericExceptionHandlers.ArgumentNullException('crawlPlansData');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans`;
-    return await this.create(url, crawlPlansData, cancelToken);
+    return await this.createResource(url, crawlPlansData, cancelToken);
   };
   /**
    * Update Crawl Plan.
@@ -66,13 +66,13 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @returns {Promise<CrawlPlan>} A promise resolving of CrawlPlan objects if the update is successful, or null if the update fails.
    * @throws {MethodError} If the guid is null or empty or If the crawlPlanData is null or empty.
    */
-  updateCrawlPlan = async (crawlPlanData: CrawlPlan, cancelToken: AbortController): Promise<CrawlPlan> => {
+  update = async (crawlPlanData: CrawlPlan, cancelToken: AbortController): Promise<CrawlPlan> => {
     if (!crawlPlanData) {
       GenericExceptionHandlers.ArgumentNullException('crawlPlanData');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${crawlPlanData.GUID}`;
 
-    return await this.update(url, crawlPlanData, cancelToken);
+    return await this.updateResource(url, crawlPlanData, cancelToken);
   };
   /**
    * Delete Crawl Plans.
@@ -82,12 +82,12 @@ export class CrawlPlansSdk extends ViewSdkBase {
    @returns {Promise<boolean>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
    * @throws {MethodError} If the guid is null or empty.
    */
-  deleteCrawlPlan = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
   /**
    * Check Existence Crawl Plans.
@@ -97,11 +97,11 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the Node object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  existsCrawlPlan = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 }

@@ -17,23 +17,23 @@ export default class BlobsSdk extends ViewSdkBase {
   /**
    * Enumerate BLOBs.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {ApiErrorResponse} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult>} A promise resolving to the created Trigger object or null if creation fails.
+   * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerateBlobs = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken: AbortController) => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/blobs`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Retrieve a list of blobs.
    *
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<Blob>|ApiErrorResponse>} A promise resolving to an array of Blob objects.
+   * @returns {Promise<Array<Blob>>} A promise resolving to an array of Blob objects.
    */
-  retrieveBlobs = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<Array<Blob>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -41,15 +41,15 @@ export default class BlobsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the blob to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Blob|null|ApiErrorResponse>} A promise resolving to the Blob object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveBlob = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<Blob> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -58,29 +58,29 @@ export default class BlobsSdk extends ViewSdkBase {
    * @param {string} guid - The GUID of the blob to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
-   * @throws {Error} If the guid is null or empty.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveBlobIncludeData = async (guid: string, cancelToken: AbortController) => {
+  readIncludeData = async (guid: string, cancelToken: AbortController): Promise<Blob> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid + '?incldata';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Write BLOB data.
    * @param {Blob} blob Information about the blob.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the node is null or empty.
+   * @returns {Promise<Node>} A promise resolving to the created Node object or null if the creation fails.
+   * @throws {MethodError} If the node is null or empty.
    */
-  writeBlob = async (blob: Blob, cancelToken: AbortController) => {
+  create = async (blob: Blob, cancelToken: AbortController): Promise<Node> => {
     if (!blob) {
       GenericExceptionHandlers.ArgumentNullException('blob');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs';
-    return await this.update(url, blob, cancelToken);
+    return await this.updateResource(url, blob, cancelToken);
   };
 
   /**
@@ -88,15 +88,15 @@ export default class BlobsSdk extends ViewSdkBase {
    *
    * @param {Blob} blob - Information about the blob to update.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Blob|null|ApiErrorResponse>} A promise resolving to the updated Blob object or null if update fails.
-   * @throws {ApiErrorResponse} If the blob is null or empty.
+   * @returns {Promise<Blob>} A promise resolving to the updated Blob object or null if update fails.
+   * @throws {MethodError} If the blob is null or empty.
    */
-  updateBlob = async (blob: Blob, cancelToken: AbortController) => {
+  update = async (blob: Blob, cancelToken: AbortController): Promise<Blob> => {
     if (!blob) {
       GenericExceptionHandlers.ArgumentNullException('blob');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + blob.GUID;
-    return await this.update(url, blob, cancelToken);
+    return await this.updateResource(url, blob, cancelToken);
   };
 
   /**
@@ -104,15 +104,15 @@ export default class BlobsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the BLOB to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Blob|null|ApiErrorResponse>} A promise resolving to the Blob object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteBlob = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -120,14 +120,14 @@ export default class BlobsSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the BLOB to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Blob|null|ApiErrorResponse>} A promise resolving to the Blob object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  existsBlob = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 }

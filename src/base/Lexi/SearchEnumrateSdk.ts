@@ -51,6 +51,6 @@ export class SearchEnumrateSdk extends ViewSdkBase {
       url += '?' + queryParams.join('&');
     }
 
-    return await this.postCreate(url, searchData, cancelToken);
+    return await this.postCreateResource(url, searchData, cancelToken);
   };
 }

@@ -1,6 +1,6 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
-import { EnumerationQuery } from '../../types';
+import { CollectionStatistics, EnumerationQuery, VectorRepository } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 
 export default class VectorRepositoriesSdk extends ViewSdkBase {
@@ -17,9 +17,9 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
    * Enumerate all repositories.
    * @param {EnumerationQuery} enumerationQuery - Enumeration query parameters.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise[]} A promise resolving to a list of VectorRepository objects.
+   * @returns {Promise<VectorRepository[]>} A promise resolving to a list of VectorRepository objects.
    */
-  enumerateVectorRepositories = async (enumerationQuery: EnumerationQuery, cancelToken: AbortController) => {
+  enumerate = async (enumerationQuery: EnumerationQuery, cancelToken: AbortController): Promise<VectorRepository[]> => {
     const url =
       this.config.endpoint +
       '/v1.0/tenants/' +
@@ -27,7 +27,7 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
       '/vectorrepositories/' +
       enumerationQuery.vectorRepositoryGuid +
       '/enumerate';
-    return await this.postCreate(url, enumerationQuery, cancelToken);
+    return await this.postCreateResource(url, enumerationQuery, cancelToken);
   };
 
   /**
@@ -35,9 +35,12 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
    * @param {string} vectorRepositoryGuid - GUID for the vector repository.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<CollectionStatistics>} A promise resolving to the CollectionStatistics object.
-   * @throws {ApiErrorResponse} If the vectorRepositoryGuid is null or empty.
+   * @throws {MethodError} If the vectorRepositoryGuid is null or empty.
    */
-  retrieveVectorRepositoryStatistics = async (vectorRepositoryGuid: string, cancelToken: AbortController) => {
+  readStatistics = async (
+    vectorRepositoryGuid: string,
+    cancelToken: AbortController
+  ): Promise<CollectionStatistics> => {
     if (!vectorRepositoryGuid) {
       GenericExceptionHandlers.ArgumentNullException('vectorRepositoryGuid');
     }
@@ -48,23 +51,23 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
       '/vectorrepositories/' +
       vectorRepositoryGuid +
       '/stats';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Empty repository.
    * @param {string} vectorRepositoryGuid - GUID for the vector repository.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void>} A promise that resolves when the repository is deleted.
-   * @throws {ApiErrorResponse} If the VectorRepositoryGUID is null or empty.
+   * @returns {Promise<void | boolean>} A promise that resolves when the repository is deleted.
+   * @throws {MethodError} If the VectorRepositoryGUID is null or empty.
    */
-  deleteVectorRepository = async (vectorRepositoryGuid: string, cancelToken: AbortController) => {
+  delete = async (vectorRepositoryGuid: string, cancelToken: AbortController): Promise<void | boolean> => {
     if (!vectorRepositoryGuid) {
       GenericExceptionHandlers.ArgumentNullException('vectorRepositoryGuid');
     }
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + vectorRepositoryGuid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   //endregion

@@ -19,9 +19,9 @@ export default class DocumentSdk extends ViewSdkBase {
    * @param {EmbeddingDocument} doc - Document to write.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<EmbeddingDocument>} A promise resolving to the EmbeddingDocument object.
-   * @throws {ApiErrorResponse} If the document is null.
+   * @throws {MethodError} If the document is null.
    */
-  writeDocument = async (doc: EmbeddingDocument, cancelToken: AbortController) => {
+  write = async (doc: EmbeddingDocument, cancelToken: AbortController): Promise<EmbeddingDocument> => {
     if (!doc) {
       GenericExceptionHandlers.ArgumentNullException('doc');
     }
@@ -36,7 +36,7 @@ export default class DocumentSdk extends ViewSdkBase {
       '/vectorrepositories/' +
       vectorRepositoryGUID +
       '/documents';
-    return await this.postCreate(url, doc, cancelToken);
+    return await this.createResource(url, doc, cancelToken);
   };
 
   /**
@@ -45,9 +45,13 @@ export default class DocumentSdk extends ViewSdkBase {
    * @param {string} documentGuid - GUID for the Document.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<EmbeddingDocument>} A promise resolving to the EmbeddingDocument object.
-   * @throws {ApiErrorResponse} If the documentGuid is null or empty.
+   * @throws {MethodError} If the documentGuid is null or empty.
    */
-  readDocument = async (vectorRepositoryGuid: string, documentGuid: string, cancelToken: AbortController) => {
+  read = async (
+    vectorRepositoryGuid: string,
+    documentGuid: string,
+    cancelToken: AbortController
+  ): Promise<EmbeddingDocument> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -62,7 +66,7 @@ export default class DocumentSdk extends ViewSdkBase {
       vectorRepositoryGuid +
       '/documents/' +
       documentGuid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -70,10 +74,14 @@ export default class DocumentSdk extends ViewSdkBase {
    * @param {string} vectorRepositoryGuid - GUID for the vector repository.
    * @param {string} documentGuid - GUID for the document.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Boolean|ApiErrorResponse>} A promise that resolves when the document is deleted.
-   * @throws {ApiErrorResponse} If the documentGuid is null or empty.
+   * @returns {Promise<boolean>} A promise that resolves when the document is deleted.
+   * @throws {MethodError} If the documentGuid is null or empty.
    */
-  deleteDocument = async (vectorRepositoryGuid: string, documentGuid: string, cancelToken: AbortController) => {
+  delete = async (
+    vectorRepositoryGuid: string,
+    documentGuid: string,
+    cancelToken: AbortController
+  ): Promise<boolean> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -88,7 +96,7 @@ export default class DocumentSdk extends ViewSdkBase {
       vectorRepositoryGuid +
       '/documents/' +
       documentGuid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -96,10 +104,14 @@ export default class DocumentSdk extends ViewSdkBase {
    * @param {string} vectorRepositoryGuid - GUID for the vector repository.
    * @param {string} documentGuid - GUID for the document.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void>} A promise resolving to a void indicating whether the document exists.
-   * @throws {ApiErrorResponse} If the documentGuid is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to a void indicating whether the document exists.
+   * @throws {MethodError} If the documentGuid is null or empty.
    */
-  documentExists = async (vectorRepositoryGuid: string, documentGuid: string, cancelToken: AbortController) => {
+  exists = async (
+    vectorRepositoryGuid: string,
+    documentGuid: string,
+    cancelToken: AbortController
+  ): Promise<boolean> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -114,7 +126,7 @@ export default class DocumentSdk extends ViewSdkBase {
       vectorRepositoryGuid +
       '/documents/' +
       documentGuid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   //endregion

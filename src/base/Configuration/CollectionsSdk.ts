@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { Collection } from '../../types';
+import { Collection, CollectionStatistics, EnumerationResult } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -18,11 +18,11 @@ export default class CollectionsSdk extends ViewSdkBase {
    * Retrieve all collections.
    *
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<Collection>|ApiErrorResponse>} A promise resolving to an array of Collection objects.
+   * @returns {Promise<Array<Collection>>} A promise resolving to an array of Collection objects.
    */
-  retrieveCollections = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<Array<Collection>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -30,15 +30,15 @@ export default class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Collection|null|ApiErrorResponse>} A promise resolving to the Collection object or null if not found.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty.
+   * @returns {Promise<Collection>} A promise resolving to the Collection object or null if not found.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  retrieveCollection = async (collectionGuid: string, cancelToken: AbortController) => {
+  read = async (collectionGuid: string, cancelToken: AbortController): Promise<Collection> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -46,16 +46,16 @@ export default class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to retrieve statistics for.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<CollectionStatistics|null|ApiErrorResponse>} A promise resolving to the CollectionStatistics object or null.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty.
+   * @returns {Promise<CollectionStatistics>} A promise resolving to the CollectionStatistics object or null.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  retrieveCollectionStatistics = async (collectionGuid: string, cancelToken: AbortController) => {
+  readStatistics = async (collectionGuid: string, cancelToken: AbortController): Promise<CollectionStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
     const url =
       this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid + '?stats';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -63,15 +63,15 @@ export default class CollectionsSdk extends ViewSdkBase {
    *
    * @param {Collection} collection Information about the collection.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Collection|null|ApiErrorResponse>} A promise resolving to the created Collection object or null.
-   * @throws {ApiErrorResponse} If the collection is null.
+   * @returns {Promise<Collection>} A promise resolving to the created Collection object or null.
+   * @throws {MethodError} If the collection is null.
    */
-  createCollection = async (collection: Collection, cancelToken: AbortController) => {
+  create = async (collection: Collection, cancelToken: AbortController): Promise<Collection> => {
     if (!collection) {
       GenericExceptionHandlers.ArgumentNullException('collection');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections';
-    return await this.create(url, collection, cancelToken);
+    return await this.createResource(url, collection, cancelToken);
   };
 
   /**
@@ -79,26 +79,26 @@ export default class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void|ApiErrorResponse>} A promise resolving to void if successful.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if successful.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  deleteCollection = async (collectionGuid: string, cancelToken: AbortController) => {
+  delete = async (collectionGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, undefined, cancelToken);
   };
 
   /**
    * Enumerate Collections.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Trigger|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {ApiErrorResponse} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<Collection>>} A promise resolving to the created Trigger object or null if creation fails.
+   * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerateCollections = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<Collection>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/collections`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -106,14 +106,14 @@ export default class CollectionsSdk extends ViewSdkBase {
    *
    * @param {string} collectionGuid - The GUID of the collection to check.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<boolean|ApiErrorResponse>} A promise resolving to true if the collection exists, otherwise false.
-   * @throws {ApiErrorResponse} If the collectionGuid is null or empty.
+   * @returns {Promise<boolean>} A promise resolving to true if the collection exists, otherwise false.
+   * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  existsCollection = async (collectionGuid: string, cancelToken: AbortController) => {
+  exists = async (collectionGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 }

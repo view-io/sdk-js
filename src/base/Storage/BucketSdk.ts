@@ -1,8 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
-import { AclMetaData, ApiErrorResponse, BucketMetadata, TagMetadata } from '../../types';
+import { AclMetaData, BucketMetadata, TagMetadata } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import TagMetaData from 'litegraphdb/types/models/TagMetaData';
 
 export default class BucketSdk extends ViewSdkBase {
   /**
@@ -20,40 +19,40 @@ export default class BucketSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the bucket to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the Bucket object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<BucketMetadata>} A promise resolving to the Bucket object or null if not found.
+   * @throws { MethodError} If the guid is null or empty.
    */
-  retrieveBucketMetadata = async (guid: string, cancelToken: AbortController) => {
+  readMetadata = async (guid: string, cancelToken: AbortController): Promise<BucketMetadata> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?md';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Write Bucket data.
    * @param {BucketMetadata} metadata Information about the bucket metadata.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the created Bucket object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the node is null or empty.
+   * @returns {Promise<BucketMetadata>} A promise resolving to the created Bucket object or null if the creation fails.
+   * @throws {MethodError} If the node is null or empty.
    */
-  createBucket = async (metadata: BucketMetadata, cancelToken: AbortController) => {
+  create = async (metadata: BucketMetadata, cancelToken: AbortController): Promise<BucketMetadata> => {
     if (!metadata) {
       GenericExceptionHandlers.ArgumentNullException('metadata');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets';
-    return await this.update(url, metadata, cancelToken);
+    return await this.createResource(url, metadata, cancelToken);
   };
 
   /**
    * Update Bucket data.
    * @param {BucketMetadata} metadata Information about the bucket metadata.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<BucketMetadata|null|ApiErrorResponse>} A promise resolving to the created Bucket object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the node is null or empty.
+   * @returns {Promise<BucketMetadata>} A promise resolving to the created Bucket object or null if the creation fails.
+   * @throws {MethodError} If the node is null or empty.
    */
-  updateBucket = async (metadata: BucketMetadata, cancelToken: AbortController) => {
+  update = async (metadata: BucketMetadata, cancelToken: AbortController): Promise<BucketMetadata> => {
     if (!metadata) {
       GenericExceptionHandlers.ArgumentNullException('metadata');
     }
@@ -61,7 +60,7 @@ export default class BucketSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('metadata.GUID');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + metadata.GUID;
-    return await this.update(url, metadata, cancelToken);
+    return await this.updateResource(url, metadata, cancelToken);
   };
 
   /**
@@ -69,15 +68,15 @@ export default class BucketSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the bucket to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Boolean|ApiErrorResponse>} A promise that resolves when the bucket is deleted.
-   * @throws {ApiErrorResponse} If the GUID is null or empty.
+   * @returns {Promise<Boolean>} A promise that resolves when the bucket is deleted.
+   * @throws {MethodError} If the GUID is null or empty.
    */
-  deleteBucket = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -85,15 +84,15 @@ export default class BucketSdk extends ViewSdkBase {
    *
    * @param {string} guid - GUID of the bucket.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<TagMetaData|null|ApiErrorResponse>} A promise resolving to the TagMetadata object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<TagMetadata>} A promise resolving to the TagMetadata object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveBucketTags = async (guid: string, cancelToken: AbortController) => {
+  readTags = async (guid: string, cancelToken: AbortController): Promise<TagMetadata> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?tags';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -102,14 +101,14 @@ export default class BucketSdk extends ViewSdkBase {
    * @param {string} guid - GUID of the bucket to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<void>} A promise that resolves when the bucket is deleted.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteBucketTags = async (guid: string, cancelToken: AbortController) => {
+  deleteTags = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?tags';
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -117,10 +116,10 @@ export default class BucketSdk extends ViewSdkBase {
    * @param {string} guid - The GUID of the bucket.
    * @param {TagMetadata} tagMetaData Information about the tag .
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<ObjectMetadata|null|ApiErrorResponse>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the ObjectMetadata is null or empty.
+   * @returns {Promise<ObjectMetadata>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
+   * @throws {MethodError} If the ObjectMetadata is null or empty.
    */
-  createBucketTags = async (guid: string, tagMetaData: TagMetaData, cancelToken: AbortController) => {
+  createTags = async (guid: string, tagMetaData: TagMetadata, cancelToken: AbortController): Promise<TagMetadata> => {
     if (!tagMetaData) {
       GenericExceptionHandlers.ArgumentNullException('tagMetaData');
     }
@@ -128,23 +127,23 @@ export default class BucketSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?tags';
-    return await this.update(url, tagMetaData, cancelToken);
+    return await this.updateResource(url, tagMetaData, cancelToken);
   };
 
   /**
-   * Retrieve tag by bucketGuid.
+   * Retrieve acl by bucketGuid.
    *
    * @param {string} guid - GUID of the bucket.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<AclMetaData|null|ApiErrorResponse>} A promise resolving to the TagMetadata object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<AclMetaData>} A promise resolving to the TagMetadata object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveBucketACL = async (guid: string, cancelToken: AbortController) => {
+  readACL = async (guid: string, cancelToken: AbortController): Promise<AclMetaData> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?acl';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -152,15 +151,15 @@ export default class BucketSdk extends ViewSdkBase {
    *
    * @param {string} guid - GUID of the bucket to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Boolean|ApiErrorResponse>} A promise that resolves when the bucket is deleted.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<Boolean>} A promise that resolves when the bucket is deleted.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteBucketACL = async (guid: string, cancelToken: AbortController) => {
+  deleteACL = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?acl';
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -168,10 +167,10 @@ export default class BucketSdk extends ViewSdkBase {
    * @param {string} guid - The GUID of the bucket.
    * @param {AclMetaData} aclMetaData Information about the acl .
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<AclMetaData|null|ApiErrorResponse>} A promise resolving to the created AclMetaData object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the AclMetaData is null or empty.
+   * @returns {Promise<AclMetaData>} A promise resolving to the created AclMetaData object or null if the creation fails.
+   * @throws {MethodError} If the AclMetaData is null or empty.
    */
-  createBucketACL = async (guid: string, aclMetaData: AclMetaData, cancelToken: AbortController) => {
+  createACL = async (guid: string, aclMetaData: AclMetaData, cancelToken: AbortController): Promise<AclMetaData> => {
     if (!aclMetaData) {
       GenericExceptionHandlers.ArgumentNullException('aclMetaData');
     }
@@ -179,6 +178,6 @@ export default class BucketSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '?acl';
-    return await this.update(url, aclMetaData, cancelToken);
+    return await this.updateResource(url, aclMetaData, cancelToken);
   };
 }

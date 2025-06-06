@@ -2,6 +2,7 @@ import superagent from 'superagent';
 import GenericExceptionHandlers from '../exception/GenericExceptionHandlers';
 import Logger from '../utils/Logger';
 import { SeverityEnum } from '../enums/SeverityEnum';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ApiErrorResponse, MethodError } from '../types';
 import Serializer from '../utils/Serializer';
 import { SdkConfiguration } from './SdkConfiguration';
@@ -48,7 +49,7 @@ export default class ViewSdkBase {
    * @returns {Promise<T>} The created object as the response or null if the request fails.
    * @throws {MethodError} If the URL or object is null or empty.
    */
-  create = <T>(url: string, obj: object, cancelToken: AbortController): Promise<T> => {
+  protected createResource = <T>(url: string, obj: object, cancelToken: AbortController): Promise<T> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -116,7 +117,7 @@ export default class ViewSdkBase {
    * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
    * @throws {MethodError} If the URL is null or empty.
    */
-  exists = (url: string, cancelToken: AbortController): Promise<boolean> => {
+  protected existsResource = (url: string, cancelToken: AbortController): Promise<boolean> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -189,7 +190,12 @@ export default class ViewSdkBase {
    * @returns {Promise<T>} The created object as the response or null if the request fails.
    * @throws {MethodError} If the URL or object is null or empty.
    */
-  update = <T>(url: string, obj: object | string, cancelToken?: AbortController, headers?: any): Promise<T> => {
+  protected updateResource = <T>(
+    url: string,
+    obj: object | string,
+    cancelToken?: AbortController,
+    headers?: any
+  ): Promise<T> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -264,7 +270,7 @@ export default class ViewSdkBase {
    * @returns {Promise<T>} The parsed JSON data from the response or null if the request fails.
    * @throws {MethodError} If the URL is null or empty.
    */
-  retrieve = <T>(url: string, cancelToken?: AbortController, headers?: any): Promise<T> => {
+  protected retrieveResource = <T>(url: string, cancelToken?: AbortController, headers?: any): Promise<T> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -330,7 +336,12 @@ export default class ViewSdkBase {
    * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
    * @throws {MethodError} If the URL is null or empty.
    */
-  delete = (url: string, obj?: object, cancelToken?: AbortController, headers?: any): Promise<boolean> => {
+  protected deleteResource = (
+    url: string,
+    obj?: object,
+    cancelToken?: AbortController,
+    headers?: any
+  ): Promise<boolean> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -401,7 +412,12 @@ export default class ViewSdkBase {
    * @returns {Promise<T>} The parsed JSON data from the response or null if the request fails.
    * @throws {MethodError} If the URL is null or empty.
    */
-  postCreate = <T>(url: string, obj: any, cancelToken: AbortController, headers?: any): Promise<T> => {
+  protected postCreateResource = <T>(
+    url: string,
+    obj: any,
+    cancelToken: AbortController,
+    headers?: any
+  ): Promise<T> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }

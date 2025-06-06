@@ -26,7 +26,7 @@ export class ModelSdk extends ViewSdkBase {
    * @returns {Promise<void>} A promise resolving to a string.
    * @throws {MethodError} If the `model` is null or empty.
    */
-  retrieveModel = async (model: ModelRequest, onToken: OnToken, cancelToken: AbortController): Promise<void> => {
+  retrieve = async (model: ModelRequest, onToken: OnToken, cancelToken: AbortController): Promise<void> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -66,12 +66,12 @@ export class ModelSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to a boolean value.
    * @throws {MethodError} If the `model` is null or empty.
    */
-  deleteModel = async (model: ModelRequest, cancelToken?: AbortController): Promise<boolean> => {
+  delete = async (model: ModelRequest, cancelToken?: AbortController): Promise<boolean> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models/delete`;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -87,7 +87,7 @@ export class ModelSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models`;
-    return await this.postCreate(url, model, cancelToken);
+    return await this.postCreateResource(url, model, cancelToken);
   };
 
   /**
@@ -98,12 +98,12 @@ export class ModelSdk extends ViewSdkBase {
    * @returns {Promise<ModelRequest>} A promise resolving to a model load response
    * @throws {MethodError} If the `model` is null or empty.
    */
-  loadUnloadModel = async (model: ModelRequest, cancelToken: AbortController): Promise<ModelRequest> => {
+  loadUnload = async (model: ModelRequest, cancelToken: AbortController): Promise<ModelRequest> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models/load`;
-    return await this.postCreate(url, model, cancelToken);
+    return await this.postCreateResource(url, model, cancelToken);
   };
 
   //endregion Model

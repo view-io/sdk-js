@@ -22,7 +22,7 @@ export class EmbeddingDirectorSdk extends ViewSdkBase {
     cancelToken: AbortController
   ): Promise<DirectorEmbeddingResponse> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/embeddings/`;
-    return await this.postCreate(url, params, cancelToken);
+    return await this.postCreateResource(url, params, cancelToken);
   };
 
   /**
@@ -32,6 +32,6 @@ export class EmbeddingDirectorSdk extends ViewSdkBase {
    */
   retrieveConnections = async (cancelToken: AbortController): Promise<DirectorConnection[]> => {
     const url = `${this.config.endpoint}/v1.0/connections/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 }

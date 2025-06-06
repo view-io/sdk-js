@@ -20,9 +20,9 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<Array<AssistantConfig>>} A promise resolving to an array of AssistantConfig objects.
    * @throws {MethodError}
    */
-  retrieveAssistantConfigs = async (cancelToken: AbortController): Promise<Array<AssistantConfig>> => {
+  readAll = async (cancelToken: AbortController): Promise<Array<AssistantConfig>> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -33,13 +33,13 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<AssistantConfig>} A promise resolving to an AssistantConfig object.
    * @throws {MethodError}
    */
-  retrieveAssistantConfig = async (guid: string, cancelToken: AbortController): Promise<AssistantConfig> => {
+  read = async (guid: string, cancelToken: AbortController): Promise<AssistantConfig> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Check if an assistant configuration exists.
@@ -49,13 +49,13 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to `true` if the assistant configuration exists, otherwise `false`.
    * @throws {MethodError}
    */
-  existsAssistantConfig = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -66,13 +66,13 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<AssistantConfig>} A promise resolving to the created AssistantConfig object.
    * @throws {MethodError}
    */
-  createAssistantConfig = async (config: AssistantConfig, cancelToken: AbortController): Promise<AssistantConfig> => {
+  create = async (config: AssistantConfig, cancelToken: AbortController): Promise<AssistantConfig> => {
     if (!config) {
       GenericExceptionHandlers.ArgumentNullException('config');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
-    return await this.postCreate(url, config, cancelToken);
+    return await this.postCreateResource(url, config, cancelToken);
   };
 
   /**
@@ -83,29 +83,29 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<AssistantConfig>} A promise resolving to the updated AssistantConfig object.
    * @throws {MethodError}
    */
-  updateAssistantConfig = async (config: AssistantConfig, cancelToken: AbortController): Promise<AssistantConfig> => {
+  update = async (config: AssistantConfig, cancelToken: AbortController): Promise<AssistantConfig> => {
     if (!config || !config.GUID) {
       GenericExceptionHandlers.ArgumentNullException('config or config.GUID');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${config.GUID}`;
-    return await this.create(url, config, cancelToken);
+    return await this.createResource(url, config, cancelToken);
   };
 
   /**
    * Delete an existing assistant configuration.
    *
    * @param {string} guid - GUID of the assistant configuration to delete
-   * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request
+   * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request
    * @returns {Promise<boolean>} A promise resolving to true if deletion was successful, false otherwise
    * @throws {MethodError}
    */
-  deleteAssistantConfig = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
-    return await this.delete(url, undefined, cancelToken);
+    return await this.deleteResource(url, undefined, cancelToken);
   };
 }

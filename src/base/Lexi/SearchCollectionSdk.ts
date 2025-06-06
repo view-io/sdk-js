@@ -27,7 +27,7 @@ export class SearchCollectionSdk extends ViewSdkBase {
    * @returns {Promise<SearchResult>} The search result or null if the request fails.
    * @throws {MethodError} If the collectionGuid or query is null or empty.
    */
-  searchCollectionDocuments = async (
+  searchDocuments = async (
     collectionGuid: string,
     query: SearchCollectionDocumentsQuery,
     includeData: boolean,
@@ -58,7 +58,7 @@ export class SearchCollectionSdk extends ViewSdkBase {
     if (emitResult) {
       url += '&async';
     }
-    return await this.postCreate(url, query, cancelToken);
+    return await this.postCreateResource(url, query, cancelToken);
   };
 
   // endregion

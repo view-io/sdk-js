@@ -45,7 +45,7 @@ export class ChatSdk extends ViewSdkBase {
         .post(url)
         .send(ragRequest)
         .set('Content-Type', 'application/json')
-        .on('error', (error) => {
+        .on('error', (_error) => {
           this.log(SeverityEnum.Warn, `${this.config.header}Error processing RAG request:`);
         })
         .pipe(this._createStreamParser(onToken));
@@ -56,7 +56,7 @@ export class ChatSdk extends ViewSdkBase {
           this.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
-    } catch (error) {
+    } catch (_error) {
       this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request:`);
       return []; // Return an empty array in case of error
     }
@@ -85,7 +85,7 @@ export class ChatSdk extends ViewSdkBase {
         .post(url)
         .send(ragRequest)
         .set('Content-Type', 'application/json')
-        .on('error', (error) => {
+        .on('error', (_error) => {
           this.log(SeverityEnum.Warn, `${this.config.header}Error processing RAG request:`);
         })
         .pipe(this._createStreamParser(onToken));
@@ -96,7 +96,7 @@ export class ChatSdk extends ViewSdkBase {
           this.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
         };
       }
-    } catch (error) {
+    } catch (_error) {
       this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request:`);
       return []; // Return an empty array in case of error
     }
@@ -136,7 +136,7 @@ export class ChatSdk extends ViewSdkBase {
           .post(url)
           .send(chatRequest)
           .set('Content-Type', 'application/json')
-          .on('error', (error) => {
+          .on('error', (_error) => {
             this.log(SeverityEnum.Warn, `${this.config.header}Error processing RAG request:`);
           })
           .pipe(this._createStreamParser(onToken));
@@ -147,12 +147,12 @@ export class ChatSdk extends ViewSdkBase {
             this.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
           };
         }
-      } catch (error) {
+      } catch (_error) {
         this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request:`);
         return []; // Return an empty array in case of error
       }
     } else {
-      return this.create(url, chatRequest, cancelToken);
+      return this.createResource(url, chatRequest, cancelToken);
     }
   };
 
@@ -176,7 +176,7 @@ export class ChatSdk extends ViewSdkBase {
           .post(url)
           .send(chatRequest)
           .set('Content-Type', 'application/json')
-          .on('error', (error) => {
+          .on('error', (_error) => {
             this.log(SeverityEnum.Warn, `${this.config.header}Error processing RAG request:`);
           })
           .pipe(this._createStreamParser(onToken));
@@ -187,12 +187,12 @@ export class ChatSdk extends ViewSdkBase {
             this.log(SeverityEnum.Debug, `Request aborted to ${url}.`);
           };
         }
-      } catch (error) {
+      } catch (_error) {
         this.log(SeverityEnum.Error, `${this.config.header} Error processing RAG request:`);
         return []; // Return an empty array in case of error
       }
     } else {
-      return this.postCreate(url, chatRequest, cancelToken);
+      return this.postCreateResource(url, chatRequest, cancelToken);
     }
   };
 
@@ -236,7 +236,7 @@ export class ChatSdk extends ViewSdkBase {
     try {
       const obj = JSON.parse(json);
       return obj.token || null;
-    } catch (error) {
+    } catch (_error) {
       return null;
     }
   }

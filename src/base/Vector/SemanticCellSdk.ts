@@ -1,6 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
+import { SemanticCell } from '../../types';
 
 export default class SemanticCellSdk extends ViewSdkBase {
   /**
@@ -18,9 +19,13 @@ export default class SemanticCellSdk extends ViewSdkBase {
    * @param {string} documentGuid - GUID for the document.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<SemanticCell[]>} A promise resolving to the SemanticCell array.
-   * @throws {ApiErrorResponse} If the documentGuid is null or empty.
+   * @throws {MethodError} If the documentGuid is null or empty.
    */
-  retrieveSemanticCells = async (vectorRepositoryGuid: string, documentGuid: string, cancelToken: AbortController) => {
+  readAll = async (
+    vectorRepositoryGuid: string,
+    documentGuid: string,
+    cancelToken: AbortController
+  ): Promise<SemanticCell[]> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -36,7 +41,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
       '/documents/' +
       documentGuid +
       '/cells';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -47,12 +52,12 @@ export default class SemanticCellSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<SemanticCell>} A promise resolving to the SemanticCell.
    */
-  retrieveSemanticCell = async (
+  read = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<SemanticCell> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
     }
@@ -72,7 +77,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
       documentGuid +
       '/cells/' +
       semanticCellGuid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -82,14 +87,14 @@ export default class SemanticCellSdk extends ViewSdkBase {
    * @param {string} semanticCellGuid - GUID for the semantic cell.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<void>} A promise resolving to a void indicating whether the semantic cell exists.
-   * @throws {ApiErrorResponse} If the semanticCellGuid is null or empty.
+   * @throws {MethodError} If the semanticCellGuid is null or empty.
    */
-  semanticCellExists = async (
+  exists = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
     cancelToken: AbortController
-  ) => {
+  ): Promise<boolean> => {
     if (!semanticCellGuid) {
       GenericExceptionHandlers.ArgumentNullException('semanticCellGuid');
     }
@@ -109,7 +114,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
       documentGuid +
       '/cells/' +
       semanticCellGuid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
   //endregion
 }

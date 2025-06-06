@@ -19,9 +19,9 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<CrawlFilter>>} A promise resolving to the enumeration result or null.
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
-  enumerateCrawlFilters = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlFilter>> => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlFilter>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve All Crawl Filters.
@@ -29,9 +29,9 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter[]>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
-  retrieveCrawlFilters = async (cancelToken: AbortController): Promise<CrawlFilter[]> => {
+  readAll = async (cancelToken: AbortController): Promise<CrawlFilter[]> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve By Id Crawl Filters.
@@ -40,12 +40,12 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter|null|ApiErrorResponse>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveCrawlFilter = async (guid: string, cancelToken: AbortController): Promise<CrawlFilter> => {
+  read = async (guid: string, cancelToken: AbortController): Promise<CrawlFilter> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Create Crawl Filters.
@@ -54,12 +54,12 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {MethodError} If the crawlFiltersData is null or empty.
    */
-  createCrawlFilter = async (crawlFiltersData: CrawlFilter, cancelToken: AbortController): Promise<CrawlFilter> => {
+  create = async (crawlFiltersData: CrawlFilter, cancelToken: AbortController): Promise<CrawlFilter> => {
     if (!crawlFiltersData) {
       GenericExceptionHandlers.ArgumentNullException('crawlFiltersData');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
-    return await this.create<CrawlFilter>(url, crawlFiltersData, cancelToken);
+    return await this.createResource(url, crawlFiltersData, cancelToken);
   };
   /**
    * Update Crawl Filters.
@@ -68,13 +68,13 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter|null|ApiErrorResponse>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {MethodError} If the guid is null or empty or If crawlFiltersData is null or empty.
    */
-  updateCrawlFilter = async (crawlFilterData: CrawlFilter, cancelToken: AbortController): Promise<CrawlFilter> => {
+  update = async (crawlFilterData: CrawlFilter, cancelToken: AbortController): Promise<CrawlFilter> => {
     if (!crawlFilterData || !crawlFilterData.GUID) {
       GenericExceptionHandlers.ArgumentNullException('crawlFilterData or crawlFilterData.GUID');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${crawlFilterData.GUID}`;
 
-    return await this.update<CrawlFilter>(url, crawlFilterData, cancelToken);
+    return await this.updateResource(url, crawlFilterData, cancelToken);
   };
   /**
    * Delete Crawl Filters.
@@ -84,12 +84,12 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
    * @throws {MethodError} If the guid is null or empty.
    */
-  deleteCrawlFilter = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
   /**
    * Check Existence Crawl Filters.
@@ -99,11 +99,11 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the crawl filter object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  existsCrawlFilter = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 }

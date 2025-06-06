@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EncryptionKey } from '../../types';
+import { EncryptionKey, EnumerationResult } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -18,15 +18,15 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    *
    * @param {EncryptionKey} key Information about the encryption key.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EncryptionKey|null|ApiErrorResponse>} A promise resolving to the created EncryptionKey object.
-   * @throws {ApiErrorResponse} If the key is null.
+   * @returns {Promise<EncryptionKey>} A promise resolving to the created EncryptionKey object.
+   * @throws {MethodError} If the key is null.
    */
-  createEncryptionKey = async (key: EncryptionKey, cancelToken: AbortController) => {
+  create = async (key: EncryptionKey, cancelToken: AbortController): Promise<EncryptionKey> => {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
-    return await this.create(url, key, cancelToken);
+    return await this.createResource(url, key, cancelToken);
   };
 
   /**
@@ -35,14 +35,14 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @param {string} guid - The GUID of the encryption key to check.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean>} A promise resolving to true if the encryption key exists, false otherwise.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  existsEncryptionKey = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -50,26 +50,27 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the encryption key to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EncryptionKey|null|ApiErrorResponse>} A promise resolving to the EncryptionKey object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<EncryptionKey>} A promise resolving to the EncryptionKey object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveEncryptionKey = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<EncryptionKey> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Retrieve all encryption keys.
    *
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Array<EncryptionKey>|ApiErrorResponse>} A promise resolving to an array of EncryptionKey objects.
+   * @returns {Promise<Array<EncryptionKey>>} A promise resolving to an array of EncryptionKey objects.
+   * @throws {MethodError} If the cancelToken is null.
    */
-  retrieveEncryptionKeys = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<Array<EncryptionKey>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -77,15 +78,15 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    *
    * @param {EncryptionKey} key Information about the encryption key.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EncryptionKey|null|ApiErrorResponse>} A promise resolving to the updated EncryptionKey object.
-   * @throws {ApiErrorResponse} If the key is null.
+   * @returns {Promise<EncryptionKey>} A promise resolving to the updated EncryptionKey object.
+   * @throws {MethodError} If the key is null.
    */
-  updateEncryptionKey = async (key: EncryptionKey, cancelToken: AbortController) => {
+  update = async (key: EncryptionKey, cancelToken: AbortController): Promise<EncryptionKey> => {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + key.GUID;
-    return await this.update(url, key, cancelToken);
+    return await this.updateResource(url, key, cancelToken);
   };
 
   /**
@@ -93,25 +94,25 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the encryption key to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<void>} A promise that resolves when the deletion is complete.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<boolean>} A promise that resolves when the deletion is complete.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteEncryptionKey = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
    * Enumerate Encryption-Keys.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {ApiErrorResponse} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<EncryptionKey>>} A promise resolving to the created Trigger object or null if creation fails.
+   * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerateEncryptionKeys = async (cancelToken: AbortController) => {
+  enumerateEncryptionKeys = async (cancelToken: AbortController): Promise<EnumerationResult<EncryptionKey>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/encryptionkeys/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 }

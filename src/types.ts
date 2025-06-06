@@ -1762,3 +1762,11 @@ export interface HeaderRequest {
   passwordSHA256: string;
   token: string;
 }
+
+export interface Token {
+  TimestampUtc: string;
+  ExpirationUtc: string;
+  IsExpired: boolean;
+  Token: string;
+  Valid: boolean;
+}

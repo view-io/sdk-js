@@ -19,9 +19,9 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<CrawlSchedule>>} A promise resolving to the enumeration result or null.
    * @throws {MethodError} If the request fails.
    */
-  enumerateCrawlSchedules = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlSchedule> | null> => {
+  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlSchedule> | null> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve All Crawl Schedules.
@@ -29,9 +29,9 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    *  @returns {Promise<CrawlSchedule[]>} A promise that resolves to an array of crawl schedules.
    *  @throws {MethodError} If the request fails.
    */
-  retrieveAllCrawlSchedules = async (cancelToken: AbortController): Promise<CrawlSchedule[]> => {
+  readAll = async (cancelToken: AbortController): Promise<CrawlSchedule[]> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Retrieve By ID Crawl Schedules.
@@ -40,12 +40,12 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @returns {Promise<CrawlSchedule|null|ApiErrorResponse>} A promise that resolves to the crawl schedule object, or null if not found, or an error response.
    * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveCrawlSchedule = async (guid: string, cancelToken: AbortController): Promise<CrawlSchedule> => {
+  read = async (guid: string, cancelToken: AbortController): Promise<CrawlSchedule> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Create Crawl Schedules.
@@ -54,12 +54,12 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @returns {Promise<CrawlSchedule|null|ApiErrorResponse>} A promise that resolves to the created crawl schedule
    * @throws {MethodError} If the scheduleData is null or empty.
    */
-  createCrawlSchedules = async (scheduleData: CrawlSchedule, cancelToken: AbortController): Promise<CrawlSchedule> => {
+  create = async (scheduleData: CrawlSchedule, cancelToken: AbortController): Promise<CrawlSchedule> => {
     if (!scheduleData) {
       GenericExceptionHandlers.ArgumentNullException('scheduleData');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
-    return await this.update<CrawlSchedule>(url, scheduleData, cancelToken);
+    return await this.updateResource(url, scheduleData, cancelToken);
   };
   /**
    * Update Crawl Schedules.
@@ -68,12 +68,12 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @returns {Promise<CrawlSchedule|ApiErrorResponse>} A promise that resolves to the updated crawl schedule
    * @throws {MethodError} If the guid is null or empty or If the scheduleData is null or empty .
    */
-  updateCrawlSchedules = async (scheduleData: CrawlSchedule, cancelToken: AbortController): Promise<CrawlSchedule> => {
+  update = async (scheduleData: CrawlSchedule, cancelToken: AbortController): Promise<CrawlSchedule> => {
     if (!scheduleData) {
       GenericExceptionHandlers.ArgumentNullException('scheduleData');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${scheduleData.GUID}`;
-    return await this.update<CrawlSchedule>(url, scheduleData, cancelToken);
+    return await this.updateResource(url, scheduleData, cancelToken);
   };
   /**
    * Delete Crawl Schedule.
@@ -83,12 +83,12 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
    * @throws {MethodError} If the guid is null or empty.
    */
-  deleteCrawlSchedule = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
   /**
    * Check Existence of Crawl Schedule.
@@ -98,11 +98,11 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the Crawl Schedule exists, otherwise `false` or an error response if the check fails.
    * @throws {MethodError} If the guid is null or empty.
    */
-  existsCrawlSchedule = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 }

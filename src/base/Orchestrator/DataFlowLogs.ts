@@ -22,7 +22,7 @@ export class DataFlowLogsSdk extends ViewSdkBase {
    * @returns {Promise<Array<DataFlowLog>>} A promise resolving to an array of DataFlowLog objects, or an error response.
    * @throws {MethodError} If either `dataFlowGuid` or `requestGuid` are null or empty.
    */
-  retrieveDataFlowLogs = async (
+  read = async (
     dataFlowGuid: string,
     requestGuid: string,
     cancelToken: AbortController
@@ -32,7 +32,7 @@ export class DataFlowLogsSdk extends ViewSdkBase {
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${dataFlowGuid}/logs?request=${requestGuid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   /**
    * Read data flow logfile.
@@ -43,12 +43,12 @@ export class DataFlowLogsSdk extends ViewSdkBase {
    * @returns {Promise<string|null|ApiErrorResponse>} A promise resolving to the log file content as a string, or null if an error occurred.
    * @throws {Error} If either `dataFlowGuid` or `requestGuid` are null or empty.
    */
-  retrieveDataFlowLogFile = async (dataFlowGuid: string, requestGuid: string, cancelToken: AbortController) => {
+  readLogFile = async (dataFlowGuid: string, requestGuid: string, cancelToken: AbortController) => {
     if (!dataFlowGuid || !requestGuid) {
       GenericExceptionHandlers.ArgumentNullException('dataFlowGuid and requestGuid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/dataflows/${dataFlowGuid}/logfile?request=${requestGuid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
   //endregion
 }

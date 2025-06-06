@@ -1,16 +1,14 @@
-import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import BlobsSdk from './BlobsSdk';
 import AuthenticationSdk from './AuthenticationSdk';
 import WebhookEventsSdk from './WebhookEventsSdk';
-import GraphSdk from '../Graph/GraphSdk';
 import CollectionsSdk from './CollectionsSdk';
 import CredentialsSdk from './CredentialsSdk';
 import NodesSdk from './NodesSdk';
 import TenantsSdk from './TenantsSdk';
 import UserSdk from './UserSdk';
 import VectorRepositorySdk from './VectorRepostiorySdk';
-import ViewEndpointsSdk from './ViewEndpointsSdk';
+import EndpointsSdk from './EndpointsSdk';
 import BucketSdk from './BucketSdk';
 import EmbeddingRulesSdk from './EmbeddingRulesSdk';
 import WebhookRulesSdk from './WebhookRulesSdk';
@@ -23,7 +21,7 @@ import WebhookTargetSdk from './WebhookTargetSdk';
  * @module base/ViewConfigurationSdk
  * @version 0.1.0
  */
-export default class ViewConfigurationSdk extends ViewSdkBase {
+export default class ViewConfigurationSdk {
   public AuthenticationSdk: AuthenticationSdk;
   public BlobsSdk: BlobsSdk;
   public BucketSdk: BucketSdk;
@@ -37,18 +35,33 @@ export default class ViewConfigurationSdk extends ViewSdkBase {
   public TenantsSdk: TenantsSdk;
   public UserSdk: UserSdk;
   public VectorRepositorySdk: VectorRepositorySdk;
-  public ViewEndpointsSdk: ViewEndpointsSdk;
+  public EndpointsSdk: EndpointsSdk;
   public WebhookEventsSdk: WebhookEventsSdk;
   public WebhookRulesSdk: WebhookRulesSdk;
   public WebhookTargetSdk: WebhookTargetSdk;
-
+  public config: SdkConfiguration;
   /**
    * Constructs a new ConfigurationApi.
    * @alias module:base/ConfigurationApi
    * @class
-   * @param {SdkConfiguration} config - The SDK configuration.
+   * @param {string} endpoint - The endpoint of the configuration service.
+   * @param {string} [tenantGuid] - The tenant GUID.
+   * @param {string} [accessKey] - The access key.
    */
-  constructor(config: SdkConfiguration) {
-    super(config);
+  constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
+    this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
+    this.AuthenticationSdk = new AuthenticationSdk(this.config);
+    this.BlobsSdk = new BlobsSdk(this.config);
+    this.BucketSdk = new BucketSdk(this.config);
+    this.CollectionsSdk = new CollectionsSdk(this.config);
+    this.CredentialsSdk = new CredentialsSdk(this.config);
+    this.EmbeddingRulesSdk = new EmbeddingRulesSdk(this.config);
+    this.GraphRepositoriesSdk = new GraphRepositoriesSdk(this.config);
+    this.MetadataRuleSdk = new MetaDataRuleSdk(this.config);
+    this.NodesSdk = new NodesSdk(this.config);
+    this.ObjectLockSdk = new ObjectLocksSdk(this.config);
+    this.TenantsSdk = new TenantsSdk(this.config);
+    this.UserSdk = new UserSdk(this.config);
+    this.VectorRepositorySdk = new VectorRepositorySdk(this.config);
   }
 }

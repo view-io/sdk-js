@@ -1,4 +1,3 @@
-import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import { TriggerSdk } from './TriggerSdk';
 import { StepsSdk } from './StepsSdk';
@@ -10,11 +9,12 @@ import { DataFlowLogsSdk } from './DataFlowLogs';
  * @module base/ViewOrchestratorSdk
  * @version 0.1.0
  */
-export default class ViewOrchestratorSdk extends ViewSdkBase {
+export default class ViewOrchestratorSdk {
   public dataFlowsSdk: DataFlowsSdk;
   public dataFlowLogsSdk: DataFlowLogsSdk;
   public triggerSdk: TriggerSdk;
   public stepsSdk: StepsSdk;
+  public config: SdkConfiguration;
   /**
    * Constructs a new OrchestratorApi.
    * @alias module:base/ViewOrchestratorSdk
@@ -23,11 +23,11 @@ export default class ViewOrchestratorSdk extends ViewSdkBase {
    * @param {string} accessKey - Access key.
    * @param {string} endpoint - Endpoint URL .
    */
-  constructor(config: SdkConfiguration) {
-    super(config);
-    this.dataFlowsSdk = new DataFlowsSdk(config);
-    this.dataFlowLogsSdk = new DataFlowLogsSdk(config);
-    this.triggerSdk = new TriggerSdk(config);
-    this.stepsSdk = new StepsSdk(config);
+  constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
+    this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
+    this.dataFlowsSdk = new DataFlowsSdk(this.config);
+    this.dataFlowLogsSdk = new DataFlowLogsSdk(this.config);
+    this.triggerSdk = new TriggerSdk(this.config);
+    this.stepsSdk = new StepsSdk(this.config);
   }
 }

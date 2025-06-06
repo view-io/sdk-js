@@ -19,9 +19,9 @@ export class IngestQueueSdk extends ViewSdkBase {
    * @returns {Promise<IngestQueue[]>} A promise that resolves to an array of items in the ingest queue or an error response if the retrieval fails.
    * @throws {MethodError} If the retrieval fails.
    */
-  retrieveAllIngestQueue = async (cancelToken: AbortController): Promise<IngestQueue[]> => {
+  readAll = async (cancelToken: AbortController): Promise<IngestQueue[]> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestqueue`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -31,12 +31,12 @@ export class IngestQueueSdk extends ViewSdkBase {
    * @returns {Promise<IngestQueue>} A promise that resolves to the requested item or an error response if the retrieval fails.
    * @throws {MethodError} If the retrieval fails.
    */
-  retrieveIngestQueue = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<IngestQueue> => {
+  read = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<IngestQueue> => {
     if (!ingestQueueGuid) {
       throw new Error('Item GUID cannot be null or undefined.');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -46,13 +46,13 @@ export class IngestQueueSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the item exists, `false` if it does not, or an error response if the check fails.
    * @throws {MethodError} If the ingestQueueGuid argument is null or undefined.
    */
-  existsIngestQueue = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!ingestQueueGuid) {
       GenericExceptionHandlers.ArgumentNullException('ingestQueueGuid');
     }
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
@@ -62,12 +62,12 @@ export class IngestQueueSdk extends ViewSdkBase {
    * @returns {Promise<IngestQueue>} A promise that resolves to the statistics of the ingest queue or an error response if the retrieval fails.
    * @throws {MethodError} If the ingestQueueGuid argument is null or undefined.
    */
-  retrieveIngestQueueStats = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<IngestQueue> => {
+  readStatistics = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<IngestQueue> => {
     if (!ingestQueueGuid) {
       GenericExceptionHandlers.ArgumentNullException('ingestQueueGuid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}?stats`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -77,12 +77,12 @@ export class IngestQueueSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the deletion was successful, or an error response if it failed.
    * @throws {MethodError} If the ingestQueueGuid argument is null or undefined.
    */
-  deleteIngestQueue = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (ingestQueueGuid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!ingestQueueGuid) {
       GenericExceptionHandlers.ArgumentNullException('ingestQueueGuid');
     }
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   // endregion

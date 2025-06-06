@@ -1,26 +1,27 @@
-import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import { ChatSdk } from './ChatSdk';
 import { ChatThreadSdk } from './ChatThreadSdk';
 import { ModelSdk } from './ModelSdk';
 import { AssistantConfigSdk } from './AssistantConfigSdk';
 
-export default class ViewAssistantSdk extends ViewSdkBase {
+export default class ViewAssistantSdk {
   public Chat: ChatSdk;
   public ChatThread: ChatThreadSdk;
   public Model: ModelSdk;
   public AssistantConfig: AssistantConfigSdk;
+  public config: SdkConfiguration;
   /**
-   * Constructs a new ViewAssistantSdk.
-   * @alias module:base/ViewAssistantSdk
-   * @class
-   * @param {SdkConfiguration} config
+   * Creates an instance of SdkBase.
+   * @param {string} endpoint - The API endpoint base URL.
+   * @param {string} [tenantGuid] - The tenant GUID.
+   * @param {string} [accessKey] - The access key.
+   * @throws {Error} Throws an error if the endpoint is null or empty.
    */
-  constructor(config: SdkConfiguration) {
-    super(config);
-    this.Chat = new ChatSdk(config);
-    this.ChatThread = new ChatThreadSdk(config);
-    this.Model = new ModelSdk(config);
-    this.AssistantConfig = new AssistantConfigSdk(config);
+  constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
+    this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
+    this.Chat = new ChatSdk(this.config);
+    this.ChatThread = new ChatThreadSdk(this.config);
+    this.Model = new ModelSdk(this.config);
+    this.AssistantConfig = new AssistantConfigSdk(this.config);
   }
 }

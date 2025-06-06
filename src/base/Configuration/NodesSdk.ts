@@ -1,7 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { NodeModal, NodeRequest } from '../../types';
+import { EnumerationResult, NodeModal, NodeRequest } from '../../types';
 
 export default class NodesSdk extends ViewSdkBase {
   /**
@@ -17,26 +17,30 @@ export default class NodesSdk extends ViewSdkBase {
    * Retrieve a Node by its GUID.
    * @param {string} guid - The GUID of the node to retrieve.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<NodeModal|null|ApiErrorResponse>} A promise resolving to the Node object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveNode = async (guid: string, cancelToken: AbortController) => {
+  read = async (guid: string, cancelToken: AbortController): Promise<NodeModal> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
+    } else {
+      // if (!(node instanceof ViewNode)) {
+      //   throw new Error("Invalid object: Expected an instance of Node.");
+      // }
     }
     const url = this.config.endpoint + '/v1.0/nodes/' + guid;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
    * Retrieve All Nodes.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the Node object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  retrieveNodes = async (cancelToken: AbortController) => {
+  readAll = async (cancelToken: AbortController): Promise<NodeModal> => {
     const url = this.config.endpoint + '/v1.0/nodes';
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 
   /**
@@ -44,10 +48,10 @@ export default class NodesSdk extends ViewSdkBase {
    *
    * @param {NodeRequest} node Information about the credential.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<NodeModal|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the node is null or empty.
+   * @returns {Promise<NodeModal>} A promise resolving to the created Node object or null if the creation fails.
+   * @throws {MethodError} If the node is null or empty.
    */
-  createNode = async (node: NodeRequest, cancelToken: AbortController) => {
+  create = async (node: NodeRequest, cancelToken: AbortController): Promise<NodeModal> => {
     if (!node) {
       GenericExceptionHandlers.ArgumentNullException('node');
     } else {
@@ -56,7 +60,7 @@ export default class NodesSdk extends ViewSdkBase {
       // }
     }
     const url = this.config.endpoint + '/v1.0/nodes';
-    return await this.create(url, node, cancelToken);
+    return await this.createResource(url, node, cancelToken);
   };
 
   /**
@@ -64,15 +68,15 @@ export default class NodesSdk extends ViewSdkBase {
    *
    * @param {NodeRequest} node Information about the credential.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<NodeModal|null|ApiErrorResponse>} A promise resolving to the created Node object or null if the creation fails.
-   * @throws {ApiErrorResponse} If the node is null or empty.
+   * @returns {Promise<NodeModal>} A promise resolving to the created Node object or null if the creation fails.
+   * @throws {MethodError} If the node is null or empty.
    */
-  updateNode = async (node: NodeRequest, cancelToken: AbortController) => {
+  update = async (node: NodeRequest, cancelToken: AbortController): Promise<NodeModal> => {
     if (!node) {
       GenericExceptionHandlers.ArgumentNullException('node');
     }
     const url = this.config.endpoint + '/v1.0/nodes/' + node.GUID;
-    return await this.update(url, node, cancelToken);
+    return await this.updateResource(url, node, cancelToken);
   };
 
   /**
@@ -80,15 +84,15 @@ export default class NodesSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the node to delete.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<NodeModal|null|ApiErrorResponse>} A promise resolving to the Node object or null if not found.
-   * @throws {ApiErrorResponse} If the guid is null or empty.
+   * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  deleteNode = async (guid: string, cancelToken: AbortController) => {
+  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/nodes/' + guid;
-    return await this.delete(url, cancelToken);
+    return await this.deleteResource(url, cancelToken);
   };
 
   /**
@@ -96,26 +100,26 @@ export default class NodesSdk extends ViewSdkBase {
    *
    * @param {string} guid - The GUID of the node to retrieve.
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<Node|null|ApiErrorResponse>} A promise resolving to the Node object or null if not found.
-   * @throws {Error} If the guid is null or empty.
+   * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
+   * @throws {MethodError} If the guid is null or empty.
    */
-  existsNode = async (guid: string, cancelToken: AbortController) => {
+  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url = this.config.endpoint + '/v1.0/nodes/' + guid;
-    return await this.exists(url, cancelToken);
+    return await this.existsResource(url, cancelToken);
   };
 
   /**
    * Enumerate Nodes.
    * @param {number} [maxKeys] - The maximum number of nodes to return. Default is 5.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {ApiErrorResponse} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<NodeModal>>} A promise resolving to the created Trigger object or null if creation fails.
+   * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerateNodes = async (maxKeys = 5, cancelToken: AbortController) => {
+  enumerate = async (maxKeys = 5, cancelToken: AbortController): Promise<EnumerationResult<NodeModal>> => {
     const url = `${this.config.endpoint}/v2.0/nodes/?max-keys=${maxKeys}`;
-    return await this.retrieve(url, cancelToken);
+    return await this.retrieveResource(url, cancelToken);
   };
 }
