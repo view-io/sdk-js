@@ -36,6 +36,14 @@ export interface UserMaster {
   IsProtected: boolean;
 }
 
+export interface UserMasterCreateRequest {
+  FirstName: string;
+  LastName: string;
+  Notes: string;
+  Email: string;
+  PasswordSha256: string;
+}
+
 export interface AclMetaData {
   Owner: UserMaster;
   Users: UserMaster[];
@@ -136,6 +144,18 @@ export interface Blob {
   SHA1Hash: string;
   SHA256Hash: string;
   CreatedUtc: string;
+  Data?: string;
+}
+
+export interface BlobCreateRequest {
+  Name?: string;
+  Description?: string;
+  RefObjType?: string;
+  RefObjGUID?: string;
+  ContentType?: string;
+  ContentLength?: number;
+  Content?: string;
+  Data?: string;
 }
 
 export interface BucketMetadata {
@@ -228,6 +248,12 @@ export interface Collection {
   AllowOverwrites: boolean;
   AdditionalData: string;
   CreatedUtc: Date;
+}
+
+export interface CollectionCreateRequest {
+  Name: string;
+  AllowOverwrites: boolean;
+  AdditionalData: string;
 }
 
 export interface CollectionSearchRequest {
@@ -494,6 +520,12 @@ export interface Credential {
   createdUtc: string;
 }
 
+export interface CredentialCreateRequest {
+  UserGUID: string;
+  Name: string;
+  Active: boolean;
+}
+
 export interface DataFlow {
   GUID: string;
   TenantGUID: string;
@@ -654,6 +686,28 @@ export interface EmbeddingsRule {
   CreatedUtc: string | Date;
 }
 
+export interface EmbeddingRuleCreateRequest {
+  BucketGUID?: string;
+  Name: string;
+  ContentType: string;
+  GraphRepositoryGUID?: string;
+  VectorRepositoryGUID?: string;
+  ProcessingEndpoint?: string;
+  ProcessingAccessKey?: string;
+  EmbeddingsServerUrl?: string;
+  EmbeddingsServerApiKey?: string;
+  EmbeddingsGenerator?: string;
+  EmbeddingsGeneratorUrl?: string;
+  EmbeddingsGeneratorApiKey?: string;
+  BatchSize?: number;
+  MaxGeneratorTasks?: number;
+  MaxRetries?: number;
+  MaxFailures?: number;
+  VectorStoreUrl?: string;
+  VectorStoreAccessKey?: string;
+  MaxContentLength?: number;
+}
+
 export interface EncryptionKey {
   GUID: string;
   TenantGUID: string;
@@ -669,6 +723,16 @@ export interface EncryptionKey {
   CreatedUtc: string;
 }
 
+export interface EncryptionKeyCreateRequest {
+  KeyBase64: string;
+  KeyHex: string;
+  IvBase64: string;
+  IvHex: string;
+  SaltBase64: string;
+  SaltHex: string;
+  Name: string;
+  Description: string;
+}
 export interface EnumerationQuery {
   timestamp: number;
   tenant: any;
@@ -775,6 +839,14 @@ export interface GraphRepository {
   CreatedUtc: string | Date;
 }
 
+export interface GraphRepositoryCreateRequest {
+  Name: string;
+  RepositoryType: string;
+  EndpointUrl: string;
+  ApiKey: string;
+  GraphIdentifier: string;
+}
+
 export interface GraphResult {
   Success: boolean;
   Timestamp: any;
@@ -848,7 +920,30 @@ export interface MetadataRule {
   CaseInsensitive: boolean;
   IncludeFlattened: boolean;
   MaxContentLength: number;
-  CreatedUtc: Date;
+  CreatedUtc: string;
+}
+
+export interface MetadataRuleCreateRequest {
+  BucketGUID?: string;
+  Name: string;
+  ContentType?: string;
+  MaxContentLength?: number;
+  ProcessingEndpoint?: string;
+  ProcessingAccessKey?: string;
+  CleanupEndpoint?: string;
+  CleanupAccessKey?: string;
+  MinChunkContentLength?: number;
+  MaxChunkContentLength?: number;
+  MaxTokensPerChunk?: number;
+  ShiftSize?: number;
+  TopTerms?: number;
+  CaseInsensitive?: boolean;
+  IncludeFlattened?: boolean;
+  DataCatalogType?: string;
+  DataCatalogEndpoint?: string;
+  DataCatalogAccessKey?: string;
+  DataCatalogCollection?: string;
+  GraphRepositoryGUID?: string;
 }
 
 export interface ModelInformation {
@@ -1176,19 +1271,24 @@ export interface TagMetadata {
 }
 
 export interface TenantMetadata {
-  id: number;
   GUID: string;
-  ParentGUID: string | null;
-  AccountGUID: string | null;
+  AccountGUID: string;
+  DefaultPoolGUID: string;
   Name: string;
   Region: string;
-  s3BaseDomain: string;
-  restBaseDomain: string;
-  defaultPoolGUID: string;
-  active: boolean;
-  createdUtc: string;
-  accountGUID: string | null;
-  isProtected: boolean;
+  S3BaseDomain: string;
+  RestBaseDomain: string;
+  Active: boolean;
+  IsProtected: boolean;
+  CreatedUtc: string;
+}
+
+export interface TenantCreateRequest {
+  Name: string;
+  Region: string;
+  S3BaseDomain: string;
+  RestBaseDomain: string;
+  DefaultPoolGUID: string;
 }
 
 export interface Trigger {
@@ -1303,6 +1403,20 @@ export interface VectorRepository {
   CreatedUtc: Date | string | undefined;
 }
 
+export interface VectorRepositoryCreateRequest {
+  Name: string;
+  RepositoryType: VectorRepositoryTypeEnum;
+  Model: string;
+  Dimensionality: number;
+  DatabaseHostname: string;
+  DatabaseName: string;
+  SchemaName: string;
+  DatabaseTable: string;
+  DatabasePort: number;
+  DatabaseUser: string;
+  DatabasePassword: string;
+}
+
 export interface VectorSearch {
   DocumentGUID: string;
   TenantGUID: string;
@@ -1411,6 +1525,15 @@ export interface WebhookRule {
   CreatedUtc: string;
 }
 
+export interface WebhookRuleCreateRequest {
+  Name: string;
+  TargetGUID: string;
+  EventType: WebhookEventTypeEnum;
+  MaxAttempts: number;
+  RetryIntervalMs: number;
+  TimeoutMs: number;
+}
+
 export interface WebhookTarget {
   GUID: string;
   TenantGUID: string;
@@ -1419,6 +1542,13 @@ export interface WebhookTarget {
   ContentType: string;
   ExpectStatus: number;
   CreatedUtc: string;
+}
+
+export interface WebhookTargetCreateRequest {
+  Name: string;
+  Url: string;
+  ContentType: string;
+  ExpectStatus: number;
 }
 
 export interface RagRequest {

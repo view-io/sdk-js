@@ -25,7 +25,7 @@ export default class SemanticChunkSdk extends ViewSdkBase {
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SemanticChunk[]> => {
     if (!semanticCellGuid) {
       GenericExceptionHandlers.ArgumentNullException('semanticCellGuid');
@@ -64,7 +64,7 @@ export default class SemanticChunkSdk extends ViewSdkBase {
     documentGuid: string,
     semanticCellGuid: string,
     semanticChunkGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SemanticChunk> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
@@ -108,7 +108,7 @@ export default class SemanticChunkSdk extends ViewSdkBase {
     documentGuid: string,
     semanticCellGuid: string,
     semanticChunkGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<boolean> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');

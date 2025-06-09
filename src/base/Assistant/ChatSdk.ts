@@ -70,7 +70,7 @@ export class ChatSdk extends ViewSdkBase {
    * @returns {Promise<any>} - A promise resolving to an array of tokens.
    * @throws {MethodError}
    */
-  chatRagMessages = async (ragRequest: RagRequest, onToken: OnToken, cancelToken: any): Promise<any> => {
+  chatRagMessages = async (ragRequest: RagRequest, onToken: OnToken, cancelToken?: any): Promise<any> => {
     if (ragRequest == null) {
       GenericExceptionHandlers.ArgumentNullException('ragRequest');
     }
@@ -115,7 +115,7 @@ export class ChatSdk extends ViewSdkBase {
     assistantConfigGuid: string,
     chatRequest: ChatRequest,
     onToken: OnToken,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<any> => {
     if (!assistantConfigGuid) {
       GenericExceptionHandlers.ArgumentNullException('assistantConfigGuid');
@@ -164,7 +164,7 @@ export class ChatSdk extends ViewSdkBase {
    * @returns {Promise<any>} - A promise resolving to an array of tokens.
    * @throws {MethodError}
    */
-  chatOnly = async (chatRequest: ChatRequest, onToken: OnToken, cancelToken: AbortController): Promise<any> => {
+  chatOnly = async (chatRequest: ChatRequest, onToken: OnToken, cancelToken?: AbortController): Promise<any> => {
     if (!chatRequest) GenericExceptionHandlers.ArgumentNullException('question');
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${JSON.stringify(chatRequest)}`);

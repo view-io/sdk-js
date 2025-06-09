@@ -1,9 +1,9 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
-import { EnumerationResult, TenantMetadata } from '../../types';
+import { EnumerationResult, TenantCreateRequest, TenantMetadata } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 
-export default class TenantsSdk extends ViewSdkBase {
+export default class TenantSdk extends ViewSdkBase {
   /**
    * Constructs a new TenantsSdk.
    * @param {SdkConfiguration} config - The SDK configuration.
@@ -22,7 +22,7 @@ export default class TenantsSdk extends ViewSdkBase {
    * @returns {Promise<TenantMetadata>} A promise resolving to the TenantMetadata object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<TenantMetadata> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<TenantMetadata> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -37,7 +37,7 @@ export default class TenantsSdk extends ViewSdkBase {
    * @returns {Promise<TenantMetadata>} A promise resolving to the TenantMetadata object or null if not found.
    * @throws {MethodError} If the tenants are null.
    */
-  readAll = async (cancelToken: AbortController): Promise<TenantMetadata> => {
+  readAll = async (cancelToken?: AbortController): Promise<TenantMetadata> => {
     const url = this.config.endpoint + '/v1.0/tenants/';
     // Use the `retrieveMany` method for fetching the list of tenants
     return await this.retrieveResource(url, cancelToken);
@@ -50,7 +50,7 @@ export default class TenantsSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the TenantMetadata object or null if not found.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -67,7 +67,7 @@ export default class TenantsSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the tenant exists, false otherwise.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -79,12 +79,12 @@ export default class TenantsSdk extends ViewSdkBase {
   /**
    * Write tenant metadata.
    *
-   * @param {TenantMetadata} tenant Information about the tenants.
+   * @param {TenantCreateRequest} tenant Information about the tenants.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<TenantMetadata>} A promise resolving to the updated TenantMetadata object or null.
    * @throws {MethodError} If the tenant object is null.
    */
-  create = async (tenant: TenantMetadata, cancelToken: AbortController): Promise<TenantMetadata> => {
+  create = async (tenant: TenantCreateRequest, cancelToken?: AbortController): Promise<TenantMetadata> => {
     if (!tenant) {
       GenericExceptionHandlers.ArgumentNullException('tenant');
     }
@@ -101,14 +101,14 @@ export default class TenantsSdk extends ViewSdkBase {
    * @returns {Promise<TenantMetadata>} A promise resolving to the updated TenantMetadata object or null.
    * @throws {MethodError} If the tenant object is null.
    */
-  update = async (guid: string, tenant: TenantMetadata, cancelToken: AbortController): Promise<TenantMetadata> => {
+  update = async (tenant: TenantMetadata, cancelToken?: AbortController): Promise<TenantMetadata> => {
     if (!tenant) {
       GenericExceptionHandlers.ArgumentNullException('tenant');
     }
-    if (!guid) {
-      GenericExceptionHandlers.ArgumentNullException('guid');
+    if (!tenant.GUID) {
+      GenericExceptionHandlers.ArgumentNullException('tenant.GUID');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + guid;
+    const url = this.config.endpoint + '/v1.0/tenants/' + tenant.GUID;
     // Use the `update` method to update the tenant metadata
     return await this.updateResource(url, tenant, cancelToken);
   };
@@ -119,7 +119,7 @@ export default class TenantsSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<TenantMetadata>>} A promise resolving to the EnumerationResult object.
    * @throws {MethodError} If the tenants are null.
    */
-  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<TenantMetadata>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<TenantMetadata>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/`;
     return await this.retrieveResource(url, cancelToken);
   };

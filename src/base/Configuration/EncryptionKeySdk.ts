@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EncryptionKey, EnumerationResult } from '../../types';
+import { EncryptionKey, EncryptionKeyCreateRequest, EnumerationResult } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -16,12 +16,12 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
   /**
    * Create an encryption key.
    *
-   * @param {EncryptionKey} key Information about the encryption key.
+   * @param {EncryptionKeyCreateRequest} key Information about the encryption key.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<EncryptionKey>} A promise resolving to the created EncryptionKey object.
    * @throws {MethodError} If the key is null.
    */
-  create = async (key: EncryptionKey, cancelToken: AbortController): Promise<EncryptionKey> => {
+  create = async (key: EncryptionKeyCreateRequest, cancelToken?: AbortController): Promise<EncryptionKey> => {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
@@ -37,7 +37,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the encryption key exists, false otherwise.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -53,7 +53,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @returns {Promise<EncryptionKey>} A promise resolving to the EncryptionKey object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<EncryptionKey> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<EncryptionKey> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -68,7 +68,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @returns {Promise<Array<EncryptionKey>>} A promise resolving to an array of EncryptionKey objects.
    * @throws {MethodError} If the cancelToken is null.
    */
-  readAll = async (cancelToken: AbortController): Promise<Array<EncryptionKey>> => {
+  readAll = async (cancelToken?: AbortController): Promise<Array<EncryptionKey>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -81,7 +81,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @returns {Promise<EncryptionKey>} A promise resolving to the updated EncryptionKey object.
    * @throws {MethodError} If the key is null.
    */
-  update = async (key: EncryptionKey, cancelToken: AbortController): Promise<EncryptionKey> => {
+  update = async (key: EncryptionKey, cancelToken?: AbortController): Promise<EncryptionKey> => {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
@@ -97,7 +97,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves when the deletion is complete.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -111,7 +111,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<EncryptionKey>>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerateEncryptionKeys = async (cancelToken: AbortController): Promise<EnumerationResult<EncryptionKey>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<EncryptionKey>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/encryptionkeys/`;
     return await this.retrieveResource(url, cancelToken);
   };

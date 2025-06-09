@@ -1,9 +1,9 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { ApiErrorResponse, Blob, EnumerationResult } from '../../types';
+import { Blob, BlobCreateRequest, EnumerationResult } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
-export default class BlobsSdk extends ViewSdkBase {
+export default class BlobSdk extends ViewSdkBase {
   /**
    * Constructs a new BlobsSdk.
    * @param {SdkConfiguration} config - The SDK configuration.
@@ -17,10 +17,10 @@ export default class BlobsSdk extends ViewSdkBase {
   /**
    * Enumerate BLOBs.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
-   * @returns {Promise<EnumerationResult>} A promise resolving to the created Trigger object or null if creation fails.
-   * @throws {MethodError} If the trigger is null or invalid.
+   * @returns {Promise<EnumerationResult<Blob>>} A promise resolving to the created Blob object or null if creation fails.
+   * @throws {MethodError} If the blob is null or invalid.
    */
-  enumerate = async (cancelToken: AbortController) => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<Blob>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/blobs`;
     return await this.retrieveResource(url, cancelToken);
   };
@@ -31,7 +31,7 @@ export default class BlobsSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Array<Blob>>} A promise resolving to an array of Blob objects.
    */
-  readAll = async (cancelToken: AbortController): Promise<Array<Blob>> => {
+  readAll = async (cancelToken?: AbortController): Promise<Array<Blob>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -44,7 +44,7 @@ export default class BlobsSdk extends ViewSdkBase {
    * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<Blob> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<Blob> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -60,7 +60,7 @@ export default class BlobsSdk extends ViewSdkBase {
    * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  readIncludeData = async (guid: string, cancelToken: AbortController): Promise<Blob> => {
+  readIncludeData = async (guid: string, cancelToken?: AbortController): Promise<Blob> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -70,12 +70,12 @@ export default class BlobsSdk extends ViewSdkBase {
 
   /**
    * Write BLOB data.
-   * @param {Blob} blob Information about the blob.
+   * @param {BlobCreateRequest} blob Information about the blob.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Node>} A promise resolving to the created Node object or null if the creation fails.
    * @throws {MethodError} If the node is null or empty.
    */
-  create = async (blob: Blob, cancelToken: AbortController): Promise<Node> => {
+  create = async (blob: BlobCreateRequest, cancelToken?: AbortController): Promise<Node> => {
     if (!blob) {
       GenericExceptionHandlers.ArgumentNullException('blob');
     }
@@ -91,7 +91,7 @@ export default class BlobsSdk extends ViewSdkBase {
    * @returns {Promise<Blob>} A promise resolving to the updated Blob object or null if update fails.
    * @throws {MethodError} If the blob is null or empty.
    */
-  update = async (blob: Blob, cancelToken: AbortController): Promise<Blob> => {
+  update = async (blob: Blob, cancelToken?: AbortController): Promise<Blob> => {
     if (!blob) {
       GenericExceptionHandlers.ArgumentNullException('blob');
     }
@@ -107,7 +107,7 @@ export default class BlobsSdk extends ViewSdkBase {
    * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -123,7 +123,7 @@ export default class BlobsSdk extends ViewSdkBase {
    * @returns {Promise<Blob>} A promise resolving to the Blob object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }

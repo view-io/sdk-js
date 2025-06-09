@@ -26,7 +26,7 @@ export default class ViewEmbeddingsSdk extends ViewSdkBase {
    */
   generateEmbeddings = async (
     request: EmbeddingDirectoryRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<EmbeddingsResult> => {
     if (!request) {
       GenericExceptionHandlers.ArgumentNullException('request');
@@ -43,7 +43,7 @@ export default class ViewEmbeddingsSdk extends ViewSdkBase {
    * @returns {Promise<object>} A promise resolving to a void indicating the preloading is complete
    * @throws {MethodError} If the models configuration is null or empty
    */
-  preloadModels = async (models: ModelsConfigRequest, cancelToken: AbortController): Promise<void> => {
+  preloadModels = async (models: ModelsConfigRequest, cancelToken?: AbortController): Promise<void> => {
     if (!models) {
       GenericExceptionHandlers.ArgumentNullException('models');
     }

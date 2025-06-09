@@ -3,7 +3,7 @@ import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 import { EnumerationResult, NodeModal, NodeRequest } from '../../types';
 
-export default class NodesSdk extends ViewSdkBase {
+export default class NodeSdk extends ViewSdkBase {
   /**
    * Constructs a new NodesSdk.
    * @param {SdkConfiguration} config - The SDK configuration.
@@ -20,7 +20,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<NodeModal> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<NodeModal> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     } else {
@@ -38,7 +38,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  readAll = async (cancelToken: AbortController): Promise<NodeModal> => {
+  readAll = async (cancelToken?: AbortController): Promise<NodeModal> => {
     const url = this.config.endpoint + '/v1.0/nodes';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -51,7 +51,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<NodeModal>} A promise resolving to the created Node object or null if the creation fails.
    * @throws {MethodError} If the node is null or empty.
    */
-  create = async (node: NodeRequest, cancelToken: AbortController): Promise<NodeModal> => {
+  create = async (node: NodeRequest, cancelToken?: AbortController): Promise<NodeModal> => {
     if (!node) {
       GenericExceptionHandlers.ArgumentNullException('node');
     } else {
@@ -71,7 +71,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<NodeModal>} A promise resolving to the created Node object or null if the creation fails.
    * @throws {MethodError} If the node is null or empty.
    */
-  update = async (node: NodeRequest, cancelToken: AbortController): Promise<NodeModal> => {
+  update = async (node: NodeRequest, cancelToken?: AbortController): Promise<NodeModal> => {
     if (!node) {
       GenericExceptionHandlers.ArgumentNullException('node');
     }
@@ -87,7 +87,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -103,7 +103,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<NodeModal>} A promise resolving to the Node object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -118,7 +118,7 @@ export default class NodesSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<NodeModal>>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerate = async (maxKeys = 5, cancelToken: AbortController): Promise<EnumerationResult<NodeModal>> => {
+  enumerate = async (maxKeys = 5, cancelToken?: AbortController): Promise<EnumerationResult<NodeModal>> => {
     const url = `${this.config.endpoint}/v2.0/nodes/?max-keys=${maxKeys}`;
     return await this.retrieveResource(url, cancelToken);
   };

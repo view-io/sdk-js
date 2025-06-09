@@ -21,7 +21,7 @@ export default class DocumentSdk extends ViewSdkBase {
    * @returns {Promise<EmbeddingDocument>} A promise resolving to the EmbeddingDocument object.
    * @throws {MethodError} If the document is null.
    */
-  write = async (doc: EmbeddingDocument, cancelToken: AbortController): Promise<EmbeddingDocument> => {
+  write = async (doc: EmbeddingDocument, cancelToken?: AbortController): Promise<EmbeddingDocument> => {
     if (!doc) {
       GenericExceptionHandlers.ArgumentNullException('doc');
     }
@@ -50,7 +50,7 @@ export default class DocumentSdk extends ViewSdkBase {
   read = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<EmbeddingDocument> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
@@ -80,7 +80,7 @@ export default class DocumentSdk extends ViewSdkBase {
   delete = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<boolean> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
@@ -110,7 +110,7 @@ export default class DocumentSdk extends ViewSdkBase {
   exists = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<boolean> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');

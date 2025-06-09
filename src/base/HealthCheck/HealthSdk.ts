@@ -17,7 +17,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkSwitchboard = async (cancelToken: AbortController): Promise<boolean> => {
+  checkSwitchboard = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/`;
     return await this.existsResource(url, cancelToken);
   };
@@ -29,7 +29,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkConfig = async (cancelToken: AbortController): Promise<boolean> => {
+  checkConfig = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/config`;
     return await this.existsResource(url, cancelToken);
   };
@@ -41,7 +41,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkStorage = async (cancelToken: AbortController): Promise<boolean> => {
+  checkStorage = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/storage-rest`;
     return await this.existsResource(url, cancelToken);
   };
@@ -53,7 +53,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkVector = async (cancelToken: AbortController): Promise<boolean> => {
+  checkVector = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/vector`;
     return await this.existsResource(url, cancelToken);
   };
@@ -65,7 +65,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkProcessor = async (cancelToken: AbortController): Promise<boolean> => {
+  checkProcessor = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/processor`;
     return await this.existsResource(url, cancelToken);
   };
@@ -77,7 +77,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkAssistant = async (cancelToken: AbortController): Promise<boolean> => {
+  checkAssistant = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/assistant`;
     return await this.existsResource(url, cancelToken);
   };
@@ -89,7 +89,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkOrchestrator = async (cancelToken: AbortController): Promise<boolean> => {
+  checkOrchestrator = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/orchestrator`;
     return await this.existsResource(url, cancelToken);
   };
@@ -101,7 +101,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkCrawler = async (cancelToken: AbortController): Promise<boolean> => {
+  checkCrawler = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/crawler`;
     return await this.existsResource(url, cancelToken);
   };
@@ -113,7 +113,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkLexi = async (cancelToken: AbortController): Promise<boolean> => {
+  checkLexi = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/lexi`;
     return await this.existsResource(url, cancelToken);
   };
@@ -125,7 +125,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkEmbeddings = async (cancelToken: AbortController): Promise<boolean> => {
+  checkEmbeddings = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/embeddings`;
     return await this.existsResource(url, cancelToken);
   };
@@ -137,7 +137,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  checkDirector = async (cancelToken: AbortController): Promise<boolean> => {
+  checkDirector = async (cancelToken?: AbortController): Promise<boolean> => {
     const url = `${this.config.endpoint}/healthcheck/director`;
     return await this.existsResource(url, cancelToken);
   };

@@ -21,7 +21,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @returns {Promise<StoragePool>} A promise resolving to the created StoragePool object or null.
    * @throws {MethodError} If the pool is null.
    */
-  create = async (pool: StoragePool, cancelToken: AbortController): Promise<StoragePool> => {
+  create = async (pool: StoragePool, cancelToken?: AbortController): Promise<StoragePool> => {
     if (!pool) {
       GenericExceptionHandlers.ArgumentNullException('pool');
     }
@@ -37,7 +37,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the pool exists, or false if not.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -53,7 +53,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @returns {Promise<StoragePool>} A promise resolving to the StoragePool object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<StoragePool> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<StoragePool> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -67,7 +67,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<Array<StoragePool>>} A promise resolving to an array of StoragePool objects.
    */
-  readAll = async (cancelToken: AbortController): Promise<StoragePool[]> => {
+  readAll = async (cancelToken?: AbortController): Promise<StoragePool[]> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -80,7 +80,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @returns {Promise<StoragePool>} A promise resolving to the updated StoragePool object or null.
    * @throws {MethodError} If the pool is null.
    */
-  update = async (pool: StoragePool, cancelToken: AbortController): Promise<StoragePool> => {
+  update = async (pool: StoragePool, cancelToken?: AbortController): Promise<StoragePool> => {
     if (!pool) {
       GenericExceptionHandlers.ArgumentNullException('pool');
     }
@@ -96,7 +96,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @returns {Promise<void|boolean>} A promise resolving to void if successful.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<void | boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<void | boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }

@@ -1,7 +1,6 @@
-import SearchResult from 'litegraphdb/types/models/SearchResult';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
-import { SearchCollectionDocumentsQuery } from '../../types';
+import { SearchCollectionDocumentsQuery, SearchResult } from '../../types';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
 export class SearchCollectionSdk extends ViewSdkBase {
   /**
@@ -33,7 +32,7 @@ export class SearchCollectionSdk extends ViewSdkBase {
     includeData: boolean,
     includeTopTerms: boolean,
     emitResult: boolean,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SearchResult> => {
     if (!query) {
       GenericExceptionHandlers.ArgumentNullException('query');

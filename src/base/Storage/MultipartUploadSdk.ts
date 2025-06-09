@@ -24,7 +24,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
   create = async (
     bucketGUID: string,
     multipartUpload: MultipartUpload,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<MultipartUpload> => {
     if (!multipartUpload) {
       GenericExceptionHandlers.ArgumentNullException('multipartUpload');
@@ -45,7 +45,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @returns {Promise<MultipartUpload>} A promise resolving to the MultipartUpload object or null if not found.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  readAll = async (bucketGUID: string, cancelToken: AbortController): Promise<MultipartUpload[]> => {
+  readAll = async (bucketGUID: string, cancelToken?: AbortController): Promise<MultipartUpload[]> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -64,7 +64,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @returns {Promise<MultipartUpload>} A promise resolving to the MultipartUpload object or null if not found.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  read = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<MultipartUpload> => {
+  read = async (bucketGUID: string, key: string, cancelToken?: AbortController): Promise<MultipartUpload> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -91,7 +91,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     bucketGUID: string,
     key: string,
     partNumber: number,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<MultipartUpload> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
@@ -130,7 +130,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     bucketGUID: string,
     key: string,
     partNumber: number,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<void | boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
@@ -164,7 +164,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @returns {Promise<Boolean>} A promise resolving when the user is deleted.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  delete = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (bucketGUID: string, key: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -192,7 +192,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     key: string,
     partNumber: number,
     data: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<TagMetadata> => {
     if (!partNumber) {
       GenericExceptionHandlers.ArgumentNullException('partNumber');
@@ -228,7 +228,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
    * @returns {Promise<Boolean>} A promise resolving when the user is deleted.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  complete = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<boolean> => {
+  complete = async (bucketGUID: string, key: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }

@@ -26,7 +26,7 @@ export class ModelSdk extends ViewSdkBase {
    * @returns {Promise<void>} A promise resolving to a string.
    * @throws {MethodError} If the `model` is null or empty.
    */
-  retrieve = async (model: ModelRequest, onToken: OnToken, cancelToken: AbortController): Promise<void> => {
+  retrieve = async (model: ModelRequest, onToken: OnToken, cancelToken?: AbortController): Promise<void> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -82,7 +82,7 @@ export class ModelSdk extends ViewSdkBase {
    * @returns {Promise<AssistantModel[]>} A promise resolving to an array of model names
    * @throws {MethodError} If the `model` is null or empty.
    */
-  retrieveLocalModels = async (model: ModelRequest, cancelToken: AbortController): Promise<AssistantModel[]> => {
+  retrieveLocalModels = async (model: ModelRequest, cancelToken?: AbortController): Promise<AssistantModel[]> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
@@ -98,7 +98,7 @@ export class ModelSdk extends ViewSdkBase {
    * @returns {Promise<ModelRequest>} A promise resolving to a model load response
    * @throws {MethodError} If the `model` is null or empty.
    */
-  loadUnload = async (model: ModelRequest, cancelToken: AbortController): Promise<ModelRequest> => {
+  loadUnload = async (model: ModelRequest, cancelToken?: AbortController): Promise<ModelRequest> => {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }

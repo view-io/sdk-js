@@ -23,7 +23,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the Node object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, objectValue: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, objectValue: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -40,7 +40,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<String>} A promise resolving to the data retrieved or null if the object is not found.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  read = async (bucketGuid: string, cancelToken: AbortController): Promise<string> => {
+  read = async (bucketGuid: string, cancelToken?: AbortController): Promise<string> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
@@ -62,7 +62,7 @@ export default class ObjectSdk extends ViewSdkBase {
     bucketGUID: string,
     key: string,
     data: ObjectMetadata,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<ObjectMetadata> => {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
@@ -85,7 +85,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<ObjectMetadata>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
    * @throws {MethodError} If the node is null or empty.
    */
-  writeExpiration = async (bucketGUID: string, key: string, object: ObjectMetadata, cancelToken: AbortController) => {
+  writeExpiration = async (bucketGUID: string, key: string, object: ObjectMetadata, cancelToken?: AbortController) => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -116,7 +116,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<String>} A promise resolving to the data retrieved or null if the object is not found.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  readData = async (bucketGuid: string, key: string, cancelToken: AbortController): Promise<string> => {
+  readData = async (bucketGuid: string, key: string, cancelToken?: AbortController): Promise<string> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
@@ -143,7 +143,7 @@ export default class ObjectSdk extends ViewSdkBase {
     bucketGuid: string,
     key: string,
     range: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<string> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
@@ -169,7 +169,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<ObjectMetadata>} A promise resolving to the UserMaster object or null if not found.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  readMetadata = async (bucketGuid: string, key: string, cancelToken: AbortController): Promise<ObjectMetadata> => {
+  readMetadata = async (bucketGuid: string, key: string, cancelToken?: AbortController): Promise<ObjectMetadata> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
@@ -198,7 +198,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<void|boolean>} A promise resolving when the user is deleted.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  delete = async (bucketGuid: string, key: string, cancelToken: AbortController): Promise<void | boolean> => {
+  delete = async (bucketGuid: string, key: string, cancelToken?: AbortController): Promise<void | boolean> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
@@ -223,7 +223,7 @@ export default class ObjectSdk extends ViewSdkBase {
     bucketGUID: string,
     key: string,
     tagMetaData: TagMetadata,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<TagMetadata> => {
     if (!tagMetaData) {
       GenericExceptionHandlers.ArgumentNullException('tagMetaData');
@@ -254,7 +254,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<void|boolean>} A promise resolving when the tags are deleted.
    * @throws {MethodError} If the bucketGUID or key is null or empty.
    */
-  deleteTags = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<void | boolean> => {
+  deleteTags = async (bucketGUID: string, key: string, cancelToken?: AbortController): Promise<void | boolean> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -282,7 +282,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<TagMetadata>} A promise resolving to the TagMetadata object or null if not found.
    * @throws {MethodError} If the bucketGUID or key is null or empty.
    */
-  readTags = async (bucketGUID: string, key: string, cancelToken: AbortController): Promise<TagMetadata> => {
+  readTags = async (bucketGUID: string, key: string, cancelToken?: AbortController): Promise<TagMetadata> => {
     if (!bucketGUID) {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
@@ -311,7 +311,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<AclMetaData>} A promise resolving to the TagMetadata object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  readACL = async (bucketGuid: string, key: string, cancelToken: AbortController): Promise<AclMetaData> => {
+  readACL = async (bucketGuid: string, key: string, cancelToken?: AbortController): Promise<AclMetaData> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
@@ -339,7 +339,7 @@ export default class ObjectSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves when the bucket is deleted.
    * @throws {MethodError} If the guid is null or empty.
    */
-  deleteACL = async (bucketGuid: string, key: string, cancelToken: AbortController): Promise<boolean> => {
+  deleteACL = async (bucketGuid: string, key: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
@@ -371,7 +371,7 @@ export default class ObjectSdk extends ViewSdkBase {
     bucketGuid: string,
     key: string,
     aclMetaData: AclMetaData,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<AclMetaData> => {
     if (!aclMetaData) {
       GenericExceptionHandlers.ArgumentNullException('aclMetaData');

@@ -23,7 +23,7 @@ export default class VectorSearchSdk extends ViewSdkBase {
   vectorSearch = async (
     vectorRepositoryGUID: string,
     searchReq: VectorSearchRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<VectorSearch[]> => {
     if (!vectorRepositoryGUID) {
       GenericExceptionHandlers.ArgumentNullException('vectorRepositoryGUID');
@@ -53,7 +53,7 @@ export default class VectorSearchSdk extends ViewSdkBase {
   findEmbeddings = async (
     vector_repository_guid: string,
     searchReq: VectorSearchRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<EmbeddingResponse> => {
     if (!searchReq) {
       GenericExceptionHandlers.ArgumentNullException('searchReq');

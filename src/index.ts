@@ -1,10 +1,8 @@
 import ViewConfigurationSdk from './base/Configuration/ViewConfigurationSdk';
 import ViewLexiSdk from './base/Lexi/ViewLexiSdk';
-import ViewOrchestratorSdk from './base/Orchestrator/ViewOrchestratorSdk';
 import ViewAssistantSdk from './base/Assistant/ViewAssistantSdk';
 import ViewProcessorSdk from './base/Processor/ViewProcessorSdk';
 import ViewEmbeddingsSdk from './base/Embeddings/ViewEmbeddingsSdk';
-import GraphSdk from './base/Graph/GraphSdk';
 import ViewVectorProxySdk from './base/Vector/ViewVectorProxySdk';
 import ViewHealthcheckSdk from './base/HealthCheck/ViewHealthcheckSdk';
 import ViewStorageSdk from './base/Storage/ViewStorageSdk';
@@ -17,11 +15,6 @@ export {
    * @property {module:base/ViewConfigurationSdk}
    */
   ViewConfigurationSdk,
-  /**
-   * The ViewConfigurationSdk service constructor.
-   * @property {module:base/Orchestrator/ViewOrchestratorSdk}
-   */
-  ViewOrchestratorSdk,
   /**
    * The ViewLexiSdk model constructor.
    * @property {module:base/Lexi/ViewLexiSdk}
@@ -47,11 +40,6 @@ export {
    * @property {module:base/Vector/ViewVectorProxySdk}
    */
   ViewVectorProxySdk,
-  // /**
-  //  * The GraphSdk service constructor.
-  //  * @property {module:base/Graph/GraphSdk}
-  //  */
-  GraphSdk,
   /**
    * The ViewHealthcheckSdk service constructor.
    * @property {module:base/HealthCheck/ViewHealthcheckSdk}

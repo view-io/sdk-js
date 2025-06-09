@@ -19,7 +19,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<CrawlFilter>>} A promise resolving to the enumeration result or null.
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
-  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<CrawlFilter>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<CrawlFilter>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
     return await this.retrieveResource(url, cancelToken);
   };
@@ -29,7 +29,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter[]>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
-  readAll = async (cancelToken: AbortController): Promise<CrawlFilter[]> => {
+  readAll = async (cancelToken?: AbortController): Promise<CrawlFilter[]> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
     return await this.retrieveResource(url, cancelToken);
   };
@@ -40,7 +40,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter|null|ApiErrorResponse>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<CrawlFilter> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<CrawlFilter> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -54,7 +54,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {MethodError} If the crawlFiltersData is null or empty.
    */
-  create = async (crawlFiltersData: CrawlFilter, cancelToken: AbortController): Promise<CrawlFilter> => {
+  create = async (crawlFiltersData: CrawlFilter, cancelToken?: AbortController): Promise<CrawlFilter> => {
     if (!crawlFiltersData) {
       GenericExceptionHandlers.ArgumentNullException('crawlFiltersData');
     }
@@ -68,7 +68,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<CrawlFilter|null|ApiErrorResponse>} A promise that resolves to the crawl filter object, or null if not found, or an error response.
    * @throws {MethodError} If the guid is null or empty or If crawlFiltersData is null or empty.
    */
-  update = async (crawlFilterData: CrawlFilter, cancelToken: AbortController): Promise<CrawlFilter> => {
+  update = async (crawlFilterData: CrawlFilter, cancelToken?: AbortController): Promise<CrawlFilter> => {
     if (!crawlFilterData || !crawlFilterData.GUID) {
       GenericExceptionHandlers.ArgumentNullException('crawlFilterData or crawlFilterData.GUID');
     }
@@ -84,7 +84,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<boolean|ApiErrorResponse>} A promise that resolves to true if the deletion was successful, or an error response if it failed.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -99,7 +99,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to the crawl filter object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }

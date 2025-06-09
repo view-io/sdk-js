@@ -19,7 +19,7 @@ export class EmbeddingDirectorSdk extends ViewSdkBase {
    */
   generateEmbedding = async (
     params: EmbeddingDirectoryRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<DirectorEmbeddingResponse> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/embeddings/`;
     return await this.postCreateResource(url, params, cancelToken);
@@ -30,7 +30,7 @@ export class EmbeddingDirectorSdk extends ViewSdkBase {
    * @returns {Promise<Array<DirectorConnection>>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  retrieveConnections = async (cancelToken: AbortController): Promise<DirectorConnection[]> => {
+  retrieveConnections = async (cancelToken?: AbortController): Promise<DirectorConnection[]> => {
     const url = `${this.config.endpoint}/v1.0/connections/`;
     return await this.retrieveResource(url, cancelToken);
   };

@@ -22,7 +22,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<BucketMetadata>} A promise resolving to the Bucket object or null if not found.
    * @throws { MethodError} If the guid is null or empty.
    */
-  readMetadata = async (guid: string, cancelToken: AbortController): Promise<BucketMetadata> => {
+  readMetadata = async (guid: string, cancelToken?: AbortController): Promise<BucketMetadata> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -37,7 +37,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<BucketMetadata>} A promise resolving to the created Bucket object or null if the creation fails.
    * @throws {MethodError} If the node is null or empty.
    */
-  create = async (metadata: BucketMetadata, cancelToken: AbortController): Promise<BucketMetadata> => {
+  create = async (metadata: BucketMetadata, cancelToken?: AbortController): Promise<BucketMetadata> => {
     if (!metadata) {
       GenericExceptionHandlers.ArgumentNullException('metadata');
     }
@@ -52,7 +52,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<BucketMetadata>} A promise resolving to the created Bucket object or null if the creation fails.
    * @throws {MethodError} If the node is null or empty.
    */
-  update = async (metadata: BucketMetadata, cancelToken: AbortController): Promise<BucketMetadata> => {
+  update = async (metadata: BucketMetadata, cancelToken?: AbortController): Promise<BucketMetadata> => {
     if (!metadata) {
       GenericExceptionHandlers.ArgumentNullException('metadata');
     }
@@ -71,7 +71,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<Boolean>} A promise that resolves when the bucket is deleted.
    * @throws {MethodError} If the GUID is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -87,7 +87,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<TagMetadata>} A promise resolving to the TagMetadata object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  readTags = async (guid: string, cancelToken: AbortController): Promise<TagMetadata> => {
+  readTags = async (guid: string, cancelToken?: AbortController): Promise<TagMetadata> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -103,7 +103,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<void>} A promise that resolves when the bucket is deleted.
    * @throws {MethodError} If the guid is null or empty.
    */
-  deleteTags = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  deleteTags = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -119,7 +119,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<ObjectMetadata>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
    * @throws {MethodError} If the ObjectMetadata is null or empty.
    */
-  createTags = async (guid: string, tagMetaData: TagMetadata, cancelToken: AbortController): Promise<TagMetadata> => {
+  createTags = async (guid: string, tagMetaData: TagMetadata, cancelToken?: AbortController): Promise<TagMetadata> => {
     if (!tagMetaData) {
       GenericExceptionHandlers.ArgumentNullException('tagMetaData');
     }
@@ -138,7 +138,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<AclMetaData>} A promise resolving to the TagMetadata object or null if not found.
    * @throws {MethodError} If the guid is null or empty.
    */
-  readACL = async (guid: string, cancelToken: AbortController): Promise<AclMetaData> => {
+  readACL = async (guid: string, cancelToken?: AbortController): Promise<AclMetaData> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -154,7 +154,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<Boolean>} A promise that resolves when the bucket is deleted.
    * @throws {MethodError} If the guid is null or empty.
    */
-  deleteACL = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  deleteACL = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -170,7 +170,7 @@ export default class BucketSdk extends ViewSdkBase {
    * @returns {Promise<AclMetaData>} A promise resolving to the created AclMetaData object or null if the creation fails.
    * @throws {MethodError} If the AclMetaData is null or empty.
    */
-  createACL = async (guid: string, aclMetaData: AclMetaData, cancelToken: AbortController): Promise<AclMetaData> => {
+  createACL = async (guid: string, aclMetaData: AclMetaData, cancelToken?: AbortController): Promise<AclMetaData> => {
     if (!aclMetaData) {
       GenericExceptionHandlers.ArgumentNullException('aclMetaData');
     }

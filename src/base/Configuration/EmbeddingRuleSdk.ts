@@ -1,9 +1,9 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EmbeddingsRule, EnumerationResult } from '../../types';
+import { EmbeddingRuleCreateRequest, EmbeddingsRule, EnumerationResult } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
-export default class EmbeddingRulesSdk extends ViewSdkBase {
+export default class EmbeddingRuleSdk extends ViewSdkBase {
   /**
    * Constructs a new EmbeddingRulesSdk.
    * @param {SdkConfiguration} config - The SDK configuration.
@@ -16,12 +16,15 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
   /**
    * Create a new embeddings rule.
    *
-   * @param {EmbeddingsRule} embeddingsRule Information about the embeddings rule.
+   * @param {EmbeddingRuleCreateRequest} embeddingsRule Information about the embeddings rule.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<EmbeddingsRule>} A promise resolving to the created EmbeddingsRule object or null.
    * @throws {MethodError} If the rule is null.
    */
-  create = async (embeddingsRule: EmbeddingsRule, cancelToken: AbortController): Promise<EmbeddingsRule> => {
+  create = async (
+    embeddingsRule: EmbeddingRuleCreateRequest,
+    cancelToken?: AbortController
+  ): Promise<EmbeddingsRule> => {
     if (!embeddingsRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
@@ -37,7 +40,7 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the embeddings rule exists, otherwise false.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -53,7 +56,7 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
    * @returns {Promise<EmbeddingsRule>} A promise resolving to the EmbeddingsRule object or null.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<EmbeddingsRule> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<EmbeddingsRule> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -68,7 +71,7 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
    * @returns {Promise<Array<EmbeddingsRule>>} A promise resolving to an array of EmbeddingsRule objects.
    * @throws {MethodError} If the embeddings rule is null.
    */
-  readAll = async (cancelToken: AbortController): Promise<Array<EmbeddingsRule>> => {
+  readAll = async (cancelToken?: AbortController): Promise<Array<EmbeddingsRule>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -81,7 +84,7 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
    * @returns {Promise<EmbeddingsRule>} A promise resolving to the updated EmbeddingsRule object or null.
    * @throws {MethodError} If the rule is null.
    */
-  update = async (embeddingsRule: EmbeddingsRule, cancelToken: AbortController): Promise<EmbeddingsRule> => {
+  update = async (embeddingsRule: EmbeddingsRule, cancelToken?: AbortController): Promise<EmbeddingsRule> => {
     if (!embeddingsRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
@@ -98,7 +101,7 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the deletion is successful.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -112,7 +115,7 @@ export default class EmbeddingRulesSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<EmbeddingsRule>>} A promise resolving to the created EmbeddingsResult object or null if creation fails.
    * @throws {MethodError} If the trigger is null or invalid.
    */
-  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<EmbeddingsRule>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<EmbeddingsRule>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/embeddingsrules/`;
     return await this.retrieveResource(url, cancelToken);
   };

@@ -1,9 +1,9 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EnumerationResult, GraphRepository } from '../../types';
+import { EnumerationResult, GraphRepository, GraphRepositoryCreateRequest } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
-export default class GraphRepositoriesSdk extends ViewSdkBase {
+export default class GraphRepositorySdk extends ViewSdkBase {
   /**
    * Constructor for GraphRepositoriesSdk.
    * @param {SdkConfiguration} config - The configuration for the SDK.
@@ -16,12 +16,13 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
   /**
    * Create a graph repository.
    *
-   * @param {GraphRepository} graph - Information about the graph repository.
+   * @param {GraphRepositoryCreateRequest} graph - Information about the graph repository.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<GraphRepository>} A promise resolving to the created GraphRepository object.
    * @throws {MethodError} If the repo is null.
+   *
    */
-  create = async (graph: GraphRepository, cancelToken: AbortController): Promise<GraphRepository> => {
+  create = async (graph: GraphRepositoryCreateRequest, cancelToken?: AbortController): Promise<GraphRepository> => {
     if (!graph) {
       GenericExceptionHandlers.ArgumentNullException('graph');
     }
@@ -37,7 +38,7 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the graph repository exists, false otherwise.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -53,7 +54,7 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
    * @returns {Promise<GraphRepository>} A promise resolving to the GraphRepository object.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<GraphRepository> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<GraphRepository> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -68,7 +69,7 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
    * @returns {Promise<Array<GraphRepository>>} A promise resolving to a list of GraphRepository objects.
    * @throws {MethodError} If the graph repositories are null.
    */
-  readAll = async (cancelToken: AbortController): Promise<Array<GraphRepository>> => {
+  readAll = async (cancelToken?: AbortController): Promise<Array<GraphRepository>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -81,7 +82,7 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
    * @returns {Promise<GraphRepository>} A promise resolving to the updated GraphRepository object.
    * @throws {MethodError} If the graph is null.
    */
-  update = async (graph: GraphRepository, cancelToken: AbortController): Promise<GraphRepository> => {
+  update = async (graph: GraphRepository, cancelToken?: AbortController): Promise<GraphRepository> => {
     if (!graph) {
       GenericExceptionHandlers.ArgumentNullException('graph');
     }
@@ -97,7 +98,7 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the deletion is successful.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -111,7 +112,7 @@ export default class GraphRepositoriesSdk extends ViewSdkBase {
    * @returns {Promise<Trigger|null|ApiErrorResponse>} A promise resolving to the created Trigger object or null if creation fails.
    * @throws {ApiErrorResponse} If the trigger is null or invalid.
    */
-  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<GraphRepository>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<GraphRepository>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/graphrepositories/`;
     return await this.retrieveResource(url, cancelToken);
   };

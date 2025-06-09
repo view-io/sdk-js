@@ -1,4 +1,6 @@
 import { ViewConfigurationSdk } from 'view-sdk';
+import { WebhookEventTypeEnum } from 'view-sdk/dist/types/enums/WebhookEventTypeEnum';
+import { VectorRepositoryTypeEnum } from 'view-sdk/dist/types/enums/VectorRepositoryTypeEnum';
 
 const api = new ViewConfigurationSdk(
   '00000000-0000-0000-0000-000000000000', //tenant Id
@@ -11,7 +13,7 @@ const api = new ViewConfigurationSdk(
 
 const existsWebhookTarget = async () => {
   try {
-    const response = await api.WebhookTargetSdk.existsWebhookTarget('f4bd1d87-598a-4e16-ace3-5c2a8ce55511');
+    const response = await api.WebhookTarget.exists('f4bd1d87-598a-4e16-ace3-5c2a8ce55511');
     console.log(response, 'Webhook target exists');
   } catch (err) {
     console.log('Error checking Webhook target:', err);
@@ -22,7 +24,7 @@ const existsWebhookTarget = async () => {
 
 const deleteWebhookTarget = async () => {
   try {
-    const response = await api.deleteWebhookTarget('4bd187db-3a56-495e-b7fe-d00c963d5333');
+    const response = await api.WebhookTarget.delete('4bd187db-3a56-495e-b7fe-d00c963d5333');
     console.log(response, 'Webhook target deleted successfully');
   } catch (err) {
     console.log('Error deleting Webhook target:', err);
@@ -33,12 +35,14 @@ const deleteWebhookTarget = async () => {
 
 const updateWebhookTarget = async () => {
   try {
-    const response = await api.updateWebhookTarget({
+    const response = await api.WebhookTarget.update({
       GUID: '4bd187db-3a56-495e-b7fe-d00c963d5333',
       Name: 'My webhook target [ASH] [UPDATED]',
       Url: 'http://localhost:8311',
       ContentType: 'application/json',
       ExpectStatus: 200,
+      TenantGUID: '00000000-0000-0000-0000-000000000000',
+      CreatedUtc: '2025-03-29T11:27:22.814177Z',
     });
     console.log(response, 'Webhook target updated successfully');
   } catch (err) {
@@ -50,7 +54,7 @@ const updateWebhookTarget = async () => {
 
 const readAllWebhookTargets = async () => {
   try {
-    const response = await api.retrieveWebhookTargets();
+    const response = await api.WebhookTarget.readAll();
     console.log(response, 'All webhook targets fetched successfully');
   } catch (err) {
     console.log('Error fetching All webhook targets:', err);
@@ -61,7 +65,7 @@ const readAllWebhookTargets = async () => {
 
 const readWebhookTarget = async () => {
   try {
-    const response = await api.retrieveWebhookTarget('4bd187db-3a56-495e-b7fe-d00c963d5333');
+    const response = await api.WebhookTarget.read('4bd187db-3a56-495e-b7fe-d00c963d5333');
     console.log(response, 'Webhook target fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook target:', err);
@@ -72,7 +76,7 @@ const readWebhookTarget = async () => {
 
 const enumerateWebhookTargets = async () => {
   try {
-    const response = await api.enumerateWebhookTargets();
+    const response = await api.WebhookTarget.enumerate();
     console.log(response, 'Webhook targets fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook targets:', err);
@@ -83,7 +87,7 @@ const enumerateWebhookTargets = async () => {
 
 const createWebhookTarget = async () => {
   try {
-    const response = await api.createWebhookTarget({
+    const response = await api.WebhookTarget.create({
       Name: 'My webhook target [ASH]',
       Url: 'http://localhost:8311',
       ContentType: 'application/json',
@@ -99,7 +103,7 @@ const createWebhookTarget = async () => {
 
 const existWebhookEvent = async () => {
   try {
-    const response = await api.existsWebhookEvent('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
+    const response = await api.WebhookEvent.exists('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
     console.log(response, 'Webhook event exists');
   } catch (err) {
     console.log('Error checking Webhook event:', err);
@@ -109,7 +113,7 @@ const existWebhookEvent = async () => {
 
 const readWebhookEvents = async () => {
   try {
-    const response = await api.retrieveWebhookEvents();
+    const response = await api.WebhookEvent.readAll();
     console.log(response, 'Webhook events fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook events:', err);
@@ -119,7 +123,7 @@ const readWebhookEvents = async () => {
 // readWebhookEvents();
 const enumerateWebhookEvents = async () => {
   try {
-    const response = await api.enumerateWebhookEvents();
+    const response = await api.WebhookEvent.enumerate();
     console.log(response, 'Webhook events fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook events:', err);
@@ -128,79 +132,9 @@ const enumerateWebhookEvents = async () => {
 
 // enumerateWebhookEvents();
 
-const deleteDataRepository = async () => {
-  try {
-    const response = await api.deleteDataRepository('cd455417-d261-48e3-817f-98f15ba3d6b8');
-    console.log(response, 'Data repository deleted successfully');
-  } catch (err) {
-    console.log('Error deleting Data repository:', err);
-  }
-};
-
-// deleteDataRepository();
-
-const existsDataRepository = async () => {
-  try {
-    const response = await api.existsDataRepository('cd455417-d261-48e3-817f-98f15ba3d6b8');
-    console.log(response, 'Data repository exists');
-  } catch (err) {
-    console.log('Error checking Data repository:', err);
-  }
-};
-
-// existsDataRepository();
-
-const readAllDataRepositories = async () => {
-  try {
-    const response = await api.retrieveDataRepositories();
-    console.log(response, 'All data repositories fetched successfully');
-  } catch (err) {
-    console.log('Error fetching All data repositories:', err);
-  }
-};
-
-// readAllDataRepositories();
-const readDataRepository = async () => {
-  try {
-    const response = await api.retrieveDataRepository('cd455417-d261-48e3-817f-98f15ba3d6b8');
-    console.log(response, 'Data repository fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Data repository:', err);
-  }
-};
-
-// readDataRepository();
-
-const enumerateDataRepositories = async () => {
-  try {
-    const response = await api.enumerateDataRepositories();
-    console.log(response, 'Data repositories fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Data repositories:', err);
-  }
-};
-
-// enumerateDataRepositories();
-const createDataRepository = async () => {
-  try {
-    const response = await api.createDataRepository({
-      Name: 'My file repository [ASH]',
-      RepositoryType: 'File',
-      BaseUrl: './files/',
-      DiskDirectory: './files/',
-      DiskIncludeSubdirectories: true,
-    });
-    console.log(response, 'Data repository created successfully');
-  } catch (err) {
-    console.log('Error creating Data repository:', err);
-  }
-};
-
-// createDataRepository();
-
 const readBlobWithData = async () => {
   try {
-    const response = await api.retrieveBlobIncludeData('431638f9-1da1-4dd2-b6de-e88acf990c8c');
+    const response = await api.Blob.readIncludeData('431638f9-1da1-4dd2-b6de-e88acf990c8c');
     console.log(response, 'Blob read successfully');
   } catch (err) {
     console.log('Error reading Blob:', err);
@@ -211,7 +145,7 @@ const readBlobWithData = async () => {
 
 const blobExists = async () => {
   try {
-    const response = await api.existsBlob('431638f9-1da1-4dd2-b6de-e88acf990c8c');
+    const response = await api.Blob.exists('431638f9-1da1-4dd2-b6de-e88acf990c8c');
     console.log(response, 'Blob exists');
   } catch (err) {
     console.log('Error checking Blob:', err);
@@ -222,7 +156,7 @@ const blobExists = async () => {
 
 const deleteBlob = async () => {
   try {
-    const response = await api.deleteBlob('7f6eee35-fc32-4798-8ea7-e9e84775043e');
+    const response = await api.Blob.delete('7f6eee35-fc32-4798-8ea7-e9e84775043e');
     console.log(response, 'Blob deleted successfully');
   } catch (err) {
     console.log('Error deleting Blob:', err);
@@ -233,14 +167,21 @@ const deleteBlob = async () => {
 
 const updateBlob = async () => {
   try {
-    const response = await api.updateBlob({
-      GUID: '7f6eee35-fc32-4798-8ea7-e9e84775043e',
-      ContentType: 'text/plain',
-      Name: 'helloworldASH[UPDATED].txt',
-      Description: "A text file containing 'Hello, world!'",
-      RefObjType: '[usermanaged]',
-      RefObjGUID: '[usermanaged]',
-      Data: 'SGVsbG8sIHdvcmxkIQ==',
+    const response = await api.Blob.update({
+      GUID: '00000000-0000-0000-0000-000000000000',
+      TenantGUID: '00000000-0000-0000-0000-000000000000',
+      ContentType: 'application/json',
+      Name: 'Assistant Chat',
+      Description: 'Chat thread for assistant config 7a7214df-aa4a-4b40-83e7-59b98fa1d471',
+      Url: './blobs/59825f84-5f93-44ba-9efb-477a258a5881',
+      Length: 4562,
+      RefObjType: 'assistant_thread',
+      RefObjGUID: '7a7214df-aa4a-4b40-83e7-59b98fa1d471',
+      IsPublic: false,
+      MD5Hash: '****',
+      SHA1Hash: '****',
+      SHA256Hash: '****',
+      CreatedUtc: '2025-06-07T19:07:15.316396Z',
     });
     console.log(response, 'Blob updated successfully');
   } catch (err) {
@@ -252,7 +193,7 @@ const updateBlob = async () => {
 
 const readAllBlobs = async () => {
   try {
-    const response = await api.retrieveBlobs();
+    const response = await api.Blob.readAll();
     console.log(response, 'All blobs fetched successfully');
   } catch (err) {
     console.log('Error fetching All blobs:', err);
@@ -263,7 +204,7 @@ const readAllBlobs = async () => {
 
 const readBlob = async () => {
   try {
-    const response = await api.retrieveBlob('431638f9-1da1-4dd2-b6de-e88acf990c8c');
+    const response = await api.Blob.read('431638f9-1da1-4dd2-b6de-e88acf990c8c');
     console.log(response, 'Blob read successfully');
   } catch (err) {
     console.log('Error reading Blob:', err);
@@ -273,7 +214,7 @@ const readBlob = async () => {
 // readBlob();
 const enumerateBlobs = async () => {
   try {
-    const response = await api.enumerateBlobs();
+    const response = await api.Blob.enumerate();
     console.log(response, 'Blobs fetched successfully');
   } catch (err) {
     console.log('Error fetching Blobs:', err);
@@ -283,7 +224,7 @@ const enumerateBlobs = async () => {
 // enumerateBlobs();
 const createBlob = async () => {
   try {
-    const response = await api.writeBlob({
+    const response = await api.Blob.create({
       ContentType: 'text/plain',
       Name: 'helloworldASH.txt',
       Description: "A text file containing 'Hello, world!'",
@@ -301,7 +242,7 @@ const createBlob = async () => {
 
 const webhookRuleExists = async () => {
   try {
-    const response = await api.existsWebhookRule('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
+    const response = await api.WebhookRule.exists('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
     console.log(response, 'Webhook rule exists');
   } catch (err) {
     console.log('Error checking Webhook rule:', err);
@@ -312,7 +253,7 @@ const webhookRuleExists = async () => {
 
 const deleteWebhookRule = async () => {
   try {
-    const response = await api.deleteWebhookRule('59c7402c-dd30-4723-beba-3a3460f26bf7');
+    const response = await api.WebhookRule.delete('59c7402c-dd30-4723-beba-3a3460f26bf7');
     console.log(response, 'Webhook rule deleted successfully');
   } catch (err) {
     console.log('Error deleting Webhook rule:', err);
@@ -323,12 +264,12 @@ const deleteWebhookRule = async () => {
 
 const updateWebhookRule = async () => {
   try {
-    const response = await api.updateWebhookRule({
+    const response = await api.WebhookRule.update({
       GUID: '59c7402c-dd30-4723-beba-3a3460f26bf7',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       TargetGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'My webhook rule [UPDATED]',
-      EventType: 'ObjectWrite',
+      EventType: WebhookEventTypeEnum.ObjectWrite,
       MaxAttempts: 5,
       RetryIntervalMs: 10000,
       TimeoutMs: 30000,
@@ -344,7 +285,7 @@ const updateWebhookRule = async () => {
 
 const readAllWebhookRules = async () => {
   try {
-    const response = await api.retrieveWebhookRules();
+    const response = await api.WebhookRule.readAll();
     console.log(response, 'All webhook rules fetched successfully');
   } catch (err) {
     console.log('Error fetching All webhook rules:', err);
@@ -355,7 +296,7 @@ const readAllWebhookRules = async () => {
 
 const readWebhookRule = async () => {
   try {
-    const response = await api.retrieveWebhookRule('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
+    const response = await api.WebhookRule.read('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
     console.log(response, 'Webhook rule fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook rule:', err);
@@ -366,7 +307,7 @@ const readWebhookRule = async () => {
 
 const enumerateWebhookRules = async () => {
   try {
-    const response = await api.enumerateWebhookRules();
+    const response = await api.WebhookRule.enumerate();
     console.log(response, 'Webhook rules fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook rules:', err);
@@ -377,10 +318,10 @@ const enumerateWebhookRules = async () => {
 
 const createWebhookRules = async () => {
   try {
-    const response = await api.createWebhookRule({
+    const response = await api.WebhookRule.create({
       Name: 'My webhook rule',
       TargetGUID: '00000000-0000-0000-0000-000000000000',
-      EventType: 'ObjectWrite',
+      EventType: WebhookEventTypeEnum.ObjectWrite,
       MaxAttempts: 5,
       RetryIntervalMs: 10000,
       TimeoutMs: 30000,
@@ -395,7 +336,7 @@ const createWebhookRules = async () => {
 
 const encryptionKeyExists = async () => {
   try {
-    const response = await api.existsEncryptionKey('d81a743f-1b02-42a6-a66b-df4c8e93a243');
+    const response = await api.EncryptionKey.exists('d81a743f-1b02-42a6-a66b-df4c8e93a243');
     console.log(response, 'Encryption key exists');
   } catch (err) {
     console.log('Error checking Encryption key:', err);
@@ -406,7 +347,7 @@ const encryptionKeyExists = async () => {
 
 const deleteEncryptionKey = async () => {
   try {
-    const response = await api.deleteEncryptionKey('d81a743f-1b02-42a6-a66b-df4c8e93a243');
+    const response = await api.EncryptionKey.delete('d81a743f-1b02-42a6-a66b-df4c8e93a243');
     console.log(response, 'Encryption key deleted successfully');
   } catch (err) {
     console.log('Error deleting Encryption key:', err);
@@ -417,7 +358,7 @@ const deleteEncryptionKey = async () => {
 
 const updateEncryptionKey = async () => {
   try {
-    const response = await api.updateEncryptionKey({
+    const response = await api.EncryptionKey.update({
       GUID: 'd81a743f-1b02-42a6-a66b-df4c8e93a243',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       OwnerGUID: '00000000-0000-0000-0000-000000000000',
@@ -441,7 +382,7 @@ const updateEncryptionKey = async () => {
 
 const readAllEncryptionKeys = async () => {
   try {
-    const response = await api.retrieveEncryptionKeys();
+    const response = await api.EncryptionKey.readAll();
     console.log(response, 'All encryption keys fetched successfully');
   } catch (err) {
     console.log('Error fetching All encryption keys:', err);
@@ -452,7 +393,7 @@ const readAllEncryptionKeys = async () => {
 
 const readEncryptionKey = async () => {
   try {
-    const response = await api.retrieveEncryptionKey('00000000-0000-0000-0000-000000000000');
+    const response = await api.EncryptionKey.read('00000000-0000-0000-0000-000000000000');
     console.log(response, 'Encryption key fetched successfully');
   } catch (err) {
     console.log('Error fetching Encryption key:', err);
@@ -463,7 +404,7 @@ const readEncryptionKey = async () => {
 
 const enumerateEncryptionKeys = async () => {
   try {
-    const response = await api.enumerateEncryptionKeys();
+    const response = await api.EncryptionKey.enumerate();
     console.log(response, 'Encryption keys fetched successfully');
   } catch (err) {
     console.log('Error fetching Encryption keys:', err);
@@ -474,7 +415,7 @@ const enumerateEncryptionKeys = async () => {
 
 const createEncryptionKeys = async () => {
   try {
-    const response = await api.createEncryptionKey({
+    const response = await api.EncryptionKey.create({
       KeyBase64: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
       KeyHex: '0000000000000000000000000000000000000000000000000000000000000000',
       IvBase64: 'AAAAAAAAAAAAAAAAAAAAAA==',
@@ -492,87 +433,9 @@ const createEncryptionKeys = async () => {
 
 // createEncryptionKeys();
 
-const collectionExists = async () => {
-  try {
-    const response = await api.existsCollection('91928e04-914b-41b0-af1c-fc3575749d17');
-    console.log(response, 'Collection exists');
-  } catch (err) {
-    console.log('Error checking Collection:', err);
-  }
-};
-
-// collectionExists();
-const deleteCollection = async () => {
-  try {
-    const response = await api.deleteCollection('91928e04-914b-41b0-af1c-fc3575749d17');
-    console.log(response, 'Collection deleted successfully');
-  } catch (err) {
-    console.log('Error deleting Collection:', err);
-  }
-};
-
-// deleteCollection();
-
-const retrieveCollectionStats = async () => {
-  try {
-    const response = await api.retrieveCollectionStatistics('00000000-0000-0000-0000-000000000000');
-    console.log(response, 'Collection stats fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Collection stats:', err);
-  }
-};
-
-// retrieveCollectionStats();
-
-const readAllCollections = async () => {
-  try {
-    const response = await api.retrieveCollections();
-    console.log(response, 'All collections fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Collections:', err);
-  }
-};
-
-// readAllCollections();
-
-const readCollection = async () => {
-  try {
-    const response = await api.retrieveCollection('91928e04-914b-41b0-af1c-fc3575749d17');
-    console.log(response, 'Collection fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Collection:', err);
-  }
-};
-// readCollection();
-
-const enumerateCollections = async () => {
-  try {
-    const response = await api.enumerateCollections();
-    console.log(response, 'Collections fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Collections:', err);
-  }
-};
-
-// enumerateCollections();
-const createCollection = async () => {
-  try {
-    const response = await api.createCollection({
-      Name: 'My second collection asj',
-      AllowOverwrites: true,
-      AdditionalData: 'Created by setup',
-    });
-    console.log(response, 'Collection created successfully');
-  } catch (err) {
-    console.log('Error creating collection:', err);
-  }
-};
-
-// createCollection();
-
 const graphRepositoryExists = async () => {
   try {
-    const response = await api.existsGraphRepository('180ee580-9c0b-4ef6-b0b1-cddabfa2067a');
+    const response = await api.GraphRepository.exists('180ee580-9c0b-4ef6-b0b1-cddabfa2067a');
     console.log(response, 'Graph repository exists');
   } catch (err) {
     console.log('Error checking Graph repository:', err);
@@ -583,7 +446,7 @@ const graphRepositoryExists = async () => {
 
 const deleteGraphRepository = async () => {
   try {
-    const response = await api.deleteGraphRepository('180ee580-9c0b-4ef6-b0b1-cddabfa2067a');
+    const response = await api.GraphRepository.delete('180ee580-9c0b-4ef6-b0b1-cddabfa2067a');
     console.log(response, 'Graph repository deleted successfully');
   } catch (err) {
     console.log('Error deleting Graph repository:', err);
@@ -593,7 +456,7 @@ const deleteGraphRepository = async () => {
 
 const updateGraphRepository = async () => {
   try {
-    const response = await api.updateGraphRepository({
+    const response = await api.GraphRepository.update({
       GUID: '31ff2943-f15a-4493-9cfc-21b56f821e89',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'My LiteGraph instance ash 3 updated',
@@ -601,9 +464,12 @@ const updateGraphRepository = async () => {
       EndpointUrl: 'http://localhost:8701/',
       ApiKey: '***ault',
       Ssl: false,
-      GraphIdentifier: undefined,
+      GraphIdentifier: 'undefined',
       CreatedUtc: '2025-03-26T11:49:18.804037Z',
+      Username: 'User',
+      Password: 'Password',
       Port: 0,
+      Hostname: 'localhost',
     });
     console.log(response, 'Graph repository updated successfully');
   } catch (err) {
@@ -615,7 +481,7 @@ const updateGraphRepository = async () => {
 
 const readAllGraphRepositories = async () => {
   try {
-    const response = await api.retrieveGraphRepositories();
+    const response = await api.GraphRepository.readAll();
     console.log(response, 'All graph repositories fetched successfully');
   } catch (err) {
     console.log('Error fetching Graph repositories:', err);
@@ -625,7 +491,7 @@ const readAllGraphRepositories = async () => {
 
 const readGraphRepository = async () => {
   try {
-    const response = await api.retrieveGraphRepository('00000000-0000-0000-0000-000000000000');
+    const response = await api.GraphRepository.read('00000000-0000-0000-0000-000000000000');
     console.log(response, 'Graph repository fetched successfully');
   } catch (err) {
     console.log('Error fetching Graph repository:', err);
@@ -636,7 +502,7 @@ const readGraphRepository = async () => {
 
 const enumerateGraphRepositories = async () => {
   try {
-    const response = await api.enumerateGraphRepositories();
+    const response = await api.GraphRepository.enumerate();
     console.log(response, 'Graph repositories fetched successfully');
   } catch (err) {
     console.log('Error fetching Graph repositories:', err);
@@ -646,7 +512,7 @@ const enumerateGraphRepositories = async () => {
 
 const createGraphRepository = async () => {
   try {
-    const response = await api.createGraphRepository({
+    const response = await api.GraphRepository.create({
       Name: 'My LiteGraph instance ash 3',
       RepositoryType: 'LiteGraph',
       EndpointUrl: 'http://localhost:8701/',
@@ -663,7 +529,7 @@ const createGraphRepository = async () => {
 
 const vectorRepositoryExists = async () => {
   try {
-    const response = await api.existsVectorRepository('e345dfe7-3e66-4f2b-b78e-3ae1b1c30d9c');
+    const response = await api.VectorRepository.exists('e345dfe7-3e66-4f2b-b78e-3ae1b1c30d9c');
     console.log(response, 'Vector repository exists');
   } catch (err) {
     console.log('Error checking Vector repository:', err);
@@ -674,7 +540,7 @@ const vectorRepositoryExists = async () => {
 
 const deleteVectorRepository = async () => {
   try {
-    const response = await api.deleteVectorRepository('57094adf-f08f-4887-a49e-ae898c7317e2');
+    const response = await api.VectorRepository.delete('57094adf-f08f-4887-a49e-ae898c7317e2');
     console.log(response, 'Vector repository deleted successfully');
   } catch (err) {
     console.log('Error deleting Vector repository:', err);
@@ -685,11 +551,11 @@ const deleteVectorRepository = async () => {
 
 const updateVectorRepository = async () => {
   try {
-    const response = await api.updateVectorRepository({
+    const response = await api.VectorRepository.update({
       GUID: 'd5845b70-6da5-4ddf-9795-bf90c24b80fc',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'My vector repository ash updated',
-      RepositoryType: 'Pgvector',
+      RepositoryType: VectorRepositoryTypeEnum.Pgvector,
       Model: 'all-MiniLM-L6-v2',
       Dimensionality: 384,
       DatabaseHostname: 'localhost',
@@ -711,7 +577,7 @@ const updateVectorRepository = async () => {
 
 const getAllVectorRepositories = async () => {
   try {
-    const response = await api.retrieveVectorRepositories();
+    const response = await api.VectorRepository.readAll();
     console.log(response, 'All vector repositories fetched successfully');
   } catch (err) {
     console.log('Error fetching Vector repositories:', err);
@@ -722,7 +588,7 @@ const getAllVectorRepositories = async () => {
 
 const getVectorRepository = async () => {
   try {
-    const response = await api.retrieveVectorRepository('d5845b70-6da5-4ddf-9795-bf90c24b80fc');
+    const response = await api.VectorRepository.read('d5845b70-6da5-4ddf-9795-bf90c24b80fc');
     console.log(response, 'Vector repository fetched successfully');
   } catch (err) {
     console.log('Error fetching Vector repository:', err);
@@ -732,7 +598,7 @@ const getVectorRepository = async () => {
 
 const enumerateVectorRepositories = async () => {
   try {
-    const response = await api.enumerateVectorRepositories();
+    const response = await api.VectorRepository.enumerate();
     console.log(response, 'Vector repositories fetched successfully');
   } catch (err) {
     console.log('Error fetching Vector repositories:', err);
@@ -743,9 +609,9 @@ const enumerateVectorRepositories = async () => {
 
 const createVectorRepository = async () => {
   try {
-    const response = await api.createVectorRepository({
+    const response = await api.VectorRepository.create({
       Name: 'My vector repository ash 3',
-      RepositoryType: 'Pgvector',
+      RepositoryType: VectorRepositoryTypeEnum.Pgvector,
       Model: 'all-MiniLM-L6-v2',
       Dimensionality: 384,
       DatabaseHostname: 'localhost',
@@ -766,7 +632,7 @@ const createVectorRepository = async () => {
 
 const embeddingRuleExists = async () => {
   try {
-    const response = await api.existsEmbeddingsRule('00000000-0000-0000-0000-000000000000');
+    const response = await api.EmbeddingRule.exists('00000000-0000-0000-0000-000000000000');
     console.log(response, 'Embedding rule exists');
   } catch (err) {
     console.log('Error checking Embedding rule:', err);
@@ -777,7 +643,7 @@ const embeddingRuleExists = async () => {
 
 const deleteEmbeddingRule = async () => {
   try {
-    const response = await api.deleteEmbeddingsRule('962dfbd8-a6bf-43bb-9430-3c2a12e0b1a8');
+    const response = await api.EmbeddingRule.delete('962dfbd8-a6bf-43bb-9430-3c2a12e0b1a8');
     console.log(response, 'Embedding rule deleted successfully');
   } catch (err) {
     console.log('Error deleting Embedding rule:', err);
@@ -788,7 +654,7 @@ const deleteEmbeddingRule = async () => {
 
 const updateEmbeddingRule = async () => {
   try {
-    const response = await api.updateEmbeddingsRule({
+    const response = await api.EmbeddingRule.update({
       GUID: '962dfbd8-a6bf-43bb-9430-3c2a12e0b1a8',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       BucketGUID: '00000000-0000-0000-0000-000000000000',
@@ -823,7 +689,7 @@ const updateEmbeddingRule = async () => {
 
 const readAllEmbeddingRules = async () => {
   try {
-    const response = await api.retrieveEmbeddingsRules();
+    const response = await api.EmbeddingRule.readAll();
     console.log(response, 'All embedding rules fetched successfully');
   } catch (err) {
     console.log('Error fetching Embedding rules:', err);
@@ -833,7 +699,7 @@ const readAllEmbeddingRules = async () => {
 
 const readEmbeddingRule = async () => {
   try {
-    const response = await api.retrieveEmbeddingsRule('00000000-0000-0000-0000-000000000000');
+    const response = await api.EmbeddingRule.read('00000000-0000-0000-0000-000000000000');
     console.log(response, 'Embedding rule fetched successfully');
   } catch (err) {
     console.log('Error fetching Embedding rule:', err);
@@ -844,7 +710,7 @@ const readEmbeddingRule = async () => {
 
 const enumerateEmbeddingRules = async () => {
   try {
-    const response = await api.enumerateEmbeddingsRules();
+    const response = await api.EmbeddingRule.enumerate();
     console.log(response, 'Embedding rules fetched successfully');
   } catch (err) {
     console.log('Error fetching Embedding rules:', err);
@@ -855,7 +721,7 @@ const enumerateEmbeddingRules = async () => {
 
 const createEmbeddingRules = async () => {
   try {
-    const response = await api.createEmbeddingsRule({
+    const response = await api.EmbeddingRule.create({
       BucketGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'Embeddings rule test ash',
       ContentType: '*',
@@ -884,7 +750,7 @@ const createEmbeddingRules = async () => {
 
 export const existsMetaDataRule = async () => {
   try {
-    const response = await api.existsMetadataRule('ff0d2c7c-fc51-473a-8c7d-d2123e2d6492');
+    const response = await api.MetadataRule.exists('ff0d2c7c-fc51-473a-8c7d-d2123e2d6492');
     console.log(response, 'Metadata rule exists');
   } catch (err) {
     console.log('Error checking Metadata rule:', err);
@@ -895,7 +761,7 @@ export const existsMetaDataRule = async () => {
 
 export const deleteMetaDataRule = async () => {
   try {
-    const response = await api.deleteMetadataRule('dfdee78e-3f48-4199-a27b-988b4fee04c9');
+    const response = await api.MetadataRule.delete('dfdee78e-3f48-4199-a27b-988b4fee04c9');
     console.log(response, 'Metadata rule deleted successfully');
   } catch (err) {
     console.log('Error deleting Metadata rule:', err);
@@ -906,7 +772,7 @@ export const deleteMetaDataRule = async () => {
 
 export const updateMetaDataRule = async () => {
   try {
-    const response = await api.updateMetadataRule({
+    const response = await api.MetadataRule.update({
       GUID: 'fc02c566-78d9-4f7b-82e5-5688b92e6cfe',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       BucketGUID: '00000000-0000-0000-0000-000000000000',
@@ -943,7 +809,7 @@ export const updateMetaDataRule = async () => {
 
 export const getMetaDataRules = async () => {
   try {
-    const response = await api.retrieveMetadataRules();
+    const response = await api.MetadataRule.readAll();
     console.log(response, 'Metadata rules fetched successfully');
   } catch (err) {
     console.log('Error fetching Metadata rules:', err);
@@ -953,7 +819,7 @@ export const getMetaDataRules = async () => {
 // getMetaDataRules();
 export const getMetaDataRule = async () => {
   try {
-    const response = await api.retrieveMetadataRule('00000000-0000-0000-0000-000000000000');
+    const response = await api.MetadataRule.read('00000000-0000-0000-0000-000000000000');
     console.log(response, 'Metadata rule fetched successfully');
   } catch (err) {
     console.log('Error fetching Metadata rule:', err);
@@ -964,7 +830,7 @@ export const getMetaDataRule = async () => {
 
 export const enumerateMetaDataRules = async () => {
   try {
-    const response = await api.enumerateMetadataRules();
+    const response = await api.MetadataRule.enumerate();
     console.log(response, 'Metadata rules fetched successfully');
   } catch (err) {
     console.log('Error fetching Metadata rules:', err);
@@ -975,7 +841,7 @@ export const enumerateMetaDataRules = async () => {
 
 export const createMetaDataRules = async () => {
   try {
-    const response = await api.createMetadataRule({
+    const response = await api.MetadataRule.create({
       BucketGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'example-metadata-rule-ash',
       ContentType: '*',
@@ -1007,7 +873,7 @@ export const createMetaDataRules = async () => {
 
 export const credentialExists = async () => {
   try {
-    const response = await api.existsCredential('65bcfde5-76de-4866-9259-6698e935b894');
+    const response = await api.Credential.exists('65bcfde5-76de-4866-9259-6698e935b894');
     console.log(response, 'Credential exists');
   } catch (err) {
     console.log('Error fetching Credential:', err);
@@ -1018,7 +884,7 @@ export const credentialExists = async () => {
 
 export const deleteCredential = async () => {
   try {
-    const response = await api.deleteCredential('58051d5c-fb01-4e9a-83f7-f310b4449f15');
+    const response = await api.Credential.delete('58051d5c-fb01-4e9a-83f7-f310b4449f15');
     console.log(response, 'Credential deleted successfully');
   } catch (err) {
     console.log('Error deleting Credential:', err);
@@ -1028,7 +894,7 @@ export const deleteCredential = async () => {
 // deleteCredential();
 export const getAllCredentials = async () => {
   try {
-    const credentials = await api.retrieveCredentials();
+    const credentials = await api.Credential.readAll();
     console.log(credentials, 'All credentials fetched successfully');
   } catch (err) {
     console.log('Error fetching Credentials:', err);
@@ -1039,7 +905,7 @@ export const getAllCredentials = async () => {
 
 export const getCredential = async () => {
   try {
-    const credential = await api.retrieveCredential('f734b815-c9ef-403a-8125-cfec4d405482');
+    const credential = await api.Credential.read('f734b815-c9ef-403a-8125-cfec4d405482');
     console.log(credential, 'Credential fetched successfully');
   } catch (err) {
     console.log('Error fetching Credential:', err);
@@ -1049,7 +915,7 @@ export const getCredential = async () => {
 
 export const enumerateCredentials = async () => {
   try {
-    const credentials = await api.enumerateCredentials();
+    const credentials = await api.Credential.enumerate();
     console.log(credentials, 'Credentials fetched successfully');
   } catch (err) {
     console.log('Error fetching Credentials:', err);
@@ -1059,7 +925,7 @@ export const enumerateCredentials = async () => {
 // enumerateCredentials();
 export const createCredential = async () => {
   try {
-    const response = await api.createCredential({
+    const response = await api.Credential.create({
       UserGUID: '9b7796bc-b36f-4e68-8cec-4ce98c9be7cd',
       Name: 'Default credential',
       Active: true,
@@ -1073,7 +939,7 @@ export const createCredential = async () => {
 
 export const userExists = async () => {
   try {
-    const response = await api.existsUser('9b7796bc-b36f-4e68-8cec-4ce98c9be7cd');
+    const response = await api.User.exists('9b7796bc-b36f-4e68-8cec-4ce98c9be7cd');
     console.log(response, 'User exists');
   } catch (err) {
     console.log('Error fetching User:', err);
@@ -1084,7 +950,7 @@ export const userExists = async () => {
 
 export const deleteUser = async () => {
   try {
-    const response = await api.deleteUser('1522f272-c572-4419-88b5-f0a0d37dabf6');
+    const response = await api.User.delete('1522f272-c572-4419-88b5-f0a0d37dabf6');
     console.log(response, 'User deleted successfully');
   } catch (err) {
     console.log('Error deleting User:', err);
@@ -1095,7 +961,7 @@ export const deleteUser = async () => {
 
 export const getUsers = async () => {
   try {
-    const users = await api.retrieveUsers();
+    const users = await api.User.readAll();
     console.log(users, 'Users fetched successfully');
   } catch (err) {
     console.log('Error fetching Users:', err);
@@ -1106,7 +972,12 @@ export const getUsers = async () => {
 
 export const updateUser = async () => {
   try {
-    const user = await api.updateUser('0a54349a-39d4-4756-960d-9d7b6af9435c', {
+    const user = await api.User.update({
+      GUID: '0a54349a-39d4-4756-960d-9d7b6af9435c',
+      TenantGUID: '00000000-0000-0000-0000-000000000000',
+      Active: true,
+      CreatedUtc: '2025-03-25T12:19:28.976056Z',
+      IsProtected: false,
       FirstName: 'New',
       LastName: 'User',
       Notes: 'Default password is password',
@@ -1123,7 +994,7 @@ export const updateUser = async () => {
 
 export const getUser = async () => {
   try {
-    const user = await api.retrieveUser('0a54349a-39d4-4756-960d-9d7b6af9435c');
+    const user = await api.User.read('0a54349a-39d4-4756-960d-9d7b6af9435c');
     console.log(user, 'User fetched successfully');
   } catch (err) {
     console.log('Error fetching User:', err);
@@ -1134,7 +1005,7 @@ export const getUser = async () => {
 
 export const enumerateUsers = async () => {
   try {
-    const users = await api.enumerateUsers();
+    const users = await api.User.enumerate();
     console.log(users, 'Users fetched successfully');
   } catch (err) {
     console.log('Error fetching Users:', err);
@@ -1145,7 +1016,7 @@ export const enumerateUsers = async () => {
 
 export const createUser = async () => {
   try {
-    const user = await api.createUser({
+    const user = await api.User.create({
       FirstName: 'Ashish',
       LastName: 'Patel',
       Notes: 'Default password is password',
@@ -1162,7 +1033,7 @@ export const createUser = async () => {
 
 export const tenantExists = async () => {
   try {
-    const tenant = await api.existsTenant('904a458b-8e62-4a8d-baa4-dae577245930');
+    const tenant = await api.Tenant.exists('904a458b-8e62-4a8d-baa4-dae577245930');
     console.log(tenant, 'Tenant exists'); //true
   } catch (err) {
     console.log('Error fetching Tenant:', err);
@@ -1172,7 +1043,7 @@ export const tenantExists = async () => {
 
 export const nodeExists = async () => {
   try {
-    const node = await api.existsNode('33079aff-6421-4987-a80e-26c621f2aa24');
+    const node = await api.Nodes.exists('33079aff-6421-4987-a80e-26c621f2aa24');
     console.log(node, 'Node exists'); //true
   } catch (err) {
     console.log('Error fetching Node:', err);
@@ -1183,7 +1054,7 @@ export const nodeExists = async () => {
 
 export const enumerateNode = async () => {
   try {
-    const nodes = await api.enumerateNodes(2);
+    const nodes = await api.Nodes.enumerate(2);
     console.log(nodes, 'Nodes fetched successfully');
   } catch (err) {
     console.log('Error fetching Nodes:', err);
@@ -1193,7 +1064,7 @@ export const enumerateNode = async () => {
 
 export const enumerateTenant = async () => {
   try {
-    const tenants = await api.enumerateTenants();
+    const tenants = await api.Tenant.enumerate();
     console.log(tenants, 'Tenants fetched successfully');
   } catch (err) {
     console.log('Error fetching Tenants:', err);
@@ -1202,10 +1073,7 @@ export const enumerateTenant = async () => {
 // enumerateTenant();
 const deleteNode = async () => {
   try {
-    await api.deleteNode(
-      'a46fa027-1b89-4250-996e-d7c5c0c82ca3',
-      'mXCNtMWDsW0/pr+IwRFUjRIMUbQt3q8fPhMkZy/hqGcOngKCn7Y2ECkUnzAbBrPgPCdPA3ASJRxnKBByHm4Wx7hBS0IXrS5TbP72dmcD8YuuIc/xD/acvVvhqcFokjkTXY/em8FEA14OsxTPHcBmT3bo2rBv6/scgUffg7EsmN5+n9J18PTV9ZeM+1sKbkVq/uqd/VNUkPCr2K+7/IJEcujnChGW4xoHvjvjMcaNuEoYgHkzjpyOqhUibQXgMTacgfmHEwyOiTyKTZDjGhMqmgbojWvXeyATJspRnTMgsMbBtpu9Es6HT719uq8p0Lfv'
-    );
+    await api.Nodes.delete('a46fa027-1b89-4250-996e-d7c5c0c82ca3');
     console.log('Node deleted successfully');
   } catch (err) {
     console.log('Error deleting Node:', err);
@@ -1215,7 +1083,7 @@ const deleteNode = async () => {
 
 const getNode = async () => {
   try {
-    const nodes = await api.retrieveNode('33079aff-6421-4987-a80e-26c621f2aa24');
+    const nodes = await api.Nodes.read('33079aff-6421-4987-a80e-26c621f2aa24');
     console.log(nodes, 'Nodes fetched successfully');
   } catch (err) {
     console.log('Error fetching Nodes:', err);
@@ -1225,7 +1093,7 @@ const getNode = async () => {
 
 const getNodes = async () => {
   try {
-    const nodes = await api.retrieveNodes();
+    const nodes = await api.Nodes.readAll();
     console.log(nodes, 'Nodes fetched successfully');
   } catch (err) {
     console.log('Error fetching Nodes:', err);
@@ -1235,7 +1103,7 @@ const getNodes = async () => {
 
 const fetchTenant = async () => {
   try {
-    const tenants = await api.retrieveTenants();
+    const tenants = await api.Tenant.readAll();
     console.log(tenants, 'Tenant fetched successfully');
   } catch (err) {
     console.log('Error fetching Tenant:', err);
@@ -1244,26 +1112,19 @@ const fetchTenant = async () => {
 // fetchTenant();
 
 const updateTenant = async () => {
-  // tenant object to update
-  const tenant = {
-    GUID: '904a458b-8e62-4a8d-baa4-dae577245930',
-    parentGUID: null,
-    name: 'My tenant demo updated now',
-    region: 'us-west-1',
-    s3BaseDomain: '',
-    restBaseDomain: 'localhost',
-    defaultPoolGUID: 'df6c9117-a1ea-44ca-bddc-fa7a3d932fe9',
-    active: true,
-    createdUtc: '2025-03-25T08:49:01.577527Z',
-    accountGUID: 'e6c5dd52-cb13-47c0-839c-6c5281f05075',
-    isProtected: false,
-  };
-
   try {
-    const updatedTenant = await api.updateTenant(
-      '904a458b-8e62-4a8d-baa4-dae577245930', // tenant guid
-      tenant
-    );
+    const updatedTenant = await api.Tenant.update({
+      GUID: '00000000-0000-0000-0000-000000000000',
+      AccountGUID: '00000000-0000-0000-0000-000000000000',
+      DefaultPoolGUID: '00000000-0000-0000-0000-000000000000',
+      Name: 'Default Tenant',
+      Region: 'us-west-1',
+      S3BaseDomain: 'localhost',
+      RestBaseDomain: 'localhost',
+      Active: true,
+      IsProtected: true,
+      CreatedUtc: '2025-06-07T17:59:30.333249Z',
+    });
     console.log(updatedTenant, 'Tenant updated successfully');
   } catch (err) {
     console.log('Error updating Tenant:', err);
@@ -1273,7 +1134,7 @@ const updateTenant = async () => {
 
 const deleteTenant = async () => {
   try {
-    await api.deleteTenant('3b681727-f9a0-4904-ad9a-223b8101d2f4');
+    await api.Tenant.delete('3b681727-f9a0-4904-ad9a-223b8101d2f4');
     console.log('Tenant deleted successfully');
   } catch (err) {
     console.log('Error deleting Tenant:', err);
@@ -1284,7 +1145,7 @@ const deleteTenant = async () => {
 
 const enumerateTenants = async () => {
   try {
-    const tenants = await api.enumerateTenants();
+    const tenants = await api.Tenant.enumerate();
     console.log(tenants, 'Tenants fetched successfully');
   } catch (err) {
     console.log('Error fetching Tenants:', err);
@@ -1294,7 +1155,7 @@ const enumerateTenants = async () => {
 // enumerateTenants();
 const createTenant = async () => {
   try {
-    const createdTenant = await api.writeTenant({
+    const createdTenant = await api.Tenant.create({
       Name: 'My tenant demo',
       Region: 'us-west-1',
       S3BaseDomain: 'localhost',
@@ -1311,7 +1172,7 @@ const createTenant = async () => {
 
 const retrieveTenantById = async () => {
   try {
-    const tenant = await api.retrieveTenant('00000000-0000-0000-0000-000000000000');
+    const tenant = await api.Tenant.read('00000000-0000-0000-0000-000000000000');
     console.log(tenant);
   } catch (err) {
     console.log('err: ', err);

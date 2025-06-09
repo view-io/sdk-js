@@ -1,7 +1,7 @@
 import ViewSdkBase from '../ViewSDKBase';
 import { SdkConfiguration } from '../SdkConfiguration';
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { Collection, CollectionStatistics } from '../../types';
+import { Collection, CollectionCreateRequest, CollectionStatistics } from '../../types';
 
 export class CollectionsSdk extends ViewSdkBase {
   /**
@@ -20,7 +20,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @returns {Promise<Array<Collection>>} A promise resolving to an array of collections or null if not found.
    * @throws {MethodError} If an error occurs during retrieval.
    */
-  readAll = async (cancelToken: AbortController): Promise<Collection[]> => {
+  readAll = async (cancelToken?: AbortController): Promise<Collection[]> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -33,7 +33,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @returns {Promise<Collection>} A promise that resolves to the retrieved collection, or null if not found.
    * @throws {MethodError} If the collectionGuid is null or empty, or if an error occurs during retrieval.
    */
-  read = async (collectionGuid: string, cancelToken: AbortController): Promise<Collection> => {
+  read = async (collectionGuid: string, cancelToken?: AbortController): Promise<Collection> => {
     if (!collectionGuid || collectionGuid.trim() === '') {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -50,7 +50,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @returns {Promise<CollectionStatistics>} A promise resolving to collection statistics.
    * @throws {MethodError} If the collectionGuid is null or empty, or if an error occurs during retrieval.
    */
-  readStatistics = async (collectionGuid: string, cancelToken: AbortController): Promise<CollectionStatistics> => {
+  readStatistics = async (collectionGuid: string, cancelToken?: AbortController): Promise<CollectionStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -62,12 +62,12 @@ export class CollectionsSdk extends ViewSdkBase {
   /**
    * Create a new collection.
    *
-   * @param {Collection} collection - Information about the collection.
+   * @param {CollectionCreateRequest} collection - Information about the collection.
    * @param {AbortController} [cancelToken] - Optional object with an abort method to cancel the request.
    * @returns {Promise<Collection>} A promise resolving to the created collection.
    * @throws {MethodError} If the collection is null or empty.
    */
-  create = async (collection: Collection, cancelToken: AbortController): Promise<Collection> => {
+  create = async (collection: CollectionCreateRequest, cancelToken?: AbortController): Promise<Collection> => {
     if (!collection) {
       GenericExceptionHandlers.ArgumentNullException('collection');
     }
@@ -83,7 +83,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving when the collection is deleted.
    * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  delete = async (collectionGuid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (collectionGuid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -99,11 +99,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @returns {Promise<Object>} A promise resolving to collection statistics.
    * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  readTopTerms = async (
-    collectionGuid: string,
-    maxKeys: number = 10,
-    cancelToken: AbortController
-  ): Promise<Object> => {
+  readTopTerms = async (collectionGuid: string, maxKeys: number = 10, cancelToken?: AbortController): Promise<any> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -117,7 +113,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
    * @throws {MethodError} If the collectionGuid argument is null or undefined.
    */
-  exists = async (collectionGuid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (collectionGuid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }

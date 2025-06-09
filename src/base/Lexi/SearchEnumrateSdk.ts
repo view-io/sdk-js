@@ -27,7 +27,7 @@ export class SearchEnumrateSdk extends ViewSdkBase {
     collectionGuid: string,
     { search = false, incldata = false, async = false, enumerate = false }: EnumerateRequest['query'] = {},
     searchData: EnumerateRequest['searchData'],
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<EnumerationResult<SourceDocument>> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');

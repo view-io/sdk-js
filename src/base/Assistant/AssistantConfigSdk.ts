@@ -20,7 +20,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<Array<AssistantConfig>>} A promise resolving to an array of AssistantConfig objects.
    * @throws {MethodError}
    */
-  readAll = async (cancelToken: AbortController): Promise<Array<AssistantConfig>> => {
+  readAll = async (cancelToken?: AbortController): Promise<Array<AssistantConfig>> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
     return await this.retrieveResource(url, cancelToken);
   };
@@ -33,7 +33,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<AssistantConfig>} A promise resolving to an AssistantConfig object.
    * @throws {MethodError}
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<AssistantConfig> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<AssistantConfig> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -49,7 +49,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to `true` if the assistant configuration exists, otherwise `false`.
    * @throws {MethodError}
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -66,7 +66,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<AssistantConfig>} A promise resolving to the created AssistantConfig object.
    * @throws {MethodError}
    */
-  create = async (config: AssistantConfig, cancelToken: AbortController): Promise<AssistantConfig> => {
+  create = async (config: AssistantConfig, cancelToken?: AbortController): Promise<AssistantConfig> => {
     if (!config) {
       GenericExceptionHandlers.ArgumentNullException('config');
     }
@@ -83,7 +83,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<AssistantConfig>} A promise resolving to the updated AssistantConfig object.
    * @throws {MethodError}
    */
-  update = async (config: AssistantConfig, cancelToken: AbortController): Promise<AssistantConfig> => {
+  update = async (config: AssistantConfig, cancelToken?: AbortController): Promise<AssistantConfig> => {
     if (!config || !config.GUID) {
       GenericExceptionHandlers.ArgumentNullException('config or config.GUID');
     }
@@ -100,7 +100,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if deletion was successful, false otherwise
    * @throws {MethodError}
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }

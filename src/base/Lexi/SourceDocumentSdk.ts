@@ -28,7 +28,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument[]>} A promise resolving to a list of source documents or an error response.
    * @throws {MethodError} If the collectionGuid is null or empty.
    */
-  readAll = async (collectionGuid: string, cancelToken: AbortController): Promise<SourceDocument[]> => {
+  readAll = async (collectionGuid: string, cancelToken?: AbortController): Promise<SourceDocument[]> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -54,7 +54,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
   enumerate = async (
     collectionGuid: string,
     query: EnumerationQuery,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<EnumerationResult<SourceDocument>> => {
     if (!query) {
       GenericExceptionHandlers.ArgumentNullException('query');
@@ -87,7 +87,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
     collectionGuid: string,
     documentGuid: string,
     includeData = false,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SourceDocument> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
@@ -123,7 +123,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
   readStatistics = async (
     collectionGuid: string,
     documentGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SourceDocumentStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
@@ -159,7 +159,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
     collectionGuid: string,
     documentGuid: string,
     maxKeys = 10,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SourceDocumentStatistics> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
@@ -190,7 +190,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<SourceDocument>} A promise resolving to the uploaded document or an error response.
    * @throws {MethodError} If the document is null.
    */
-  upload = async (document: SourceDocumentRequest, cancelToken: AbortController): Promise<SourceDocument> => {
+  upload = async (document: SourceDocumentRequest, cancelToken?: AbortController): Promise<SourceDocument> => {
     if (!document) {
       GenericExceptionHandlers.ArgumentNullException('document');
     }
@@ -215,7 +215,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves when the document is deleted.
    * @throws {MethodError} If either `collectionGuid` or `documentGuid` is empty or null.
    */
-  delete = async (collectionGuid: string, documentGuid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (collectionGuid: string, documentGuid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
@@ -248,7 +248,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
     collectionGuid: string,
     key: string,
     version: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<boolean> => {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
@@ -281,7 +281,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise that resolves to `true` if the collection exists, `false` if it does not, or an error response if the check fails.
    * @throws {MethodError} If the collectionGuid argument is null or undefined or If the documentGuid argument is null or undefined.
    */
-  exists = async (collectionGuid: string, documentGuid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (collectionGuid: string, documentGuid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!collectionGuid) {
       throw new Error('Collection GUID cannot be null or undefined.');
     }

@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EnumerationResult, WebhookTarget } from '../../types';
+import { EnumerationResult, WebhookTarget, WebhookTargetCreateRequest } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -15,11 +15,11 @@ export default class WebhookTargetSdk extends ViewSdkBase {
 
   /**
    * Create a webhook target.
-   * @param {WebhookTarget} target - The webhook target to create.
+   * @param {WebhookTargetCreateRequest} target - The webhook target to create.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<WebhookTarget>} - Webhook target.
    */
-  create = async (target: WebhookTarget, cancelToken: AbortController): Promise<WebhookTarget> => {
+  create = async (target: WebhookTargetCreateRequest, cancelToken?: AbortController): Promise<WebhookTarget> => {
     if (!target) {
       GenericExceptionHandlers.ArgumentNullException('target');
     }
@@ -33,7 +33,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<boolean>} - True if exists.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -47,7 +47,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<WebhookTarget>} - Webhook target.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<WebhookTarget> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<WebhookTarget> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -60,7 +60,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<WebhookTarget[]>} - Webhook targets.
    */
-  readAll = async (cancelToken: AbortController): Promise<WebhookTarget> => {
+  readAll = async (cancelToken?: AbortController): Promise<WebhookTarget> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -71,7 +71,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<WebhookTarget>} - Webhook target.
    */
-  update = async (target: WebhookTarget, cancelToken: AbortController): Promise<WebhookTarget> => {
+  update = async (target: WebhookTarget, cancelToken?: AbortController): Promise<WebhookTarget> => {
     if (!target) {
       GenericExceptionHandlers.ArgumentNullException('target');
     }
@@ -85,7 +85,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<void>}
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -99,7 +99,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<WebhookTarget>>} A promise resolving to the created EnumerationResult object.
    * @throws {MethodError} If the webhook targets are null.
    */
-  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<WebhookTarget>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<WebhookTarget>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/webhooktargets/`;
     return await this.retrieveResource(url, cancelToken);
   };

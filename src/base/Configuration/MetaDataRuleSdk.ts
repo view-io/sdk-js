@@ -1,5 +1,5 @@
 import GenericExceptionHandlers from '../../exception/GenericExceptionHandlers';
-import { EnumerationResult, MetadataRule } from '../../types';
+import { EnumerationResult, MetadataRule, MetadataRuleCreateRequest } from '../../types';
 import { SdkConfiguration } from '../SdkConfiguration';
 import ViewSdkBase from '../ViewSDKBase';
 
@@ -17,12 +17,12 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
   /**
    * Create a new metadata rule.
    *
-   * @param {MetadataRule} metadataRule Information about the metadata rule.
+   * @param {MetadataRuleCreateRequest} metadataRule Information about the metadata rule.
    * @param {AbortController} [cancelToken] - Optional object with an `abort` method to cancel the request.
    * @returns {Promise<MetadataRule>} A promise resolving to the created MetadataRule object or null.
    * @throws {MethodError} If the rule is null.
    */
-  create = async (metadataRule: MetadataRule, cancelToken: AbortController): Promise<MetadataRule> => {
+  create = async (metadataRule: MetadataRuleCreateRequest, cancelToken?: AbortController): Promise<MetadataRule> => {
     if (!metadataRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
@@ -38,7 +38,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the metadata rule exists, otherwise false.
    * @throws {MethodError} If the guid is null or empty.
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -54,7 +54,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @returns {Promise<MetadataRule>} A promise resolving to the MetadataRule object or null.
    * @throws {MethodError} If the guid is null or empty.
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<MetadataRule> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<MetadataRule> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -69,7 +69,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @returns {Promise<Array<MetadataRule>>} A promise resolving to an array of MetadataRule objects.
    * @throws {MethodError} If the metadata rules are null.
    */
-  readAll = async (cancelToken: AbortController): Promise<Array<MetadataRule>> => {
+  readAll = async (cancelToken?: AbortController): Promise<Array<MetadataRule>> => {
     const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules';
     return await this.retrieveResource(url, cancelToken);
   };
@@ -82,7 +82,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @returns {Promise<MetadataRule>} A promise resolving to the updated MetadataRule object or null.
    * @throws {MethodError} If the rule is null.
    */
-  update = async (metadataRule: MetadataRule, cancelToken: AbortController): Promise<MetadataRule> => {
+  update = async (metadataRule: MetadataRule, cancelToken?: AbortController): Promise<MetadataRule> => {
     if (!metadataRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
@@ -99,7 +99,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to true if the deletion is successful.
    * @throws {MethodError} If the guid is null or empty.
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -113,7 +113,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @returns {Promise<EnumerationResult<MetadataRule>>} A promise resolving to the created MetadataRule object or null if creation fails.
    * @throws {MethodError} If the metadata rules are null.
    */
-  enumerate = async (cancelToken: AbortController): Promise<EnumerationResult<MetadataRule>> => {
+  enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<MetadataRule>> => {
     const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/metadatarules/`;
     return await this.retrieveResource(url, cancelToken);
   };

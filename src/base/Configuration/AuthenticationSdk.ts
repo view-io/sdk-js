@@ -22,7 +22,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    * @returns {Promise<TenantMetadata[]>} A promise resolving to an array of TenantMetadata objects or an error response if not found.
    * @throws {MethodError} If the email is null or empty.
    */
-  retrieveTenantsForEmail = async (email: string, cancelToken: AbortController): Promise<TenantMetadata[]> => {
+  retrieveTenantsForEmail = async (email: string, cancelToken?: AbortController): Promise<TenantMetadata[]> => {
     if (!email) {
       GenericExceptionHandlers.ArgumentNullException('email');
     }
@@ -42,7 +42,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    */
   generateAuthenticationTokenByPassword = async (
     { email, password, tenantGUID }: HeaderRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ) => {
     if (!email) {
       GenericExceptionHandlers.ArgumentNullException('email');
@@ -73,7 +73,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    */
   generateAuthenticationTokenBySHA256 = async (
     { email, passwordSHA256, tenantGUID }: HeaderRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ) => {
     if (!email) {
       GenericExceptionHandlers.ArgumentNullException('email');
@@ -103,7 +103,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    */
   generateAdministratorToken = async (
     { email, password }: HeaderRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<Token> => {
     if (!email) {
       GenericExceptionHandlers.ArgumentNullException('email');
@@ -126,7 +126,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    */
   generateAdministratorTokenBySHA256 = async (
     { email, passwordSHA256 }: HeaderRequest,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<Token> => {
     if (!email) {
       GenericExceptionHandlers.ArgumentNullException('email');
@@ -146,7 +146,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    * @returns {Promise<Token>} A promise resolving to an object containing token details or an error response if not found.
    * @throws {MethodError} If the token is null or empty.
    */
-  validateAuthenticationToken = async ({ token }: HeaderRequest, cancelToken: AbortController): Promise<Token> => {
+  validateAuthenticationToken = async ({ token }: HeaderRequest, cancelToken?: AbortController): Promise<Token> => {
     if (!token) {
       GenericExceptionHandlers.ArgumentNullException('token');
     }
@@ -162,7 +162,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
    * @returns {Promise<Token>} A promise resolving to an object containing token details or an error response if not found.
    * @throws {MethodError} If the token is null or empty.
    */
-  retrieveTokenDetails = async ({ token }: HeaderRequest, cancelToken: AbortController): Promise<Token> => {
+  retrieveTokenDetails = async ({ token }: HeaderRequest, cancelToken?: AbortController): Promise<Token> => {
     if (!token) {
       GenericExceptionHandlers.ArgumentNullException('token');
     }

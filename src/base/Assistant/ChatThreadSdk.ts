@@ -21,7 +21,7 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @returns {Promise<ChatThread>} A promise resolving to the created ChatThread object, or an error response
    * @throws {MethodError}
    */
-  create = async (config: CreateChatThreadRequest, cancelToken: AbortController): Promise<ChatThread> => {
+  create = async (config: CreateChatThreadRequest, cancelToken?: AbortController): Promise<ChatThread> => {
     if (!config) {
       GenericExceptionHandlers.ArgumentNullException('config');
     }
@@ -38,7 +38,7 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @returns {Promise<ChatThread>} A promise resolving to the retrieved ChatThread object, or an error response
    * @throws {MethodError}
    */
-  read = async (guid: string, cancelToken: AbortController): Promise<ChatThread> => {
+  read = async (guid: string, cancelToken?: AbortController): Promise<ChatThread> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -56,7 +56,11 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @returns {Promise<ChatThread>} A promise resolving to the updated ChatThread object, or an error response
    * @throws {MethodError}
    */
-  append = async (guid: string, config: AppendChatThreadRequest, cancelToken: AbortController): Promise<ChatThread> => {
+  append = async (
+    guid: string,
+    config: AppendChatThreadRequest,
+    cancelToken?: AbortController
+  ): Promise<ChatThread> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -76,7 +80,7 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to an error response
    * @throws {MethodError}
    */
-  delete = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  delete = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
@@ -92,7 +96,7 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @returns {Promise<Array<ChatThreadList>>} A promise resolving to an array of ChatThread objects
    * @throws {MethodError}
    */
-  readAll = async (cancelToken: AbortController): Promise<ChatThreadList> => {
+  readAll = async (cancelToken?: AbortController): Promise<ChatThreadList> => {
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads`;
     return await this.retrieveResource(url, cancelToken);
   };
@@ -105,7 +109,7 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @returns {Promise<boolean>} A promise resolving to `true` if the chat thread exists, otherwise `false`
    * @throws {MethodError}
    */
-  exists = async (guid: string, cancelToken: AbortController): Promise<boolean> => {
+  exists = async (guid: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }

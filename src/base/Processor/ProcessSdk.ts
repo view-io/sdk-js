@@ -40,7 +40,7 @@ export default class ProcessSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional cancel token to abort the request.
    * @returns {Promise<TypeResult>} The result of the document type detection.
    */
-  typeDetection = async (data: object, cancelToken: AbortController): Promise<TypeResult> => {
+  typeDetection = async (data: object, cancelToken?: AbortController): Promise<TypeResult> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/typedetection`;
@@ -53,7 +53,7 @@ export default class ProcessSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional cancel token to abort the request.
    * @returns {Promise<SemanticCellResponse>} The result of the semantic cell extraction.
    */
-  extractSemanticCells = async (data: object, cancelToken: AbortController): Promise<SemanticCellResponse> => {
+  extractSemanticCells = async (data: object, cancelToken?: AbortController): Promise<SemanticCellResponse> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/semanticcell`;
@@ -66,7 +66,7 @@ export default class ProcessSdk extends ViewSdkBase {
    * @param {object} [cancelToken] - Optional cancel token to abort the request.
    * @returns {Promise<UdrDocument>} The result of the UDR generation.
    */
-  generateUdr = async (data: object, cancelToken: AbortController): Promise<UdrDocument> => {
+  generateUdr = async (data: object, cancelToken?: AbortController): Promise<UdrDocument> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/udr`;
@@ -79,7 +79,7 @@ export default class ProcessSdk extends ViewSdkBase {
    * @param {AbortController} [cancelToken] - Optional cancel token to abort the request.
    * @returns {Promise<LexiEmbeddingsResponse>} The result of the Lexi embeddings generation.
    */
-  generateLexiEmbeddings = async (data: object, cancelToken: AbortController): Promise<LexiEmbeddingsResponse> => {
+  generateLexiEmbeddings = async (data: object, cancelToken?: AbortController): Promise<LexiEmbeddingsResponse> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
     const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/lexiprocessing`;

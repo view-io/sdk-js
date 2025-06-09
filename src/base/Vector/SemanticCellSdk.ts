@@ -24,7 +24,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
   readAll = async (
     vectorRepositoryGuid: string,
     documentGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SemanticCell[]> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
@@ -56,7 +56,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<SemanticCell> => {
     if (!documentGuid) {
       GenericExceptionHandlers.ArgumentNullException('documentGuid');
@@ -93,7 +93,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
     vectorRepositoryGuid: string,
     documentGuid: string,
     semanticCellGuid: string,
-    cancelToken: AbortController
+    cancelToken?: AbortController
   ): Promise<boolean> => {
     if (!semanticCellGuid) {
       GenericExceptionHandlers.ArgumentNullException('semanticCellGuid');

@@ -49,7 +49,7 @@ export default class ViewSdkBase {
    * @returns {Promise<T>} The created object as the response or null if the request fails.
    * @throws {MethodError} If the URL or object is null or empty.
    */
-  protected createResource = <T>(url: string, obj: object, cancelToken: AbortController): Promise<T> => {
+  protected createResource = <T>(url: string, obj: object, cancelToken?: AbortController): Promise<T> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -117,7 +117,7 @@ export default class ViewSdkBase {
    * @returns {Promise<boolean>} The parsed JSON data from the response or null if the request fails.
    * @throws {MethodError} If the URL is null or empty.
    */
-  protected existsResource = (url: string, cancelToken: AbortController): Promise<boolean> => {
+  protected existsResource = (url: string, cancelToken?: AbortController): Promise<boolean> => {
     if (!url) {
       GenericExceptionHandlers.ArgumentNullException('url');
     }
@@ -415,7 +415,7 @@ export default class ViewSdkBase {
   protected postCreateResource = <T>(
     url: string,
     obj: any,
-    cancelToken: AbortController,
+    cancelToken?: AbortController,
     headers?: any
   ): Promise<T> => {
     if (!url) {
