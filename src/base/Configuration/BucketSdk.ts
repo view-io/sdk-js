@@ -26,7 +26,7 @@ export default class BucketSdk extends ViewSdkBase {
     if (!bucket) {
       GenericExceptionHandlers.ArgumentNullException('bucket');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets';
     return await this.createResource(url, bucket, cancelToken);
   };
 

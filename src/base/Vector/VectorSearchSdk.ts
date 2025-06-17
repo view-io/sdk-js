@@ -33,7 +33,7 @@ export default class VectorSearchSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGUID +
@@ -63,7 +63,7 @@ export default class VectorSearchSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vector_repository_guid +

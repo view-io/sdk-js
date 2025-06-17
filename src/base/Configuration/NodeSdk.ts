@@ -28,7 +28,7 @@ export default class NodeSdk extends ViewSdkBase {
       //   throw new Error("Invalid object: Expected an instance of Node.");
       // }
     }
-    const url = this.config.endpoint + '/v1.0/nodes/' + guid;
+    const url = this.config.endpoint + 'v1.0/nodes/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -39,7 +39,7 @@ export default class NodeSdk extends ViewSdkBase {
    * @throws {MethodError} If the guid is null or empty.
    */
   readAll = async (cancelToken?: AbortController): Promise<NodeModal> => {
-    const url = this.config.endpoint + '/v1.0/nodes';
+    const url = this.config.endpoint + 'v1.0/nodes';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -59,7 +59,7 @@ export default class NodeSdk extends ViewSdkBase {
       //   throw new Error("Invalid object: Expected an instance of Node.");
       // }
     }
-    const url = this.config.endpoint + '/v1.0/nodes';
+    const url = this.config.endpoint + 'v1.0/nodes';
     return await this.createResource(url, node, cancelToken);
   };
 
@@ -75,7 +75,7 @@ export default class NodeSdk extends ViewSdkBase {
     if (!node) {
       GenericExceptionHandlers.ArgumentNullException('node');
     }
-    const url = this.config.endpoint + '/v1.0/nodes/' + node.GUID;
+    const url = this.config.endpoint + 'v1.0/nodes/' + node.GUID;
     return await this.updateResource(url, node, cancelToken);
   };
 
@@ -91,7 +91,7 @@ export default class NodeSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/nodes/' + guid;
+    const url = this.config.endpoint + 'v1.0/nodes/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -107,7 +107,7 @@ export default class NodeSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/nodes/' + guid;
+    const url = this.config.endpoint + 'v1.0/nodes/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -119,7 +119,7 @@ export default class NodeSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   enumerate = async (maxKeys = 5, cancelToken?: AbortController): Promise<EnumerationResult<NodeModal>> => {
-    const url = `${this.config.endpoint}/v2.0/nodes/?max-keys=${maxKeys}`;
+    const url = `${this.config.endpoint}v2.0/nodes/?max-keys=${maxKeys}`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

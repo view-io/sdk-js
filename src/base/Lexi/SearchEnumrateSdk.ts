@@ -32,7 +32,7 @@ export class SearchEnumrateSdk extends ViewSdkBase {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
-    let url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/documents`;
+    let url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/documents`;
     const queryParams = [];
 
     if (search) {

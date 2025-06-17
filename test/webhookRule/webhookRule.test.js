@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockWebhookRuleGuid, webhookRulesData, webhookRulesMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import WebhookRule from '../../src/models/WebhookRule';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('WebhookRule', () => {
     it('retrieves a WebhookRule', async () => {
-      const data = await api.retrieveWebhookRule(mockWebhookRuleGuid);
-      expect(data instanceof WebhookRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookRule(webhookRulesData[mockWebhookRuleGuid])));
+      const data = await api.WebhookRule.read(mockWebhookRuleGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(webhookRulesData[mockWebhookRuleGuid]);
     });
 
     it('throws error when if missed guid while retrieving a WebhookRule', async () => {
       try {
-        await api.retrieveWebhookRule();
+        await api.WebhookRule.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,19 +33,19 @@ describe('View.IO SDK', () => {
     it('retrieves a WebhookRule with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveWebhookRule(mockWebhookRuleGuid, cancelToken);
+      await api.WebhookRule.read(mockWebhookRuleGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all WebhookRule', async () => {
-      const data = await api.retrieveWebhookRules();
+      const data = await api.WebhookRule.readAll();
       data.map((rule) => {
-        expect(JSON.stringify(rule)).toBe(JSON.stringify(new WebhookRule(webhookRulesData[rule.GUID])));
+        expect(rule).toEqual(webhookRulesData[rule.GUID]);
       });
     });
 
     it('creates a WebhookRule', async () => {
-      const data = await api.createWebhookRule({
+      const newWebhookRule = {
         TenantGUID: 'default',
         TargetGUID: 'default',
         Name: 'File Upload Rule',
@@ -55,14 +54,15 @@ describe('View.IO SDK', () => {
         RetryIntervalMs: 30 * 1000,
         TimeoutMs: 60 * 1000,
         CreatedUtc: '2024-09-24T12:00:00Z',
-      });
-      expect(data instanceof WebhookRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookRule(webhookRulesData[mockWebhookRuleGuid])));
+      };
+      const data = await api.WebhookRule.create(newWebhookRule);
+      expect(data).toBeDefined();
+      expect(data).toEqual(webhookRulesData[mockWebhookRuleGuid]);
     });
 
     it('throws error when creating a WebhookRule with rule parameter', async () => {
       try {
-        await api.createWebhookRule();
+        await api.WebhookRule.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: rule is null or empty');
@@ -70,7 +70,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a WebhookRule', async () => {
-      const data = await api.updateWebhookRule({
+      const data = await api.WebhookRule.update({
         GUID: mockWebhookRuleGuid,
         TenantGUID: 'default',
         TargetGUID: 'default',
@@ -82,13 +82,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-24T12:00:00Z',
       });
 
-      expect(data instanceof WebhookRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookRule(webhookRulesData[mockWebhookRuleGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(webhookRulesData[mockWebhookRuleGuid]);
     });
 
     it('throws error when if missed guid while updating a WebhookRule', async () => {
       try {
-        await api.updateWebhookRule();
+        await api.WebhookRule.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: rule is null or empty');
@@ -96,13 +96,13 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a WebhookRule', async () => {
-      const data = await api.deleteWebhookRule(mockWebhookRuleGuid);
+      const data = await api.WebhookRule.delete(mockWebhookRuleGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a WebhookRule', async () => {
       try {
-        await api.deleteWebhookRule();
+        await api.WebhookRule.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -110,21 +110,22 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a WebhookRule exist', async () => {
-      const data = await api.existsWebhookRule(mockWebhookRuleGuid);
-      expect(data).toBe('true');
+      const data = await api.WebhookRule.exists(mockWebhookRuleGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a WebhookRule does not exist', async () => {
       try {
-        await api.existsWebhookRule('wrongID');
+        await api.WebhookRule.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed guid while checking a WebhookRule existance', async () => {
       try {
-        await api.existsWebhookRule();
+        await api.WebhookRule.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

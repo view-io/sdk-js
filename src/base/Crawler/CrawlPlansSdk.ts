@@ -18,7 +18,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @throws {MethodError} If the request fails.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<CrawlPlan>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlplans/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/crawlplans/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -28,7 +28,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
    * @throws {MethodError} If the request fails.
    */
   readAll = async (cancelToken?: AbortController): Promise<CrawlPlan[]> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlplans/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -42,7 +42,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -56,7 +56,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
     if (!crawlPlansData) {
       GenericExceptionHandlers.ArgumentNullException('crawlPlansData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlplans`;
     return await this.createResource(url, crawlPlansData, cancelToken);
   };
   /**
@@ -70,7 +70,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
     if (!crawlPlanData) {
       GenericExceptionHandlers.ArgumentNullException('crawlPlanData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${crawlPlanData.GUID}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlplans/${crawlPlanData.GUID}`;
 
     return await this.updateResource(url, crawlPlanData, cancelToken);
   };
@@ -86,7 +86,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
     return await this.deleteResource(url, cancelToken);
   };
   /**
@@ -101,7 +101,7 @@ export class CrawlPlansSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlplans/${guid}`;
     return await this.existsResource(url, cancelToken);
   };
 }

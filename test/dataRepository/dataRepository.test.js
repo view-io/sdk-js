@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockDataRepositoryGuid, dataRepositorysData, dataRepositorysMockApiResponse } from './mockData';
 import { apiCrowalerSDK as api } from '../setupTest';
-import DataRepository from '../../src/models/DataRepository';
 
 const server = getServer(handlers);
 
@@ -17,16 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('DataRepository', () => {
     it('retrieves a DataRepository', async () => {
-      const data = await api.retrieveDataRepository(mockDataRepositoryGuid);
-      expect(data instanceof DataRepository).toBe(true);
-      expect(JSON.stringify(data)).toBe(
-        JSON.stringify(new DataRepository(dataRepositorysData[mockDataRepositoryGuid]))
-      );
+      const data = await api.DataRepository.read(mockDataRepositoryGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(dataRepositorysData[mockDataRepositoryGuid]);
     });
 
     it('throws error when if missed repositoryGuid while retrieving a DataRepository', async () => {
       try {
-        await api.retrieveDataRepository();
+        await api.DataRepository.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: repositoryGuid is null or empty');
@@ -36,21 +33,19 @@ describe('View.IO SDK', () => {
     it('retrieves a DataRepository with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveDataRepository(mockDataRepositoryGuid, cancelToken);
+      await api.DataRepository.read(mockDataRepositoryGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all DataRepository', async () => {
-      const data = await api.retrieveDataRepositories();
+      const data = await api.DataRepository.readAll();
       data.map((repository) => {
-        expect(JSON.stringify(repository)).toBe(
-          JSON.stringify(new DataRepository(dataRepositorysData[repository.GUID]))
-        );
+        expect(repository).toEqual(dataRepositorysData[repository.GUID]);
       });
     });
 
     it('creates a DataRepository', async () => {
-      const data = await api.createDataRepository({
+      const newDataRepository = {
         TenantGUID: 'default',
         OwnerGUID: 'default',
         FirstName: 'Updated',
@@ -60,16 +55,15 @@ describe('View.IO SDK', () => {
         Email: 'default@dataRepository.com',
         Active: true,
         CreatedUtc: '2024-09-13T13:40:18.810482Z',
-      });
-      expect(true).toBe(data instanceof DataRepository);
-      expect(JSON.stringify(data)).toBe(
-        JSON.stringify(new DataRepository(dataRepositorysData[mockDataRepositoryGuid]))
-      );
+      };
+      const data = await api.DataRepository.create(newDataRepository);
+      expect(data).toBeDefined();
+      expect(data).toEqual(dataRepositorysData[mockDataRepositoryGuid]);
     });
 
     it('throws error when creating a DataRepository with repository parameter', async () => {
       try {
-        await api.createDataRepository();
+        await api.DataRepository.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: repository is null or empty');
@@ -103,13 +97,13 @@ describe('View.IO SDK', () => {
     // });
 
     it('delete a DataRepository', async () => {
-      const data = await api.deleteDataRepository(mockDataRepositoryGuid);
+      const data = await api.DataRepository.delete(mockDataRepositoryGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed repositoryGuid while deleting a DataRepository', async () => {
       try {
-        await api.deleteDataRepository();
+        await api.DataRepository.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: repositoryGuid is null or empty');
@@ -117,21 +111,22 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a DataRepository exist', async () => {
-      const data = await api.existsDataRepository(mockDataRepositoryGuid);
-      expect(data).toBe('true');
+      const data = await api.DataRepository.exists(mockDataRepositoryGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a DataRepository does not exist', async () => {
       try {
-        const data = await api.existsDataRepository('wrongID');
+        await api.DataRepository.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed repositoryGuid while checking a DataRepository existance', async () => {
       try {
-        await api.existsDataRepository();
+        await api.DataRepository.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

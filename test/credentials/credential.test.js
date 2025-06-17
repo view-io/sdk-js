@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockCredentialGuid, credentialsData, credentialsMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import Credential from '../../src/models/Credential';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('Credential', () => {
     it('retrieves a Credential', async () => {
-      const data = await api.retrieveCredential(mockCredentialGuid);
-      expect(data instanceof Credential).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new Credential(credentialsData[mockCredentialGuid])));
+      const data = await api.Credential.read(mockCredentialGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(credentialsData[mockCredentialGuid]);
     });
 
     it('throws error when if missed guid while retrieving a Credential', async () => {
       try {
-        await api.retrieveCredential();
+        await api.Credential.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,33 +33,34 @@ describe('View.IO SDK', () => {
     it('retrieves a Credential with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveCredential(mockCredentialGuid, cancelToken);
+      await api.Credential.read(mockCredentialGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all Credential', async () => {
-      const data = await api.retrieveCredentials();
+      const data = await api.Credential.readAll();
       data.map((credential) => {
-        expect(JSON.stringify(credential)).toBe(JSON.stringify(new Credential(credentialsData[credential.GUID])));
+        expect(credential).toEqual(credentialsData[credential.GUID]);
       });
     });
 
     it('creates a Credential', async () => {
-      const data = await api.createCredential({
+      const newCredential = {
         TenantGUID: 'default',
         UserGUID: 'default',
         AccessKey: 'default',
         SecretKey: 'default',
         Active: true,
         CreatedUtc: '2024-09-13T13:40:18.830634Z',
-      });
-      expect(true).toBe(data instanceof Credential);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new Credential(credentialsData[mockCredentialGuid])));
+      };
+      const data = await api.Credential.create(newCredential);
+      expect(data).toBeDefined();
+      expect(data).toEqual(credentialsData[mockCredentialGuid]);
     });
 
     it('throws error when creating a Credential with credential parameter', async () => {
       try {
-        await api.createCredential();
+        await api.Credential.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: cred is null or empty');
@@ -68,7 +68,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a Credential', async () => {
-      const data = await api.updateCredential({
+      const data = await api.Credential.update({
         GUID: mockCredentialGuid,
         TenantGUID: 'default',
         UserGUID: 'default',
@@ -78,13 +78,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-13T13:40:18.830634Z',
       });
 
-      expect(true).toBe(data instanceof Credential);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new Credential(credentialsData[mockCredentialGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(credentialsData[mockCredentialGuid]);
     });
 
     it('throws error when if missed guid while updating a Credential', async () => {
       try {
-        await api.updateCredential();
+        await api.Credential.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: cred is null or empty');
@@ -92,13 +92,13 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a Credential', async () => {
-      const data = await api.deleteCredential(mockCredentialGuid);
+      const data = await api.Credential.delete(mockCredentialGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a Credential', async () => {
       try {
-        await api.deleteCredential();
+        await api.Credential.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -106,21 +106,22 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a Credential exist', async () => {
-      const data = await api.existsCredential(mockCredentialGuid);
-      expect(data).toBe('true');
+      const data = await api.Credential.exists(mockCredentialGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a Credential does not exist', async () => {
       try {
-        await api.existsCredential('wrongID');
+        await api.Credential.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed guid while checking a Credential existance', async () => {
       try {
-        await api.existsCredential();
+        await api.Credential.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

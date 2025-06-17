@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockWebhookEventGuid, webhookEventsData, webhookEventsMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import WebhookEvent from '../../src/models/WebhookEvent';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('WebhookEvent', () => {
     it('retrieves a WebhookEvent', async () => {
-      const data = await api.retrieveWebhookEvent(mockWebhookEventGuid);
-      expect(data instanceof WebhookEvent).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new WebhookEvent(webhookEventsData[mockWebhookEventGuid])));
+      const data = await api.WebhookEvent.read(mockWebhookEventGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(webhookEventsData[mockWebhookEventGuid]);
     });
 
     it('throws error when if missed guid while retrieving a WebhookEvent', async () => {
       try {
-        await api.retrieveWebhookEvent();
+        await api.WebhookEvent.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,35 +33,34 @@ describe('View.IO SDK', () => {
     it('retrieves a WebhookEvent with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveWebhookEvent(mockWebhookEventGuid, cancelToken);
+      await api.WebhookEvent.read(mockWebhookEventGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all WebhookEvent', async () => {
-      const data = await api.retrieveWebhookEvents();
+      const data = await api.WebhookEvent.readAll();
       data.map((webhookEvent) => {
-        expect(JSON.stringify(webhookEvent)).toBe(
-          JSON.stringify(new WebhookEvent(webhookEventsData[webhookEvent.GUID]))
-        );
+        expect(webhookEvent).toEqual(webhookEventsData[webhookEvent.GUID]);
       });
     });
 
     it('Check if a WebhookEvent exist', async () => {
-      const data = await api.existsWebhookEvent(mockWebhookEventGuid);
-      expect(data).toBe('true');
+      const data = await api.WebhookEvent.exists(mockWebhookEventGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a WebhookEvent does not exist', async () => {
       try {
-        await api.existsWebhookEvent('wrongID');
+        await api.WebhookEvent.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed guid while checking a WebhookEvent existance', async () => {
       try {
-        await api.existsWebhookEvent();
+        await api.WebhookEvent.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

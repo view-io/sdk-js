@@ -21,7 +21,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
    * @throws {MethodError}
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<AssistantConfig>> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -38,7 +38,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -54,7 +54,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -71,7 +71,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('config');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/configs`;
     return await this.postCreateResource(url, config, cancelToken);
   };
 
@@ -88,7 +88,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('config or config.GUID');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${config.GUID}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${config.GUID}`;
     return await this.createResource(url, config, cancelToken);
   };
 
@@ -105,7 +105,7 @@ export class AssistantConfigSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/configs/${guid}`;
     return await this.deleteResource(url, undefined, cancelToken);
   };
 }

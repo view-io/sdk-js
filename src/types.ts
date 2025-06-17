@@ -559,37 +559,37 @@ export interface DataNode {
 }
 
 export interface DataRepository {
-  GUID: string;
-  TenantGUID: string;
-  OwnerGUID: string;
-  Name: string;
-  RepositoryType: string;
-  UseSsl: boolean;
-  IncludeSubdirectories: boolean;
-  DiskIncludeSubdirectories: boolean;
-  DiskDirectory: string;
-  S3EndpointUrl: string;
-  S3BaseUrl: string;
-  S3AccessKey: string;
-  S3SecretKey: string;
-  S3BucketName: string;
-  S3Region: string;
-  AzureEndpointUrl: string;
-  AzureAccountName: string;
-  AzureContainerName: string;
-  AzureAccessKey: string;
-  CifsHostname: string;
-  CifsUsername: string;
-  CifsPassword: string;
-  CifsShareName: string;
-  NfsHostname: string;
-  NfsUserId: number;
-  NfsGroupId: number;
-  NfsShareName: string;
-  NfsVersion: string;
-  CreatedUtc: Date;
-  CifsIncludeSubdirectories: boolean;
-  NfsIncludeSubdirectories: boolean;
+  GUID?: string;
+  TenantGUID?: string;
+  OwnerGUID?: string;
+  Name?: string;
+  RepositoryType?: string;
+  UseSsl?: boolean;
+  IncludeSubdirectories?: boolean;
+  DiskIncludeSubdirectories?: boolean;
+  DiskDirectory?: string;
+  S3EndpointUrl?: string;
+  S3BaseUrl?: string;
+  S3AccessKey?: string;
+  S3SecretKey?: string;
+  S3BucketName?: string;
+  S3Region?: string;
+  AzureEndpointUrl?: string;
+  AzureAccountName?: string;
+  AzureContainerName?: string;
+  AzureAccessKey?: string;
+  CifsHostname?: string;
+  CifsUsername?: string;
+  CifsPassword?: string;
+  CifsShareName?: string;
+  NfsHostname?: string;
+  NfsUserId?: number;
+  NfsGroupId?: number;
+  NfsShareName?: string;
+  NfsVersion?: string;
+  CreatedUtc?: Date;
+  CifsIncludeSubdirectories?: boolean;
+  NfsIncludeSubdirectories?: boolean;
 }
 
 export interface DirectorEmbeddingResponse {
@@ -1886,11 +1886,11 @@ export interface VectorRepositoryRequest {
 }
 
 export interface HeaderRequest {
-  email: string;
-  password: string;
-  tenantGUID: string;
-  passwordSHA256: string;
-  token: string;
+  email?: string;
+  password?: string;
+  tenantGUID?: string;
+  passwordSHA256?: string;
+  token?: string;
 }
 
 export interface Token {

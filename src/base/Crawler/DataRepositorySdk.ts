@@ -21,7 +21,7 @@ export class DataRepositorySdk extends ViewSdkBase {
    * @throws {MethodError} If the request fails.
    */
   readAll = async (cancelToken?: AbortController): Promise<DataRepository[]> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -37,8 +37,7 @@ export class DataRepositorySdk extends ViewSdkBase {
     if (!repositoryGuid) {
       GenericExceptionHandlers.ArgumentNullException('repositoryGuid');
     }
-    const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/' + repositoryGuid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/' + repositoryGuid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -54,7 +53,7 @@ export class DataRepositorySdk extends ViewSdkBase {
     if (!dataRepository) {
       GenericExceptionHandlers.ArgumentNullException('repository');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/datarepositories';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/datarepositories';
     return await this.createResource(url, dataRepository, cancelToken);
   };
 
@@ -70,8 +69,7 @@ export class DataRepositorySdk extends ViewSdkBase {
     if (!repositoryGuid) {
       GenericExceptionHandlers.ArgumentNullException('repositoryGuid');
     }
-    const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/' + repositoryGuid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/' + repositoryGuid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -82,7 +80,7 @@ export class DataRepositorySdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<DataRepository>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/datarepositories/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/datarepositories/`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -98,7 +96,7 @@ export class DataRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/datarepositories/' + guid;
     // Use the `exists` method to check for the data repository
     return await this.existsResource(url, cancelToken);
   };
@@ -115,7 +113,7 @@ export class DataRepositorySdk extends ViewSdkBase {
     if (!dataRepository || !dataRepository.GUID) {
       GenericExceptionHandlers.ArgumentNullException('dataRepository');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/datarepositories/${dataRepository.GUID}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/datarepositories/${dataRepository.GUID}`;
     return await this.updateResource(url, dataRepository, cancelToken);
   };
 }

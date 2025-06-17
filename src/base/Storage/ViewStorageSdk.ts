@@ -11,11 +11,11 @@ import PoolSdk from './PoolSdk';
  * @version 0.1.0
  */
 export default class ViewStorageSdk {
-  public bucketSdk: BucketSdk;
-  public objectSdk: ObjectSdk;
-  public multipartUploadSdk: MultipartUploadSdk;
-  public serviceSdk: ServiceSdk;
-  public storagePoolSdk: PoolSdk;
+  public bucket: BucketSdk;
+  public object: ObjectSdk;
+  public multipartUpload: MultipartUploadSdk;
+  public service: ServiceSdk;
+  public storagePool: PoolSdk;
   public config: SdkConfiguration;
   /**
    * Constructs a new StorageApi.
@@ -27,10 +27,10 @@ export default class ViewStorageSdk {
    */
   constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
     this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
-    this.bucketSdk = new BucketSdk(this.config);
-    this.objectSdk = new ObjectSdk(this.config);
-    this.multipartUploadSdk = new MultipartUploadSdk(this.config);
-    this.serviceSdk = new ServiceSdk(this.config);
-    this.storagePoolSdk = new PoolSdk(this.config);
+    this.bucket = new BucketSdk(this.config);
+    this.object = new ObjectSdk(this.config);
+    this.multipartUpload = new MultipartUploadSdk(this.config);
+    this.service = new ServiceSdk(this.config);
+    this.storagePool = new PoolSdk(this.config);
   }
 }

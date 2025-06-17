@@ -25,7 +25,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
     return await this.createResource(url, key, cancelToken);
   };
 
@@ -41,7 +41,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -57,7 +57,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -69,7 +69,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @throws {MethodError} If the cancelToken is null.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<EncryptionKey>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -85,7 +85,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
     if (!key) {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + key.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + key.GUID;
     return await this.updateResource(url, key, cancelToken);
   };
 
@@ -101,7 +101,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/encryptionkeys/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -112,7 +112,7 @@ export default class EncryptionKeysSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<EncryptionKey>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/encryptionkeys/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/encryptionkeys/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

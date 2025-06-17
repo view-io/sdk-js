@@ -12,6 +12,7 @@ import {
   mockSemanticCell,
   mockSemanticCellGuid,
   mockSemanticChunkGuid,
+  mockSemanticChunk,
 } from './mockData';
 import { mockEndpoint2, mockTenantId } from '../../setupTest';
 
@@ -111,11 +112,11 @@ export const handlers = [
   }),
 
   http.get(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/vectorrepositories/${VectorRepositoryGUID}/documents/${mockDocumentGUID}/cells/${mockSemanticCellGuid}/chunks`, async ({ request }) => {
-    return HttpResponse.json(mockSemanticCell);
+    return HttpResponse.json(mockSemanticChunk);
   }),
 
   http.get(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/vectorrepositories/${VectorRepositoryGUID}/documents/${mockDocumentGUID}/cells/${mockSemanticCellGuid}/chunks/${mockSemanticChunkGuid}`, async ({ request }) => {
-    return HttpResponse.json(mockSemanticCell[0]);
+    return HttpResponse.json(mockSemanticChunk[0]);
   }),
 
   http.head(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/vectorrepositories/${VectorRepositoryGUID}/documents/${mockDocumentGUID}/cells/${mockSemanticCellGuid}/chunks/${mockSemanticChunkGuid}`, async ({ request }) => {

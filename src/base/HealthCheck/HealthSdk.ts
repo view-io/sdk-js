@@ -18,7 +18,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkSwitchboard = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/`;
+    const url = `${this.config.endpoint}`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -30,7 +30,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkConfig = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/config`;
+    const url = `${this.config.endpoint}healthcheck/config`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -42,7 +42,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkStorage = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/storage-rest`;
+    const url = `${this.config.endpoint}healthcheck/storage-rest`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -54,7 +54,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkVector = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/vector`;
+    const url = `${this.config.endpoint}healthcheck/vector`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -66,7 +66,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkProcessor = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/processor`;
+    const url = `${this.config.endpoint}healthcheck/processor`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -78,7 +78,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkAssistant = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/assistant`;
+    const url = `${this.config.endpoint}healthcheck/assistant`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -90,7 +90,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkOrchestrator = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/orchestrator`;
+    const url = `${this.config.endpoint}healthcheck/orchestrator`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -102,7 +102,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkCrawler = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/crawler`;
+    const url = `${this.config.endpoint}healthcheck/crawler`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -114,7 +114,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkLexi = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/lexi`;
+    const url = `${this.config.endpoint}healthcheck/lexi`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -126,7 +126,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkEmbeddings = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/embeddings`;
+    const url = `${this.config.endpoint}healthcheck/embeddings`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -138,7 +138,7 @@ export default class HealthSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   checkDirector = async (cancelToken?: AbortController): Promise<boolean> => {
-    const url = `${this.config.endpoint}/healthcheck/director`;
+    const url = `${this.config.endpoint}healthcheck/director`;
     return await this.existsResource(url, cancelToken);
   };
 }

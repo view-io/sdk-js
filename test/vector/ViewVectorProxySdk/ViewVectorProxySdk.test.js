@@ -1,4 +1,3 @@
-import EmbeddingsDocument from '../../../src/models/EmbeddingDocument';
 import { apiViewVectorProxySdk } from '../../setupTest';
 import {
   mockDocument,
@@ -9,13 +8,13 @@ import {
   mockSemanticCellGuid,
   mockSemanticChunkGuid,
   mockSearchResult,
+  mockStatisticsResponse,
+  mockSemanticCell,
+  mockSemanticChunk,
+  mockEnumerateResult,
 } from './mockData';
 import { handlers } from './handler';
 import { getServer } from '../../server';
-import EnumerationResult from '../../../src/models/EnumerationResult';
-import CollectionStatistics from '../../../src/models/CollectionStatistics';
-import SemanticCell from '../../../src/models/SemanticCell';
-import SemanticChunk from '../../../src/models/SemanticChunk';
 
 const server = getServer(handlers);
 
@@ -33,7 +32,7 @@ describe('ViewVectorProxySdk', () => {
   describe('document', () => {
     it('should throw an error if the document is null', async () => {
       try {
-        await apiViewVectorProxySdk.writeDocument(null);
+        await apiViewVectorProxySdk.Document.write(null);
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
         expect(error.message).toBe('ArgumentNullException: doc is null or empty');
@@ -43,13 +42,14 @@ describe('ViewVectorProxySdk', () => {
     it('should successfully write the document', async () => {
       console.log('mockDocument:', JSON.stringify(mockDocument, null, 2));
       console.log('mockDocument.VectorRepositoryGUID:', mockDocument.VectorRepositoryGUID);
-      const result = await apiViewVectorProxySdk.writeDocument(mockDocument);
-      expect(result).toEqual(expect.arrayContaining([expect.any(EmbeddingsDocument)]));
+      const result = await apiViewVectorProxySdk.Document.write(mockDocument);
+      expect(result).toBeDefined();
+      expect(result).toEqual([mockDocument]);
     });
 
     it('should throw an error if the get request is null', async () => {
       try {
-        await apiViewVectorProxySdk.readDocument(VectorRepositoryGUID, null);
+        await apiViewVectorProxySdk.Document.read(VectorRepositoryGUID, null);
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
         expect(error.message).toBe('ArgumentNullException: documentGuid is null or empty');
@@ -57,13 +57,14 @@ describe('ViewVectorProxySdk', () => {
     });
 
     it('should successfully read a document', async () => {
-      const result = await apiViewVectorProxySdk.readDocument(VectorRepositoryGUID, mockDocumentGUID);
-      expect(result).toBeInstanceOf(EmbeddingsDocument);
+      const result = await apiViewVectorProxySdk.Document.read(VectorRepositoryGUID, mockDocumentGUID);
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockDocument);
     });
 
     it('should throw an error if the delete request is null', async () => {
       try {
-        await apiViewVectorProxySdk.deleteDocument(VectorRepositoryGUID, null);
+        await apiViewVectorProxySdk.Document.delete(VectorRepositoryGUID, null);
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
         expect(error.message).toBe('ArgumentNullException: documentGuid is null or empty');
@@ -71,13 +72,13 @@ describe('ViewVectorProxySdk', () => {
     });
 
     it('should successfully delete a document', async () => {
-      const result = await apiViewVectorProxySdk.deleteDocument(VectorRepositoryGUID, mockDocumentGUID);
+      const result = await apiViewVectorProxySdk.Document.delete(VectorRepositoryGUID, mockDocumentGUID);
       expect(result).toBe(true);
     });
 
     it('should throw an error if the exist request is null', async () => {
       try {
-        await apiViewVectorProxySdk.documentExists(VectorRepositoryGUID, null);
+        await apiViewVectorProxySdk.Document.exists(VectorRepositoryGUID, null);
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
         expect(error.message).toBe('ArgumentNullException: documentGuid is null or empty');
@@ -85,8 +86,8 @@ describe('ViewVectorProxySdk', () => {
     });
 
     it('should successfully check if a document exists', async () => {
-      const result = await apiViewVectorProxySdk.documentExists(VectorRepositoryGUID, mockDocumentGUID);
-      expect(result).toBe('true');
+      const result = await apiViewVectorProxySdk.Document.exists(VectorRepositoryGUID, mockDocumentGUID);
+      expect(result).toBe(true);
     });
   });
   // describe('truncateTable', () => {
@@ -161,85 +162,87 @@ describe('ViewVectorProxySdk', () => {
 
   describe('search', () => {
     it('should successfully perform search', async () => {
-      const result = await apiViewVectorProxySdk.vectorSearch(VectorRepositoryGUID, mockSearchRequest);
+      const result = await apiViewVectorProxySdk.VectorSearch.vectorSearch(VectorRepositoryGUID, mockSearchRequest);
       expect(result).not.toBeNull();
     });
   });
 
   describe('dataRepository', () => {
     it('should  perform enumerate Repository', async () => {
-      const result = await apiViewVectorProxySdk.enumerateVectorRepositories(mockEnumerateRequest);
-      expect(result).toBeInstanceOf(EnumerationResult);
+      const result = await apiViewVectorProxySdk.VectorRepositories.enumerate(mockEnumerateRequest);
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockEnumerateResult);
     });
 
     it('should  perform statistics', async () => {
-      const result = await apiViewVectorProxySdk.retrieveVectorRepositoryStatistics(VectorRepositoryGUID);
-      expect(result).toBeInstanceOf(CollectionStatistics);
+      const result = await apiViewVectorProxySdk.VectorRepositories.readStatistics(VectorRepositoryGUID);
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockStatisticsResponse);
     });
 
     it('should  perform delete Repository', async () => {
-      const result = await apiViewVectorProxySdk.deleteVectorRepository(VectorRepositoryGUID);
+      const result = await apiViewVectorProxySdk.VectorRepositories.delete(VectorRepositoryGUID);
       expect(result).toBe(true);
     });
   });
-  ``;
+
   describe('semanticCell', () => {
     it('read Semantic Cells', async () => {
-      const result = await apiViewVectorProxySdk.retrieveSemanticCells(VectorRepositoryGUID, mockDocumentGUID);
-      result.forEach((cell) => {
-        expect(cell instanceof SemanticCell).toBe(true);
-      });
+      const result = await apiViewVectorProxySdk.SemanticCell.readAll(VectorRepositoryGUID, mockDocumentGUID);
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockSemanticCell);
     });
 
     it('get Semantic Cell', async () => {
-      const result = await apiViewVectorProxySdk.retrieveSemanticCell(
+      const result = await apiViewVectorProxySdk.SemanticCell.read(
         VectorRepositoryGUID,
         mockDocumentGUID,
         mockSemanticCellGuid
       );
-      expect(result instanceof SemanticCell).toBe(true);
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockSemanticCell[0]);
     });
 
     it('exists Semantic Cell', async () => {
-      const result = await apiViewVectorProxySdk.semanticCellExists(
+      const result = await apiViewVectorProxySdk.SemanticCell.exists(
         VectorRepositoryGUID,
         mockDocumentGUID,
         mockSemanticCellGuid
       );
-      expect(result).toBe('true');
+      expect(result).toBe(true);
     });
   });
 
   describe('semanticChunks', () => {
     it('read Semantic Chunks', async () => {
-      const result = await apiViewVectorProxySdk.retrieveSemanticChunks(
+      const result = await apiViewVectorProxySdk.SemanticChunk.readAll(
         VectorRepositoryGUID,
         mockDocumentGUID,
         mockSemanticCellGuid
       );
-      result.forEach((chunk) => {
-        expect(chunk instanceof SemanticChunk).toBe(true);
-      });
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockSemanticChunk);
     });
 
     it('get Semantic Chunk', async () => {
-      const result = await apiViewVectorProxySdk.retrieveSemanticChunk(
+      const result = await apiViewVectorProxySdk.SemanticChunk.read(
         VectorRepositoryGUID,
         mockDocumentGUID,
         mockSemanticCellGuid,
         mockSemanticChunkGuid
       );
-      expect(result instanceof SemanticChunk).toBe(true);
+      expect(result).toBeDefined();
+      expect(result).toEqual(mockSemanticChunk[0]);
     });
 
     it('exists Semantic Chunk', async () => {
-      const result = await apiViewVectorProxySdk.semanticChunkExists(
+      const result = await apiViewVectorProxySdk.SemanticChunk.exists(
         VectorRepositoryGUID,
         mockDocumentGUID,
         mockSemanticCellGuid,
         mockSemanticChunkGuid
       );
-      expect(result).toBe('true');
+      expect(result).toBe(true);
     });
   });
 });

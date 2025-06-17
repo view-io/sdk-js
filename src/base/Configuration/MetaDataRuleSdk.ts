@@ -26,7 +26,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
     if (!metadataRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules';
     return await this.createResource(url, metadataRule, cancelToken);
   };
 
@@ -42,7 +42,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -58,7 +58,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -70,7 +70,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @throws {MethodError} If the metadata rules are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<MetadataRule>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -86,8 +86,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
     if (!metadataRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
-    const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + metadataRule.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + metadataRule.GUID;
     return await this.updateResource(url, metadataRule, cancelToken);
   };
 
@@ -103,7 +102,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -114,7 +113,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
    * @throws {MethodError} If the metadata rules are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<MetadataRule>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/metadatarules/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/metadatarules/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

@@ -26,7 +26,7 @@ export class ChatThreadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('config');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/threads`;
     return await this.postCreateResource(url, config, cancelToken);
   };
 
@@ -43,7 +43,7 @@ export class ChatThreadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -68,7 +68,7 @@ export class ChatThreadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('config');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}/messages`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}/messages`;
     return await this.postCreateResource(url, config, cancelToken);
   };
 
@@ -85,7 +85,7 @@ export class ChatThreadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}`;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -97,7 +97,7 @@ export class ChatThreadSdk extends ViewSdkBase {
    * @throws {MethodError}
    */
   readAll = async (cancelToken?: AbortController): Promise<ChatThreadList> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/threads`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -113,7 +113,7 @@ export class ChatThreadSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/threads/${guid}`;
     return await this.existsResource(url, cancelToken);
   };
 }

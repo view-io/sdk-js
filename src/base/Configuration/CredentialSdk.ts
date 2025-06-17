@@ -25,7 +25,7 @@ export default class CredentialSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -36,7 +36,7 @@ export default class CredentialSdk extends ViewSdkBase {
    * @returns {Promise<Array<Credential>>} A promise resolving to the list of Credentials or null if not found.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<Credential>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/credentials';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/credentials';
 
     return await this.retrieveResource(url, cancelToken);
   };
@@ -53,7 +53,7 @@ export default class CredentialSdk extends ViewSdkBase {
     if (!cred) {
       GenericExceptionHandlers.ArgumentNullException('cred');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/credentials';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/credentials';
     return await this.createResource(url, cred, cancelToken);
   };
 
@@ -69,7 +69,7 @@ export default class CredentialSdk extends ViewSdkBase {
     if (!cred) {
       GenericExceptionHandlers.ArgumentNullException('cred');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + cred.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + cred.GUID;
     return await this.updateResource(url, cred, cancelToken);
   };
 
@@ -85,7 +85,7 @@ export default class CredentialSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -101,7 +101,7 @@ export default class CredentialSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/credentials/' + guid;
     return await this.deleteResource(url, undefined, cancelToken);
   };
 
@@ -112,7 +112,7 @@ export default class CredentialSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<Credential>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/credentials/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/credentials/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

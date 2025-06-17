@@ -26,7 +26,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!email) {
       GenericExceptionHandlers.ArgumentNullException('email');
     }
-    const url = this.config.endpoint + '/v1.0/token/tenants';
+    const url = this.config.endpoint + 'v1.0/token/tenants';
     return await this.retrieveResource(url, cancelToken, { 'x-email': email });
   };
   /**
@@ -53,7 +53,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!tenantGUID) {
       GenericExceptionHandlers.ArgumentNullException('tenantGUID');
     }
-    const url = this.config.endpoint + '/v1.0/token';
+    const url = this.config.endpoint + 'v1.0/token';
     return await this.retrieveResource(url, cancelToken, {
       'x-email': email,
       'x-password': password,
@@ -84,7 +84,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!tenantGUID) {
       GenericExceptionHandlers.ArgumentNullException('tenantGUID');
     }
-    const url = this.config.endpoint + '/v1.0/token';
+    const url = this.config.endpoint + 'v1.0/token';
     return await this.retrieveResource(url, cancelToken, {
       'x-email': email,
       'x-password-sha256': passwordSHA256,
@@ -111,7 +111,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!password) {
       GenericExceptionHandlers.ArgumentNullException('password');
     }
-    const url = this.config.endpoint + '/v1.0/token';
+    const url = this.config.endpoint + 'v1.0/token';
     return await this.retrieveResource(url, cancelToken, { 'x-email': email, 'x-password': password });
   };
   /**
@@ -134,7 +134,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!passwordSHA256) {
       GenericExceptionHandlers.ArgumentNullException('passwordSHA256');
     }
-    const url = this.config.endpoint + '/v1.0/token';
+    const url = this.config.endpoint + 'v1.0/token';
     return await this.retrieveResource(url, cancelToken, { 'x-email': email, 'x-password-sha256': passwordSHA256 });
   };
   /**
@@ -150,7 +150,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!token) {
       GenericExceptionHandlers.ArgumentNullException('token');
     }
-    const url = this.config.endpoint + '/v1.0/token/validate';
+    const url = this.config.endpoint + 'v1.0/token/validate';
     return await this.retrieveResource(url, cancelToken, { 'x-token': token });
   };
   /**
@@ -166,7 +166,7 @@ export default class AuthenticationSdk extends ViewSdkBase {
     if (!token) {
       GenericExceptionHandlers.ArgumentNullException('token');
     }
-    const url = this.config.endpoint + '/v1.0/token/details';
+    const url = this.config.endpoint + 'v1.0/token/details';
     return await this.retrieveResource(url, cancelToken, { 'x-token': token });
   };
 }

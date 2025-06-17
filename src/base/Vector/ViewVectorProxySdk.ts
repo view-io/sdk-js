@@ -10,11 +10,11 @@ import { SdkConfiguration } from '../SdkConfiguration';
  * @version 0.1.0
  */
 export default class ViewVectorProxySdk {
-  public DocumentSdk: DocumentSdk;
-  public SemanticCellSdk: SemanticCellSdk;
-  public SemanticChunkSdk: SemanticChunkSdk;
-  public VectorRepositoriesSdk: VectorRepositoriesSdk;
-  public VectorSearchSdk: VectorSearchSdk;
+  public Document: DocumentSdk;
+  public SemanticCell: SemanticCellSdk;
+  public SemanticChunk: SemanticChunkSdk;
+  public VectorRepositories: VectorRepositoriesSdk;
+  public VectorSearch: VectorSearchSdk;
   public config: SdkConfiguration;
   /**
    * Constructs a new ViewVectorProxySdk.
@@ -24,10 +24,10 @@ export default class ViewVectorProxySdk {
    */
   constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
     this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
-    this.DocumentSdk = new DocumentSdk(this.config);
-    this.SemanticCellSdk = new SemanticCellSdk(this.config);
-    this.SemanticChunkSdk = new SemanticChunkSdk(this.config);
-    this.VectorRepositoriesSdk = new VectorRepositoriesSdk(this.config);
-    this.VectorSearchSdk = new VectorSearchSdk(this.config);
+    this.Document = new DocumentSdk(this.config);
+    this.SemanticCell = new SemanticCellSdk(this.config);
+    this.SemanticChunk = new SemanticChunkSdk(this.config);
+    this.VectorRepositories = new VectorRepositoriesSdk(this.config);
+    this.VectorSearch = new VectorSearchSdk(this.config);
   }
 }

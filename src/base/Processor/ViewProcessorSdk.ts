@@ -3,7 +3,7 @@ import ProcessSdk from './ProcessSdk';
 
 export default class ViewProcessorSdk {
   public config: SdkConfiguration;
-  public processSdk: ProcessSdk;
+  public process: ProcessSdk;
   /**
    * Constructs a new ViewProcessorSdk.
    * @alias module:base/ViewProcessorSdk
@@ -15,6 +15,6 @@ export default class ViewProcessorSdk {
    */
   constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
     this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
-    this.processSdk = new ProcessSdk(this.config);
+    this.process = new ProcessSdk(this.config);
   }
 }

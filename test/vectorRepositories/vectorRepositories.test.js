@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockVectorGuid, vectorsData, vectorsMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import VectorRepository from '../../src/models/VectorRepository';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('VectorRepository', () => {
     it('retrieves a VectorRepository', async () => {
-      const data = await api.retrieveVectorRepository(mockVectorGuid);
-      expect(data instanceof VectorRepository).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new VectorRepository(vectorsData[mockVectorGuid])));
+      const data = await api.VectorRepository.read(mockVectorGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(vectorsData[mockVectorGuid]);
     });
 
     it('throws error when if missed guid while retrieving a VectorRepository', async () => {
       try {
-        await api.retrieveVectorRepository();
+        await api.VectorRepository.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,19 +33,19 @@ describe('View.IO SDK', () => {
     it('retrieves a VectorRepository with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveVectorRepository(mockVectorGuid, cancelToken);
+      await api.VectorRepository.read(mockVectorGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all VectorRepository', async () => {
-      const data = await api.retrieveVectorRepositories();
+      const data = await api.VectorRepository.readAll();
       data.forEach((repo) => {
-        expect(JSON.stringify(repo)).toBe(JSON.stringify(new VectorRepository(vectorsData[repo.GUID])));
+        expect(repo).toEqual(vectorsData[repo.GUID]);
       });
     });
 
     it('creates a VectorRepository', async () => {
-      const data = await api.createVectorRepository({
+      const newVectorRepository = {
         TenantGUID: 'default',
         Name: 'My vector repository',
         RepositoryType: 'Pgvector',
@@ -61,14 +60,15 @@ describe('View.IO SDK', () => {
         PromptPrefix:
           'Use the following pieces of context to answer the question at the end. Documents are sorted by similarity to the question. If the context is not enough for you to answer the question, please politely explain that you do not have relevant context. Do not try to make up an answer.',
         CreatedUtc: '2024-09-13T13:40:19.066552Z',
-      });
-      expect(true).toBe(data instanceof VectorRepository);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new VectorRepository(vectorsData[mockVectorGuid])));
+      };
+      const data = await api.VectorRepository.create(newVectorRepository);
+      expect(data).toBeDefined();
+      expect(data).toEqual(vectorsData[mockVectorGuid]);
     });
 
     it('throws error when creating a VectorRepository with repo parameter', async () => {
       try {
-        await api.createVectorRepository();
+        await api.VectorRepository.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: repo is null or empty');
@@ -76,7 +76,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a VectorRepository', async () => {
-      const data = await api.updateVectorRepository({
+      const data = await api.VectorRepository.update({
         GUID: mockVectorGuid,
         TenantGUID: 'default',
         Name: 'My vector repository',
@@ -94,13 +94,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-13T13:40:19.066552Z',
       });
 
-      expect(true).toBe(data instanceof VectorRepository);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new VectorRepository(vectorsData[mockVectorGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(vectorsData[mockVectorGuid]);
     });
 
     it('throws error when if missed guid while updating a VectorRepository', async () => {
       try {
-        await api.updateVectorRepository();
+        await api.VectorRepository.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: vector is null or empty');
@@ -108,13 +108,13 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a VectorRepository', async () => {
-      const data = await api.deleteVectorRepository(mockVectorGuid);
+      const data = await api.VectorRepository.delete(mockVectorGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a VectorRepository', async () => {
       try {
-        await api.deleteVectorRepository();
+        await api.VectorRepository.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -122,21 +122,22 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a VectorRepository exist', async () => {
-      const data = await api.existsVectorRepository(mockVectorGuid);
-      expect(data).toBe('true');
+      const data = await api.VectorRepository.exists(mockVectorGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a VectorRepository does not exist', async () => {
       try {
-        await api.existsVectorRepository('wrongID');
+        await api.VectorRepository.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed guid while checking a VectorRepository existance', async () => {
       try {
-        await api.existsVectorRepository();
+        await api.VectorRepository.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

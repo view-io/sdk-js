@@ -33,12 +33,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
     const url =
-      this.config.endpoint +
-      '/v1.0/tenants/' +
-      this.config.tenantGuid +
-      '/collections/' +
-      collectionGuid +
-      '/documents';
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid + '/documents';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -65,7 +60,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
 
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       collectionGuid +
@@ -98,7 +93,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
 
     let url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       collectionGuid +
@@ -170,7 +165,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
 
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       collectionGuid +
@@ -197,7 +192,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
 
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       document.CollectionGUID +
@@ -224,7 +219,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       collectionGuid +
@@ -262,7 +257,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
 
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       collectionGuid +
@@ -288,7 +283,7 @@ export class SourceDocumentSdk extends ViewSdkBase {
     if (!documentGuid) {
       throw new Error('document GUID cannot be null or undefined.');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/documents/${documentGuid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/documents/${documentGuid}`;
     return await this.existsResource(url, cancelToken);
   };
 

@@ -26,7 +26,7 @@ export default class UserSdk extends ViewSdkBase {
     if (!user) {
       GenericExceptionHandlers.ArgumentNullException('user');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/users';
     // Use the `create` method for posting the user
     return await this.createResource(url, user, cancelToken);
   };
@@ -43,7 +43,7 @@ export default class UserSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
     // Use the `exists` method to check for the user
     return await this.existsResource(url, cancelToken);
   };
@@ -60,7 +60,7 @@ export default class UserSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
     // Use the `retrieve` method to get the user
     return await this.retrieveResource(url, cancelToken);
   };
@@ -73,7 +73,7 @@ export default class UserSdk extends ViewSdkBase {
    * @throws {MethodError} If the users are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<UserMaster> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/users';
     // Use the `retrieveMany` method for fetching the list of users
     return await this.retrieveResource(url, cancelToken);
   };
@@ -90,7 +90,7 @@ export default class UserSdk extends ViewSdkBase {
     if (!user) {
       GenericExceptionHandlers.ArgumentNullException('user');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + user.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/users/' + user.GUID;
     // Use the `update` method to update the user
     return await this.updateResource(url, user, cancelToken);
   };
@@ -107,7 +107,7 @@ export default class UserSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/users/' + guid;
     // Use the `delete` method to remove the user
     return await this.deleteResource(url, cancelToken);
   };
@@ -119,7 +119,7 @@ export default class UserSdk extends ViewSdkBase {
    * @throws {MethodError} If the users are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<UserMaster>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/users`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/users`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

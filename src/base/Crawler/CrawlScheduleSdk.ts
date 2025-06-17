@@ -20,7 +20,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    * @throws {MethodError} If the request fails.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<CrawlSchedule> | null> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -30,7 +30,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
    *  @throws {MethodError} If the request fails.
    */
   readAll = async (cancelToken?: AbortController): Promise<CrawlSchedule[]> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -44,7 +44,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -58,7 +58,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
     if (!scheduleData) {
       GenericExceptionHandlers.ArgumentNullException('scheduleData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlschedules/`;
     return await this.updateResource(url, scheduleData, cancelToken);
   };
   /**
@@ -72,7 +72,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
     if (!scheduleData) {
       GenericExceptionHandlers.ArgumentNullException('scheduleData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${scheduleData.GUID}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${scheduleData.GUID}`;
     return await this.updateResource(url, scheduleData, cancelToken);
   };
   /**
@@ -87,7 +87,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
     return await this.deleteResource(url, cancelToken);
   };
   /**
@@ -102,7 +102,7 @@ export class CrawlScheduleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlschedules/${guid}`;
     return await this.existsResource(url, cancelToken);
   };
 }

@@ -26,7 +26,7 @@ export default class TenantSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + guid;
     // Use the `retrieve` method to get the tenant metadata
     return await this.retrieveResource(url, cancelToken);
   };
@@ -38,7 +38,7 @@ export default class TenantSdk extends ViewSdkBase {
    * @throws {MethodError} If the tenants are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<TenantMetadata> => {
-    const url = this.config.endpoint + '/v1.0/tenants/';
+    const url = this.config.endpoint + 'v1.0/tenants/';
     // Use the `retrieveMany` method for fetching the list of tenants
     return await this.retrieveResource(url, cancelToken);
   };
@@ -54,7 +54,7 @@ export default class TenantSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + guid;
     // Use the `retrieveMany` method for fetching the list of tenants
     return await this.deleteResource(url, cancelToken);
   };
@@ -71,7 +71,7 @@ export default class TenantSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + guid;
     // Use the `exists` method to check for the tenant
     return await this.existsResource(url, cancelToken);
   };
@@ -88,7 +88,7 @@ export default class TenantSdk extends ViewSdkBase {
     if (!tenant) {
       GenericExceptionHandlers.ArgumentNullException('tenant');
     }
-    const url = this.config.endpoint + '/v1.0/tenants';
+    const url = this.config.endpoint + 'v1.0/tenants';
     // Use the `update` method to write the tenant metadata
     return await this.updateResource(url, tenant, cancelToken);
   };
@@ -108,7 +108,7 @@ export default class TenantSdk extends ViewSdkBase {
     if (!tenant.GUID) {
       GenericExceptionHandlers.ArgumentNullException('tenant.GUID');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + tenant.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + tenant.GUID;
     // Use the `update` method to update the tenant metadata
     return await this.updateResource(url, tenant, cancelToken);
   };
@@ -120,7 +120,7 @@ export default class TenantSdk extends ViewSdkBase {
    * @throws {MethodError} If the tenants are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<TenantMetadata>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/`;
+    const url = `${this.config.endpoint}v2.0/tenants/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

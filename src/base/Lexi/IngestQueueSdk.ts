@@ -20,7 +20,7 @@ export class IngestQueueSdk extends ViewSdkBase {
    * @throws {MethodError} If the retrieval fails.
    */
   readAll = async (cancelToken?: AbortController): Promise<IngestQueue[]> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestqueue`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/ingestqueue`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -35,7 +35,7 @@ export class IngestQueueSdk extends ViewSdkBase {
     if (!ingestQueueGuid) {
       throw new Error('Item GUID cannot be null or undefined.');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/ingestqueue/${ingestQueueGuid}`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -51,7 +51,7 @@ export class IngestQueueSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('ingestQueueGuid');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/ingestqueue/${ingestQueueGuid}`;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -66,7 +66,7 @@ export class IngestQueueSdk extends ViewSdkBase {
     if (!ingestQueueGuid) {
       GenericExceptionHandlers.ArgumentNullException('ingestQueueGuid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}?stats`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/ingestqueue/${ingestQueueGuid}?stats`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -81,7 +81,7 @@ export class IngestQueueSdk extends ViewSdkBase {
     if (!ingestQueueGuid) {
       GenericExceptionHandlers.ArgumentNullException('ingestQueueGuid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/ingestQueue/${ingestQueueGuid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/ingestqueue/${ingestQueueGuid}`;
     return await this.deleteResource(url, cancelToken);
   };
 

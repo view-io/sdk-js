@@ -28,7 +28,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
     if (!embeddingsRule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules';
     return await this.createResource(url, embeddingsRule, cancelToken);
   };
 
@@ -44,7 +44,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -60,7 +60,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -72,7 +72,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
    * @throws {MethodError} If the embeddings rule is null.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<EmbeddingsRule>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -89,7 +89,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + embeddingsRule.GUID;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + embeddingsRule.GUID;
     return await this.updateResource(url, embeddingsRule, cancelToken);
   };
 
@@ -105,7 +105,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/embeddingsrules/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -116,7 +116,7 @@ export default class EmbeddingRuleSdk extends ViewSdkBase {
    * @throws {MethodError} If the trigger is null or invalid.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<EmbeddingsRule>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/embeddingsrules/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/embeddingsrules/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

@@ -1,19 +1,67 @@
 import { ViewConfigurationSdk } from 'view-sdk';
-import { WebhookEventTypeEnum } from 'view-sdk/dist/types/enums/WebhookEventTypeEnum';
-import { VectorRepositoryTypeEnum } from 'view-sdk/dist/types/enums/VectorRepositoryTypeEnum';
 
 const api = new ViewConfigurationSdk(
+  'http://view.homedns.org:8000', //endpoint
   '00000000-0000-0000-0000-000000000000', //tenant Id
-  'default', //access token
-  'http://view.homedns.org:8000/' //endpoint
+  'default' //access token
 );
 
-// api.accessToken =
-//   "mXCNtMWDsW0/pr+IwRFUjbcKaGXxIDHLMkRBC6uiU5EKuJ1vZhr0WCtKx2AUy9mb1Fl67jAdKXTPhS35FWmC0QdR50vS6UcuJdRliZt0a1oudQvMM76q1EIrNwqcNkv7YiNROy3+A8Y6Gkyq2knUlKjgQdp1vkjMuuU1bwyA4HDHRDSDetFjMSxoGcbTZdmb1LWZNZ9vXepBPknDYa+bdIOVeoXKUzOTMO3akkdPT+Jy5JV7f6HEm5Xm8HnZ+62TcSNM24ZaR3U0Kwm9yESI3fjLmMuA26MbP0DD+DRT8uPirP4aA7m1ODeS8NCkzCPU";
+api.config.accessToken =
+  'mXCNtMWDsW0/pr+IwRFUjb15G7CPCCH7RW0c4Mmj+qzQf0yTiW0yBKRsvEDV/IEtIBLbL7XqYAjvwF2u6+ykonqdBUgaWg8z5MeerCUs+BJAU8QltaBgfPsXwdZ7hZQW4AKh6ZDRM03N6EbYflYnr4miAyZLq1V/MiA4HenvkuH8uWa8LKiW8JFbC95jVee7QByq8smCLwrWtZ2TJCXNGOB6R2xE5zTuhnxOc3f75IoBjo6STwcwUFABtdTZ1TKxFvKoR5fRJKP+RhjTNStXrQvaTAlANtc+NPG7dm0HrTQ0y4Jpf2PTdoa+MbPbWfnZ';
+
+//region Object Lock
+
+const enumerateObjectLocks = async () => {
+  try {
+    const response = await api.ObjectLock.enumerate();
+    console.log(response, 'Object locks fetched successfully');
+  } catch (err) {
+    console.log('Error fetching Object locks:', err);
+  }
+};
+
+// enumerateObjectLocks();
+
+const deleteObjectLock = async () => {
+  try {
+    const response = await api.ObjectLock.delete('1477c75f-6e37-45ba-a084-cc60465112e1');
+    console.log(response, 'Object lock deleted successfully');
+  } catch (err) {
+    console.log('Error deleting Object lock:', err);
+  }
+};
+
+// deleteObjectLock();
+
+const readObjectLock = async () => {
+  try {
+    const response = await api.ObjectLock.read('1477c75f-6e37-45ba-a084-cc60465112e1');
+    console.log(response, 'Object lock read successfully');
+  } catch (err) {
+    console.log('Error reading Object lock:', err);
+  }
+};
+
+// readObjectLock();
+
+const readAllObjectLocks = async () => {
+  try {
+    const response = await api.ObjectLock.readAll();
+    console.log(response, 'All object locks fetched successfully');
+  } catch (err) {
+    console.log('Error fetching All object locks:', err);
+  }
+};
+
+// readAllObjectLocks();
+
+//endregion
+
+//region WebhookTarget
 
 const existsWebhookTarget = async () => {
   try {
-    const response = await api.WebhookTarget.exists('f4bd1d87-598a-4e16-ace3-5c2a8ce55511');
+    const response = await api.WebhookTarget.exists('1477c75f-6e37-45ba-a084-cc60465112e1');
     console.log(response, 'Webhook target exists');
   } catch (err) {
     console.log('Error checking Webhook target:', err);
@@ -24,7 +72,7 @@ const existsWebhookTarget = async () => {
 
 const deleteWebhookTarget = async () => {
   try {
-    const response = await api.WebhookTarget.delete('4bd187db-3a56-495e-b7fe-d00c963d5333');
+    const response = await api.WebhookTarget.delete('1477c75f-6e37-45ba-a084-cc60465112e1');
     console.log(response, 'Webhook target deleted successfully');
   } catch (err) {
     console.log('Error deleting Webhook target:', err);
@@ -36,7 +84,7 @@ const deleteWebhookTarget = async () => {
 const updateWebhookTarget = async () => {
   try {
     const response = await api.WebhookTarget.update({
-      GUID: '4bd187db-3a56-495e-b7fe-d00c963d5333',
+      GUID: '1477c75f-6e37-45ba-a084-cc60465112e1',
       Name: 'My webhook target [ASH] [UPDATED]',
       Url: 'http://localhost:8311',
       ContentType: 'application/json',
@@ -65,7 +113,7 @@ const readAllWebhookTargets = async () => {
 
 const readWebhookTarget = async () => {
   try {
-    const response = await api.WebhookTarget.read('4bd187db-3a56-495e-b7fe-d00c963d5333');
+    const response = await api.WebhookTarget.read('1477c75f-6e37-45ba-a084-cc60465112e1');
     console.log(response, 'Webhook target fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook target:', err);
@@ -101,6 +149,10 @@ const createWebhookTarget = async () => {
 
 // createWebhookTarget();
 
+//endregion
+
+//region WebhookEvent
+
 const existWebhookEvent = async () => {
   try {
     const response = await api.WebhookEvent.exists('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
@@ -132,9 +184,24 @@ const enumerateWebhookEvents = async () => {
 
 // enumerateWebhookEvents();
 
+const readWebhookEvent = async () => {
+  try {
+    const response = await api.WebhookEvent.read('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
+    console.log(response, 'Webhook event fetched successfully');
+  } catch (err) {
+    console.log('Error fetching Webhook event:', err);
+  }
+};
+
+// readWebhookEvent();
+
+//endregion
+
+//region Blob
+
 const readBlobWithData = async () => {
   try {
-    const response = await api.Blob.readIncludeData('431638f9-1da1-4dd2-b6de-e88acf990c8c');
+    const response = await api.Blob.readIncludeData('d9056378-85db-4c5b-8687-044c108dce08');
     console.log(response, 'Blob read successfully');
   } catch (err) {
     console.log('Error reading Blob:', err);
@@ -145,7 +212,7 @@ const readBlobWithData = async () => {
 
 const blobExists = async () => {
   try {
-    const response = await api.Blob.exists('431638f9-1da1-4dd2-b6de-e88acf990c8c');
+    const response = await api.Blob.exists('d9056378-85db-4c5b-8687-044c108dce08');
     console.log(response, 'Blob exists');
   } catch (err) {
     console.log('Error checking Blob:', err);
@@ -156,7 +223,7 @@ const blobExists = async () => {
 
 const deleteBlob = async () => {
   try {
-    const response = await api.Blob.delete('7f6eee35-fc32-4798-8ea7-e9e84775043e');
+    const response = await api.Blob.delete('d9056378-85db-4c5b-8687-044c108dce08');
     console.log(response, 'Blob deleted successfully');
   } catch (err) {
     console.log('Error deleting Blob:', err);
@@ -168,7 +235,7 @@ const deleteBlob = async () => {
 const updateBlob = async () => {
   try {
     const response = await api.Blob.update({
-      GUID: '00000000-0000-0000-0000-000000000000',
+      GUID: 'd9056378-85db-4c5b-8687-044c108dce08',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       ContentType: 'application/json',
       Name: 'Assistant Chat',
@@ -204,7 +271,7 @@ const readAllBlobs = async () => {
 
 const readBlob = async () => {
   try {
-    const response = await api.Blob.read('431638f9-1da1-4dd2-b6de-e88acf990c8c');
+    const response = await api.Blob.read('d9056378-85db-4c5b-8687-044c108dce08');
     console.log(response, 'Blob read successfully');
   } catch (err) {
     console.log('Error reading Blob:', err);
@@ -240,9 +307,13 @@ const createBlob = async () => {
 
 // createBlob();
 
+//endregion
+
+//region WebhookRule
+
 const webhookRuleExists = async () => {
   try {
-    const response = await api.WebhookRule.exists('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
+    const response = await api.WebhookRule.exists('9f7139c9-e95c-4705-a849-a01f5dda14b9');
     console.log(response, 'Webhook rule exists');
   } catch (err) {
     console.log('Error checking Webhook rule:', err);
@@ -253,7 +324,7 @@ const webhookRuleExists = async () => {
 
 const deleteWebhookRule = async () => {
   try {
-    const response = await api.WebhookRule.delete('59c7402c-dd30-4723-beba-3a3460f26bf7');
+    const response = await api.WebhookRule.delete('9f7139c9-e95c-4705-a849-a01f5dda14b9');
     console.log(response, 'Webhook rule deleted successfully');
   } catch (err) {
     console.log('Error deleting Webhook rule:', err);
@@ -265,11 +336,11 @@ const deleteWebhookRule = async () => {
 const updateWebhookRule = async () => {
   try {
     const response = await api.WebhookRule.update({
-      GUID: '59c7402c-dd30-4723-beba-3a3460f26bf7',
+      GUID: '9f7139c9-e95c-4705-a849-a01f5dda14b9',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       TargetGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'My webhook rule [UPDATED]',
-      EventType: WebhookEventTypeEnum.ObjectWrite,
+      EventType: 'ObjectWrite' as any,
       MaxAttempts: 5,
       RetryIntervalMs: 10000,
       TimeoutMs: 30000,
@@ -296,7 +367,7 @@ const readAllWebhookRules = async () => {
 
 const readWebhookRule = async () => {
   try {
-    const response = await api.WebhookRule.read('b4cf5430-9c25-4514-b3e5-fe7fd1108edb');
+    const response = await api.WebhookRule.read('9f7139c9-e95c-4705-a849-a01f5dda14b9');
     console.log(response, 'Webhook rule fetched successfully');
   } catch (err) {
     console.log('Error fetching Webhook rule:', err);
@@ -321,7 +392,7 @@ const createWebhookRules = async () => {
     const response = await api.WebhookRule.create({
       Name: 'My webhook rule',
       TargetGUID: '00000000-0000-0000-0000-000000000000',
-      EventType: WebhookEventTypeEnum.ObjectWrite,
+      EventType: 'ObjectWrite' as any,
       MaxAttempts: 5,
       RetryIntervalMs: 10000,
       TimeoutMs: 30000,
@@ -334,9 +405,13 @@ const createWebhookRules = async () => {
 
 // createWebhookRules();
 
+//endregion
+
+//region EncryptionKey
+
 const encryptionKeyExists = async () => {
   try {
-    const response = await api.EncryptionKey.exists('d81a743f-1b02-42a6-a66b-df4c8e93a243');
+    const response = await api.EncryptionKey.exists('e6b3d713-ce6f-4d76-802d-e343eeb905b3');
     console.log(response, 'Encryption key exists');
   } catch (err) {
     console.log('Error checking Encryption key:', err);
@@ -347,7 +422,7 @@ const encryptionKeyExists = async () => {
 
 const deleteEncryptionKey = async () => {
   try {
-    const response = await api.EncryptionKey.delete('d81a743f-1b02-42a6-a66b-df4c8e93a243');
+    const response = await api.EncryptionKey.delete('e6b3d713-ce6f-4d76-802d-e343eeb905b3');
     console.log(response, 'Encryption key deleted successfully');
   } catch (err) {
     console.log('Error deleting Encryption key:', err);
@@ -359,7 +434,7 @@ const deleteEncryptionKey = async () => {
 const updateEncryptionKey = async () => {
   try {
     const response = await api.EncryptionKey.update({
-      GUID: 'd81a743f-1b02-42a6-a66b-df4c8e93a243',
+      GUID: 'e6b3d713-ce6f-4d76-802d-e343eeb905b3',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       OwnerGUID: '00000000-0000-0000-0000-000000000000',
       KeyBase64: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
@@ -393,7 +468,7 @@ const readAllEncryptionKeys = async () => {
 
 const readEncryptionKey = async () => {
   try {
-    const response = await api.EncryptionKey.read('00000000-0000-0000-0000-000000000000');
+    const response = await api.EncryptionKey.read('e6b3d713-ce6f-4d76-802d-e343eeb905b3');
     console.log(response, 'Encryption key fetched successfully');
   } catch (err) {
     console.log('Error fetching Encryption key:', err);
@@ -433,9 +508,13 @@ const createEncryptionKeys = async () => {
 
 // createEncryptionKeys();
 
+//endregion
+
+//region GraphRepository
+
 const graphRepositoryExists = async () => {
   try {
-    const response = await api.GraphRepository.exists('180ee580-9c0b-4ef6-b0b1-cddabfa2067a');
+    const response = await api.GraphRepository.exists('e2f9e53c-6f54-47e5-932d-e756921e0aeb');
     console.log(response, 'Graph repository exists');
   } catch (err) {
     console.log('Error checking Graph repository:', err);
@@ -446,7 +525,7 @@ const graphRepositoryExists = async () => {
 
 const deleteGraphRepository = async () => {
   try {
-    const response = await api.GraphRepository.delete('180ee580-9c0b-4ef6-b0b1-cddabfa2067a');
+    const response = await api.GraphRepository.delete('e2f9e53c-6f54-47e5-932d-e756921e0aeb');
     console.log(response, 'Graph repository deleted successfully');
   } catch (err) {
     console.log('Error deleting Graph repository:', err);
@@ -457,7 +536,7 @@ const deleteGraphRepository = async () => {
 const updateGraphRepository = async () => {
   try {
     const response = await api.GraphRepository.update({
-      GUID: '31ff2943-f15a-4493-9cfc-21b56f821e89',
+      GUID: 'e2f9e53c-6f54-47e5-932d-e756921e0aeb',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'My LiteGraph instance ash 3 updated',
       RepositoryType: 'LiteGraph',
@@ -491,7 +570,7 @@ const readAllGraphRepositories = async () => {
 
 const readGraphRepository = async () => {
   try {
-    const response = await api.GraphRepository.read('00000000-0000-0000-0000-000000000000');
+    const response = await api.GraphRepository.read('e2f9e53c-6f54-47e5-932d-e756921e0aeb');
     console.log(response, 'Graph repository fetched successfully');
   } catch (err) {
     console.log('Error fetching Graph repository:', err);
@@ -527,9 +606,13 @@ const createGraphRepository = async () => {
 
 // createGraphRepository();
 
+//endregion
+
+//region VectorRepository
+
 const vectorRepositoryExists = async () => {
   try {
-    const response = await api.VectorRepository.exists('e345dfe7-3e66-4f2b-b78e-3ae1b1c30d9c');
+    const response = await api.VectorRepository.exists('c954934b-46cc-4252-a868-5572f3b5503b');
     console.log(response, 'Vector repository exists');
   } catch (err) {
     console.log('Error checking Vector repository:', err);
@@ -540,7 +623,7 @@ const vectorRepositoryExists = async () => {
 
 const deleteVectorRepository = async () => {
   try {
-    const response = await api.VectorRepository.delete('57094adf-f08f-4887-a49e-ae898c7317e2');
+    const response = await api.VectorRepository.delete('c954934b-46cc-4252-a868-5572f3b5503b');
     console.log(response, 'Vector repository deleted successfully');
   } catch (err) {
     console.log('Error deleting Vector repository:', err);
@@ -552,10 +635,10 @@ const deleteVectorRepository = async () => {
 const updateVectorRepository = async () => {
   try {
     const response = await api.VectorRepository.update({
-      GUID: 'd5845b70-6da5-4ddf-9795-bf90c24b80fc',
+      GUID: 'c954934b-46cc-4252-a868-5572f3b5503b',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       Name: 'My vector repository ash updated',
-      RepositoryType: VectorRepositoryTypeEnum.Pgvector,
+      RepositoryType: 'Pgvector' as any,
       Model: 'all-MiniLM-L6-v2',
       Dimensionality: 384,
       DatabaseHostname: 'localhost',
@@ -588,7 +671,7 @@ const getAllVectorRepositories = async () => {
 
 const getVectorRepository = async () => {
   try {
-    const response = await api.VectorRepository.read('d5845b70-6da5-4ddf-9795-bf90c24b80fc');
+    const response = await api.VectorRepository.read('c954934b-46cc-4252-a868-5572f3b5503b');
     console.log(response, 'Vector repository fetched successfully');
   } catch (err) {
     console.log('Error fetching Vector repository:', err);
@@ -611,7 +694,7 @@ const createVectorRepository = async () => {
   try {
     const response = await api.VectorRepository.create({
       Name: 'My vector repository ash 3',
-      RepositoryType: VectorRepositoryTypeEnum.Pgvector,
+      RepositoryType: 'Pgvector' as any,
       Model: 'all-MiniLM-L6-v2',
       Dimensionality: 384,
       DatabaseHostname: 'localhost',
@@ -630,9 +713,13 @@ const createVectorRepository = async () => {
 
 // createVectorRepository();
 
+//endregion
+
+//region EmbeddingRule
+
 const embeddingRuleExists = async () => {
   try {
-    const response = await api.EmbeddingRule.exists('00000000-0000-0000-0000-000000000000');
+    const response = await api.EmbeddingRule.exists('5264a24e-fabb-4124-8a9e-6c532b2cbf92');
     console.log(response, 'Embedding rule exists');
   } catch (err) {
     console.log('Error checking Embedding rule:', err);
@@ -643,7 +730,7 @@ const embeddingRuleExists = async () => {
 
 const deleteEmbeddingRule = async () => {
   try {
-    const response = await api.EmbeddingRule.delete('962dfbd8-a6bf-43bb-9430-3c2a12e0b1a8');
+    const response = await api.EmbeddingRule.delete('5264a24e-fabb-4124-8a9e-6c532b2cbf92');
     console.log(response, 'Embedding rule deleted successfully');
   } catch (err) {
     console.log('Error deleting Embedding rule:', err);
@@ -655,7 +742,7 @@ const deleteEmbeddingRule = async () => {
 const updateEmbeddingRule = async () => {
   try {
     const response = await api.EmbeddingRule.update({
-      GUID: '962dfbd8-a6bf-43bb-9430-3c2a12e0b1a8',
+      GUID: '5264a24e-fabb-4124-8a9e-6c532b2cbf92',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       BucketGUID: '00000000-0000-0000-0000-000000000000',
       OwnerGUID: '00000000-0000-0000-0000-000000000000',
@@ -699,7 +786,7 @@ const readAllEmbeddingRules = async () => {
 
 const readEmbeddingRule = async () => {
   try {
-    const response = await api.EmbeddingRule.read('00000000-0000-0000-0000-000000000000');
+    const response = await api.EmbeddingRule.read('5264a24e-fabb-4124-8a9e-6c532b2cbf92');
     console.log(response, 'Embedding rule fetched successfully');
   } catch (err) {
     console.log('Error fetching Embedding rule:', err);
@@ -723,7 +810,7 @@ const createEmbeddingRules = async () => {
   try {
     const response = await api.EmbeddingRule.create({
       BucketGUID: '00000000-0000-0000-0000-000000000000',
-      Name: 'Embeddings rule test ash',
+      Name: 'Embeddings rule',
       ContentType: '*',
       GraphRepositoryGUID: '00000000-0000-0000-0000-000000000000',
       VectorRepositoryGUID: '00000000-0000-0000-0000-000000000000',
@@ -748,6 +835,10 @@ const createEmbeddingRules = async () => {
 
 // createEmbeddingRules();
 
+//endregion
+
+//region MetadataRule
+
 export const existsMetaDataRule = async () => {
   try {
     const response = await api.MetadataRule.exists('ff0d2c7c-fc51-473a-8c7d-d2123e2d6492');
@@ -761,7 +852,7 @@ export const existsMetaDataRule = async () => {
 
 export const deleteMetaDataRule = async () => {
   try {
-    const response = await api.MetadataRule.delete('dfdee78e-3f48-4199-a27b-988b4fee04c9');
+    const response = await api.MetadataRule.delete('f07e5737-7893-4df8-ab3a-bbd8e2272d98');
     console.log(response, 'Metadata rule deleted successfully');
   } catch (err) {
     console.log('Error deleting Metadata rule:', err);
@@ -773,7 +864,7 @@ export const deleteMetaDataRule = async () => {
 export const updateMetaDataRule = async () => {
   try {
     const response = await api.MetadataRule.update({
-      GUID: 'fc02c566-78d9-4f7b-82e5-5688b92e6cfe',
+      GUID: 'f07e5737-7893-4df8-ab3a-bbd8e2272d98',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       BucketGUID: '00000000-0000-0000-0000-000000000000',
       OwnerGUID: '00000000-0000-0000-0000-000000000000',
@@ -819,7 +910,7 @@ export const getMetaDataRules = async () => {
 // getMetaDataRules();
 export const getMetaDataRule = async () => {
   try {
-    const response = await api.MetadataRule.read('00000000-0000-0000-0000-000000000000');
+    const response = await api.MetadataRule.read('f07e5737-7893-4df8-ab3a-bbd8e2272d98');
     console.log(response, 'Metadata rule fetched successfully');
   } catch (err) {
     console.log('Error fetching Metadata rule:', err);
@@ -843,7 +934,7 @@ export const createMetaDataRules = async () => {
   try {
     const response = await api.MetadataRule.create({
       BucketGUID: '00000000-0000-0000-0000-000000000000',
-      Name: 'example-metadata-rule-ash',
+      Name: 'example-metadata-rule-2',
       ContentType: '*',
       MaxContentLength: 134217728,
       ProcessingEndpoint: 'http://localhost:8000/v1.0/tenants/00000000-0000-0000-0000-000000000000/processing',
@@ -869,11 +960,15 @@ export const createMetaDataRules = async () => {
   }
 };
 
-// createMetaDataRules();
+createMetaDataRules();
+
+//endregion
+
+//region Credential
 
 export const credentialExists = async () => {
   try {
-    const response = await api.Credential.exists('65bcfde5-76de-4866-9259-6698e935b894');
+    const response = await api.Credential.exists('e3c9137c-cbf3-4f7c-80ba-be2ea96fb669');
     console.log(response, 'Credential exists');
   } catch (err) {
     console.log('Error fetching Credential:', err);
@@ -884,7 +979,7 @@ export const credentialExists = async () => {
 
 export const deleteCredential = async () => {
   try {
-    const response = await api.Credential.delete('58051d5c-fb01-4e9a-83f7-f310b4449f15');
+    const response = await api.Credential.delete('e3c9137c-cbf3-4f7c-80ba-be2ea96fb669');
     console.log(response, 'Credential deleted successfully');
   } catch (err) {
     console.log('Error deleting Credential:', err);
@@ -905,7 +1000,7 @@ export const getAllCredentials = async () => {
 
 export const getCredential = async () => {
   try {
-    const credential = await api.Credential.read('f734b815-c9ef-403a-8125-cfec4d405482');
+    const credential = await api.Credential.read('e3c9137c-cbf3-4f7c-80ba-be2ea96fb669');
     console.log(credential, 'Credential fetched successfully');
   } catch (err) {
     console.log('Error fetching Credential:', err);
@@ -926,7 +1021,7 @@ export const enumerateCredentials = async () => {
 export const createCredential = async () => {
   try {
     const response = await api.Credential.create({
-      UserGUID: '9b7796bc-b36f-4e68-8cec-4ce98c9be7cd',
+      UserGUID: 'da575ca5-f9d2-43ad-9268-cf68e49f6ee9',
       Name: 'Default credential',
       Active: true,
     });
@@ -937,9 +1032,13 @@ export const createCredential = async () => {
 };
 // createCredential();
 
+//endregion
+
+//region User
+
 export const userExists = async () => {
   try {
-    const response = await api.User.exists('9b7796bc-b36f-4e68-8cec-4ce98c9be7cd');
+    const response = await api.User.exists('f75b0fbc-de48-487b-b1bd-4398fd828173');
     console.log(response, 'User exists');
   } catch (err) {
     console.log('Error fetching User:', err);
@@ -950,7 +1049,7 @@ export const userExists = async () => {
 
 export const deleteUser = async () => {
   try {
-    const response = await api.User.delete('1522f272-c572-4419-88b5-f0a0d37dabf6');
+    const response = await api.User.delete('f75b0fbc-de48-487b-b1bd-4398fd828173');
     console.log(response, 'User deleted successfully');
   } catch (err) {
     console.log('Error deleting User:', err);
@@ -973,7 +1072,7 @@ export const getUsers = async () => {
 export const updateUser = async () => {
   try {
     const user = await api.User.update({
-      GUID: '0a54349a-39d4-4756-960d-9d7b6af9435c',
+      GUID: 'da575ca5-f9d2-43ad-9268-cf68e49f6ee9',
       TenantGUID: '00000000-0000-0000-0000-000000000000',
       Active: true,
       CreatedUtc: '2025-03-25T12:19:28.976056Z',
@@ -994,7 +1093,7 @@ export const updateUser = async () => {
 
 export const getUser = async () => {
   try {
-    const user = await api.User.read('0a54349a-39d4-4756-960d-9d7b6af9435c');
+    const user = await api.User.read('f75b0fbc-de48-487b-b1bd-4398fd828173');
     console.log(user, 'User fetched successfully');
   } catch (err) {
     console.log('Error fetching User:', err);
@@ -1028,22 +1127,14 @@ export const createUser = async () => {
     console.log('Error creating User:', err);
   }
 };
-
 // createUser();
 
-export const tenantExists = async () => {
-  try {
-    const tenant = await api.Tenant.exists('904a458b-8e62-4a8d-baa4-dae577245930');
-    console.log(tenant, 'Tenant exists'); //true
-  } catch (err) {
-    console.log('Error fetching Tenant:', err);
-  }
-};
-// tenantExists();
+//endregion
 
+//region Node
 export const nodeExists = async () => {
   try {
-    const node = await api.Nodes.exists('33079aff-6421-4987-a80e-26c621f2aa24');
+    const node = await api.Nodes.exists('c8ebddf6-3b4f-4709-ae51-1d533a69115b');
     console.log(node, 'Node exists'); //true
   } catch (err) {
     console.log('Error fetching Node:', err);
@@ -1054,7 +1145,7 @@ export const nodeExists = async () => {
 
 export const enumerateNode = async () => {
   try {
-    const nodes = await api.Nodes.enumerate(2);
+    const nodes = await api.Nodes.enumerate();
     console.log(nodes, 'Nodes fetched successfully');
   } catch (err) {
     console.log('Error fetching Nodes:', err);
@@ -1062,15 +1153,6 @@ export const enumerateNode = async () => {
 };
 // enumerateNode();
 
-export const enumerateTenant = async () => {
-  try {
-    const tenants = await api.Tenant.enumerate();
-    console.log(tenants, 'Tenants fetched successfully');
-  } catch (err) {
-    console.log('Error fetching Tenants:', err);
-  }
-};
-// enumerateTenant();
 const deleteNode = async () => {
   try {
     await api.Nodes.delete('a46fa027-1b89-4250-996e-d7c5c0c82ca3');
@@ -1083,7 +1165,7 @@ const deleteNode = async () => {
 
 const getNode = async () => {
   try {
-    const nodes = await api.Nodes.read('33079aff-6421-4987-a80e-26c621f2aa24');
+    const nodes = await api.Nodes.read('8f8b6997-7082-4ad1-93e2-a397cf214cbf');
     console.log(nodes, 'Nodes fetched successfully');
   } catch (err) {
     console.log('Error fetching Nodes:', err);
@@ -1101,6 +1183,10 @@ const getNodes = async () => {
 };
 // getNodes();
 
+//endregion
+
+//region Tenant
+
 const fetchTenant = async () => {
   try {
     const tenants = await api.Tenant.readAll();
@@ -1114,16 +1200,16 @@ const fetchTenant = async () => {
 const updateTenant = async () => {
   try {
     const updatedTenant = await api.Tenant.update({
-      GUID: '00000000-0000-0000-0000-000000000000',
-      AccountGUID: '00000000-0000-0000-0000-000000000000',
+      GUID: 'a73a5aad-6e70-469f-89b7-8f4beb46cfce',
+      AccountGUID: 'f6381ef8-a1d1-48f7-b663-e0e534eed820',
       DefaultPoolGUID: '00000000-0000-0000-0000-000000000000',
-      Name: 'Default Tenant',
+      Name: 'Default Tenant123',
       Region: 'us-west-1',
       S3BaseDomain: 'localhost',
       RestBaseDomain: 'localhost',
       Active: true,
       IsProtected: true,
-      CreatedUtc: '2025-06-07T17:59:30.333249Z',
+      CreatedUtc: '2025-06-09T17:59:30.333249Z',
     });
     console.log(updatedTenant, 'Tenant updated successfully');
   } catch (err) {
@@ -1134,7 +1220,7 @@ const updateTenant = async () => {
 
 const deleteTenant = async () => {
   try {
-    await api.Tenant.delete('3b681727-f9a0-4904-ad9a-223b8101d2f4');
+    await api.Tenant.delete('a73a5aad-6e70-469f-89b7-8f4beb46cfce');
     console.log('Tenant deleted successfully');
   } catch (err) {
     console.log('Error deleting Tenant:', err);
@@ -1156,11 +1242,11 @@ const enumerateTenants = async () => {
 const createTenant = async () => {
   try {
     const createdTenant = await api.Tenant.create({
-      Name: 'My tenant demo',
+      Name: 'My tenant test12',
       Region: 'us-west-1',
       S3BaseDomain: 'localhost',
       RestBaseDomain: 'localhost',
-      DefaultPoolGUID: 'df6c9117-a1ea-44ca-bddc-fa7a3d932fe9',
+      DefaultPoolGUID: '00000000-0000-0000-0000-000000000000',
     });
     console.log(createdTenant, 'Tenant created successfully');
   } catch (err) {
@@ -1180,3 +1266,117 @@ const retrieveTenantById = async () => {
 };
 
 // retrieveTenantById();
+
+export const tenantExists = async () => {
+  try {
+    const tenant = await api.Tenant.exists('00000000-0000-0000-0000-000000000000');
+    console.log(tenant, 'Tenant exists'); //true
+  } catch (err) {
+    console.log('Error fetching Tenant:', err);
+  }
+};
+// tenantExists();
+
+//endregion
+
+//region Authentication
+
+const retrieveTenantsForEmail = async () => {
+  try {
+    // api.config.accessToken =
+    //   'mXCNtMWDsW0/pr+IwRFUjQeX+5M5Bn5IvSEZ9F72vLOu0HzqmUUI+y0Dl3wovaOUtABmRXJOrhg4BE3v8oY4FfydsBoP7k8H56P5/QRI2os22ZayM/cNqSgPI8WT8Byx3jwLXJ5Nygd+CAMeEn2YULbSa12E+RyLyTlBHhfppNZ2BmaUsMBd5jz5DFjonICQQWkpWPVYymio49PcusxyWr8bybRjhIbRSH7RC27DkIWezMoaTAPf3x1HLd6yCcK180woutjkfsfKKaMie6vz8q8pRO4wdjCPrhp9H97r4EZYMqvGdLVvBpkkx+6znpAu';
+    const tenants = await api.Authentication.retrieveTenantsForEmail('default@user.com');
+    console.log(tenants, 'Tenants fetched successfully');
+  } catch (err) {
+    console.log('Error fetching Tenants:', err);
+  }
+};
+
+// retrieveTenantsForEmail();
+
+const generateAuthenticationTokenByPassword = async () => {
+  try {
+    const token = await api.Authentication.generateAuthenticationTokenByPassword({
+      email: 'default@user.com',
+      password: 'password',
+      tenantGUID: '00000000-0000-0000-0000-000000000000',
+    });
+    console.log(token, 'Token generated successfully');
+  } catch (err) {
+    console.log('Error generating Token:', err);
+  }
+};
+
+// generateAuthenticationTokenByPassword();
+
+const generateAuthenticationTokenBySHA256 = async () => {
+  try {
+    const token = await api.Authentication.generateAuthenticationTokenBySHA256({
+      email: 'default@user.com',
+      passwordSHA256: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
+      tenantGUID: '00000000-0000-0000-0000-000000000000',
+    });
+    console.log(token, 'Token generated successfully');
+  } catch (err) {
+    console.log('Error generating Token:', err);
+  }
+};
+
+// generateAuthenticationTokenBySHA256();
+
+const generateAdministratorToken = async () => {
+  try {
+    const token = await api.Authentication.generateAdministratorToken({
+      email: 'admin@view.io',
+      password: 'viewadmin',
+    });
+    console.log(token, 'Token generated successfully');
+  } catch (err) {
+    console.log('Error generating Token:', err);
+  }
+};
+
+// generateAdministratorToken();
+
+const generateAdministratorTokenBySHA256 = async () => {
+  try {
+    const token = await api.Authentication.generateAdministratorTokenBySHA256({
+      email: 'admin@view.io',
+      passwordSHA256: 'e75255193871e245472533552fe45dfda25768d26e9eb92507e75263e90c6a48',
+    });
+    console.log(token, 'Token generated successfully');
+  } catch (err) {
+    console.log('Error generating Token:', err);
+  }
+};
+
+// generateAdministratorTokenBySHA256();
+
+const validateAuthenticationToken = async () => {
+  try {
+    const token = await api.Authentication.validateAuthenticationToken({
+      token:
+        'mXCNtMWDsW0/pr+IwRFUjb15G7CPCCH7RW0c4Mmj+qzQf0yTiW0yBKRsvEDV/IEtIBLbL7XqYAjvwF2u6+ykonqdBUgaWg8z5MeerCUs+BJAU8QltaBgfPsXwdZ7hZQW4AKh6ZDRM03N6EbYflYnr4miAyZLq1V/MiA4HenvkuH8uWa8LKiW8JFbC95jVee7QByq8smCLwrWtZ2TJCXNGOB6R2xE5zTuhnxOc3f75IoBjo6STwcwUFABtdTZ1TKxFvKoR5fRJKP+RhjTNStXrQvaTAlANtc+NPG7dm0HrTQ0y4Jpf2PTdoa+MbPbWfnZ',
+    });
+    console.log(token, 'Token validated successfully');
+  } catch (err) {
+    console.log('Error validating Token:', err);
+  }
+};
+
+// validateAuthenticationToken();
+
+const retrieveTokenDetails = async () => {
+  try {
+    const token = await api.Authentication.retrieveTokenDetails({
+      token:
+        'mXCNtMWDsW0/pr+IwRFUjb15G7CPCCH7RW0c4Mmj+qzQf0yTiW0yBKRsvEDV/IEtIBLbL7XqYAjvwF2u6+ykonqdBUgaWg8z5MeerCUs+BJAU8QltaBgfPsXwdZ7hZQW4AKh6ZDRM03N6EbYflYnr4miAyZLq1V/MiA4HenvkuH8uWa8LKiW8JFbC95jVee7QByq8smCLwrWtZ2TJCXNGOB6R2xE5zTuhnxOc3f75IoBjo6STwcwUFABtdTZ1TKxFvKoR5fRJKP+RhjTNStXrQvaTAlANtc+NPG7dm0HrTQ0y4Jpf2PTdoa+MbPbWfnZ',
+    });
+    console.log(token, 'Token details fetched successfully');
+  } catch (err) {
+    console.log('Error fetching Token details:', err);
+  }
+};
+
+// retrieveTokenDetails();
+//endregion

@@ -25,7 +25,7 @@ export default class PoolSdk extends ViewSdkBase {
     if (!pool) {
       GenericExceptionHandlers.ArgumentNullException('pool');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/pools';
     return await this.createResource(url, pool, cancelToken);
   };
 
@@ -41,7 +41,7 @@ export default class PoolSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/pools/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -57,7 +57,7 @@ export default class PoolSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/pools/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -68,7 +68,7 @@ export default class PoolSdk extends ViewSdkBase {
    * @returns {Promise<Array<StoragePool>>} A promise resolving to an array of StoragePool objects.
    */
   readAll = async (cancelToken?: AbortController): Promise<StoragePool[]> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/pools';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -84,7 +84,7 @@ export default class PoolSdk extends ViewSdkBase {
     if (!pool) {
       GenericExceptionHandlers.ArgumentNullException('pool');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools/' + pool.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/pools/' + pool.GUID;
     return await this.updateResource(url, pool, cancelToken);
   };
 
@@ -100,7 +100,7 @@ export default class PoolSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/pools/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/pools/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 }

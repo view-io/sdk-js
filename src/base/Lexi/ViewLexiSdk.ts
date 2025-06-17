@@ -11,11 +11,11 @@ import { CollectionsSdk } from './CollectionsSdk';
  * @version 0.1.0
  */
 export default class ViewLexiSdk {
-  public searchEnumrateSdk: SearchEnumrateSdk;
-  public ingestQueueSdk: IngestQueueSdk;
-  public searchCollectionSdk: SearchCollectionSdk;
-  public sourceDocumentSdk: SourceDocumentSdk;
-  public collectionsSdk: CollectionsSdk;
+  public searchEnumrate: SearchEnumrateSdk;
+  public ingestQueue: IngestQueueSdk;
+  public searchCollection: SearchCollectionSdk;
+  public sourceDocument: SourceDocumentSdk;
+  public collections: CollectionsSdk;
   public config: SdkConfiguration;
   /**
    * Constructs a new ViewLexiSdk instance.
@@ -27,10 +27,10 @@ export default class ViewLexiSdk {
    */
   constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
     this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
-    this.searchEnumrateSdk = new SearchEnumrateSdk(this.config);
-    this.ingestQueueSdk = new IngestQueueSdk(this.config);
-    this.searchCollectionSdk = new SearchCollectionSdk(this.config);
-    this.sourceDocumentSdk = new SourceDocumentSdk(this.config);
-    this.collectionsSdk = new CollectionsSdk(this.config);
+    this.searchEnumrate = new SearchEnumrateSdk(this.config);
+    this.ingestQueue = new IngestQueueSdk(this.config);
+    this.searchCollection = new SearchCollectionSdk(this.config);
+    this.sourceDocument = new SourceDocumentSdk(this.config);
+    this.collections = new CollectionsSdk(this.config);
   }
 }

@@ -25,7 +25,7 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
   ): Promise<VectorRepository[]> => {
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       enumerationQuery.vectorRepositoryGuid +
@@ -49,7 +49,7 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +
@@ -69,7 +69,7 @@ export default class VectorRepositoriesSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('vectorRepositoryGuid');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + vectorRepositoryGuid;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + vectorRepositoryGuid;
     return await this.deleteResource(url, cancelToken);
   };
 

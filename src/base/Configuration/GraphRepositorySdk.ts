@@ -26,7 +26,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
     if (!graph) {
       GenericExceptionHandlers.ArgumentNullException('graph');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories';
     return await this.createResource(url, graph, cancelToken);
   };
 
@@ -42,7 +42,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -58,7 +58,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -70,7 +70,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
    * @throws {MethodError} If the graph repositories are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<GraphRepository>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -86,7 +86,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
     if (!graph) {
       GenericExceptionHandlers.ArgumentNullException('graph');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + graph.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + graph.GUID;
     return await this.updateResource(url, graph, cancelToken);
   };
 
@@ -102,7 +102,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/graphrepositories/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -113,7 +113,7 @@ export default class GraphRepositorySdk extends ViewSdkBase {
    * @throws {ApiErrorResponse} If the trigger is null or invalid.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<GraphRepository>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/graphrepositories/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/graphrepositories/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

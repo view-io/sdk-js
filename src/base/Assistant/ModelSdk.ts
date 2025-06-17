@@ -31,7 +31,7 @@ export class ModelSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models/pull`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/models/pull`;
     const json = JSON.stringify(model);
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${json}`);
@@ -70,7 +70,7 @@ export class ModelSdk extends ViewSdkBase {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models/delete`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/models/delete`;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -86,7 +86,7 @@ export class ModelSdk extends ViewSdkBase {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/models`;
     return await this.postCreateResource(url, model, cancelToken);
   };
 
@@ -102,7 +102,7 @@ export class ModelSdk extends ViewSdkBase {
     if (!model) {
       GenericExceptionHandlers.ArgumentNullException('model');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/models/load`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/models/load`;
     return await this.postCreateResource(url, model, cancelToken);
   };
 

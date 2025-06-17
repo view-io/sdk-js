@@ -20,7 +20,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
    * @throws {MethodError} If the request fails.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<CrawlOperation>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawloperations/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/crawloperations/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -30,7 +30,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
    * @throws {MethodError} If the request fails.
    */
   readAll = async (cancelToken?: AbortController): Promise<CrawlOperation[]> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -44,7 +44,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -58,7 +58,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}/enumeration`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}/enumeration`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -80,7 +80,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
     if (!crawlOperationData) {
       GenericExceptionHandlers.ArgumentNullException('crawlOperationData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}/start`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}/start`;
     return await this.postCreateResource(url, crawlOperationData, cancelToken);
   };
   /**
@@ -102,7 +102,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
     if (!crawlOperationData) {
       GenericExceptionHandlers.ArgumentNullException('crawlOperationData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}/stop`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}/stop`;
     return await this.postCreateResource(url, crawlOperationData, cancelToken);
   };
   /**
@@ -117,7 +117,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}`;
     return await this.deleteResource(url, cancelToken);
   };
   /**
@@ -132,7 +132,7 @@ export class CrawlOperationSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawloperations/${guid}`;
     return await this.existsResource(url, cancelToken);
   };
 }

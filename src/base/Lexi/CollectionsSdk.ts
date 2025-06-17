@@ -21,7 +21,7 @@ export class CollectionsSdk extends ViewSdkBase {
    * @throws {MethodError} If an error occurs during retrieval.
    */
   readAll = async (cancelToken?: AbortController): Promise<Collection[]> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/collections';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -38,7 +38,7 @@ export class CollectionsSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
 
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -55,7 +55,7 @@ export class CollectionsSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid + '?stats';
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid + '?stats';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -71,7 +71,7 @@ export class CollectionsSdk extends ViewSdkBase {
     if (!collection) {
       GenericExceptionHandlers.ArgumentNullException('collection');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/collections';
     return await this.createResource(url, collection, cancelToken);
   };
 
@@ -87,7 +87,7 @@ export class CollectionsSdk extends ViewSdkBase {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/collections/' + collectionGuid;
     return await this.deleteResource(url, cancelToken);
   };
   /**
@@ -103,7 +103,7 @@ export class CollectionsSdk extends ViewSdkBase {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/topterms?max-keys=${maxKeys}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}/topterms?max-keys=${maxKeys}`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -117,7 +117,7 @@ export class CollectionsSdk extends ViewSdkBase {
     if (!collectionGuid) {
       GenericExceptionHandlers.ArgumentNullException('collectionGuid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/collections/${collectionGuid}`;
     return await this.existsResource(url, cancelToken);
   };
   // endregion

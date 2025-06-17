@@ -31,12 +31,12 @@ export default class DocumentSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGUID +
       '/documents';
-    return await this.createResource(url, doc, cancelToken);
+    return await this.postCreateResource(url, doc, cancelToken);
   };
 
   /**
@@ -60,7 +60,7 @@ export default class DocumentSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +
@@ -90,7 +90,7 @@ export default class DocumentSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +
@@ -120,7 +120,7 @@ export default class DocumentSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +

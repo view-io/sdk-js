@@ -25,7 +25,7 @@ export default class WebhookEventSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookevents/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookevents/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -41,7 +41,7 @@ export default class WebhookEventSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookevents/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookevents/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -53,7 +53,7 @@ export default class WebhookEventSdk extends ViewSdkBase {
    * @throws {MethodError} If the webhook events are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<WebhookEvent> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookevents';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookevents';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -64,7 +64,7 @@ export default class WebhookEventSdk extends ViewSdkBase {
    * @throws {MethodError} If the webhook events are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<WebhookEvent>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/webhookevents/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/webhookevents/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

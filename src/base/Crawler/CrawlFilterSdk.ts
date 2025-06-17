@@ -20,7 +20,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<CrawlFilter>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -30,7 +30,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
    * @throws {MethodError} If the `cancelToken` is null or empty.
    */
   readAll = async (cancelToken?: AbortController): Promise<CrawlFilter[]> => {
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -44,7 +44,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
     return await this.retrieveResource(url, cancelToken);
   };
   /**
@@ -58,7 +58,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
     if (!crawlFiltersData) {
       GenericExceptionHandlers.ArgumentNullException('crawlFiltersData');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlfilters/`;
     return await this.createResource(url, crawlFiltersData, cancelToken);
   };
   /**
@@ -72,7 +72,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
     if (!crawlFilterData || !crawlFilterData.GUID) {
       GenericExceptionHandlers.ArgumentNullException('crawlFilterData or crawlFilterData.GUID');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${crawlFilterData.GUID}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${crawlFilterData.GUID}`;
 
     return await this.updateResource(url, crawlFilterData, cancelToken);
   };
@@ -88,7 +88,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
     return await this.deleteResource(url, cancelToken);
   };
   /**
@@ -103,7 +103,7 @@ export class CrawlFilterSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/crawlfilters/${guid}`;
     return await this.existsResource(url, cancelToken);
   };
 }

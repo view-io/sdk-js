@@ -34,7 +34,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +
@@ -69,7 +69,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +
@@ -106,7 +106,7 @@ export default class SemanticCellSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/vectorrepositories/' +
       vectorRepositoryGuid +

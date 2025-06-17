@@ -15,6 +15,7 @@ export default class ViewEmbeddingsSdk extends ViewSdkBase {
    */
   constructor(endpoint: string, tenantGuid?: string, accessKey?: string) {
     super(new SdkConfiguration(endpoint, tenantGuid, accessKey));
+    this.config = new SdkConfiguration(endpoint, tenantGuid, accessKey);
   }
 
   /**
@@ -31,7 +32,7 @@ export default class ViewEmbeddingsSdk extends ViewSdkBase {
     if (!request) {
       GenericExceptionHandlers.ArgumentNullException('request');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/embeddings`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/embeddings`;
     return await this.postCreateResource(url, request, cancelToken);
   };
 
@@ -47,7 +48,7 @@ export default class ViewEmbeddingsSdk extends ViewSdkBase {
     if (!models) {
       GenericExceptionHandlers.ArgumentNullException('models');
     }
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/embeddings/preload`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/embeddings/preload`;
     return await this.postCreateResource(url, models, cancelToken);
   };
 }

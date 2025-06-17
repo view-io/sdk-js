@@ -30,7 +30,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
     if (!vector) {
       GenericExceptionHandlers.ArgumentNullException('repo');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories';
     return await this.createResource(url, vector, cancelToken);
   };
 
@@ -46,7 +46,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -62,7 +62,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -74,7 +74,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
    * @throws {MethodError} If the vector repositories are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<VectorRepository> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -90,7 +90,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
     if (!vector) {
       GenericExceptionHandlers.ArgumentNullException('vector');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + vector.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + vector.GUID;
     return await this.updateResource(url, vector, cancelToken);
   };
 
@@ -106,7 +106,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/vectorrepositories/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -117,7 +117,7 @@ export default class VectorRepositorySdk extends ViewSdkBase {
    * @throws {MethodError} If the vector repositories are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<VectorRepository>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/vectorrepositories/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/vectorrepositories/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

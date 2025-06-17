@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockNodeGuid, nodesData, nodesMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import NodeModal from '../../src/models/NodeModal';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('Node', () => {
     it('retrieves a Node', async () => {
-      const data = await api.retrieveNode(mockNodeGuid);
-      expect(data instanceof NodeModal).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new NodeModal(nodesData[mockNodeGuid])));
+      const data = await api.Nodes.read(mockNodeGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(nodesData[mockNodeGuid]);
     });
 
     it('throws error when if missed guid while retrieving a Node', async () => {
       try {
-        await api.retrieveNode();
+        await api.Nodes.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,32 +33,33 @@ describe('View.IO SDK', () => {
     it('retrieves a Node with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveNode(mockNodeGuid, cancelToken);
+      await api.Nodes.read(mockNodeGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all Node', async () => {
-      const data = await api.retrieveNodes();
+      const data = await api.Nodes.readAll();
       data.map((node) => {
-        expect(JSON.stringify(node)).toBe(JSON.stringify(new NodeModal(nodesData[node.GUID])));
+        expect(node).toEqual(nodesData[node.GUID]);
       });
     });
 
     it('creates a Node', async () => {
-      const data = await api.createNode({
+      const newNode = {
         name: 'Default Tenant',
         hostname: 'localhost',
         InstanceType: 'StorageServer',
         LastStartUtc: '2024-09-23T11:55:18.607Z',
         CreatedUtc: '2024-09-23T11:55:18.607Z',
-      });
-      expect(true).toBe(data instanceof NodeModal);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new NodeModal(nodesData[mockNodeGuid])));
+      };
+      const data = await api.Nodes.create(newNode);
+      expect(data).toBeDefined();
+      expect(data).toEqual(nodesData[mockNodeGuid]);
     });
 
     it('throws error when creating a Node with node parameter', async () => {
       try {
-        await api.createNode();
+        await api.Nodes.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: node is null or empty');
@@ -67,7 +67,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a Node', async () => {
-      const data = await api.updateNode({
+      const data = await api.Nodes.update({
         GUID: mockNodeGuid,
         name: 'Default Tenant',
         hostname: 'localhost',
@@ -76,13 +76,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-23T11:55:18.607Z',
       });
 
-      expect(true).toBe(data instanceof NodeModal);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new NodeModal(nodesData[mockNodeGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(nodesData[mockNodeGuid]);
     });
 
     it('throws error when if missed guid while updating a Node', async () => {
       try {
-        await api.updateNode();
+        await api.Nodes.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: node is null or empty');
@@ -90,13 +90,13 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a Node', async () => {
-      const data = await api.deleteNode(mockNodeGuid);
+      const data = await api.Nodes.delete(mockNodeGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a Node', async () => {
       try {
-        await api.deleteNode();
+        await api.Nodes.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -104,13 +104,13 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a Node exist', async () => {
-      const data = await api.existsNode(mockNodeGuid);
-      expect(data).toBe('true');
+      const data = await api.Nodes.exists(mockNodeGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a Node does not exist', async () => {
       try {
-        const data = await api.existsNode('wrongID');
+        const data = await api.Nodes.exists('wrongID');
       } catch (err) {
         expect(err).toBe('Not Found');
       }
@@ -118,7 +118,7 @@ describe('View.IO SDK', () => {
 
     it('throws error when if missed guid while checking a Node existance', async () => {
       try {
-        await api.existsNode();
+        await api.Nodes.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

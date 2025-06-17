@@ -1,11 +1,11 @@
-import SemanticCell from '../../../src/models/SemanticCell';
+// import SemanticCell from '../../../src/models/SemanticCell';
 import { EmbeddingsGeneratorEnum } from '../../../src/enums/EmbeddingsGeneratorEnum';
 import { mockEndpoint2 } from '../../setupTest';
 
 export const mockApiKey = 'test-api-key';
 export const mockModel = 'test-model';
 
-export const mockSemanticCell = new SemanticCell({
+export const mockSemanticCell = {
   GUID: 'cell-guid-12345',
   MD5Hash: 'md5-hash-value',
   SHA1Hash: 'sha1-hash-value',
@@ -14,11 +14,11 @@ export const mockSemanticCell = new SemanticCell({
   Length: 100,
   Chunks: [],
   Children: [],
-});
+};
 
 export const mockSemanticCells = [
   mockSemanticCell,
-  new SemanticCell({
+  {
     GUID: 'cell-guid-67890',
     MD5Hash: 'md5-hash-value-2',
     SHA1Hash: 'sha1-hash-value-2',
@@ -27,7 +27,7 @@ export const mockSemanticCells = [
     Length: 150,
     Chunks: [],
     Children: [],
-  }),
+  },
 ];
 
 export const mockConfig = {

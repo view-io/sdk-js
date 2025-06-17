@@ -17,9 +17,9 @@ export default class ProcessSdk extends ViewSdkBase {
    * @param {ProcessorConfig} payload - The payload to be processed.
    * @param {AbortSignal} token - Cancellation token.
    */
-  processingPipeline = async (payload: ProcessorConfig, token: AbortController): Promise<ProcessorConfig> => {
+  processingPipeline = async (payload: ProcessorConfig, token?: AbortController): Promise<ProcessorConfig> => {
     if (!payload) GenericExceptionHandlers.ArgumentNullException('payload');
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/processing`;
     return await this.postCreateResource(url, payload, token);
   };
 
@@ -28,9 +28,9 @@ export default class ProcessSdk extends ViewSdkBase {
    * @param {ProcessorConfig} payload - The payload to be processed.
    * @param {AbortSignal} token - Cancellation  token.
    */
-  cleanupPipeline = async (payload: ProcessorConfig, token: AbortController): Promise<ProcessorConfig> => {
+  cleanupPipeline = async (payload: ProcessorConfig, token?: AbortController): Promise<ProcessorConfig> => {
     if (!payload) GenericExceptionHandlers.ArgumentNullException('payload');
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/cleanup`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/processing/cleanup`;
     return await this.postCreateResource(url, payload, token);
   };
 
@@ -43,7 +43,7 @@ export default class ProcessSdk extends ViewSdkBase {
   typeDetection = async (data: object, cancelToken?: AbortController): Promise<TypeResult> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/typedetection`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/processing/typedetection`;
     return await this.postCreateResource(url, data, cancelToken);
   };
 
@@ -56,7 +56,7 @@ export default class ProcessSdk extends ViewSdkBase {
   extractSemanticCells = async (data: object, cancelToken?: AbortController): Promise<SemanticCellResponse> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/semanticcell`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/processing/semanticcell`;
     return await this.postCreateResource(url, data, cancelToken);
   };
 
@@ -69,7 +69,7 @@ export default class ProcessSdk extends ViewSdkBase {
   generateUdr = async (data: object, cancelToken?: AbortController): Promise<UdrDocument> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/udr`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/processing/udr`;
     return await this.postCreateResource(url, data, cancelToken);
   };
 
@@ -82,7 +82,7 @@ export default class ProcessSdk extends ViewSdkBase {
   generateLexiEmbeddings = async (data: object, cancelToken?: AbortController): Promise<LexiEmbeddingsResponse> => {
     if (!data) GenericExceptionHandlers.ArgumentNullException('data');
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/processing/lexiprocessing`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/processing/lexiprocessing`;
     return await this.postCreateResource(url, data, cancelToken);
   };
 }

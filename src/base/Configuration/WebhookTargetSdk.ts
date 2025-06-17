@@ -23,7 +23,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
     if (!target) {
       GenericExceptionHandlers.ArgumentNullException('target');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets';
     return await this.createResource(url, target, cancelToken);
   };
 
@@ -37,7 +37,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -51,7 +51,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -61,7 +61,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @returns {Promise<WebhookTarget[]>} - Webhook targets.
    */
   readAll = async (cancelToken?: AbortController): Promise<WebhookTarget> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -75,7 +75,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
     if (!target) {
       GenericExceptionHandlers.ArgumentNullException('target');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + target.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + target.GUID;
     return await this.updateResource(url, target, cancelToken);
   };
 
@@ -89,7 +89,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhooktargets/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -100,7 +100,7 @@ export default class WebhookTargetSdk extends ViewSdkBase {
    * @throws {MethodError} If the webhook targets are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<WebhookTarget>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/webhooktargets/`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/webhooktargets/`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

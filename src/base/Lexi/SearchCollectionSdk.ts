@@ -29,9 +29,9 @@ export class SearchCollectionSdk extends ViewSdkBase {
   searchDocuments = async (
     collectionGuid: string,
     query: SearchCollectionDocumentsQuery,
-    includeData: boolean,
-    includeTopTerms: boolean,
-    emitResult: boolean,
+    includeData?: boolean,
+    includeTopTerms?: boolean,
+    emitResult?: boolean,
     cancelToken?: AbortController
   ): Promise<SearchResult> => {
     if (!query) {
@@ -43,7 +43,7 @@ export class SearchCollectionSdk extends ViewSdkBase {
 
     let url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/collections/' +
       collectionGuid +

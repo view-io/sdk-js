@@ -33,7 +33,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads';
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads';
     return await this.createResource(url, multipartUpload, cancelToken);
   };
 
@@ -50,7 +50,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads';
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads';
     // Use the `retrieve` method to get list of Multipart Upload
     return await this.retrieveResource(url, cancelToken);
   };
@@ -72,7 +72,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
     // Use the `retrieve` method to get the object
     return await this.retrieveResource(url, cancelToken);
   };
@@ -104,7 +104,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGUID +
@@ -143,7 +143,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGUID +
@@ -172,7 +172,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
     // Use the `delete` method to remove the Multipart Upload
     return await this.deleteResource(url, cancelToken);
   };
@@ -208,13 +208,13 @@ export default class MultipartUploadSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGUID +
       '/uploads/' +
       key +
-      '/parts?partNumber' +
+      '/parts?partNumber=' +
       partNumber;
     return await this.updateResource(url, data, cancelToken);
   };
@@ -236,7 +236,7 @@ export default class MultipartUploadSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/uploads/' + key;
     // Use the `delete` method to remove the Multipart Upload
     return await this.createResource(url, {}, cancelToken);
   };

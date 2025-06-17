@@ -28,7 +28,7 @@ export default class ObjectSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '/objects/' + objectValue;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + guid + '/objects/' + objectValue;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -44,7 +44,7 @@ export default class ObjectSdk extends ViewSdkBase {
     if (!bucketGuid) {
       GenericExceptionHandlers.ArgumentNullException('bucketGuid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid;
     // Use the `retrieve` method to get the data for the object key
     return await this.retrieveResource(url, cancelToken);
   };
@@ -71,7 +71,7 @@ export default class ObjectSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('bucketGUID');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/objects/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGUID + '/objects/' + key;
     return await this.createResource(url, data, cancelToken);
   };
 
@@ -97,7 +97,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGUID +
@@ -124,7 +124,7 @@ export default class ObjectSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
     // Use the `retrieve` method to get the data for the object key
     return await this.retrieveResource(url, undefined, cancelToken);
   };
@@ -155,7 +155,7 @@ export default class ObjectSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('range');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
     // Use the `retrieve` method to get the data for the object key
     return await this.retrieveResource(url, cancelToken, { Range: range });
   };
@@ -178,7 +178,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGuid +
@@ -206,7 +206,7 @@ export default class ObjectSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('key');
     }
     const url =
-      this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
     // Use the `delete` method to remove the object by key
     return await this.deleteResource(url, cancelToken);
   };
@@ -236,7 +236,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGUID +
@@ -263,7 +263,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGUID +
@@ -320,7 +320,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGuid +
@@ -348,7 +348,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGuid +
@@ -384,7 +384,7 @@ export default class ObjectSdk extends ViewSdkBase {
     }
     const url =
       this.config.endpoint +
-      '/v1.0/tenants/' +
+      'v1.0/tenants/' +
       this.config.tenantGuid +
       '/buckets/' +
       bucketGuid +
@@ -392,5 +392,35 @@ export default class ObjectSdk extends ViewSdkBase {
       key +
       '?acl';
     return await this.updateResource(url, aclMetaData, cancelToken);
+  };
+
+  /**
+   * Create a new object.
+   * @param bucketGuid - The GUID of the bucket.
+   * @param key - The key of the object.
+   * @param data - The data of the object.
+   * @param cancelToken - Optional object with an `abort` method to cancel the request.
+   * @returns {Promise<ObjectMetadata>} A promise resolving to the created ObjectMetadata object or null if the creation fails.
+   * @throws {MethodError} If the ObjectMetadata is null or empty.
+   */
+
+  create = async (
+    bucketGuid: string,
+    key: string,
+    data: ObjectMetadata,
+    cancelToken?: AbortController
+  ): Promise<ObjectMetadata> => {
+    if (!data) {
+      GenericExceptionHandlers.ArgumentNullException('data');
+    }
+    if (!bucketGuid) {
+      GenericExceptionHandlers.ArgumentNullException('bucketGuid');
+    }
+    if (!key) {
+      GenericExceptionHandlers.ArgumentNullException('key');
+    }
+    const url =
+      this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/buckets/' + bucketGuid + '/objects/' + key;
+    return await this.createResource(url, data, cancelToken);
   };
 }

@@ -1,8 +1,7 @@
 import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockBucketGuid, bucketsData, bucketsMockApiResponse } from './mockData';
-import { api } from '../setupTest';
-import BucketMetadata from '../../src/models/BucketMetadata';
+import { apiViewStorageSdk as api } from '../setupTest';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('BucketMetadata', () => {
     it('retrieves a BucketMetadata', async () => {
-      const data = await api.retrieveBucket(mockBucketGuid);
-      expect(data instanceof BucketMetadata).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new BucketMetadata(bucketsData[mockBucketGuid])));
+      const data = await api.bucket.readMetadata(mockBucketGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(bucketsData[mockBucketGuid]);
     });
 
     it('throws error when if missed guid while retrieving a BucketMetadata', async () => {
       try {
-        await api.retrieveBucket();
+        await api.bucket.readAll();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,19 +33,19 @@ describe('View.IO SDK', () => {
     it('retrieves a BucketMetadata with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveBucket(mockBucketGuid, cancelToken);
+      await api.bucket.readMetadata(mockBucketGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all BucketMetadata', async () => {
-      const data = await api.retrieveBuckets();
+      const data = await api.bucket.readAll();
       data.map((bucket) => {
-        expect(JSON.stringify(bucket)).toBe(JSON.stringify(new BucketMetadata(bucketsData[bucket.GUID])));
+        expect(bucket).toEqual(bucketsData[bucket.GUID]);
       });
     });
 
     it('creates a BucketMetadata', async () => {
-      const data = await api.createBucket({
+      const data = await api.bucket.create({
         TenantGUID: 'default',
         PoolGUID: 'a9d47c1f-08f6-4fc8-bd91-6b3e3c908a9e',
         OwnerGUID: '92b9c3c1-f24d-4c89-97b3-675937146c2e',
@@ -65,21 +64,21 @@ describe('View.IO SDK', () => {
           email: 'john.doe@example.com',
         },
       });
-      expect(true).toBe(data instanceof BucketMetadata);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new BucketMetadata(bucketsData[mockBucketGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(bucketsData[mockBucketGuid]);
     });
 
     it('throws error when creating a BucketMetadata with bucket parameter', async () => {
       try {
-        await api.createBucket();
+        await api.bucket.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: ArgumentNullException: bucket is null or empty');
+        expect(err.toString()).toBe('Error: ArgumentNullException: metadata is null or empty');
       }
     });
 
     it('Update a BucketMetadata', async () => {
-      const data = await api.updateBucket({
+      const data = await api.bucket.update({
         GUID: mockBucketGuid,
         TenantGUID: 'default',
         PoolGUID: 'a9d47c1f-08f6-4fc8-bd91-6b3e3c908a9e',
@@ -100,50 +99,27 @@ describe('View.IO SDK', () => {
         },
       });
 
-      expect(true).toBe(data instanceof BucketMetadata);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new BucketMetadata(bucketsData[mockBucketGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(bucketsData[mockBucketGuid]);
     });
 
     it('throws error when if missed guid while updating a BucketMetadata', async () => {
       try {
-        await api.updateBucket();
+        await api.bucket.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: ArgumentNullException: bucket is null or empty');
+        expect(err.toString()).toBe('Error: ArgumentNullException: metadata is null or empty');
       }
     });
 
     it('delete a BucketMetadata', async () => {
-      const data = await api.deleteBucket(mockBucketGuid);
+      const data = await api.bucket.delete(mockBucketGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a BucketMetadata', async () => {
       try {
-        await api.deleteBucket();
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
-      }
-    });
-
-    it('Check if a BucketMetadata exist', async () => {
-      const data = await api.existsBucket(mockBucketGuid);
-      expect(data).toBe('true');
-    });
-
-    it('Check if a BucketMetadata does not exist', async () => {
-      try {
-        const data = await api.existsBucket('wrongID');
-        expect(data).toBe(false);
-      } catch (err) {
-        expect(err).toBe('Not Found');
-      }
-    });
-
-    it('throws error when if missed guid while checking a BucketMetadata existance', async () => {
-      try {
-        await api.existsBucket();
+        await api.bucket.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

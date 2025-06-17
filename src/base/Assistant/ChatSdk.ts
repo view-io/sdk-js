@@ -35,7 +35,7 @@ export class ChatSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('ragRequest');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/rag`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/rag`;
     const json = JSON.stringify(ragRequest);
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${json}`);
@@ -75,7 +75,7 @@ export class ChatSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('ragRequest');
     }
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/rag/chat`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/rag/chat`;
     const json = JSON.stringify(ragRequest);
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${json}`);
@@ -129,7 +129,7 @@ export class ChatSdk extends ViewSdkBase {
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${JSON.stringify(chatRequest)}`);
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/chat/${assistantConfigGuid}`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/chat/${assistantConfigGuid}`;
     if (chatRequest.Stream) {
       try {
         const request = superagent
@@ -169,7 +169,7 @@ export class ChatSdk extends ViewSdkBase {
 
     this.log(SeverityEnum.Debug, `${this.config.header} request body: \n${JSON.stringify(chatRequest)}`);
 
-    const url = `${this.config.endpoint}/v1.0/tenants/${this.config.tenantGuid}/assistant/chat/completions`;
+    const url = `${this.config.endpoint}v1.0/tenants/${this.config.tenantGuid}/assistant/chat/completions`;
     if (chatRequest.Stream) {
       try {
         const request = superagent

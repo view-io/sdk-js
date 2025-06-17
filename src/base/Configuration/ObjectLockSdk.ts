@@ -25,7 +25,7 @@ export default class ObjectLockSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/objectlocks/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/objectlocks/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -37,7 +37,7 @@ export default class ObjectLockSdk extends ViewSdkBase {
    * @throws {MethodError} If the object locks are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<ObjectLock>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/objectlocks';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/objectlocks';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -48,7 +48,7 @@ export default class ObjectLockSdk extends ViewSdkBase {
    * @throws {MethodError} If the object locks are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<ObjectLock>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/objectlocks`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/objectlocks`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -64,7 +64,7 @@ export default class ObjectLockSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/objectlocks/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/objectlocks/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 }

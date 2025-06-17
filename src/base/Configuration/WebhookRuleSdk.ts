@@ -25,7 +25,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
     if (!rule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookrules';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookrules';
     return await this.createResource(url, rule, cancelToken);
   };
 
@@ -41,7 +41,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -57,7 +57,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -68,7 +68,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
    * @returns {Promise<Array<WebhookRule>>} A promise resolving to an array of WebhookRule objects.
    */
   readAll = async (cancelToken?: AbortController): Promise<WebhookRule> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookrules';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookrules';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -84,7 +84,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
     if (!rule) {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + rule.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + rule.GUID;
     return await this.updateResource(url, rule, cancelToken);
   };
 
@@ -100,7 +100,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/webhookrules/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -111,7 +111,7 @@ export default class WebhookRuleSdk extends ViewSdkBase {
    * @throws {MethodError} If the webhook rules are null.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<WebhookRule>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/webhookrules`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/webhookrules`;
     return await this.retrieveResource(url, cancelToken);
   };
 }

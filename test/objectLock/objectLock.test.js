@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockObjectLockGuid, objectLocksData, objectLocksMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import ObjectLock from '../../src/models/ObjectLock';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('ObjectLock', () => {
     it('retrieves a ObjectLock', async () => {
-      const data = await api.retrieveObjectLock(mockObjectLockGuid);
-      expect(data instanceof ObjectLock).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new ObjectLock(objectLocksData[mockObjectLockGuid])));
+      const data = await api.ObjectLock.read(mockObjectLockGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(objectLocksData[mockObjectLockGuid]);
     });
 
     it('throws error when if missed guid while retrieving a ObjectLock', async () => {
       try {
-        await api.retrieveObjectLock();
+        await api.ObjectLock.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,25 +33,25 @@ describe('View.IO SDK', () => {
     it('retrieves a ObjectLock with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveObjectLock(mockObjectLockGuid, cancelToken);
+      await api.ObjectLock.read(mockObjectLockGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all ObjectLock', async () => {
-      const data = await api.retrieveObjectLocks();
+      const data = await api.ObjectLock.readAll();
       data.map((objectLock) => {
-        expect(JSON.stringify(objectLock)).toBe(JSON.stringify(new ObjectLock(objectLocksData[objectLock.GUID])));
+        expect(objectLock).toEqual(objectLocksData[objectLock.GUID]);
       });
     });
 
     it('delete a ObjectLock', async () => {
-      const data = await api.deleteObjectLock(mockObjectLockGuid);
+      const data = await api.ObjectLock.delete(mockObjectLockGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a ObjectLock', async () => {
       try {
-        await api.deleteObjectLock();
+        await api.ObjectLock.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

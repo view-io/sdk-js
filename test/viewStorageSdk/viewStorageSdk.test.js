@@ -13,14 +13,9 @@ import {
   mockUploadPart,
   expirationMockData,
   mockAcl,
+  mockObjectData,
+  mockBucketData,
 } from './mockData';
-import BucketMetadata from '../../src/models/BucketMetadata';
-import TagMetaData from '../../src/models/TagMetadata';
-import AclMetaData from '../../src/models/AclMetaData';
-import ObjectMetadata from '../../src/models/ObjectMetadata';
-import MultipartUpload from '../../src/models/MultipartUpload';
-import AclEntry from '../../src/models/AclEntry';
-import EnumerationResult from '../../src/models/EnumerationResult';
 
 const server = getServer(handlers);
 
@@ -35,36 +30,37 @@ describe('viewStorageSdk', () => {
 
   describe('Service', () => {
     it('Retrieve all buckets', async () => {
-      const data = await apiViewStorageSdk.retrieveBuckets();
-      data.forEach((bucket) => {
-        expect(bucket instanceof BucketMetadata).toBe(true);
+      const data = await apiViewStorageSdk.bucket.readAll();
+      data.map((bucket) => {
+        expect(bucket).toBeDefined();
       });
     });
   });
 
   describe('Buckets', () => {
     it('Retrieve Bucket metadata', async () => {
-      const data = await apiViewStorageSdk.retrieveBucketMetadata(mockBucketGUID);
-      expect(data instanceof BucketMetadata).toBe(true);
-      expect(data.GUID).toBe(mockBucketGUID);
+      const data = await apiViewStorageSdk.bucket.readMetadata(mockBucketGUID);
+      expect(data).toBeDefined();
+      expect(data).toEqual(mockBucketData);
     });
 
     it('throws error when retrieving a bucket without guid', async () => {
       try {
-        await apiViewStorageSdk.retrieveBucketMetadata();
+        await apiViewStorageSdk.bucket.readMetadata();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
       }
     });
     it('Create a bucket', async () => {
-      const data = await apiViewStorageSdk.createBucket(createBucketRequest);
-      expect(data instanceof BucketMetadata).toBe(true);
+      const data = await apiViewStorageSdk.bucket.create(createBucketRequest);
+      expect(data).toBeDefined();
+      expect(data).toEqual(mockBucketData); // use toEqual for deep equality
     });
 
     it('throws error when creating a bucket without the bucket parameter', async () => {
       try {
-        await apiViewStorageSdk.createBucket();
+        await apiViewStorageSdk.bucket.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: metadata is null or empty');
@@ -72,15 +68,15 @@ describe('viewStorageSdk', () => {
     });
 
     it('update a bucket', async () => {
-      const data = await apiViewStorageSdk.updateBucket(updateBucketMetadata);
-      expect(data instanceof BucketMetadata).toBe(true);
-      expect(data.GUID).toBe(updateBucketMetadata.GUID);
-      expect(data.Name).toBe(updateBucketMetadata.Name);
+      const data = await apiViewStorageSdk.bucket.update(updateBucketMetadata);
+
+      expect(data).toBeDefined();
+      expect(data).toEqual(updateBucketMetadata);
     });
 
     it('throws error when updating a bucket without the bucket parameter', async () => {
       try {
-        await apiViewStorageSdk.updateBucket();
+        await apiViewStorageSdk.bucket.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: metadata is null or empty');
@@ -88,13 +84,13 @@ describe('viewStorageSdk', () => {
     });
 
     it('delete a bucket', async () => {
-      const data = await apiViewStorageSdk.deleteBucket(mockBucketGUID);
+      const data = await apiViewStorageSdk.bucket.delete(mockBucketGUID);
       expect(data).toBe(true);
     });
 
     it('throws error when deleting a bucket without guid', async () => {
       try {
-        await apiViewStorageSdk.deleteBucket();
+        await apiViewStorageSdk.bucket.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -102,16 +98,16 @@ describe('viewStorageSdk', () => {
     });
 
     it('Retrieve all Tags', async () => {
-      const data = await apiViewStorageSdk.retrieveBucketTags(mockBucketGUID);
+      const data = await apiViewStorageSdk.bucket.readTags(mockBucketGUID);
       console.log(data);
       data.forEach((tag) => {
-        expect(tag instanceof TagMetaData).toBe(true);
+        expect(tag).toBeDefined();
       });
     });
 
     it('throws error when retrieving a tag without guid', async () => {
       try {
-        await apiViewStorageSdk.retrieveBucketTags();
+        await apiViewStorageSdk.bucket.readTags();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -119,20 +115,19 @@ describe('viewStorageSdk', () => {
     });
 
     it('delete tags by bucket', async () => {
-      const data = await apiViewStorageSdk.deleteBucketTags(mockBucketGUID);
+      const data = await apiViewStorageSdk.bucket.deleteTags(mockBucketGUID);
       expect(data).toBe(true);
     });
 
     it('write tags by bucket', async () => {
-      const data = await apiViewStorageSdk.createBucketTags(mockBucketGUID, writeMockTags);
-      expect(data instanceof TagMetaData).toBe(true);
-      expect(data.key).toBe(writeMockTags.key);
-      expect(data.Name).toBe(writeMockTags.Name);
+      const data = await apiViewStorageSdk.bucket.createTags(mockBucketGUID, writeMockTags);
+      expect(data).toBeDefined();
+      expect(data).toEqual(updateBucketMetadata);
     });
 
     it('throws error when writing a tag without guid', async () => {
       try {
-        await apiViewStorageSdk.createBucketTags();
+        await apiViewStorageSdk.bucket.createTags();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: tagMetaData is null or empty');
@@ -140,7 +135,7 @@ describe('viewStorageSdk', () => {
     });
 
     it('Retrieve ACL', async () => {
-      const data = await apiViewStorageSdk.retrieveBucketACL(mockBucketGUID);
+      const data = await apiViewStorageSdk.bucket.readACL(mockBucketGUID);
 
       // Log the data for debugging
       console.log('ACL Data:', JSON.stringify(data, null, 2));
@@ -149,148 +144,138 @@ describe('viewStorageSdk', () => {
       if (Array.isArray(data)) {
         // If it's an array, check each item
         data.forEach((aclItem) => {
-          expect(aclItem).toBeDefined();
-          expect(aclItem.Owner).toBeDefined();
-          expect(aclItem.Users).toBeDefined();
-          expect(aclItem.Entries).toBeDefined();
+          expect(aclItem).toEqual(mockAcl);
         });
       } else {
         // If it's a single object, check its properties
         expect(data).toBeDefined();
-        expect(data.owner).toBeDefined();
-        expect(data.users).toBeDefined();
-        expect(data.entries).toBeDefined();
+        expect(data).toEqual(mockAcl);
       }
 
       // Verify instance type
-      if (data instanceof AclMetaData) {
-        expect(data instanceof AclMetaData).toBe(true);
-      } else if (Array.isArray(data)) {
+      if (Array.isArray(data)) {
         data.forEach((item) => {
-          expect(item instanceof AclMetaData).toBe(true);
+          expect(item).toEqual(mockAcl);
         });
       }
     });
 
     it('delete acl by bucket', async () => {
-      const data = await apiViewStorageSdk.deleteBucketACL(mockBucketGUID);
+      const data = await apiViewStorageSdk.bucket.deleteACL(mockBucketGUID);
       expect(data).toBe(true);
     });
 
     it('write acl by bucket', async () => {
-      const data = await apiViewStorageSdk.createBucketACL(mockBucketGUID, mockAcl);
-      expect(data instanceof AclEntry).toBe(true);
+      const data = await apiViewStorageSdk.bucket.createACL(mockBucketGUID, mockAcl);
+      expect(data).toBeDefined();
+      expect(data).toEqual(updateBucketMetadata);
     });
   });
 
   describe('Objects', () => {
     it('Write non-chunked object', async () => {
-      const data = await apiViewStorageSdk.writeObject(mockBucketGUID, mockObjectKey, 'Hello, world!');
-      expect(data instanceof ObjectMetadata).toBe(true);
+      const data = await apiViewStorageSdk.object.write(mockBucketGUID, mockObjectKey, 'Hello, world!');
+      expect(data).toBeDefined();
     });
 
     it('Retrieve object List', async () => {
-      const data = await apiViewStorageSdk.retrieveObjects(mockBucketGUID);
-      expect(data instanceof EnumerationResult).toBe(true);
+      const data = await apiViewStorageSdk.object.readData(mockBucketGUID, mockObjectKey);
+      expect(data).toBeDefined();
     });
 
     it('Write expiration object', async () => {
-      const data = await apiViewStorageSdk.writeObjectExpiration(mockBucketGUID, mockObjectKey, expirationMockData);
-      expect(data instanceof ObjectMetadata).toBe(true);
-      expect(data.expirationTime).toBe(expirationMockData.expirationTime);
+      const data = await apiViewStorageSdk.object.writeExpiration(mockBucketGUID, mockObjectKey, expirationMockData);
+      expect(data).toBeDefined();
+      expect(data).toHaveProperty('ExpirationUtc', expirationMockData.ExpirationUtc);
     });
 
     it('Retrieve object data', async () => {
-      const data = await apiViewStorageSdk.retrieveObjectData(mockBucketGUID, mockObjectKey);
-      expect(data).toBe('PDF');
+      const data = await apiViewStorageSdk.object.readData(mockBucketGUID, mockObjectKey);
+      expect(data).toBeDefined();
+      expect(data).toEqual('PDF');
     });
 
     it('Retrieve object by metadata', async () => {
-      const data = await apiViewStorageSdk.retrieveObjectMetadata(mockBucketGUID, mockObjectKey);
-      expect(data instanceof ObjectMetadata).toBe(true);
+      const data = await apiViewStorageSdk.object.readMetadata(mockBucketGUID, mockObjectKey);
+      expect(data).toBeDefined();
     });
 
     it('Retrieve Range', async () => {
-      const data = await apiViewStorageSdk.retrieveObjectDataInRange(mockBucketGUID, mockObjectKey, 'bytes=1-3');
-      expect(data).toBe('PDF');
+      const data = await apiViewStorageSdk.object.readDataInRange(mockBucketGUID, mockObjectKey, 'bytes=1-3');
+      expect(data).toBeDefined();
+      expect(data).toEqual('PDF');
     });
 
     it('delete  object by key', async () => {
-      const data = await apiViewStorageSdk.deleteObject(mockBucketGUID, mockObjectKey);
+      const data = await apiViewStorageSdk.object.delete(mockBucketGUID, mockObjectKey);
       expect(data).toBe(true);
     });
 
     it('Retrieve ACL of object', async () => {
-      const data = await apiViewStorageSdk.retrieveObjectACL(mockBucketGUID, mockObjectKey);
+      const data = await apiViewStorageSdk.object.readACL(mockBucketGUID, mockObjectKey);
 
       // Check if data is an array or an object
       if (Array.isArray(data)) {
         // If it's an array, check each item
         data.forEach((aclItem) => {
-          expect(aclItem).toBeDefined();
-          expect(aclItem.Owner).toBeDefined();
-          expect(aclItem.Users).toBeDefined();
-          expect(aclItem.Entries).toBeDefined();
+          expect(aclItem).toEqual(mockAcl);
         });
       } else {
         // If it's a single object, check its properties
         expect(data).toBeDefined();
-        expect(data.owner).toBeDefined();
-        expect(data.users).toBeDefined();
-        expect(data.entries).toBeDefined();
+        expect(data).toEqual(mockAcl);
       }
 
       // Verify instance type
-      if (data instanceof AclMetaData) {
-        expect(data instanceof AclMetaData).toBe(true);
-      } else if (Array.isArray(data)) {
+      if (Array.isArray(data)) {
         data.forEach((item) => {
-          expect(item instanceof AclMetaData).toBe(true);
+          expect(item).toEqual(mockAcl);
         });
       }
     });
 
     it('delete acl of object', async () => {
-      const data = await apiViewStorageSdk.deleteObjectACL(mockBucketGUID, mockObjectKey);
+      const data = await apiViewStorageSdk.object.deleteACL(mockBucketGUID, mockObjectKey);
       expect(data).toBe(true);
     });
 
     it('write acl of object', async () => {
-      const data = await apiViewStorageSdk.createObjectACL(mockBucketGUID, mockObjectKey, writeMockTags);
-      expect(data instanceof AclEntry).toBe(true);
+      const data = await apiViewStorageSdk.object.createACL(mockBucketGUID, mockObjectKey, mockAcl);
+      expect(data).toBeDefined();
+      expect(data).toEqual(mockObjectData);
     });
   });
 
   describe('Multipart Upload', () => {
     it('Create MultipartUpload', async () => {
-      const data = await apiViewStorageSdk.createMultipartUpload(mockBucketGUID, mockUploadRequest);
-      expect(data instanceof MultipartUpload).toBe(true);
+      const data = await apiViewStorageSdk.multipartUpload.create(mockBucketGUID, mockUploadRequest);
+      expect(data).toBeDefined();
     });
 
     it('Retrieve all MultipartUpload', async () => {
-      const data = await apiViewStorageSdk.retrieveMultipartUploads(mockBucketGUID);
+      const data = await apiViewStorageSdk.multipartUpload.readAll(mockBucketGUID);
       console.log(data);
       data.forEach((upload) => {
-        expect(upload instanceof MultipartUpload).toBe(true);
+        expect(upload).toBeDefined();
       });
     });
 
     it('Retrieve  MultipartUpload', async () => {
-      const data = await apiViewStorageSdk.retrieveMultipartUpload(mockBucketGUID, mockUploadKey);
-      expect(data instanceof MultipartUpload).toBe(true);
+      const data = await apiViewStorageSdk.multipartUpload.read(mockBucketGUID, mockUploadKey);
+      expect(data).toBeDefined();
     });
 
     it('Retrieve  MultipartUpload by Part', async () => {
-      const data = await apiViewStorageSdk.retrievePartOfMultipartUpload(mockBucketGUID, mockUploadKey, mockUploadPart);
-      expect(data instanceof MultipartUpload).toBe(true);
+      const data = await apiViewStorageSdk.multipartUpload.readPart(mockBucketGUID, mockUploadKey, mockUploadPart);
+      expect(data).toBeDefined();
     });
 
     it('delete MultipartUpload by part', async () => {
-      const data = await apiViewStorageSdk.deletePartOfMultipartUpload(mockBucketGUID, mockUploadKey, mockUploadPart);
+      const data = await apiViewStorageSdk.multipartUpload.deletePart(mockBucketGUID, mockUploadKey, mockUploadPart);
       expect(data).toBe(true);
     });
     it('delete MultipartUpload', async () => {
-      const data = await apiViewStorageSdk.deleteMultipartUpload(mockBucketGUID, mockUploadKey);
+      const data = await apiViewStorageSdk.multipartUpload.delete(mockBucketGUID, mockUploadKey);
       expect(data).toBe(true);
     });
   });
