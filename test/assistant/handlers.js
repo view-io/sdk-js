@@ -3,9 +3,14 @@ import {
   mockChatThreadAppendResponse,
   mockChatThreadGuid,
   mockChatThreadListResponse,
+  mockCreateChatOnlyConfigResponse,
   mockCreateChatThreadResponse,
+  mockCreateRagConfigResponse,
+  mockListRagConfigResponse,
   mockLocalModelListResponse,
+  mockRetrieveModelResponse,
   mockTokenStreamResponse,
+  mockUpdateRagConfigResponse,
 } from './mockData';
 import { mockEndpoint2, mockTenantId } from '../setupTest';
 
@@ -16,6 +21,18 @@ function createSSEStream() {
     read() {
       for (const token of mockTokenStreamResponse) {
         this.push(`data: ${JSON.stringify(token)}\n\n`);
+      }
+      this.push(null); // end of stream
+    },
+  });
+  return stream;
+}
+
+function createMockModelPullStream() {
+  const stream = new Readable({
+    read() {
+      for (const event of mockRetrieveModelResponse) {
+        this.push(`data: ${JSON.stringify(event)}\n\n`);
       }
       this.push(null); // end of stream
     },
@@ -75,35 +92,33 @@ export const assistantHandlers = [
 
   // create config
   http.post(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs`, async ({ request, params, cookies }) => {
-    return new HttpResponse.json(mockCreateRagConfigResponse);
-  }),
+    const body = await request.json();
 
-  // create chat only config
-  http.post(
-    `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs/chat-only`,
-    async ({ request, params, cookies }) => {
-      return new HttpResponse.json(mockCreateChatOnlyConfigResponse);
+    if (body.ChatOnly === true) {
+      return HttpResponse.json(mockCreateChatOnlyConfigResponse);
+    } else {
+      return HttpResponse.json(mockCreateRagConfigResponse);
     }
-  ),
+  }),
 
   // read config
   http.get(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs/:assistantConfigGuid`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(mockCreateRagConfigResponse);
+      return HttpResponse.json(mockCreateRagConfigResponse);
     }
   ),
 
   // read all configs
   http.get(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs`, async ({ request, params, cookies }) => {
-    return new HttpResponse.json(mockListRagConfigResponse);
+    return HttpResponse.json(mockListRagConfigResponse);
   }),
 
   // update config
   http.put(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs/:assistantConfigGuid`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(mockUpdateRagConfigResponse);
+      return HttpResponse.json(mockUpdateRagConfigResponse);
     }
   ),
 
@@ -111,7 +126,7 @@ export const assistantHandlers = [
   http.head(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs/:assistantConfigGuid`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(true);
+      return HttpResponse.json(true);
     }
   ),
 
@@ -119,20 +134,20 @@ export const assistantHandlers = [
   http.delete(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/configs/:assistantConfigGuid`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(true);
+      return HttpResponse.json(true);
     }
   ),
 
   // create chat thread
   http.post(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/threads`, async ({ request, params, cookies }) => {
-    return new HttpResponse.json(mockCreateChatThreadResponse);
+    return HttpResponse.json(mockCreateChatThreadResponse);
   }),
 
   // append chat thread
   http.post(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/threads/${mockChatThreadGuid}/messages`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(mockChatThreadAppendResponse);
+      return HttpResponse.json(mockChatThreadAppendResponse);
     }
   ),
 
@@ -140,20 +155,20 @@ export const assistantHandlers = [
   http.get(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/threads/${mockChatThreadGuid}`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(mockChatThreadListResponse[0]);
+      return HttpResponse.json(mockChatThreadListResponse[0]);
     }
   ),
 
   // read all chat threads
   http.get(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/threads`, async ({ request, params, cookies }) => {
-    return new HttpResponse.json(mockChatThreadListResponse);
+    return HttpResponse.json(mockChatThreadListResponse);
   }),
 
   // exists chat thread
   http.head(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/threads/${mockChatThreadGuid}`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(true);
+      return HttpResponse.json(true);
     }
   ),
 
@@ -161,20 +176,29 @@ export const assistantHandlers = [
   http.delete(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/threads/${mockChatThreadGuid}`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json();
+      return HttpResponse.json(true);
     }
   ),
 
   // list local models
   http.post(`${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/models`, async ({ request, params, cookies }) => {
-    return new HttpResponse.json(mockLocalModelListResponse);
+    return HttpResponse.json(mockLocalModelListResponse);
   }),
 
-  //retrieve  model
+  // retrieve model
   http.post(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/models/pull`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(mockLocalModelListResponse[0]);
+      const stream = createMockModelPullStream();
+
+      return new HttpResponse(stream, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          Connection: 'keep-alive',
+        },
+      });
     }
   ),
 
@@ -182,23 +206,23 @@ export const assistantHandlers = [
   http.post(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/models/delete`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(true);
+      return HttpResponse.json(true);
     }
   ),
 
-  //preload model
+  // preload model
   http.post(
     `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/models/load`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(true);
+      return HttpResponse.json(true);
     }
   ),
 
-  //unload model
+  // unload model
   http.post(
-    `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/models/load`,
+    `${mockEndpoint2}v1.0/tenants/${mockTenantId}/assistant/models/unload`,
     async ({ request, params, cookies }) => {
-      return new HttpResponse.json(true);
+      return HttpResponse.json(true);
     }
   ),
 ];

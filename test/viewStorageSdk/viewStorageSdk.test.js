@@ -99,7 +99,6 @@ describe('viewStorageSdk', () => {
 
     it('Retrieve all Tags', async () => {
       const data = await apiViewStorageSdk.bucket.readTags(mockBucketGUID);
-      console.log(data);
       data.forEach((tag) => {
         expect(tag).toBeDefined();
       });
@@ -136,23 +135,15 @@ describe('viewStorageSdk', () => {
 
     it('Retrieve ACL', async () => {
       const data = await apiViewStorageSdk.bucket.readACL(mockBucketGUID);
-
-      // Log the data for debugging
-      console.log('ACL Data:', JSON.stringify(data, null, 2));
-
-      // Check if data is an array or an object
       if (Array.isArray(data)) {
-        // If it's an array, check each item
         data.forEach((aclItem) => {
           expect(aclItem).toEqual(mockAcl);
         });
       } else {
-        // If it's a single object, check its properties
         expect(data).toBeDefined();
         expect(data).toEqual(mockAcl);
       }
 
-      // Verify instance type
       if (Array.isArray(data)) {
         data.forEach((item) => {
           expect(item).toEqual(mockAcl);
@@ -254,7 +245,6 @@ describe('viewStorageSdk', () => {
 
     it('Retrieve all MultipartUpload', async () => {
       const data = await apiViewStorageSdk.multipartUpload.readAll(mockBucketGUID);
-      console.log(data);
       data.forEach((upload) => {
         expect(upload).toBeDefined();
       });

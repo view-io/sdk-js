@@ -40,8 +40,6 @@ describe('ViewVectorProxySdk', () => {
     });
 
     it('should successfully write the document', async () => {
-      console.log('mockDocument:', JSON.stringify(mockDocument, null, 2));
-      console.log('mockDocument.VectorRepositoryGUID:', mockDocument.VectorRepositoryGUID);
       const result = await apiViewVectorProxySdk.Document.write(mockDocument);
       expect(result).toBeDefined();
       expect(result).toEqual([mockDocument]);
@@ -90,75 +88,6 @@ describe('ViewVectorProxySdk', () => {
       expect(result).toBe(true);
     });
   });
-  // describe('truncateTable', () => {
-  //   it('should throw an error if the delete request is null', async () => {
-  //     try {
-  //       await apiViewVectorProxySdk.truncateTable(null);
-  //     } catch (error) {
-  //       expect(error).toBeInstanceOf(Error);
-  //       expect(error.message).toBe('ArgumentNullException: delReq is null or empty');
-  //     }
-  //   });
-
-  //   it('should successfully truncate the table', async () => {
-  //     const result = await apiViewVectorProxySdk.truncateTable(mockDeleteRequest);
-  //     expect(result).toBe('true'); // assuming successful truncation returns true
-  //   });
-  // });
-
-  // describe('enumerateTable', () => {
-  //   it('should throw an error if the query is null', async () => {
-  //     try {
-  //       await apiViewVectorProxySdk.enumerateTable(null);
-  //     } catch (error) {
-  //       expect(error).toBeInstanceOf(Error);
-  //       expect(error.message).toBe('ArgumentNullException: query is null or empty');
-  //     }
-  //   });
-
-  //   it('should successfully enumerate the table', async () => {
-  //     const result = await apiViewVectorProxySdk.enumerateTable(mockQuery);
-  //     expect(result).toEqual(expect.any(Object)); // assuming result is of type EnumerationResult
-  //   });
-  // });
-
-  // describe('similaritySearch', () => {
-  //   it('should throw an error if the search request is null', async () => {
-  //     try {
-  //       await apiViewVectorProxySdk.similaritySearch(null);
-  //     } catch (error) {
-  //       expect(error).toBeInstanceOf(Error);
-  //       expect(error.message).toBe('ArgumentNullException: searchReq is null or empty');
-  //     }
-  //   });
-
-  //   it('should successfully perform similarity search', async () => {
-  //     try {
-  //       const result = await apiViewVectorProxySdk.similaritySearch(mockSearchRequest);
-  //       console.log('Test result:', result); // Log the result for debugging
-  //       expect(result).toEqual(expect.arrayContaining([expect.any(EmbeddingsDocument)]));
-  //     } catch (error) {
-  //       console.error('Test failed with error:', error); // Log any errors that occur
-  //       throw error; // Re-throw the error to ensure Jest handles it
-  //     }
-  //   });
-  // });
-
-  // describe('rawQuery', () => {
-  //   it('should throw an error if the query request is null', async () => {
-  //     try {
-  //       await apiViewVectorProxySdk.rawQuery(null);
-  //     } catch (error) {
-  //       expect(error).toBeInstanceOf(Error);
-  //       expect(error.message).toBe('ArgumentNullException: queryReq is null or empty');
-  //     }
-  //   });
-
-  //   it('should successfully perform raw query', async () => {
-  //     const result = await apiViewVectorProxySdk.rawQuery(mockQueryRequest);
-  //     expect(result).toBe(''); // assuming the query returns null or string
-  //   });
-  // });
 
   describe('search', () => {
     it('should successfully perform search', async () => {

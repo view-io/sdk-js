@@ -24,7 +24,7 @@ export default class EndpointSdk extends ViewSdkBase {
     if (!endpoint) {
       GenericExceptionHandlers.ArgumentNullException('endpoint');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints';
     return await this.createResource(url, endpoint, cancelToken);
   };
 
@@ -39,7 +39,7 @@ export default class EndpointSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 
@@ -54,7 +54,7 @@ export default class EndpointSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -65,7 +65,7 @@ export default class EndpointSdk extends ViewSdkBase {
    * @throws {MethodError} If the view endpoints are null.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<ViewEndpoint>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -80,7 +80,7 @@ export default class EndpointSdk extends ViewSdkBase {
     if (!endpoint) {
       GenericExceptionHandlers.ArgumentNullException('endpoint');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + endpoint.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + endpoint.GUID;
     return await this.updateResource(url, endpoint, cancelToken);
   };
 
@@ -95,7 +95,7 @@ export default class EndpointSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/viewendpoints/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 }

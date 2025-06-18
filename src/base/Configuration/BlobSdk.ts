@@ -21,7 +21,7 @@ export default class BlobSdk extends ViewSdkBase {
    * @throws {MethodError} If the blob is null or invalid.
    */
   enumerate = async (cancelToken?: AbortController): Promise<EnumerationResult<Blob>> => {
-    const url = `${this.config.endpoint}/v2.0/tenants/${this.config.tenantGuid}/blobs`;
+    const url = `${this.config.endpoint}v2.0/tenants/${this.config.tenantGuid}/blobs`;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -32,7 +32,7 @@ export default class BlobSdk extends ViewSdkBase {
    * @returns {Promise<Array<Blob>>} A promise resolving to an array of Blob objects.
    */
   readAll = async (cancelToken?: AbortController): Promise<Array<Blob>> => {
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -48,7 +48,7 @@ export default class BlobSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -64,7 +64,7 @@ export default class BlobSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid + '?incldata';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid + '?incldata';
     return await this.retrieveResource(url, cancelToken);
   };
 
@@ -79,7 +79,7 @@ export default class BlobSdk extends ViewSdkBase {
     if (!blob) {
       GenericExceptionHandlers.ArgumentNullException('blob');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs';
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs';
     return await this.updateResource(url, blob, cancelToken);
   };
 
@@ -95,7 +95,7 @@ export default class BlobSdk extends ViewSdkBase {
     if (!blob) {
       GenericExceptionHandlers.ArgumentNullException('blob');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + blob.GUID;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + blob.GUID;
     return await this.updateResource(url, blob, cancelToken);
   };
 
@@ -111,7 +111,7 @@ export default class BlobSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
     return await this.deleteResource(url, cancelToken);
   };
 
@@ -127,7 +127,7 @@ export default class BlobSdk extends ViewSdkBase {
     if (!guid) {
       GenericExceptionHandlers.ArgumentNullException('guid');
     }
-    const url = this.config.endpoint + '/v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
+    const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/blobs/' + guid;
     return await this.existsResource(url, cancelToken);
   };
 }

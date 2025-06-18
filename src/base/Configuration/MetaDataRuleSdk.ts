@@ -27,6 +27,7 @@ export default class MetaDataRuleSdk extends ViewSdkBase {
       GenericExceptionHandlers.ArgumentNullException('rule');
     }
     const url = this.config.endpoint + 'v1.0/tenants/' + this.config.tenantGuid + '/metadatarules';
+    console.log(url, 'url');
     return await this.createResource(url, metadataRule, cancelToken);
   };
 

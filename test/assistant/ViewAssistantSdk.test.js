@@ -4,7 +4,6 @@ import { assistantHandlers } from './handlers';
 import {
   mockRagRequest,
   mockChatRequest,
-  mockTokenStreamResponse,
   mockRagRequestLegacy,
   mockAssistantConfigGuid,
   mockCreateRagConfigRequest,
@@ -22,7 +21,6 @@ import {
   mockChatThreadAppendRequest,
   mockLocalModelListResponse,
   mockRetrieveModelRequest,
-  mockDeleteModelRequest,
   mockPreloadModelRequest,
   mockUnloadModelRequest,
   mockLocalModelRequest,
@@ -45,233 +43,124 @@ describe('ViewAssistantSdk Methods', () => {
 
   describe('chat', () => {
     it('chat with Model', async () => {
-      try {
-        const onToken = jest.fn();
-        await sdk.Chat.chatRagQuestion_LEGACY(mockRagRequestLegacy, onToken);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Chat.chatRagQuestion_LEGACY(mockRagRequestLegacy, onToken);
     });
 
     it('Rag Messages', async () => {
-      try {
-        const onToken = jest.fn();
-        await sdk.Chat.chatRagMessages(mockRagRequest, onToken);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Chat.chatRagMessages(mockRagRequest, onToken);
     });
 
     it('Assistant config chat', async () => {
-      try {
-        const onToken = jest.fn();
-        await sdk.Chat.assistantConfigChat(mockAssistantConfigGuid, mockRagRequest, onToken);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Chat.assistantConfigChat(mockAssistantConfigGuid, mockRagRequest, onToken);
     });
 
     it('Chat only question', async () => {
-      try {
-        const onToken = jest.fn();
-        await sdk.Chat.chatOnly(mockChatRequest, onToken);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Chat.chatOnly(mockChatRequest, onToken);
     });
 
     it('Chat only messages', async () => {
-      try {
-        const onToken = jest.fn();
-        await sdk.Chat.chatOnly(mockChatRequest, onToken);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Chat.chatOnly(mockChatRequest, onToken);
     });
 
     it('Chat only message - openai', async () => {
-      try {
-        const onToken = jest.fn();
-        await sdk.Chat.chatOnly(mockChatRequest, onToken);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Chat.chatOnly(mockChatRequest, onToken);
     });
   });
 
   describe('config', () => {
     it('Create Rag config', async () => {
-      try {
-        const result = await sdk.AssistantConfig.create(mockCreateRagConfigRequest);
-        console.log(result);
-        expect(result).toEqual(mockCreateRagConfigResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.create(mockCreateRagConfigRequest);
+      expect(result).toEqual(mockCreateRagConfigResponse);
     });
 
     it('create chat only config', async () => {
-      try {
-        const result = await sdk.AssistantConfig.create(mockCreateChatOnlyConfigRequest);
-        console.log(result);
-        expect(result).toEqual(mockCreateChatOnlyConfigResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.create(mockCreateChatOnlyConfigRequest);
+      expect(result).toEqual(mockCreateChatOnlyConfigResponse);
     });
 
     it('read config', async () => {
-      try {
-        const result = await sdk.AssistantConfig.read(mockAssistantConfigGuid);
-        console.log(result);
-        expect(result).toEqual(mockListRagConfigResponse[0]);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.read(mockAssistantConfigGuid);
+      expect(result).toEqual(mockListRagConfigResponse[0]);
     });
 
     it('read all configs', async () => {
-      try {
-        const result = await sdk.AssistantConfig.readAll();
-        console.log(result);
-        expect(result).toEqual(mockListRagConfigResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.readAll();
+      expect(result).toEqual(mockListRagConfigResponse);
     });
 
     it('update config', async () => {
-      try {
-        const result = await sdk.AssistantConfig.update(mockUpdateRagConfigRequest);
-        console.log(result);
-        expect(result).toEqual(mockUpdateRagConfigResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.update(mockUpdateRagConfigRequest);
+      expect(result).toEqual(mockUpdateRagConfigResponse);
     });
 
     it('exists config', async () => {
-      try {
-        const result = await sdk.AssistantConfig.exists(mockAssistantConfigGuid);
-        console.log(result);
-        expect(result).toEqual(true);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.exists(mockAssistantConfigGuid);
+      expect(result).toEqual(true);
     });
 
     it('delete config', async () => {
-      try {
-        const result = await sdk.AssistantConfig.delete(mockAssistantConfigGuid);
-        console.log(result);
-        expect(result).toEqual(true);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.AssistantConfig.delete(mockAssistantConfigGuid);
+      expect(result).toEqual(true);
     });
   });
 
   describe('chat threads', () => {
     it('create chat thread', async () => {
-      try {
-        const result = await sdk.ChatThread.create(mockChatThreadRequest);
-        console.log(result);
-        expect(result).toEqual(mockCreateChatThreadResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.ChatThread.create(mockChatThreadRequest);
+      expect(result).toEqual(mockCreateChatThreadResponse);
     });
 
     it('append chat thread', async () => {
-      try {
-        const result = await sdk.ChatThread.append(mockChatThreadGuid, mockChatThreadAppendRequest);
-        console.log(result);
-        expect(result).toEqual(mockChatThreadAppendResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.ChatThread.append(mockChatThreadGuid, mockChatThreadAppendRequest);
+      expect(result).toEqual(mockChatThreadAppendResponse);
     });
 
     it('read chat thread', async () => {
-      try {
-        const result = await sdk.ChatThread.read(mockChatThreadGuid);
-        console.log(result);
-        expect(result).toEqual(mockChatThreadListResponse[0]);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.ChatThread.read(mockChatThreadGuid);
+      expect(result).toEqual(mockChatThreadListResponse[0]);
     });
 
     it('read all chat threads', async () => {
-      try {
-        const result = await sdk.ChatThread.readAll();
-        console.log(result);
-        expect(result).toEqual(mockChatThreadListResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.ChatThread.readAll();
+      expect(result).toEqual(mockChatThreadListResponse);
     });
 
     it('exists chat thread', async () => {
-      try {
-        const result = await sdk.ChatThread.exists(mockChatThreadGuid);
-        console.log(result);
-        expect(result).toEqual(true);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.ChatThread.exists(mockChatThreadGuid);
+      expect(result).toEqual(true);
     });
 
     it('delete chat thread', async () => {
-      try {
-        const result = await sdk.ChatThread.delete(mockChatThreadGuid);
-        console.log(result);
-        expect(result).toEqual(true);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.ChatThread.delete(mockChatThreadGuid);
+      expect(result).toEqual(true);
     });
   });
 
   describe('models', () => {
     it('list local models', async () => {
-      try {
-        const result = await sdk.Model.retrieveLocalModels(mockLocalModelRequest);
-        console.log(result);
-        expect(result).toEqual(mockLocalModelListResponse);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.Model.retrieveLocalModels(mockLocalModelRequest);
+      expect(result).toEqual(mockLocalModelListResponse);
     });
 
     it('retrieve model', async () => {
-      try {
-        const result = await sdk.Model.retrieve(mockRetrieveModelRequest);
-        console.log(result);
-        expect(result).toEqual(mockLocalModelListResponse[0]);
-      } catch (error) {
-        console.log(error);
-      }
+      const onToken = jest.fn();
+      await sdk.Model.retrieve(mockRetrieveModelRequest, onToken);
     });
 
     it('preload model', async () => {
-      try {
-        const result = await sdk.Model.loadUnload(mockPreloadModelRequest);
-        console.log(result);
-        expect(result).toEqual(true);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.Model.loadUnload(mockPreloadModelRequest);
+      expect(result).toEqual(true);
     });
 
     it('unload model', async () => {
-      try {
-        const result = await sdk.Model.loadUnload(mockUnloadModelRequest);
-        console.log(result);
-        expect(result).toEqual(true);
-      } catch (error) {
-        console.log(error);
-      }
+      const result = await sdk.Model.loadUnload(mockUnloadModelRequest);
+      expect(result).toEqual(true);
     });
   });
 });

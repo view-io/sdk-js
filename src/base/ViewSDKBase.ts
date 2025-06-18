@@ -56,15 +56,12 @@ export default class ViewSdkBase {
     return new Promise((resolve, reject) => {
       // Prepare the request using the shorthand method for GET
       const jsonPayload = obj ? JSON.stringify(obj) : '';
-      console.log(jsonPayload, 'jsonPayload');
       // Prepare the PUT request using superagent
       const request = superagent('PUT', url) // use PUT here as per c# flow
         .set(this.config.defaultHeaders)
         .set('Content-Type', 'application/json')
         .timeout(this.config.timeoutMs)
         .send(obj ? jsonPayload : undefined); // Send JSON data in the request body
-
-      console.log(request, 'request');
 
       // If a cancelToken is provided, attach the abort method
       if (cancelToken) {
@@ -96,7 +93,6 @@ export default class ViewSdkBase {
           }
         })
         .catch((error) => {
-          console.log(error, 'error');
           if (error?.timeout) {
             this.logger.log(SeverityEnum.Warn, `Request to ${url} timed out`);
           } else {

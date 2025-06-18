@@ -70,7 +70,8 @@ export const mockRagRequestLegacy = {
   RerankTopK: 5,
 };
 
-export const mockAssistantConfigGuid = '123e4567-e89b-12d3-a456-426614174000';
+export const mockAssistantConfigGuid = '4fef86e6-a12b-41ac-9c56-8e5528bf9004';
+export const mockAssistantConfigGuid2 = '123e4567-e89b-12d3-a456-426614174000';
 
 export const mockCreateRagConfigRequest = {
   Name: 'Basic RAG Assistant',
@@ -102,7 +103,7 @@ export const mockCreateRagConfigRequest = {
 };
 
 export const mockCreateRagConfigResponse = {
-  Guid: mockAssistantConfigGuid,
+  GUID: mockAssistantConfigGuid,
   Name: 'Basic RAG Assistant',
   Description: 'uses qwen2.5:7b - ollama',
   CreatedUTC: '2025-06-17T06:45:18.717939',
@@ -110,7 +111,7 @@ export const mockCreateRagConfigResponse = {
 
 export const mockListRagConfigResponse = [
   {
-    Guid: mockAssistantConfigGuid,
+    GUID: mockAssistantConfigGuid,
     Name: 'Basic RAG Assistant',
     Description: 'uses qwen2.5:7b - ollama',
     CreatedUTC: '2025-06-17T06:45:18.717939',
@@ -118,13 +119,14 @@ export const mockListRagConfigResponse = [
 ];
 
 export const mockCreateChatOnlyConfigResponse = {
-  Guid: mockAssistantConfigGuid,
+  GUID: mockAssistantConfigGuid2,
   Name: 'Chat Only Blackbeard Assistant',
   Description: 'uses qwen2.5:7b - ollama',
   CreatedUTC: '2025-06-17T06:45:18.717939',
 };
 
 export const mockUpdateRagConfigRequest = {
+  GUID: mockAssistantConfigGuid,
   Name: 'Updated RAG Assistant',
   Description: 'uses qwen2.5:7b - ollama',
   SystemPrompt: 'Use the provided context to answer questions.',
@@ -154,7 +156,7 @@ export const mockUpdateRagConfigRequest = {
 };
 
 export const mockUpdateRagConfigResponse = {
-  Guid: mockAssistantConfigGuid,
+  GUID: mockAssistantConfigGuid,
   Name: 'Updated RAG Assistant',
   Description: 'uses qwen2.5:7b - ollama',
   CreatedUTC: '2025-06-17T06:45:18.717939',
@@ -283,5 +285,29 @@ export const mockLocalModelListResponse = [
     OllamaHostname: 'localhost',
     OllamaPort: 11434,
   },
+  {
+    ModelName: 'llama3.1:latest',
+    OllamaHostname: 'ollama',
+    OllamaPort: 11434,
+  },
 ];
 
+export const mockRetrieveModelResponse = [
+  { status: 'pulling manifest' },
+  {
+    status: 'pulling 667b0c1932bc',
+    digest: 'sha256:667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29',
+    total: 4920738944,
+    completed: 4920738944,
+  },
+  {
+    status: 'pulling 948af2743fc7',
+    digest: 'sha256:948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85',
+    total: 1481,
+    completed: 1481,
+  },
+  { status: 'verifying sha256 digest' },
+  { status: 'writing manifest' },
+  { status: 'removing any unused layers' },
+  { status: 'success' },
+];

@@ -56,7 +56,6 @@ describe('Crawler SDK', () => {
       const data = await api.DataRepository.readAll();
       data.map((repository) => {
         expect(repository).toEqual(dataRepositorysData[repository.GUID]);
-        console.log('repository: ', repository);
       });
     });
     it('retrieves a DataRepository by GUID', async () => {
