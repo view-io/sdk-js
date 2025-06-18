@@ -1,8 +1,7 @@
 import { getServer } from '../server';
 import { handlers } from './handlers';
-import { mockViewEndpointGuid, viewEndpointsData, viewEndpointsMockApiResponse } from './mockData';
+import { mockViewEndpointGuid, viewEndpointsData } from './mockData';
 import { api } from '../setupTest';
-import ViewEndpoint from '../../src/models/ViewEndpoint';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('ViewEndpoint', () => {
     it('retrieves a ViewEndpoint', async () => {
-      const data = await api.retrieveViewEndpoint(mockViewEndpointGuid);
-      expect(data instanceof ViewEndpoint).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new ViewEndpoint(viewEndpointsData[mockViewEndpointGuid])));
+      const data = await api.Endpoint.read(mockViewEndpointGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(viewEndpointsData[mockViewEndpointGuid]);
     });
 
     it('throws error when if missed guid while retrieving a ViewEndpoint', async () => {
       try {
-        await api.retrieveViewEndpoint();
+        await api.Endpoint.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,19 +33,20 @@ describe('View.IO SDK', () => {
     it('retrieves a ViewEndpoint with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveViewEndpoint(mockViewEndpointGuid, cancelToken);
+      await api.Endpoint.read(mockViewEndpointGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all ViewEndpoint', async () => {
-      const data = await api.retrieveViewEndpoints();
+      const data = await api.Endpoint.readAll();
       data.forEach((endpoint) => {
-        expect(JSON.stringify(endpoint)).toBe(JSON.stringify(new ViewEndpoint(viewEndpointsData[endpoint.GUID])));
+        expect(endpoint).toBeDefined();
+        expect(endpoint).toEqual(viewEndpointsData[endpoint.GUID]);
       });
     });
 
     it('creates a ViewEndpoint', async () => {
-      const data = await api.createViewEndpoint({
+      const data = await api.Endpoint.create({
         TenantGUID: 'default',
         OwnerGUID: 'default',
         Name: 'My View endpoint',
@@ -61,13 +61,13 @@ describe('View.IO SDK', () => {
         ApiKey: null,
         CreatedUtc: '2024-09-24T12:00:00Z',
       });
-      expect(true).toBe(data instanceof ViewEndpoint);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new ViewEndpoint(viewEndpointsData[mockViewEndpointGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(viewEndpointsData[mockViewEndpointGuid]);
     });
 
     it('throws error when creating a ViewEndpoint with endpoint parameter', async () => {
       try {
-        await api.createViewEndpoint();
+        await api.Endpoint.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: endpoint is null or empty');
@@ -75,7 +75,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a ViewEndpoint', async () => {
-      const data = await api.updateViewEndpoint({
+      const data = await api.Endpoint.update({
         GUID: mockViewEndpointGuid,
         TenantGUID: 'default',
         OwnerGUID: 'default',
@@ -92,13 +92,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-24T12:00:00Z',
       });
 
-      expect(true).toBe(data instanceof ViewEndpoint);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new ViewEndpoint(viewEndpointsData[mockViewEndpointGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(viewEndpointsData[mockViewEndpointGuid]);
     });
 
     it('throws error when if missed guid while updating a ViewEndpoint', async () => {
       try {
-        await api.updateViewEndpoint();
+        await api.Endpoint.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: endpoint is null or empty');
@@ -106,15 +106,14 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a ViewEndpoint', async () => {
-      const data = await api.deleteViewEndpoint(mockViewEndpointGuid);
-      console.log('data: ', data);
-      expect(data instanceof ViewEndpoint).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new ViewEndpoint(viewEndpointsData[mockViewEndpointGuid])));
+      const data = await api.Endpoint.delete(mockViewEndpointGuid);
+      expect(data).toBeDefined();
+      expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a ViewEndpoint', async () => {
       try {
-        await api.deleteViewEndpoint();
+        await api.Endpoint.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -122,13 +121,13 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a ViewEndpoint exist', async () => {
-      const data = await api.existsViewEndpoint(mockViewEndpointGuid);
-      expect(data).toBe('true');
+      const data = await api.Endpoint.exists(mockViewEndpointGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a ViewEndpoint does not exist', async () => {
       try {
-        await api.existsViewEndpoint('wrongID');
+        await api.Endpoint.exists('wrongID');
       } catch (err) {
         expect(err).toBe('Not Found');
       }
@@ -136,7 +135,7 @@ describe('View.IO SDK', () => {
 
     it('throws error when if missed guid while checking a ViewEndpoint existance', async () => {
       try {
-        await api.existsViewEndpoint();
+        await api.Endpoint.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

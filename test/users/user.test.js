@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockUserGuid, usersData, usersMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import { UserMaster } from '../../src';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('UserMaster', () => {
     it('retrieves a UserMaster', async () => {
-      const data = await api.retrieveUser(mockUserGuid);
-      expect(data instanceof UserMaster).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new UserMaster(usersData[mockUserGuid])));
+      const data = await api.User.read(mockUserGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(usersData[mockUserGuid]);
     });
 
     it('throws error when if missed guid while retrieving a UserMaster', async () => {
       try {
-        await api.retrieveUser();
+        await api.User.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,19 +33,19 @@ describe('View.IO SDK', () => {
     it('retrieves a UserMaster with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveUser(mockUserGuid, cancelToken);
+      await api.User.read(mockUserGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all UserMaster', async () => {
-      const data = await api.retrieveUsers();
+      const data = await api.User.readAll();
       data.map((user) => {
-        expect(JSON.stringify(user)).toBe(JSON.stringify(new UserMaster(usersData[user.GUID])));
+        expect(user).toEqual(usersData[user.GUID]);
       });
     });
 
     it('creates a UserMaster', async () => {
-      const data = await api.createUser({
+      const newUser = {
         TenantGUID: 'default',
         FirstName: 'Updated',
         LastName: 'User',
@@ -55,14 +54,15 @@ describe('View.IO SDK', () => {
         Email: 'default@user.com',
         Active: true,
         CreatedUtc: '2024-09-13T13:40:18.810482Z',
-      });
-      expect(true).toBe(data instanceof UserMaster);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new UserMaster(usersData[mockUserGuid])));
+      };
+      const data = await api.User.create(newUser);
+      expect(data).toBeDefined();
+      expect(data).toEqual(usersData[mockUserGuid]);
     });
 
     it('throws error when creating a UserMaster with user parameter', async () => {
       try {
-        await api.createUser();
+        await api.User.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: user is null or empty');
@@ -70,7 +70,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a UserMaster', async () => {
-      const data = await api.updateUser({
+      const data = await api.User.update({
         GUID: mockUserGuid,
         TenantGUID: 'default',
         FirstName: 'Updated',
@@ -82,13 +82,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-13T13:40:18.810482Z',
       });
 
-      expect(true).toBe(data instanceof UserMaster);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new UserMaster(usersData[mockUserGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(usersData[mockUserGuid]);
     });
 
     it('throws error when if missed guid while updating a UserMaster', async () => {
       try {
-        await api.updateUser();
+        await api.User.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: user is null or empty');
@@ -96,13 +96,13 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a UserMaster', async () => {
-      const data = await api.deleteUser(mockUserGuid);
+      const data = await api.User.delete(mockUserGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a UserMaster', async () => {
       try {
-        await api.deleteUser();
+        await api.User.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -110,21 +110,22 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a UserMaster exist', async () => {
-      const data = await api.existsUser(mockUserGuid);
-      expect(data).toBe('true');
+      const data = await api.User.exists(mockUserGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a UserMaster does not exist', async () => {
       try {
-        await api.existsUser('wrongID');
+        await api.User.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed guid while checking a UserMaster existance', async () => {
       try {
-        await api.existsUser();
+        await api.User.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

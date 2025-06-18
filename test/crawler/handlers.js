@@ -16,13 +16,14 @@ import {
   enumerateResponse,
 } from './mockData';
 import { mockEndpoint, mockTenantId } from '../setupTest';
+import { dataRepositorysData, dataRepositorysMockApiResponse } from '../dataRepository/mockData';
 
 export const handlers = [
   http.get(`${mockEndpoint}v2.0/tenants/${mockTenantId}/datarepositories/`, ({ request, params, cookies }) => {
     return HttpResponse.json(enumerateResponse);
   }),
   http.get(`${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/`, ({ request, params, cookies }) => {
-    return HttpResponse.json(data1);
+    return HttpResponse.json(dataRepositorysMockApiResponse);
   }),
   http.get(
     `${mockEndpoint}v1.0/tenants/${mockTenantId}/datarepositories/${DataRepositoryGUID}`,
@@ -203,7 +204,7 @@ export const handlers = [
   http.post(
     `${mockEndpoint}v1.0/tenants/${mockTenantId}/crawloperations/${CrawlOperationGUID}/stop`,
     ({ request, params, cookies }) => {
-      return HttpResponse.json(CrawlOperationResponse[0]);
+        return HttpResponse.json(CrawlOperationResponse[0]);
     }
   ),
   http.delete(

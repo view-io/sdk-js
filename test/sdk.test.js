@@ -1,6 +1,7 @@
 import { getServer } from './server';
 import { handlers } from './nodes/handlers';
 import { api, mockAccessToken, mockTenantId, sdk } from './setupTest';
+import ViewSdkBase from '../src/base/ViewSDKBase';
 const server = getServer(handlers);
 
 describe('View.IO SDK', () => {
@@ -19,24 +20,6 @@ describe('View.IO SDK', () => {
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: endpoint is null or empty');
-      }
-    });
-
-    it('calls retrieve methods without url param', async () => {
-      try {
-        await api.retrieve();
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: ArgumentNullException: url is null or empty');
-      }
-    });
-
-    it('calls retrieve methods without url param', async () => {
-      try {
-        await api.retrieve();
-      } catch (err) {
-        expect(err instanceof Error).toBe(true);
-        expect(err.toString()).toBe('Error: ArgumentNullException: url is null or empty');
       }
     });
   });

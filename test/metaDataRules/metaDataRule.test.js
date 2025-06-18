@@ -2,7 +2,6 @@ import { getServer } from '../server';
 import { handlers } from './handlers';
 import { mockMetaDataRuleGuid, metaDataRulesData, metaDataRulesMockApiResponse } from './mockData';
 import { api } from '../setupTest';
-import MetadataRule from '../../src/models/MetadataRule';
 
 const server = getServer(handlers);
 
@@ -17,14 +16,14 @@ describe('View.IO SDK', () => {
 
   describe('MetadataRule', () => {
     it('retrieves a MetadataRule', async () => {
-      const data = await api.retrieveMetadataRule(mockMetaDataRuleGuid);
-      expect(data instanceof MetadataRule).toBe(true);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new MetadataRule(metaDataRulesData[mockMetaDataRuleGuid])));
+      const data = await api.MetadataRule.read(mockMetaDataRuleGuid);
+      expect(data).toBeDefined();
+      expect(data).toEqual(metaDataRulesData[mockMetaDataRuleGuid]);
     });
 
     it('throws error when if missed guid while retrieving a MetadataRule', async () => {
       try {
-        await api.retrieveMetadataRule();
+        await api.MetadataRule.read();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -34,19 +33,19 @@ describe('View.IO SDK', () => {
     it('retrieves a MetadataRule with cancel token and log response', async () => {
       api.logResponses = true;
       const cancelToken = {};
-      await api.retrieveMetadataRule(mockMetaDataRuleGuid, cancelToken);
+      await api.MetadataRule.read(mockMetaDataRuleGuid, cancelToken);
       cancelToken.abort();
     });
 
     it('retrieves all MetadataRule', async () => {
-      const data = await api.retrieveMetadataRules();
+      const data = await api.MetadataRule.readAll();
       data.map((rule) => {
-        expect(JSON.stringify(rule)).toBe(JSON.stringify(new MetadataRule(metaDataRulesData[rule.GUID])));
+        expect(rule).toEqual(metaDataRulesData[rule.GUID]);
       });
     });
 
     it('creates a MetadataRule', async () => {
-      const data = await api.createMetadataRule({
+      const newMetadataRule = {
         TenantGUID: 'default',
         BucketGUID: 'default',
         OwnerGUID: 'default',
@@ -57,14 +56,15 @@ describe('View.IO SDK', () => {
         TopTerms: 10,
         CaseInsensitive: false,
         CreatedUtc: '2024-09-24T12:00:00Z',
-      });
-      expect(true).toBe(data instanceof MetadataRule);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new MetadataRule(metaDataRulesData[mockMetaDataRuleGuid])));
+      };
+      const data = await api.MetadataRule.create(newMetadataRule);
+      expect(data).toBeDefined();
+      expect(data).toEqual(metaDataRulesData[mockMetaDataRuleGuid]);
     });
 
     it('throws error when creating a MetadataRule with rule parameter', async () => {
       try {
-        await api.createMetadataRule();
+        await api.MetadataRule.create();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: rule is null or empty');
@@ -72,7 +72,7 @@ describe('View.IO SDK', () => {
     });
 
     it('Update a MetadataRule', async () => {
-      const data = await api.updateMetadataRule({
+      const data = await api.MetadataRule.update({
         GUID: mockMetaDataRuleGuid,
         TenantGUID: 'default',
         BucketGUID: 'default',
@@ -86,13 +86,13 @@ describe('View.IO SDK', () => {
         CreatedUtc: '2024-09-24T12:00:00Z',
       });
 
-      expect(true).toBe(data instanceof MetadataRule);
-      expect(JSON.stringify(data)).toBe(JSON.stringify(new MetadataRule(metaDataRulesData[mockMetaDataRuleGuid])));
+      expect(data).toBeDefined();
+      expect(data).toEqual(metaDataRulesData[mockMetaDataRuleGuid]);
     });
 
     it('throws error when if missed guid while updating a MetadataRule', async () => {
       try {
-        await api.updateMetadataRule();
+        await api.MetadataRule.update();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: rule is null or empty');
@@ -100,13 +100,13 @@ describe('View.IO SDK', () => {
     });
 
     it('delete a MetadataRule', async () => {
-      const data = await api.deleteMetadataRule(mockMetaDataRuleGuid);
+      const data = await api.MetadataRule.delete(mockMetaDataRuleGuid);
       expect(data).toBe(true);
     });
 
     it('throws error when if missed guid while deleting a MetadataRule', async () => {
       try {
-        await api.deleteMetadataRule();
+        await api.MetadataRule.delete();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');
@@ -114,21 +114,22 @@ describe('View.IO SDK', () => {
     });
 
     it('Check if a MetadataRule exist', async () => {
-      const data = await api.existsMetadataRule(mockMetaDataRuleGuid);
-      expect(data).toBe('true');
+      const data = await api.MetadataRule.exists(mockMetaDataRuleGuid);
+      expect(data).toBe(true);
     });
 
     it('Check if a MetadataRule does not exist', async () => {
       try {
-        const data = await api.existsMetadataRule('wrongID');
+        await api.MetadataRule.exists('wrongID');
       } catch (err) {
-        expect(err).toBe('Not Found');
+        expect(err).toBeDefined();
+        expect(err.toString()).toBe('Not Found');
       }
     });
 
     it('throws error when if missed guid while checking a MetadataRule existance', async () => {
       try {
-        await api.existsMetadataRule();
+        await api.MetadataRule.exists();
       } catch (err) {
         expect(err instanceof Error).toBe(true);
         expect(err.toString()).toBe('Error: ArgumentNullException: guid is null or empty');

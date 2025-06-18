@@ -1,8 +1,8 @@
 import { VectorSearchTypeEnum } from '../../../src/enums/VectorSearchTypeEnum';
-import EmbeddingsDocument from '../../../src/models/EmbeddingDocument';
-import VectorDeleteRequest from '../../../src/models/VectorDeleteRequest';
-import VectorQueryRequest from '../../../src/models/VectorQueryRequest';
-import VectorSearchRequest from '../../../src/models/VectorSearchRequest';
+// import EmbeddingsDocument from '../../../src/models/EmbeddingDocument';
+// import VectorDeleteRequest from '../../../src/models/VectorDeleteRequest';
+// import VectorQueryRequest from '../../../src/models/VectorQueryRequest';
+// import VectorSearchRequest from '../../../src/models/VectorSearchRequest';
 
 export const mockCancelToken = {
   abort: jest.fn(),
@@ -11,7 +11,7 @@ export const mockCancelToken = {
 export const VectorRepositoryGUID = 'example-vector-repository';
 export const mockDocumentGUID = 'document-guid-12345';
 
-export const mockDocument = new EmbeddingsDocument({
+export const mockDocument = {
   Success: true,
   Exception: null,
   GUID: 'doc-guid-12345',
@@ -33,9 +33,9 @@ export const mockDocument = new EmbeddingsDocument({
   Distance: 0.25,
   SemanticCells: [],
   CreatedUtc: new Date().toISOString(),
-});
+};
 
-export const mockDeleteRequest = new VectorDeleteRequest({
+export const mockDeleteRequest = {
   TenantGUID: 'default',
   GUID: 'guid-67890',
   CollectionGUID: 'collection-54321',
@@ -45,7 +45,7 @@ export const mockDeleteRequest = new VectorDeleteRequest({
   VectorRepositoryGUID: 'repo-33333',
   Key: 'key-44444',
   Version: 'v1.0',
-});
+};
 
 export const mockQuery = {
   timestamp: 1609459200,
@@ -53,18 +53,18 @@ export const mockQuery = {
   maxResults: 100,
 };
 
-export const mockSearchRequest = new VectorSearchRequest({
+export const mockSearchRequest = {
   SearchType: VectorSearchTypeEnum.InnerProduct, // Assuming it's an enum with a valid value
   VectorRepositoryGUID: VectorRepositoryGUID,
   StartIndex: 0,
   MaxResults: 5,
   Embeddings: [], // Example vector for testing
-});
+};
 
-export const mockQueryRequest = new VectorQueryRequest({
+export const mockQueryRequest = {
   Query: 'SELECT * FROM documents',
   VectorRepositoryGUID: 'repo-33333',
-});
+};
 
 export const mockSearchResult = [
   {
@@ -144,7 +144,7 @@ export const mockEnumerateRequest = {
   TenantGUID: null,
   BucketGUID: null,
   CollectionGUID: null,
-  VectorRepositoryGUID: VectorRepositoryGUID,
+  vectorRepositoryGuid: VectorRepositoryGUID,
   Ordering: 'CreatedDescending',
 };
 
