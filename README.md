@@ -32,14 +32,13 @@ Following below is the example of JS code utilizing the sdk:
 ### Basic Configuration
 
 ```javascript
-var { ViewConfigurationSdk } = require('view-sdk');
+import { ViewConfigurationSdk } from 'view-sdk';
 
-var api = new ViewConfigurationSdk(
-  'default', //tenant Id
-  'default', //access token
-  'http://example.com' //endpoint
+const api = new ViewConfigurationSdk(
+  'http://view.homedns.org:8000', //endpoint
+  '<tenantId>', //tenant Id
+  '******' //access token
 );
-var guid = 'default'; // {String}
 ```
 
 ## Available Services
@@ -52,93 +51,83 @@ The SDK provides access to the following services:
   - Encryption Keys, Graph Repositories
   - Nodes, Tenants, Users
   - Vector Repositories, Webhooks
-- **Graphs**: Graph database operations
-  - Create and manage graphs
-  - Add and connect nodes with edges
-  - Support for graph data and metadata
-  - Integration with LiteGraph for advanced graph operations
 - **Lexi**: Natural language processing capabilities
-- **Orchestration**: Workflow and process orchestration
 - **Processor**: Data processing and transformation
 - **Semantic**: Semantic analysis and processing
 - **Storage**: Data storage operations
 - **Vector**: Vector operations and similarity search
 - **IngestQueue**: Manage ingest queue operations
+- **Embeddings**: Embedding operations
+- **Healthcheck**: Healthcheck operations
+- **Crawler**: Crawler operations
+- **Director**: Director operations
+
 
 ### Example Usage
 
 ```javascript
 // region Nodes
-const getNodeById = async () => {
+const getNode = async () => {
   try {
-    const data = await api.retrieveNode(guid);
-    console.log(data, 'chk data');
+    const nodes = await api.Nodes.read('<nodeId>');
+    console.log(nodes, 'Nodes fetched successfully');
   } catch (err) {
-    console.log('err:', JSON.stringify(err));
+    console.log('Error fetching Nodes:', err);
   }
 };
-getNodeById();
+getNode();
 ```
 
 ### Example Usage with Tenant
 
 ```javascript
-const writeTenantMetadata = async () => {
+
+const createTenant = async () => {
   try {
-    const tenant = {
-      AccountGUID: 'your-account-guid', // Example GUID
-      Name: 'Example Tenant',
-      S3BaseDomain: 's3.example.com',
-      RestBaseDomain: 'api.example.com',
-      DefaultPoolGUID: 'pool-7890-xyz',
-    };
-
-    const xtoken = 'your-x-token-here';
-
-    const data = await api.writeTenant(tenant, null, xtoken);
-    console.log(data, 'chk tenant data');
+    const createdTenant = await api.Tenant.create({
+      Name: 'My tenant',
+      Region: 'us-west-1',
+      S3BaseDomain: 'localhost',
+      RestBaseDomain: 'localhost',
+      DefaultPoolGUID: '00000000-0000-0000-0000-000000000000',
+    });
+    console.log(createdTenant, 'Tenant created successfully');
   } catch (err) {
-    console.log('err:', JSON.stringify(err));
+    console.log('Error creating Tenant:', err);
   }
 };
 
-writeTenantMetadata();
+createTenant();
 ```
 
 ### Example Usage with Credentials
 
 ```javascript
 // region Credentials
-const createNewCredential = async () => {
+export const createCredential = async () => {
   try {
-    const credential = {
-      GUID: null,
-      tenantGuid: 'your-tenant-guid-here',
-      UserGUID: 'user-1234-xyz',
-      AccessKey: 'your-access-key-here',
-      SecretKey: 'your-secret-key-here',
+    const response = await api.Credential.create({
+      UserGUID: '<userId>',
+      Name: 'Default credential',
       Active: true,
-      CreatedUtc: new Date().toISOString(),
-    };
-
-    const data = await api.createCredential(credential);
-    console.log(data, 'chk created credential');
+    });
+    console.log(response, 'Credential created successfully');
   } catch (err) {
-    console.log('err:', JSON.stringify(err));
+    console.log('Error creating Credential:', err);
   }
 };
+createCredential();
 
-createNewCredential();
 ```
 
 ```javascript
 // region Credentials
-const getAllCredentials = async () => {
+export const getAllCredentials = async () => {
   try {
-    const data = await api.retrieveCredentials();
-    console.log(data, 'chk credentials data');
+    const credentials = await api.Credential.readAll();
+    console.log(credentials, 'All credentials fetched successfully');
   } catch (err) {
-    console.error('Error retrieving credentials:', JSON.stringify(err));
+    console.log('Error fetching Credentials:', err);
   }
 };
 
@@ -148,124 +137,107 @@ getAllCredentials();
 ### Example Usage with User
 
 ```javascript
-const createNewUser = async () => {
+export const createUser = async () => {
   try {
-    const user = {
-      GUID: null, // Let the system generate it
-      tenantGuid: 'your-tenant-guid-here',
+    const user = await api.User.create({
       FirstName: 'John',
       LastName: 'Doe',
-      Notes: 'New user for testing',
+      Notes: 'Default password is password',
       Email: 'john.doe@example.com',
-      PasswordSha256: 'your-sha256-hashed-password',
-      Active: true,
-      CreatedUtc: new Date().toISOString(),
-    };
-
-    const data = await api.createUser(user);
-    console.log(data, 'chk created user');
+      PasswordSha256: '******',
+    });
+    console.log(user, 'User created successfully');
   } catch (err) {
-    console.error('Error creating user:', JSON.stringify(err));
+    console.log('Error creating User:', err);
   }
 };
-
-createNewUser();
+createUser();
 ```
 
 ### Example Usage with Vector Repository
 
 ```javascript
 // region Vector Repositories
-const createNewVectorRepository = async () => {
+const createVectorRepository = async () => {
   try {
-    const vectorRepository = {
-      GUID: null, // Auto-generated if not provided
-      TenantGUID: 'your-tenant-guid-here',
-      name: 'My Vector Repository',
-      repositoryType: 'example-repo-type',
-      endpointUrl: 'https://api.example.com/vector',
-      apiKey: 'your-api-key-here',
-      model: 'all-MiniLM-L6-v2', // Default model
-      dimensionality: 768, // Example dimensionality
-      databaseHostname: 'db.example.com',
-      databaseName: 'vectorDB',
-      databaseTable: 'vector_table',
-      databasePort: 5432, // Example DB port
-      databaseUser: 'dbuser',
-      databasePassword: 'securepassword',
-      promptPrefix: 'Start:',
-      createdUtc: new Date().toISOString(),
-    };
-
-    const data = await api.createVectorRepository(vectorRepository);
-    console.log(data, 'chk created vector repository');
+    const response = await api.VectorRepository.create({
+      Name: 'My vector repository ash 3',
+      RepositoryType: 'Pgvector' as any,
+      Model: 'all-MiniLM-L6-v2',
+      Dimensionality: 384,
+      DatabaseHostname: 'localhost',
+      DatabaseName: 'vectordb',
+      SchemaName: 'public',
+      DatabaseTable: 'minilm',
+      DatabasePort: 5432,
+      DatabaseUser: 'postgres',
+      DatabasePassword: 'password',
+    });
+    console.log(response, 'Vector repository created successfully');
   } catch (err) {
-    console.error('Error creating vector repository:', JSON.stringify(err));
+    console.log('Error creating Vector repository:', err);
   }
 };
 
-createNewVectorRepository();
+createVectorRepository();
 ```
 
 ### Example Usage with Graph Repository
 
 ```javascript
 // region Graph Repositories
-const createNewGraphRepository = async () => {
+const createGraphRepository = async () => {
   try {
-    const graphRepository = {
-      Name: 'name',
-      RepositoryType: 'your-repo-name',
-      EndpointUrl: 'end-point-url',
-      Port: 0,
-      GraphIdentifier: 'graph-identifier',
-    };
-
-    const data = await api.createGraphRepository(graphRepository);
-    console.log(data, 'chk created graph repository');
+    const response = await api.GraphRepository.create({
+      Name: 'My LiteGraph instance ash 3',
+      RepositoryType: 'LiteGraph',
+      EndpointUrl: 'http://localhost:8701/',
+      ApiKey: 'default',
+      GraphIdentifier: '00000000-0000-0000-0000-000000000000',
+    });
+    console.log(response, 'Graph repository created successfully');
   } catch (err) {
-    console.error('Error creating graph repository:', JSON.stringify(err));
+    console.log('Error creating Graph repository:', err);
   }
 };
 
-createNewGraphRepository();
+createGraphRepository();
 ```
 
 ```javascript
-const checkGraphRepositoryExists = async (guid) => {
+const graphRepositoryExists = async () => {
   try {
-    const exists = await api.existsGraphRepository(guid);
-    console.log(`Graph repository with GUID ${guid} exists:`, exists);
+    const response = await api.GraphRepository.exists('<graphRepositoryId>');
+    console.log(response, 'Graph repository exists');
   } catch (err) {
-    console.error('Error checking graph repository existence:', JSON.stringify(err));
+    console.log('Error checking Graph repository:', err);
   }
 };
 
-// Example GUID
-checkGraphRepositoryExists('your-graph-repo-guid-here');
+graphRepositoryExists();
 ```
 
 ```javascript
-const getGraphRepositoryById = async (guid) => {
+
+const readGraphRepository = async () => {
   try {
-    const data = await api.retrieveGraphRepository(guid);
-    console.log(data, 'chk graph repository data');
+    const response = await api.GraphRepository.read('<graphRepositoryId>');
+    console.log(response, 'Graph repository fetched successfully');
   } catch (err) {
-    console.error('Error retrieving graph repository:', JSON.stringify(err));
+    console.log('Error fetching Graph repository:', err);
   }
 };
 
-// Example GUID
-getGraphRepositoryById('your-graph-repo-guid-here');
+readGraphRepository();
 ```
 
 ```javascript
 const getAllGraphRepositories = async () => {
   try {
-    const data = await api.retrieveGraphRepositories();
-    console.log(data, 'chk all graph repositories');
+    const data = await api.GraphRepository.readAll();
+    console.log(data, 'All graph repositories fetched successfully');
   } catch (err) {
-    console.error('Error retrieving all graph repositories:', JSON.stringify(err));
+    console.log('Error fetching Graph repositories:', err);
   }
 };
 
@@ -280,7 +252,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 For support, please:
 
-1. Check the [documentation](docs/)
+1. Check the [documentation](https://docs.view.io/)
 2. Open an issue on GitHub
 3. Contact View AI support
 
@@ -346,16 +318,6 @@ import sdk from 'view-sdk';
 //or
 var sdk = require('view-sdk');
 ```
-
-### Viewing Documentation
-
-To Generate the documentation, run the following command:
-
-```bash
-npm run build:docs
-```
-
-[View Documentation](docs/docs.md)
 
 ## Feedback and Issues
 
