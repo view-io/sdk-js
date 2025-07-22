@@ -1,4 +1,4 @@
-<img src="assets/view_logo.png" height="48">
+<img src="https://raw.githubusercontent.com/view-io/sdk-js/main/assets/view_logo.png" height="48">
 
 # JavaScript SDK for View AI
 
@@ -62,7 +62,6 @@ The SDK provides access to the following services:
 - **Crawler**: Crawler operations
 - **Director**: Director operations
 
-
 ### Example Usage
 
 ```javascript
@@ -81,7 +80,6 @@ getNode();
 ### Example Usage with Tenant
 
 ```javascript
-
 const createTenant = async () => {
   try {
     const createdTenant = await api.Tenant.create({
@@ -117,7 +115,6 @@ export const createCredential = async () => {
   }
 };
 createCredential();
-
 ```
 
 ```javascript
@@ -218,7 +215,6 @@ graphRepositoryExists();
 ```
 
 ```javascript
-
 const readGraphRepository = async () => {
   try {
     const response = await api.GraphRepository.read('<graphRepositoryId>');
