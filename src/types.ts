@@ -590,6 +590,7 @@ export interface DataRepository {
   CreatedUtc?: Date;
   CifsIncludeSubdirectories?: boolean;
   NfsIncludeSubdirectories?: boolean;
+  WebIgnoreRobotsTxt: boolean | null;
 }
 
 export interface DirectorEmbeddingResponse {
